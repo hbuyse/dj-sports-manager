@@ -6,7 +6,7 @@ from django.urls import path
 from . import views
 
 
-app_name = 'dj_sports_manager'
+app_name = 'dj-sports-manager'
 urlpatterns = [
     path("category/",
          view=views.CategoryListView.as_view(),

@@ -7,3 +7,4 @@
 django-bootstrap4==0.0.6
 django-icons==0.2.1
 python-json-logger==0.1.9
+git+https://gitlab.com/hbuyse/dj-gymnasiums.git

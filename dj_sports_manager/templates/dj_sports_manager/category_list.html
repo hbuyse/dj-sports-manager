@@ -1,0 +1,13 @@
+{% for c in category_list %}
+  {% if forloop.first %}
+    <ul>
+  {% endif %}
+
+  <li>{{ c }}</li>
+
+  {% if forloop.last %}
+    </ul>
+  {% endif %}
+{% empty %}
+  <p>No category...</p>
+{% endfor %}

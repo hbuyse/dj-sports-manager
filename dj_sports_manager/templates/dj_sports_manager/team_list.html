@@ -1,0 +1,13 @@
+{% for t in team_list %}
+  {% if forloop.first %}
+    <ul>
+  {% endif %}
+
+  <li>{{ t }}</li>
+
+  {% if forloop.last %}
+    </ul>
+  {% endif %}
+{% empty %}
+  <p>No team...</p>
+{% endfor %}

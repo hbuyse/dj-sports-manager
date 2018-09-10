@@ -1,0 +1,13 @@
+{% for l in license_list %}
+  {% if forloop.first %}
+    <ul>
+  {% endif %}
+
+  <li>{{ l }}</li>
+
+  {% if forloop.last %}
+    </ul>
+  {% endif %}
+{% empty %}
+  <p>No license...</p>
+{% endfor %}
