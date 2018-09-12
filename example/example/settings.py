@@ -81,11 +81,12 @@ INSTALLED_APPS = [
     # if your app has other dependencies that need to be added to the site
     # they should be added here
     'bootstrap4',
+    'markdownx',
     'django_icons',
     'dj_gymnasiums',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -165,6 +166,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/var/www/static/',
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default settings
 BOOTSTRAP4 = {

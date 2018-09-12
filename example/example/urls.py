@@ -27,7 +27,10 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('', include('dj_sports_manager.urls', namespace='dj_sports_manager')),
+    path('gymnasium/', include('dj_gymnasiums.urls', namespace='dj_gymnasiums')),
+    path('markdownx/', include('markdownx.urls')),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

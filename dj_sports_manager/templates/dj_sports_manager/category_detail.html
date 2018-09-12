@@ -1,1 +1,20 @@
-<h1 class="float-left">{{ team }}</h1>
+<h1>{{ category }}</h1>
+
+<img src="{{ category.img.url }}" alt="{{ category.name }}'s logo">
+<p>{{ category.summary }}</p>
+<p>{{ category.description_md|safe }}</p>
+
+<h3>Teams</h3>
+
+{% for r in category.team_set.all %}
+  {% if forloop.is_first %}
+    <ul>
+  {% endif %}
+
+  <li>{{ t }}</li>
+  {% if forloop.is_last %}
+    </ul>
+  {% endif %}
+{% empty %}
+  <p>No team related to this category</p>
+{% endfor %}

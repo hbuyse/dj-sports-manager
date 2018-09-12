@@ -3,7 +3,7 @@
     <ul>
   {% endif %}
 
-  <li>{{ t }}</li>
+  <li><a href="{% url 'dj-sports-manager:team-detail' t.name %}">{{ t }}</a></li>
 
   {% if forloop.last %}
     </ul>

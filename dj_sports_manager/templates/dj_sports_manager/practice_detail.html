@@ -1,1 +1,8 @@
-<h1 class="float-left">{{ team }}</h1>
+<h1>{{ practice }}</h1>
+
+<p>Type: {{ practice.get_type_practice_display }}</p>
+<p>Team: {{ practice.team }}</p>
+<p>Day: {{ practice.get_day_display }}</p>
+<p>Start: {{ practice.start }}</p>
+<p>End: {{ practice.end }}</p>
+<p>Gymnasium: {{ practice.gymnasium }}</p>

@@ -1,1 +1,18 @@
-<h1 class="float-left">{{ team }}</h1>
+<h1>{{ team.name }}</h1>
+
+<p>Category: {{ team.category }}</p>
+
+<p>Level: {{ team.get_level_display }}</p>
+
+<p>Sex: {{ team.get_sex_display }}</p>
+
+<p>Trainer: {{ team.trainer }}</p>
+
+<p>URL: {{ team.url }}</p>
+
+<h2>Description</h2>
+{{ team.description_md|safe }}
+
+{% if team.img %}
+  <img src="{{ team.img.url }}" alt="{{ team.name }}'s team image">
+{% endif %}

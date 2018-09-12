@@ -1,1 +1,17 @@
-<h1 class="float-left">{{ team }}</h1>
+<h1>{{ license }}</h1>
+
+<p>First name: {{ license.first_name }}</p>
+
+<p>Last name: {{ license.last_name }}</p>
+
+<p>Team: {{ license.team.name }}</p>
+
+<p>Owner: {{ license.owner }}</p>
+
+<p>Sex: {{ license.get_sex_display }}</p>
+
+<p>Birthday: {{ license.birthday }}</p>
+
+{% if license.license_number %}
+  <p>License number: {{ license.license_number }}</p>
+{% endif %}

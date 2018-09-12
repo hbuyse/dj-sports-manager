@@ -1,19 +1,56 @@
 """."""
 
+import os
+import logging
+
 from django.db import models
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
 
+from .storage import OverwriteStorage
+
+
+logger = logging.getLogger(__name__)
+
+
+def image_upload_to(instance, filename):
+    """Callback to create the path where to store the files.
+
+    If the file instance is a Sponsor, the file has to be the logo so it will be uploaded to
+        MEDIA_ROOT/sponsors/<sponsor_name>/logo<ext>.
+    If the file instance is a SponsorImage, the file has to be an image so it will be uploaded to
+        MEDIA_ROOT/sponsors/<sponsor_name>/images/<filename>.
+    If the file instance is a SponsorFile, the file has to be a file so it will be uploaded to
+        MEDIA_ROOT/sponsors/<sponsor_name>/files/<filename>.
+    """
+    path = None
+    basename, ext = os.path.splitext(filename)
+    if isinstance(instance, Category):
+        path = os.path.join('categories', instance.name, 'img{}'.format(ext))
+    elif isinstance(instance, Team):
+        path = os.path.join('teams', instance.name, 'team{}'.format(ext))
+    elif isinstance(instance, License):
+        path = os.path.join('licenses',
+                            instance.owner.get_username().lower(),
+                            "{team}_{fn}_{ln}".format(team=instance.team.name.lower(),
+                                                      fn=instance.first_name.lower(),
+                                                      ln=instance.last_name.lower(),
+                                                      ),
+                            'medical_certification'.format(ext))
+
+    logger.info("Image {filename} saved in {path}".format(path=path, filename=filename))
+
+    return path
+
 
 class Category(models.Model):
     """Sport category model."""
 
     name = models.CharField(_('category name'), max_length=128)
-    img = models.CharField(_('category image name'), max_length=128)
+    img = models.ImageField(_('category img'), storage=OverwriteStorage(), upload_to=image_upload_to, blank=True)
     min_age = models.PositiveSmallIntegerField(_('category minimal age'))
     max_age = models.PositiveSmallIntegerField(_('category maximal age'), blank=True, null=True)
     summary = models.CharField(_('category summary'), max_length=512)
@@ -27,11 +64,11 @@ class Category(models.Model):
         verbose_name_plural = _("categories")
         ordering = ("name",)
 
-    @property
-    def formatted_description(self):
+    def description_md(self):
+        """Return the text mardownified."""
         return markdownify(self.description)
 
-    def has_team_with_trainer(self):
+    def has_teams_with_trainer(self):
         return True if Team.objects.filter(category=self, trainer__isnull=False) else False
 
 
@@ -69,12 +106,14 @@ class Team(models.Model):
         ('FE', _('Female'))
     )
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
-    name = models.CharField(_("Team name"), max_length=128)
-    level = models.CharField(_("Level"), max_length=3, choices=LEVELS)
-    sex = models.CharField(_("Sexe"), max_length=2, choices=SEXES)
+    name = models.CharField(_("team name"), max_length=128)
+    level = models.CharField(_("team level"), max_length=3, choices=LEVELS)
+    sex = models.CharField(_("team sex"), max_length=2, choices=SEXES)
     trainer = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank=True, null=True)
-    url = models.URLField(_("Competition URL"))
+    url = models.URLField(_("team competition URL"))
     description = MarkdownxField(_('team description'), blank=True)
+    img = models.ImageField(_('team img'), storage=OverwriteStorage(), upload_to=image_upload_to, blank=True)
+    is_recruiting = models.BooleanField(_('team recruitement'))
 
     def __str__(self):
         return "{} - {}".format(self.name, self.get_sex_display())
@@ -85,7 +124,7 @@ class Team(models.Model):
         ordering = ("sex", "level", "name")
 
     @property
-    def formatted_description(self):
+    def description_md(self):
         return markdownify(self.description)
 
     def get_training_days(self):
@@ -149,6 +188,11 @@ class License(models.Model):
     sex = models.CharField(_("sex"), max_length=2, choices=SEXES)
     birthday = models.DateField(_("birthday"))
     license_number = models.CharField(_("license number"), max_length=20, blank=True)
+    # Possibility to add a medical certification  after having created the license
+    medical_certification = models.FileField(_('license medical certification'), upload_to=image_upload_to, blank=True)
+    is_payed = models.BooleanField(_('licence payed'))
+    created = models.DateTimeField('licence creation date', auto_now_add=True)
+    modified = models.DateTimeField('licence last modification date', auto_now=True)
 
     def __str__(self):
         return "{} - {} {} ({})".format(self.team.name, self.first_name, self.last_name, self.license_number)
