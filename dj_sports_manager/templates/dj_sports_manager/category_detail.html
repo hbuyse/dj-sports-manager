@@ -6,12 +6,13 @@
 
 <h3>Teams</h3>
 
-{% for r in category.team_set.all %}
+{% for t in category.team_set.all %}
   {% if forloop.is_first %}
     <ul>
   {% endif %}
 
   <li>{{ t }}</li>
+
   {% if forloop.is_last %}
     </ul>
   {% endif %}

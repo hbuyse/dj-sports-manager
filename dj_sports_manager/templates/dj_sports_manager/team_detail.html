@@ -6,7 +6,13 @@
 
 <p>Sex: {{ team.get_sex_display }}</p>
 
-<p>Trainer: {{ team.trainer }}</p>
+{% if team.trainer %}
+  <p>Trainer: {{ team.trainer }}</p>
+{% endif %}
+
+{% if team.captain %}
+  <p>Captain: {{ team.captain }}</p>
+{% endif %}
 
 <p>URL: {{ team.url }}</p>
 

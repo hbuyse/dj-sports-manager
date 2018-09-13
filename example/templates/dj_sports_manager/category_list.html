@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+{% load staticfiles %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Categories</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+  Categories
+{% endblock %}
+
+{% block content %}
+  <div class="list-group">
+  {% for c in category_list %}
+    <a href="{% url 'dj-sports-manager:category-detail' c.name %}" class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex row">
+        <img class="col-md-3" src="{{ c.img.url }}" alt="{{ c.name }}'s logo">
+        <div class="col-md-9 align-self-center">
+          <h5 class="mb-1">{{ c }}</h5>
+          <p class="mb-1">{{ c.summary }}</p>
+        </div>
+      </div>
+    </a>
+  {% empty %}
+    <p>No category listed yet...</p>
+  {% endfor %}
+  </div>
+{% endblock %}

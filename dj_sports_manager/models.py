@@ -53,13 +53,16 @@ class Category(models.Model):
     img = models.ImageField(_('category img'), storage=OverwriteStorage(), upload_to=image_upload_to, blank=True)
     min_age = models.PositiveSmallIntegerField(_('category minimal age'))
     max_age = models.PositiveSmallIntegerField(_('category maximal age'), blank=True, null=True)
-    summary = models.CharField(_('category summary'), max_length=512)
+    summary = models.TextField(_('category summary'), max_length=512)
     description = MarkdownxField(_('category description'))
 
     def __str__(self):
+        """String representation."""
         return self.name
 
     class Meta:
+        """Meta class."""
+
         verbose_name = _("category")
         verbose_name_plural = _("categories")
         ordering = ("name",)
@@ -69,36 +72,40 @@ class Category(models.Model):
         return markdownify(self.description)
 
     def has_teams_with_trainer(self):
+        """Check if there is at least a team in this category that have a trainer."""
         return True if Team.objects.filter(category=self, trainer__isnull=False) else False
 
 
 class Team(models.Model):
+    """Team model."""
+
     LEVELS = (
         ('FSGT 6x6', (
             ("OR", _('Gold')),
             ("ARG", _('Silver')),
             ("BRO", _('Bronze')),
-        )
-        ),
+        )),
         ('FSGT 4x4', (
             ("HAR", _('Hard')),
             ("MED", _('Medium')),
             ("EAS", _('Easy')),
-        )
-        ),
+        )),
         ('FFVB', (
-            ("N1", _('Elite')),
-            ("N2", _('National 2')),
-            ("R1", _('Regional 1')),
-            ("R2", _('Regional 2')),
-            ("R3", _('Regional 3')),
-            ("DEP", _('Departemental')),
-        )
-        ),
-        ('Pleasure', (
-            ("PLE", _("Pleasure")),
-        )
-        )
+            # Female
+            ("N1F", _('Elite Female')),
+            ("N2F", _('National 2 Female')),
+            ("R1F", _('Regional 1 Female')),
+            ("R2F", _('Regional 2 Female')),
+            ("R3F", _('Regional 3 Female')),
+            ("DEPF", _('Departemental Female')),
+            # Male
+            ("N1M", _('Elite Male')),
+            ("N2M", _('National 2 Male')),
+            ("R1M", _('Regional 1 Male')),
+            ("R2M", _('Regional 2 Male')),
+            ("R3M", _('Regional 3 Male')),
+            ("DEPM", _('Departemental Male')),
+        )),
     )
     SEXES = (
         ('MA', _('Male')),
@@ -107,34 +114,51 @@ class Team(models.Model):
     )
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     name = models.CharField(_("team name"), max_length=128)
-    level = models.CharField(_("team level"), max_length=3, choices=LEVELS)
+    level = models.CharField(_("team level"), max_length=4, choices=LEVELS)
     sex = models.CharField(_("team sex"), max_length=2, choices=SEXES)
-    trainer = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, blank=True, null=True)
+    trainer = models.ForeignKey(get_user_model(),
+                                on_delete=models.CASCADE,
+                                related_name="%(class)s_trainer",
+                                blank=True,
+                                null=True)
+    captain = models.ForeignKey(get_user_model(),
+                                on_delete=models.CASCADE,
+                                related_name="%(class)s_captain",
+                                blank=True,
+                                null=True)
     url = models.URLField(_("team competition URL"))
     description = MarkdownxField(_('team description'), blank=True)
     img = models.ImageField(_('team img'), storage=OverwriteStorage(), upload_to=image_upload_to, blank=True)
     is_recruiting = models.BooleanField(_('team recruitement'))
 
     def __str__(self):
+        """String representation."""
         return "{} - {}".format(self.name, self.get_sex_display())
 
     class Meta:
+        """Meta class."""
+
         verbose_name = _("team")
         verbose_name_plural = _("teams")
         ordering = ("sex", "level", "name")
 
     @property
     def description_md(self):
+        """Get the description as HTML (not Mdown)."""
         return markdownify(self.description)
 
     def get_training_days(self):
+        """Get the list of training days ordered by day."""
         return self.training_set.order_by("day")
 
     def get_players(self):
+        """Get the list of teamates of the team."""
         return self.licence_set.order_by("last_name")
 
 
 class Practice(models.Model):
+    """Practice model."""
+
     MONDAY = 0
     TUESDAY = 1
     WEDNESDAY = 2
@@ -168,36 +192,63 @@ class Practice(models.Model):
     gymnasium = models.ForeignKey('dj_gymnasiums.Gymnasium', on_delete=models.CASCADE)
 
     def __str__(self):
+        """String representation."""
         return "{} - {}".format(self.team.name, self.get_day_display())
 
     class Meta:
+        """Meta class."""
+
         verbose_name = _("practice")
         verbose_name_plural = _("practices")
         ordering = ("day",)
 
 
 class License(models.Model):
+    """Licence model.
+
+    TODO: Link with an urgence contact.
+    """
+
+    CERTIFICATION_NOT_UPLOADED = 0
+    CERTIFICATION_IN_VALIDATION = 1
+    CERTIFICATION_VALID = 2
+    CERTIFICATION_REJECTED = 3
+
     SEXES = (
         ('MA', _('Male')),
         ('FE', _('Female'))
     )
-    team = models.ForeignKey('Team', on_delete=models.CASCADE)
+
+    CERTIFICATION_STEPS = (
+        (CERTIFICATION_NOT_UPLOADED, _("Certification not uploaded")),
+        (CERTIFICATION_IN_VALIDATION, _("Certification in validation")),
+        (CERTIFICATION_VALID, _("Certification valid")),
+        (CERTIFICATION_REJECTED, _("Certification rejected")),
+    )
+    # Team
+    team = models.ForeignKey('Team', on_delete=models.CASCADE, blank=True)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    first_name = models.CharField(_("license person first name"), max_length=30)
-    last_name = models.CharField(_("license person last name"), max_length=150)
+    first_name = models.CharField(_("licensee first name"), max_length=30)
+    last_name = models.CharField(_("licensee last name"), max_length=150)
     sex = models.CharField(_("sex"), max_length=2, choices=SEXES)
     birthday = models.DateField(_("birthday"))
     license_number = models.CharField(_("license number"), max_length=20, blank=True)
-    # Possibility to add a medical certification  after having created the license
-    medical_certification = models.FileField(_('license medical certification'), upload_to=image_upload_to, blank=True)
+    # Possibility to add a medical certification after having created the license
+    certif = models.FileField(_('license medical certification'), upload_to=image_upload_to, blank=True)
+    certif_valid = models.PositiveSmallIntegerField(_("license medical certification validation"),
+                                                    choices=CERTIFICATION_STEPS,
+                                                    default=CERTIFICATION_NOT_UPLOADED)
     is_payed = models.BooleanField(_('licence payed'))
     created = models.DateTimeField('licence creation date', auto_now_add=True)
     modified = models.DateTimeField('licence last modification date', auto_now=True)
 
     def __str__(self):
+        """String representation."""
         return "{} - {} {} ({})".format(self.team.name, self.first_name, self.last_name, self.license_number)
 
     class Meta:
+        """Meta class."""
+
         verbose_name = _("license")
         verbose_name_plural = _("licenses")
         ordering = ("team", "first_name", "last_name")
