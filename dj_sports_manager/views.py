@@ -4,6 +4,7 @@
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse
+from django.utils.text import slugify
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -30,7 +31,7 @@ class CategoryDetailView(DetailView):
     """View that returns the details of a category."""
 
     model = Category
-    slug_field = 'name'
+    slug_field = 'slug'
 
 
 class CategoryCreateView(CreateView):
@@ -63,7 +64,7 @@ class CategoryUpdateView(UpdateView):
     """View that updates a new category."""
 
     model = Category
-    slug_field = 'name'
+    slug_field = 'slug'
     fields = '__all__'
 
     def get(self, request, *args, **kwargs):
@@ -91,7 +92,7 @@ class CategoryDeleteView(DeleteView):
     """View that deletes a new category."""
 
     model = Category
-    slug_field = 'name'
+    slug_field = 'slug'
 
     def get(self, request, *args, **kwargs):
         """."""
@@ -123,14 +124,23 @@ class TeamDetailView(DetailView):
     """View that returns the details of a team."""
 
     model = Team
-    slug_field = 'name'
+    slug_field = 'slug'
 
 
 class TeamCreateView(CreateView):
     """View that creates a new team."""
 
     model = Team
-    fields = '__all__'
+    fields = [
+        'name',
+        'category',
+        'level',
+        'sex',
+        'is_recruiting',
+        'url',
+        'description',
+        'img',
+    ]
 
     def get(self, request, *args, **kwargs):
         """."""
@@ -146,10 +156,15 @@ class TeamCreateView(CreateView):
 
         return super().post(request, args, kwargs)
 
+    def form_valid(self, form):
+        """Override form validation for slug field."""
+        form.instance.slug = slugify(form.instance.name)
+        return super().form_valid(form)
+
     def get_success_url(self):
         """Get the URL after the success."""
         messages.success(self.request, "Team '{}' added successfully".format(self.object.name))
-        return reverse('dj-sports-manager:team-detail', kwargs={'slug': self.object.name})
+        return reverse('dj-sports-manager:team-detail', kwargs={'slug': self.object.slug})
 
 
 class TeamUpdateView(UpdateView):
@@ -157,7 +172,7 @@ class TeamUpdateView(UpdateView):
 
     model = Team
     fields = '__all__'
-    slug_field = 'name'
+    slug_field = 'slug'
 
     def get(self, request, *args, **kwargs):
         """."""
@@ -177,14 +192,14 @@ class TeamUpdateView(UpdateView):
     def get_success_url(self):
         """Get the URL after the success."""
         messages.success(self.request, "Team '{}' updated successfully".format(self.object.name))
-        return reverse('dj-sports-manager:team-detail', kwargs={'slug': self.object.name})
+        return reverse('dj-sports-manager:team-detail', kwargs={'slug': self.object.slug})
 
 
 class TeamDeleteView(DeleteView):
     """View that deletes a new team."""
 
-    model = Category
-    slug_field = 'name'
+    model = Team
+    slug_field = 'slug'
 
     def get(self, request, *args, **kwargs):
         """."""
@@ -206,19 +221,19 @@ class TeamDeleteView(DeleteView):
         return reverse('dj-sports-manager:teams-list')
 
 
-class PracticeListView(ListView):
+class TeamPracticeListView(ListView):
     """View that returns the list of practices."""
 
     model = Practice
 
 
-class PracticeDetailView(DetailView):
+class TeamPracticeDetailView(DetailView):
     """View that returns the details of a Pratice."""
 
     model = Practice
 
 
-class PracticeCreateView(CreateView):
+class TeamPracticeCreateView(CreateView):
     """View that creates a new Practice."""
 
     model = Practice
@@ -244,7 +259,7 @@ class PracticeCreateView(CreateView):
         return reverse('dj-sports-manager:practice-detail', kwargs={'pk': self.object.id})
 
 
-class PracticeUpdateView(UpdateView):
+class TeamPracticeUpdateView(UpdateView):
     """View that updates a new Practice."""
 
     model = Practice
@@ -270,7 +285,7 @@ class PracticeUpdateView(UpdateView):
         return reverse('dj-sports-manager:practice-detail', kwargs={'pk': self.object.pk})
 
 
-class PracticeDeleteView(DeleteView):
+class TeamPracticeDeleteView(DeleteView):
     """View that deletes a new Practice."""
 
     model = Practice
@@ -296,26 +311,47 @@ class PracticeDeleteView(DeleteView):
 
 
 class LicenseListView(ListView):
+    """List of license."""
 
     model = License
 
 
 class LicenseDetailView(DetailView):
+    """Detail of a license."""
 
     model = License
 
 
 class LicenseCreateView(CreateView):
+    """Create a license for a logged user."""
 
     model = License
     fields = [
-        'team',
-        'owner',
         'first_name',
         'last_name',
         'sex',
-        'birthday'
+        'birthday',
+        'team',
     ]
+
+    def post(self, request, *args, **kwargs):
+        """Override post function."""
+        if request.user.is_anonymous:
+            raise PermissionDenied
+        return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        """Validate the form."""
+        form.instance.owner = self.request.user
+        form.instance.is_payed = False
+        form.instance.is_captain = False
+
+        if form.instance.certif:
+            form.instance.certif_valid = License.CERTIFICATION_IN_VALIDATION
+        else:
+            form.instance.certif_valid = License.CERTIFICATION_NOT_UPLOADED
+
+        return super().form_valid(form)
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
@@ -326,6 +362,7 @@ class LicenseCreateView(CreateView):
 class LicenseUpdateView(UpdateView):
 
     model = License
+    fields = "__all__"
 
     def get(self, request, *args, **kwargs):
         """."""

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+
+{% block path %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'dj-sports-manager:teams-list' %}">Teams</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ team }}</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block page_title %}
+  {{ team }}
+{% endblock %}
+
+{% block page_title_buttons %}
+  {% if user.is_staff or user.is_superuser %}
+  <div class="btn-group float-right" role="group">
+    <a href="{% url 'dj-sports-manager:team-update' team.slug %}" class="btn btn-primary btn-sm">Update</a>
+    <a href="{% url 'dj-sports-manager:team-delete' team.slug %}" class="btn btn-danger btn-sm">Delete</a>
+  </div>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% if team.img %}
+    <img src="{{ team.img.url }}" alt="{{ team.name }} image" />
+  {% endif %}
+
+  <h2 class="mt-4">Informations</h2>
+  <p>Category: {{ team.category }}</p>
+  <p>Level: {{ team.get_level_display }}</p>
+  <p>Sex: {{ team.get_sex_display }}</p>
+  {% if team.trainer %}<p>Trainer: {{ team.trainer }}</p>{% endif %}
+  <p>Url: {{ team.url }}</p>
+  <p>Is_recruiting: {{ team.is_recruiting }}</p>
+
+  {% if team.description %}
+    <h2 class="mt-4">Description</h2>
+    {{ team.description }}
+  {% endif %}
+
+  <h2 class="mt-4">Teammates</h2>
+  {% for license in team.license_set.all %}
+    {% if forloop.first %}
+      <div class="card-deck">
+    {% endif %}
+
+    <div class="card">
+      <div class="card-body">
+        {{ license.first_name }} {{ license.last_name }}
+        {% if license.is_captain %}
+        (captain)
+        {% endif %}
+      </div>
+    </div>
+
+    {% if forloop.last %}
+      </div>
+    {% endif %}
+  {% empty %}
+    <p>No known teammate related to this team</p>
+  {% endfor %}
+{% endblock %}

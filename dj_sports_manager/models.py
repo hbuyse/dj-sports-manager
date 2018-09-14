@@ -49,6 +49,7 @@ def image_upload_to(instance, filename):
 class Category(models.Model):
     """Sport category model."""
 
+    slug = models.SlugField(_("category slug"), max_length=128, null=True)
     name = models.CharField(_('category name'), max_length=128)
     img = models.ImageField(_('category img'), storage=OverwriteStorage(), upload_to=image_upload_to, blank=True)
     min_age = models.PositiveSmallIntegerField(_('category minimal age'))
@@ -112,18 +113,13 @@ class Team(models.Model):
         ('MI', _('Mixed')),
         ('FE', _('Female'))
     )
+    slug = models.SlugField(_("team slug"), max_length=128, null=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     name = models.CharField(_("team name"), max_length=128)
     level = models.CharField(_("team level"), max_length=4, choices=LEVELS)
     sex = models.CharField(_("team sex"), max_length=2, choices=SEXES)
     trainer = models.ForeignKey(get_user_model(),
                                 on_delete=models.CASCADE,
-                                related_name="%(class)s_trainer",
-                                blank=True,
-                                null=True)
-    captain = models.ForeignKey(get_user_model(),
-                                on_delete=models.CASCADE,
-                                related_name="%(class)s_captain",
                                 blank=True,
                                 null=True)
     url = models.URLField(_("team competition URL"))
@@ -239,6 +235,7 @@ class License(models.Model):
                                                     choices=CERTIFICATION_STEPS,
                                                     default=CERTIFICATION_NOT_UPLOADED)
     is_payed = models.BooleanField(_('licence payed'))
+    is_captain = models.BooleanField(_("is team captain"), default=False)
     created = models.DateTimeField('licence creation date', auto_now_add=True)
     modified = models.DateTimeField('licence last modification date', auto_now=True)
 
