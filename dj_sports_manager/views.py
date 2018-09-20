@@ -16,7 +16,7 @@ from django.views.generic import (
 from .models import (
     Category,
     Team,
-    Practice,
+    TimeSlot,
     License,
 )
 
@@ -224,19 +224,19 @@ class TeamDeleteView(DeleteView):
 class TeamPracticeListView(ListView):
     """View that returns the list of practices."""
 
-    model = Practice
+    model = TimeSlot
 
 
 class TeamPracticeDetailView(DetailView):
     """View that returns the details of a Pratice."""
 
-    model = Practice
+    model = TimeSlot
 
 
 class TeamPracticeCreateView(CreateView):
-    """View that creates a new Practice."""
+    """View that creates a new TimeSlot."""
 
-    model = Practice
+    model = TimeSlot
     fields = '__all__'
 
     def get(self, request, *args, **kwargs):
@@ -255,14 +255,14 @@ class TeamPracticeCreateView(CreateView):
 
     def get_success_url(self):
         """Get the URL after the success."""
-        messages.success(self.request, "Practice '{}' for '{}' added successfully".format(self.object.day, self.object.team.name))
+        messages.success(self.request, "TimeSlot '{}' for '{}' added successfully".format(self.object.day, self.object.team.name))
         return reverse('dj-sports-manager:practice-detail', kwargs={'pk': self.object.id})
 
 
 class TeamPracticeUpdateView(UpdateView):
-    """View that updates a new Practice."""
+    """View that updates a new TimeSlot."""
 
-    model = Practice
+    model = TimeSlot
     fields = '__all__'
 
     def get(self, request, *args, **kwargs):
@@ -281,14 +281,14 @@ class TeamPracticeUpdateView(UpdateView):
 
     def get_success_url(self):
         """Get the URL after the success."""
-        messages.success(self.request, "Practice '{}' for '{}' updated successfully".format(self.object.day, self.object.team.name))
+        messages.success(self.request, "TimeSlot '{}' for '{}' updated successfully".format(self.object.day, self.object.team.name))
         return reverse('dj-sports-manager:practice-detail', kwargs={'pk': self.object.pk})
 
 
 class TeamPracticeDeleteView(DeleteView):
-    """View that deletes a new Practice."""
+    """View that deletes a new TimeSlot."""
 
-    model = Practice
+    model = TimeSlot
 
     def get(self, request, *args, **kwargs):
         """."""
@@ -306,7 +306,7 @@ class TeamPracticeDeleteView(DeleteView):
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        messages.success(self.request, "Practice '{}' for '{}' deleted successfully".format(self.object.day, self.object.team.name))
+        messages.success(self.request, "TimeSlot '{}' for '{}' deleted successfully".format(self.object.day, self.object.team.name))
         return reverse('dj-sports-manager:practices-list')
 
 

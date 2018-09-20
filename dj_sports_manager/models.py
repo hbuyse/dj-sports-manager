@@ -152,8 +152,8 @@ class Team(models.Model):
         return self.licence_set.order_by("last_name")
 
 
-class Practice(models.Model):
-    """Practice model."""
+class TimeSlot(models.Model):
+    """Time slot model."""
 
     MONDAY = 0
     TUESDAY = 1
@@ -180,11 +180,11 @@ class Practice(models.Model):
         (MATCH, _('Match')),
     )
 
-    type_practice = models.PositiveSmallIntegerField(_("Practice type"), choices=TYPE_PRACTICE)
+    type_time_slot = models.PositiveSmallIntegerField(_("time slot type"), choices=TYPE_PRACTICE)
     team = models.ForeignKey('Team', on_delete=models.CASCADE)
-    day = models.PositiveSmallIntegerField(_("Practice day"), choices=DAYS_OF_WEEK)
-    start = models.TimeField(_("Practice starting time"))
-    end = models.TimeField(_("Practice starting time"))
+    day = models.PositiveSmallIntegerField(_("time slot day"), choices=DAYS_OF_WEEK)
+    start = models.TimeField(_("time slot starting time"))
+    end = models.TimeField(_("time slot starting time"))
     gymnasium = models.ForeignKey('dj_gymnasiums.Gymnasium', on_delete=models.CASCADE)
 
     def __str__(self):

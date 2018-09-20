@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     'django.contrib.sessions',
     "django.contrib.sites",
-    "dj_vcn_accounts",
+    "dj_sports_manager",
+    "dj_gymnasiums",
 ]
 
 TEMPLATES = [
@@ -61,7 +62,3 @@ MIDDLEWARE = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
-
-AUTH_USER_MODEL = 'dj_vcn_accounts.VcnAccount'
-
-EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'

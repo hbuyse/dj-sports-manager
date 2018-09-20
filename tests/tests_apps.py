@@ -3,7 +3,7 @@
 
 """Tests for `dj-sponsoring` apps module."""
 
-from dj_vcn_accounts.apps import DjSportsManagerConfig
+from dj_sports_manager.apps import DjSportsManagerConfig
 
 from django.apps import apps
 from django.test import TestCase

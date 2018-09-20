@@ -1,28 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Tests for `dj-vcn-accounts` models module."""
+"""Tests for `dj-sports-manager` models module."""
 
-from dj_vcn_accounts.models import VcnAccount
+from dj_sports_manager.models import Category
 
 from django.test import TestCase
 
 
-class TestVcnAccountModel(TestCase):
+class TestCategoryModel(TestCase):
 
     def test_string_representation(self):
         d = {
-            "first_name": "Henri",
-            "last_name": "Buyse"
+            "name": "Fédération Française de Volley-Ball"
         }
-        s = VcnAccount(**d)
-        self.assertEqual(str(s), "Henri Buyse")
+        s = Category(**d)
+        self.assertEqual(str(s), "Fédération Française de Volley-Ball")
 
     def test_verbose_name(self):
-        self.assertEqual(str(VcnAccount._meta.verbose_name), "VCN account")
+        self.assertEqual(str(Category._meta.verbose_name), "category")
 
     def test_verbose_name_plural(self):
-        self.assertEqual(str(VcnAccount._meta.verbose_name_plural), "VCN accounts")
-
-    def test_vcn_account_profile_picture_upload_to_cb(self):
-        pass
+        self.assertEqual(str(Category._meta.verbose_name_plural), "categories")
