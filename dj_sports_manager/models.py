@@ -123,7 +123,7 @@ class Team(models.Model):
                                 blank=True,
                                 null=True)
     url = models.URLField(_("team competition URL"))
-    description = MarkdownxField(_('team description'), blank=True)
+    description = MarkdownxField(_('team description'))
     img = models.ImageField(_('team img'), storage=OverwriteStorage(), upload_to=image_upload_to, blank=True)
     is_recruiting = models.BooleanField(_('team recruitement'))
 
@@ -138,7 +138,6 @@ class Team(models.Model):
         verbose_name_plural = _("teams")
         ordering = ("sex", "level", "name")
 
-    @property
     def description_md(self):
         """Get the description as HTML (not Mdown)."""
         return markdownify(self.description)
