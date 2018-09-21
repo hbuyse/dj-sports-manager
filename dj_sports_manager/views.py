@@ -206,7 +206,6 @@ class TeamUpdateView(UpdateView):
     def get(self, request, *args, **kwargs):
         """."""
         if True not in [request.user.is_superuser, request.user.is_staff]:
-
             raise PermissionDenied
 
         return super().get(request, args, kwargs)
@@ -394,9 +393,16 @@ class LicenseCreateView(CreateView):
 
 
 class LicenseUpdateView(UpdateView):
+    """Update a license for a logged user."""
 
     model = License
-    fields = "__all__"
+    fields = [
+        'first_name',
+        'last_name',
+        'sex',
+        'birthday',
+        'team',
+    ]
 
     def get(self, request, *args, **kwargs):
         """."""
@@ -419,6 +425,7 @@ class LicenseUpdateView(UpdateView):
 
 
 class LicenseDeleteView(DeleteView):
+    """Delete a license for a logged user."""
 
     model = License
 

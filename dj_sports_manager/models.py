@@ -82,8 +82,8 @@ class Team(models.Model):
 
     LEVELS = (
         ('FSGT 6x6', (
-            ("OR", _('Gold')),
-            ("ARG", _('Silver')),
+            ("GOL", _('Gold')),
+            ("SIL", _('Silver')),
             ("BRO", _('Bronze')),
         )),
         ('FSGT 4x4', (

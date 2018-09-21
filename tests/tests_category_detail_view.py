@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from .helper import create_category
+from .helper import create_category, create_user
 
 
 class TestCategoryDetailViewAsAnonymous(TestCase):
@@ -36,13 +36,7 @@ class TestCategoryDetailViewAsLogged(TestCase):
 
     def setUp(self):
         """Tests."""
-        self.user_info = {
-            'username': "hbuyse",
-            'password': "usermodel",
-            'first_name': "Henri",
-            'last_name': "Buyse"
-        }
-        get_user_model().objects.create_user(**self.user_info)
+        self.user_info = create_user()[0]
         self.category_info, self.category = create_category()
 
     def test_get_not_existing(self):
@@ -66,14 +60,7 @@ class TestCategoryDetailViewAsStaff(TestCase):
 
     def setUp(self):
         """Tests."""
-        self.user_info = {
-            'username': "hbuyse",
-            'password': "usermodel",
-            'first_name': "Henri",
-            'last_name': "Buyse",
-            'is_staff': True
-        }
-        get_user_model().objects.create_user(**self.user_info)
+        self.user_info = create_user(staff=True)[0]
         self.category_info, self.category = create_category()
 
     def test_get_not_existing(self):
@@ -97,14 +84,7 @@ class TestCategoryDetailViewAsSuperuser(TestCase):
 
     def setUp(self):
         """Tests."""
-        self.user_info = {
-            'username': "hbuyse",
-            'password': "usermodel",
-            'first_name': "Henri",
-            'last_name': "Buyse",
-            'email': 'toto@example.com'
-        }
-        get_user_model().objects.create_superuser(**self.user_info)
+        self.user_info = create_user(superuser=True)[0]
         self.category_info, self.category = create_category()
 
     def test_get_not_existing(self):

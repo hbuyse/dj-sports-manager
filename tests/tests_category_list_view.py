@@ -35,7 +35,7 @@ class TestCategoryListViewAsLogged(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.user_info, self.user = create_user()
+        self.user_info = create_user()[0]
 
     def tests_empty(self):
         """Tests."""
@@ -62,7 +62,7 @@ class TestCategoryListViewAsStaff(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.user_info, self.user = create_user(staff=True)
+        self.user_info = create_user(staff=True)[0]
 
     def tests_empty(self):
         """Tests."""
@@ -89,7 +89,7 @@ class TestCategoryListViewAsSuperuser(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.user_info, self.user = create_user(superuser=True)
+        self.user_info = create_user(superuser=True)[0]
 
     def tests_empty(self):
         """Tests."""
