@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "dj_sports_manager",
     "dj_gymnasiums",
+    "markdownx",
 ]
 
 TEMPLATES = [

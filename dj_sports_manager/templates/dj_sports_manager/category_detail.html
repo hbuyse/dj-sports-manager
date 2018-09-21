@@ -1,6 +1,8 @@
 <h1>{{ category }}</h1>
 
-<img src="{{ category.img.url }}" alt="{{ category.name }}'s logo">
+{% if category.img %}
+  <img src="{{ category.img.url }}" alt="{{ category.name }}'s logo">
+{% endif %}
 <p>{{ category.summary }}</p>
 <p>{{ category.description_md|safe }}</p>
 

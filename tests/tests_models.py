@@ -3,7 +3,7 @@
 
 """Tests for `dj-sports-manager` models module."""
 
-from dj_sports_manager.models import Category, License, Team
+from dj_sports_manager.models import Category, License, Team, image_upload_to
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -62,6 +62,14 @@ class TestCategoryModel(TestCase):
         self.assertEqual(c.team_set.count(), 2)
         self.assertTrue(c.has_teams_with_trainer())
 
+    def test_path_image_upload_to(self):
+        """Test image_upload_to function for Category."""
+        c = Category.objects.create(slug="", min_age=18)
+        self.assertEqual(image_upload_to(c, "toto.png"), 'categories/img.png')
+
+        c = Category.objects.create(slug="hello-world", min_age=18)
+        self.assertEqual(image_upload_to(c, "toto.png"), 'categories/hello-world/img.png')
+
 
 class TestTeamModel(TestCase):
     """Test the Team model."""
@@ -97,6 +105,15 @@ class TestTeamModel(TestCase):
             t = Team(name="Dep 1", sex="MI", description=test[0])
             self.assertIn(test[1], t.description_md())
             self.assertIn(test[2], t.description_md())
+
+    def test_path_image_upload_to(self):
+        """Test image_upload_to function for Team."""
+        c = Category.objects.create(min_age=18)
+        t = Team.objects.create(category=c, slug="", is_recruiting=False)
+        self.assertEqual(image_upload_to(t, "toto.png"), 'teams/team.png')
+
+        t = Team.objects.create(category=c, slug="hello-world", is_recruiting=False)
+        self.assertEqual(image_upload_to(t, "toto.png"), 'teams/hello-world/team.png')
 
 
 class TestLicenseModel(TestCase):

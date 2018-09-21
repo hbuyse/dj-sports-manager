@@ -29,13 +29,13 @@ def image_upload_to(instance, filename):
     path = None
     basename, ext = os.path.splitext(filename)
     if isinstance(instance, Category):
-        path = os.path.join('categories', instance.name, 'img{}'.format(ext))
+        path = os.path.join('categories', instance.slug, 'img{}'.format(ext))
     elif isinstance(instance, Team):
-        path = os.path.join('teams', instance.name, 'team{}'.format(ext))
+        path = os.path.join('teams', instance.slug, 'team{}'.format(ext))
     elif isinstance(instance, License):
         path = os.path.join('licenses',
                             instance.owner.get_username().lower(),
-                            "{team}_{fn}_{ln}".format(team=instance.team.name.lower(),
+                            "{team}_{fn}_{ln}".format(team=instance.team.slug.lower(),
                                                       fn=instance.first_name.lower(),
                                                       ln=instance.last_name.lower(),
                                                       ),

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Models."""
 
+import logging
+
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse
@@ -21,6 +23,9 @@ from .models import (
 )
 
 
+logger = logging.getLogger(__name__)
+
+
 class CategoryListView(ListView):
     """View that returns the list of categories."""
 
@@ -38,7 +43,14 @@ class CategoryCreateView(CreateView):
     """View that creates a new category."""
 
     model = Category
-    fields = '__all__'
+    fields = [
+        'name',
+        'min_age',
+        'max_age',
+        'summary',
+        'description',
+        'img',
+    ]
 
     def get(self, request, *args, **kwargs):
         """."""
@@ -54,10 +66,15 @@ class CategoryCreateView(CreateView):
 
         return super().post(request, args, kwargs)
 
+    def form_valid(self, form):
+        """Override form validation for slug field."""
+        form.instance.slug = slugify(form.instance.name)
+        return super().form_valid(form)
+
     def get_success_url(self):
         """Get the URL after the success."""
         messages.success(self.request, "Category '{}' added successfully".format(self.object.name))
-        return reverse('dj-sports-manager:category-detail', kwargs={'slug': self.object.name})
+        return reverse('dj-sports-manager:category-detail', kwargs={'slug': self.object.slug})
 
 
 class CategoryUpdateView(UpdateView):
@@ -65,7 +82,14 @@ class CategoryUpdateView(UpdateView):
 
     model = Category
     slug_field = 'slug'
-    fields = '__all__'
+    fields = [
+        'name',
+        'min_age',
+        'max_age',
+        'summary',
+        'description',
+        'img',
+    ]
 
     def get(self, request, *args, **kwargs):
         """."""
@@ -82,10 +106,15 @@ class CategoryUpdateView(UpdateView):
 
         return super().post(request, args, kwargs)
 
+    def form_valid(self, form):
+        """Override form validation for slug field."""
+        form.instance.slug = slugify(form.instance.name)
+        return super().form_valid(form)
+
     def get_success_url(self):
         """Get the URL after the success."""
         messages.success(self.request, "Category '{}' updated successfully".format(self.object.name))
-        return reverse('dj-sports-manager:category-detail', kwargs={'slug': self.object.name})
+        return reverse('dj-sports-manager:category-detail', kwargs={'slug': self.object.slug})
 
 
 class CategoryDeleteView(DeleteView):
@@ -188,6 +217,11 @@ class TeamUpdateView(UpdateView):
             raise PermissionDenied
 
         return super().post(request, args, kwargs)
+
+    def form_valid(self, form):
+        """Override form validation for slug field."""
+        form.instance.slug = slugify(form.instance.name)
+        return super().form_valid(form)
 
     def get_success_url(self):
         """Get the URL after the success."""
