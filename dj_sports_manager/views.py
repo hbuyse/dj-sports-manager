@@ -5,6 +5,7 @@ import logging
 
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
+from django.http import Http404
 from django.urls import reverse
 from django.utils.text import slugify
 from django.views.generic import (
@@ -16,131 +17,20 @@ from django.views.generic import (
 )
 
 from .models import (
-    Category,
     Team,
     TimeSlot,
     License,
 )
 
+from .views_category import (
+    CategoryListView,
+    CategoryDetailView,
+    CategoryCreateView,
+    CategoryUpdateView,
+    CategoryDeleteView
+)
 
 logger = logging.getLogger(__name__)
-
-
-class CategoryListView(ListView):
-    """View that returns the list of categories."""
-
-    model = Category
-
-
-class CategoryDetailView(DetailView):
-    """View that returns the details of a category."""
-
-    model = Category
-    slug_field = 'slug'
-
-
-class CategoryCreateView(CreateView):
-    """View that creates a new category."""
-
-    model = Category
-    fields = [
-        'name',
-        'min_age',
-        'max_age',
-        'summary',
-        'description',
-        'img',
-    ]
-
-    def get(self, request, *args, **kwargs):
-        """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
-            raise PermissionDenied
-
-        return super().get(request, args, kwargs)
-
-    def post(self, request, *args, **kwargs):
-        """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
-            raise PermissionDenied
-
-        return super().post(request, args, kwargs)
-
-    def form_valid(self, form):
-        """Override form validation for slug field."""
-        form.instance.slug = slugify(form.instance.name)
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        """Get the URL after the success."""
-        messages.success(self.request, "Category '{}' added successfully".format(self.object.name))
-        return reverse('dj-sports-manager:category-detail', kwargs={'slug': self.object.slug})
-
-
-class CategoryUpdateView(UpdateView):
-    """View that updates a new category."""
-
-    model = Category
-    slug_field = 'slug'
-    fields = [
-        'name',
-        'min_age',
-        'max_age',
-        'summary',
-        'description',
-        'img',
-    ]
-
-    def get(self, request, *args, **kwargs):
-        """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
-
-            raise PermissionDenied
-
-        return super().get(request, args, kwargs)
-
-    def post(self, request, *args, **kwargs):
-        """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
-            raise PermissionDenied
-
-        return super().post(request, args, kwargs)
-
-    def form_valid(self, form):
-        """Override form validation for slug field."""
-        form.instance.slug = slugify(form.instance.name)
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        """Get the URL after the success."""
-        messages.success(self.request, "Category '{}' updated successfully".format(self.object.name))
-        return reverse('dj-sports-manager:category-detail', kwargs={'slug': self.object.slug})
-
-
-class CategoryDeleteView(DeleteView):
-    """View that deletes a new category."""
-
-    model = Category
-    slug_field = 'slug'
-
-    def get(self, request, *args, **kwargs):
-        """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
-            raise PermissionDenied
-
-        return super().get(request, args, kwargs)
-
-    def post(self, request, *args, **kwargs):
-        """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
-            raise PermissionDenied
-
-        return super().post(request, args, kwargs)
-
-    def get_success_url(self, **kwargs):
-        """Get the URL after the success."""
-        messages.success(self.request, "Category '{}' deleted successfully".format(self.object.name))
-        return reverse('dj-sports-manager:categories-list')
 
 
 class TeamListView(ListView):
@@ -173,14 +63,14 @@ class TeamCreateView(CreateView):
 
     def get(self, request, *args, **kwargs):
         """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
+        if not request.user.is_staff:
             raise PermissionDenied
 
         return super().get(request, args, kwargs)
 
     def post(self, request, *args, **kwargs):
         """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
+        if not request.user.is_staff:
             raise PermissionDenied
 
         return super().post(request, args, kwargs)
@@ -205,14 +95,14 @@ class TeamUpdateView(UpdateView):
 
     def get(self, request, *args, **kwargs):
         """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
+        if not request.user.is_staff:
             raise PermissionDenied
 
         return super().get(request, args, kwargs)
 
     def post(self, request, *args, **kwargs):
         """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
+        if not request.user.is_staff:
             raise PermissionDenied
 
         return super().post(request, args, kwargs)
@@ -236,14 +126,14 @@ class TeamDeleteView(DeleteView):
 
     def get(self, request, *args, **kwargs):
         """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
+        if not request.user.is_staff:
             raise PermissionDenied
 
         return super().get(request, args, kwargs)
 
     def post(self, request, *args, **kwargs):
         """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
+        if not request.user.is_staff:
             raise PermissionDenied
 
         return super().post(request, args, kwargs)
@@ -254,19 +144,30 @@ class TeamDeleteView(DeleteView):
         return reverse('dj-sports-manager:teams-list')
 
 
-class TeamPracticeListView(ListView):
+class TeamTimeSlotListView(ListView):
     """View that returns the list of practices."""
 
     model = TimeSlot
 
 
-class TeamPracticeDetailView(DetailView):
+class TeamTimeSlotDetailView(DetailView):
     """View that returns the details of a Pratice."""
 
     model = TimeSlot
 
+    def get_context_data(self, **kwargs):
+        """."""
+        context = super().get_context_data(**kwargs)
+        try:
+            context['team'] = Team.objects.get(slug=kwargs['slug'])
+        except Team.DoesNotExist:
+            raise Http404("Team '{}'' does not exist".format(kwargs['slug']))
+        if 'slug' in kwargs:
+            context['team'] = Team.objects.get(slug=kwargs['slug'])
+        return context
 
-class TeamPracticeCreateView(CreateView):
+
+class TeamTimeSlotCreateView(CreateView):
     """View that creates a new TimeSlot."""
 
     model = TimeSlot
@@ -274,25 +175,26 @@ class TeamPracticeCreateView(CreateView):
 
     def get(self, request, *args, **kwargs):
         """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
+        if not request.user.is_staff:
             raise PermissionDenied
 
         return super().get(request, args, kwargs)
 
     def post(self, request, *args, **kwargs):
         """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
+        if not request.user.is_staff:
             raise PermissionDenied
 
         return super().post(request, args, kwargs)
 
     def get_success_url(self):
         """Get the URL after the success."""
-        messages.success(self.request, "TimeSlot '{}' for '{}' added successfully".format(self.object.day, self.object.team.name))
-        return reverse('dj-sports-manager:practice-detail', kwargs={'pk': self.object.id})
+        messages.success(self.request, "TimeSlot '{}' for '{}' added successfully".format(
+            self.object.day, self.object.team.name))
+        return reverse('dj-sports-manager:time-slot-detail', kwargs={'pk': self.object.id})
 
 
-class TeamPracticeUpdateView(UpdateView):
+class TeamTimeSlotUpdateView(UpdateView):
     """View that updates a new TimeSlot."""
 
     model = TimeSlot
@@ -300,47 +202,49 @@ class TeamPracticeUpdateView(UpdateView):
 
     def get(self, request, *args, **kwargs):
         """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
+        if not request.user.is_staff:
             raise PermissionDenied
 
         return super().get(request, args, kwargs)
 
     def post(self, request, *args, **kwargs):
         """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
+        if not request.user.is_staff:
             raise PermissionDenied
 
         return super().post(request, args, kwargs)
 
     def get_success_url(self):
         """Get the URL after the success."""
-        messages.success(self.request, "TimeSlot '{}' for '{}' updated successfully".format(self.object.day, self.object.team.name))
-        return reverse('dj-sports-manager:practice-detail', kwargs={'pk': self.object.pk})
+        messages.success(self.request, "TimeSlot '{}' for '{}' updated successfully".format(
+            self.object.day, self.object.team.name))
+        return reverse('dj-sports-manager:time-slot-detail', kwargs={'pk': self.object.pk})
 
 
-class TeamPracticeDeleteView(DeleteView):
+class TeamTimeSlotDeleteView(DeleteView):
     """View that deletes a new TimeSlot."""
 
     model = TimeSlot
 
     def get(self, request, *args, **kwargs):
         """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
+        if not request.user.is_staff:
             raise PermissionDenied
 
         return super().get(request, args, kwargs)
 
     def post(self, request, *args, **kwargs):
         """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
+        if not request.user.is_staff:
             raise PermissionDenied
 
         return super().post(request, args, kwargs)
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        messages.success(self.request, "TimeSlot '{}' for '{}' deleted successfully".format(self.object.day, self.object.team.name))
-        return reverse('dj-sports-manager:practices-list')
+        messages.success(self.request, "TimeSlot '{}' for '{}' deleted successfully".format(
+            self.object.day, self.object.team.name))
+        return reverse('dj-sports-manager:time-slots-list')
 
 
 class LicenseListView(ListView):
@@ -348,11 +252,45 @@ class LicenseListView(ListView):
 
     model = License
 
+    def get(self, request, *args, **kwargs):
+        """."""
+        if request.user.is_anonymous:
+            raise PermissionDenied
+
+        return super().get(request, args, kwargs)
+
 
 class LicenseDetailView(DetailView):
     """Detail of a license."""
 
     model = License
+
+    def get(self, request, *args, **kwargs):
+        """View on a GET method."""
+        self.object = self.get_object()
+
+        if request.user.id == self.object.id:
+            pass
+        # If user is superuser or staff member
+        elif request.user.is_staff:
+            logger.info("{} {} accessed (GET) the URL {} owned by {}".format(
+                "Superuser" if request.user.is_superuser else "Staff",
+                request.user.username,
+                request.path,
+                self.object.owner.username))
+            pass
+        # Anonymous user can not update account
+        elif request.user.is_anonymous:
+            logger.error("Anonymous user tried to GET the URL {} owned by {}".format(
+                request.path, self.object.owner.username))
+            raise PermissionDenied
+        # Authenticated user can not update an other user account
+        else:
+            logger.error("User {} tried to GET the URL {} owned by {}".format(
+                request.user.username, request.path, self.object.owner.username))
+            raise PermissionDenied
+
+        return super().get(request, *args, **kwargs)
 
 
 class LicenseCreateView(CreateView):
@@ -388,7 +326,8 @@ class LicenseCreateView(CreateView):
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        messages.success(self.request, "License '{}' for '{}' created successfully".format(self.object.license_number, self.object.team.name))
+        messages.success(self.request, "License '{}' for '{}' created successfully".format(
+            self.object.license_number, self.object.team.name))
         return reverse('dj-sports-manager:license-detail', kwargs={'pk': self.object.pk})
 
 
@@ -415,12 +354,12 @@ class LicenseUpdateView(UpdateView):
         """."""
         if request.user.is_anonymous:
             raise PermissionDenied
-
         return super().post(request, args, kwargs)
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        messages.success(self.request, "License '{}' for '{}' created successfully".format(self.object.license_number, self.object.team.name))
+        messages.success(self.request, "License '{}' for '{}' created successfully".format(
+            self.object.license_number, self.object.team.name))
         return reverse('dj-sports-manager:license-update', kwargs={'pk': self.object.pk})
 
 
@@ -430,20 +369,55 @@ class LicenseDeleteView(DeleteView):
     model = License
 
     def get(self, request, *args, **kwargs):
-        """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
+        """View on a GET method."""
+        # If user is superuser
+        if request.user.is_superuser:
+            logger.info("Superuser {} accessed (GET) the UpdateView of {}'s account.".format(
+                request.user.username, self.object.username))
+            pass
+        # If user is part of staff
+        elif request.user.is_staff:
+            logger.info("Staff user {} accessed (GET) the UpdateView of {}'s account.".format(
+                request.user.username, self.object.username))
+            pass
+        # Anonymous user can not update account
+        elif request.user.is_anonymous:
+            logger.error("Anonymous user tried to GET the DeleteView of {}'s account.".format(self.object.username))
+            raise PermissionDenied
+        # Authenticated user can not update an other user account
+        elif request.user.id != self.object.id:
+            logger.error("User {} tried to GET the DeleteView of {}'s account.".format(
+                request.user.username, self.object.username))
             raise PermissionDenied
 
         return super().get(request, args, kwargs)
 
     def post(self, request, *args, **kwargs):
         """."""
-        if True not in [request.user.is_superuser, request.user.is_staff]:
+        # If user is superuser
+        if request.user.is_superuser:
+            logger.info("Superuser {} accessed (GET) the UpdateView of {}'s account.".format(
+                request.user.username, self.object.username))
+            pass
+        # If user is part of staff
+        elif request.user.is_staff:
+            logger.info("Staff user {} accessed (GET) the UpdateView of {}'s account.".format(
+                request.user.username, self.object.username))
+            pass
+        # Anonymous user can not update account
+        elif request.user.is_anonymous:
+            logger.error("Anonymous user tried to GET the DeleteView of {}'s account.".format(self.object.username))
+            raise PermissionDenied
+        # Authenticated user can not update an other user account
+        elif request.user.id != self.object.id:
+            logger.error("User {} tried to GET the DeleteView of {}'s account.".format(
+                request.user.username, self.object.username))
             raise PermissionDenied
 
         return super().post(request, args, kwargs)
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        messages.success(self.request, "License '{}' for '{}' deleted successfully".format(self.object.license_number, self.object.team.name))
-        return reverse('dj-sports-manager:practices-list')
+        messages.success(self.request, "License '{}' for '{}' deleted successfully".format(
+            self.object.license_number, self.object.team.name))
+        return reverse('dj-sports-manager:licenses-list')

@@ -3,10 +3,30 @@
 
 """Generate objects."""
 
-from dj_sports_manager.models import Category, Team
+from dj_sports_manager.models import Category, Team, TimeSlot
+from dj_gymnasiums.models import Gymnasium
 
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
+
+from datetime import datetime
+
+
+def create_gymnasium():
+    """Create a gymnasium."""
+    gymnasium_info = {
+        'name': "Toto",
+        'address': "Toto",
+        'city': "Toto",
+        'zip_code': 12345,
+        'phone': "0100000000",
+        'surface': "48",
+        'capacity': "2",
+    }
+
+    gymnasium = Gymnasium.objects.create(**gymnasium_info)
+
+    return gymnasium_info, gymnasium
 
 
 def create_category():
@@ -41,6 +61,25 @@ def create_team():
     team = Team.objects.create(**team_info)
 
     return team_info, team
+
+
+def create_time_slot(team=None):
+    """Create a TimeSlot."""
+    time_slot_info = {
+        'type_time_slot': TimeSlot.PRACTICE,
+        'day': TimeSlot.MONDAY,
+        'start': datetime.strptime('20:00:00', '%H:%M:%S'),
+        'end': datetime.strptime('22:30:00', '%H:%M:%S'),
+    }
+    if team is None:
+        team = create_team()[1]
+    gymnasium = create_gymnasium()[1]
+
+    time_slot_info['team'] = team
+    time_slot_info['gymnasium'] = gymnasium
+    time_slot = TimeSlot.objects.create(**time_slot_info)
+
+    return time_slot_info, time_slot
 
 
 def create_user(staff=False, superuser=False):

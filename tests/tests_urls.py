@@ -86,28 +86,28 @@ class TestUrlsTimeSlot(TestCase):
 
     def test_time_slots_list_url(self):
         """Test the URL of the listing of VCN accounts."""
-        url = reverse('dj-sports-manager:practices-list', kwargs={'slug': 'toto'})
-        self.assertEqual(url, '/team/toto/practice/')
+        url = reverse('dj-sports-manager:team-time-slots-list', kwargs={'slug': 'toto'})
+        self.assertEqual(url, '/team/toto/time-slot/')
 
     def test_time_slot_create_url(self):
         """Test the URL of the listing of VCN accounts."""
-        url = reverse('dj-sports-manager:practice-create', kwargs={'slug': 'toto'})
-        self.assertEqual(url, '/team/toto/practice/create')
+        url = reverse('dj-sports-manager:team-time-slot-create', kwargs={'slug': 'toto'})
+        self.assertEqual(url, '/team/toto/time-slot/create')
 
     def test_time_slot_detail_url_simple(self):
         """Test the URL of that allows the creation of a VCN account."""
-        url = reverse('dj-sports-manager:practice-detail', kwargs={'slug': 'toto', 'pk': 1})
-        self.assertEqual(url, '/team/toto/practice/1')
+        url = reverse('dj-sports-manager:team-time-slot-detail', kwargs={'slug': 'toto', 'pk': 1})
+        self.assertEqual(url, '/team/toto/time-slot/1')
 
     def test_time_slot_update_url(self):
         """Test the URL of the listing of VCN accounts."""
-        url = reverse('dj-sports-manager:practice-update', kwargs={'slug': 'toto', 'pk': 1})
-        self.assertEqual(url, "/team/toto/practice/1/update")
+        url = reverse('dj-sports-manager:team-time-slot-update', kwargs={'slug': 'toto', 'pk': 1})
+        self.assertEqual(url, "/team/toto/time-slot/1/update")
 
     def test_time_slot_delete_url(self):
         """Test the URL of the listing of VCN accounts."""
-        url = reverse('dj-sports-manager:practice-delete', kwargs={'slug': 'toto', 'pk': 1})
-        self.assertEqual(url, "/team/toto/practice/1/delete")
+        url = reverse('dj-sports-manager:team-time-slot-delete', kwargs={'slug': 'toto', 'pk': 1})
+        self.assertEqual(url, "/team/toto/time-slot/1/delete")
 
 
 class TestUrlsLicense(TestCase):

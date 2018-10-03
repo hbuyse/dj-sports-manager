@@ -49,8 +49,8 @@ def image_upload_to(instance, filename):
 class Category(models.Model):
     """Sport category model."""
 
-    slug = models.SlugField(_("category slug"), max_length=128, null=True)
-    name = models.CharField(_('category name'), max_length=128)
+    slug = models.SlugField(_("category slug"), unique=True, max_length=128, null=True)
+    name = models.CharField(_('category name'), unique=True, max_length=128)
     img = models.ImageField(_('category img'), storage=OverwriteStorage(), upload_to=image_upload_to, blank=True)
     min_age = models.PositiveSmallIntegerField(_('category minimal age'))
     max_age = models.PositiveSmallIntegerField(_('category maximal age'), blank=True, null=True)
@@ -113,9 +113,9 @@ class Team(models.Model):
         ('MI', _('Mixed')),
         ('FE', _('Female'))
     )
-    slug = models.SlugField(_("team slug"), max_length=128, null=True)
+    slug = models.SlugField(_("team slug"), unique=True, max_length=128, null=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
-    name = models.CharField(_("team name"), max_length=128)
+    name = models.CharField(_("team name"), unique=True, max_length=128)
     level = models.CharField(_("team level"), max_length=4, choices=LEVELS)
     sex = models.CharField(_("team sex"), max_length=2, choices=SEXES)
     trainer = models.ForeignKey(get_user_model(),
