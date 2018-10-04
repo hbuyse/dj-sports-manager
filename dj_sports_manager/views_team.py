@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Category model views."""
+"""Team model views."""
 
 import logging
 
@@ -16,35 +16,36 @@ from django.views.generic import (
 )
 
 from .models import (
-    Category,
+    Team,
 )
-
 
 logger = logging.getLogger(__name__)
 
 
-class CategoryListView(ListView):
+class TeamListView(ListView):
     """View that returns the list of categories."""
 
-    model = Category
+    model = Team
 
 
-class CategoryDetailView(DetailView):
-    """View that returns the details of a category."""
+class TeamDetailView(DetailView):
+    """View that returns the details of a team."""
 
-    model = Category
+    model = Team
     slug_field = 'slug'
 
 
-class CategoryCreateView(CreateView):
-    """View that creates a new category."""
+class TeamCreateView(CreateView):
+    """View that creates a new team."""
 
-    model = Category
+    model = Team
     fields = [
         'name',
-        'min_age',
-        'max_age',
-        'summary',
+        'category',
+        'level',
+        'sex',
+        'is_recruiting',
+        'url',
         'description',
         'img',
     ]
@@ -70,23 +71,16 @@ class CategoryCreateView(CreateView):
 
     def get_success_url(self):
         """Get the URL after the success."""
-        messages.success(self.request, "Category '{}' added successfully".format(self.object.name))
-        return reverse('dj-sports-manager:category-detail', kwargs={'slug': self.object.slug})
+        messages.success(self.request, "Team '{}' added successfully".format(self.object.name))
+        return reverse('dj-sports-manager:team-detail', kwargs={'slug': self.object.slug})
 
 
-class CategoryUpdateView(UpdateView):
-    """View that updates a new category."""
+class TeamUpdateView(UpdateView):
+    """View that updates a new team."""
 
-    model = Category
+    model = Team
+    fields = '__all__'
     slug_field = 'slug'
-    fields = [
-        'name',
-        'min_age',
-        'max_age',
-        'summary',
-        'description',
-        'img',
-    ]
 
     def get(self, request, *args, **kwargs):
         """."""
@@ -109,14 +103,14 @@ class CategoryUpdateView(UpdateView):
 
     def get_success_url(self):
         """Get the URL after the success."""
-        messages.success(self.request, "Category '{}' updated successfully".format(self.object.name))
-        return reverse('dj-sports-manager:category-detail', kwargs={'slug': self.object.slug})
+        messages.success(self.request, "Team '{}' updated successfully".format(self.object.name))
+        return reverse('dj-sports-manager:team-detail', kwargs={'slug': self.object.slug})
 
 
-class CategoryDeleteView(DeleteView):
-    """View that deletes a new category."""
+class TeamDeleteView(DeleteView):
+    """View that deletes a new team."""
 
-    model = Category
+    model = Team
     slug_field = 'slug'
 
     def get(self, request, *args, **kwargs):
@@ -135,5 +129,5 @@ class CategoryDeleteView(DeleteView):
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        messages.success(self.request, "Category '{}' deleted successfully".format(self.object.name))
-        return reverse('dj-sports-manager:categories-list')
+        messages.success(self.request, "Team '{}' deleted successfully".format(self.object.name))
+        return reverse('dj-sports-manager:teams-list')
