@@ -26,22 +26,16 @@ class LicenseListView(ListView):
 
     model = License
     paginate_by = 10
-    all_licenses = False
 
     def get_queryset(self):
         """Queryset."""
-        qs = self.model.objects.all()
-
-        if not self.all_licenses and self.request.user.is_authenticated:
-            qs = qs.filter(owner__username=self.request.user.get_username())
-
-        return qs
+        return self.model.objects.filter(owner__username=self.kwargs.get('username'))
 
     def get(self, request, *args, **kwargs):
         """."""
         if request.user.is_anonymous:
             raise PermissionDenied
-        elif self.all_licenses and not self.request.user.is_staff:
+        elif kwargs['username'] != request.user.get_username() and not request.user.is_staff:
             raise PermissionDenied
 
         return super().get(request, args, kwargs)

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+{% load staticfiles %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a href="{% url 'dj-sports-manager:licenses-list' request.user.get_username %}">Licenses</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ license }}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+  {{ license }}
+{% endblock %}
+
+{% block content %}
+<p>First name: {{ license.first_name }}</p>
+<p>Last name: {{ license.last_name }}</p>
+<p>Team: {{ license.team.name }}</p>
+<p>Owner: {{ license.owner }}</p>
+<p>Sex: {{ license.get_sex_display }}</p>
+<p>Birthday: {{ license.birthday }}</p>
+{% if license.license_number %}
+  <p>License number: {{ license.license_number }}</p>
+{% endif %}
+{% endblock %}

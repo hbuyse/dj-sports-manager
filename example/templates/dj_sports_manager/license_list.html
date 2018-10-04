@@ -19,11 +19,16 @@
 {% block content %}
   <div class="list-group">
   {% for license in license_list %}
-    <a href="{% url 'dj-sports-manager:license-detail' license.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
+    <a href="{% url 'dj-sports-manager:license-detail' license.owner.get_username license.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
       <div class="d-flex row">
         <div class="col-md-9 align-self-center">
           <h5 class="mb-1">{{ license.first_name }} {{ license.last_name }}</h5>
-          <p class="mb-1">{{ license.team }} - {{ license.license_number }}</p>
+          <p class="mb-1">
+            {{ license.team.category.name }} - {{ license.team.name }}
+            {% if license.license_number %}
+             - {{ license.license_number }}
+            {% endif %}
+          </p>
         </div>
       </div>
     </a>

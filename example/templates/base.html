@@ -18,6 +18,9 @@
         {# Footer CSS #}
         <link rel="stylesheet" type="text/css" href="//getbootstrap.com/assets/css/docs.min.css">
 
+        {% block css %}
+        {% endblock %}
+
         {# Personal CSS stylesheet #}
         <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
         <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
@@ -42,7 +45,7 @@
                 <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Category
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" href="{% url 'dj-sports-manager:categories-list' %}">List</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'dj-sports-manager:category-create' %}">Creation</a>
@@ -52,7 +55,7 @@
                 <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Team
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" href="{% url 'dj-sports-manager:teams-list' %}">List</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'dj-sports-manager:team-create' %}">Creation</a>
@@ -63,23 +66,13 @@
                 <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Practice
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" href="{% url 'dj-sports-manager:practices-list' %}">List</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'dj-sports-manager:practice-create' %}">Creation</a>
                 </div>
               </li>
               {% endcomment %}
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  License
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="{% url 'dj-sports-manager:licenses-list' %}">List</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{% url 'dj-sports-manager:license-create' %}">Creation</a>
-                </div>
-              </li>
             </ul>
             <ul class="navbar-nav navbar-right">
               {% if not user.is_authenticated %}
@@ -91,13 +84,15 @@
               {% else %}
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ request.user }}
+                    {{ user }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                     {% if user.is_staff %}
                       <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
                       <div class="dropdown-divider"></div>
                     {% endif %}
+                    <a class="dropdown-item" href="{% url 'dj-sports-manager:licenses-list' user.get_username %}">Licenses</a>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                   </div>
                 </li>
