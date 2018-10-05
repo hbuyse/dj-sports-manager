@@ -61,18 +61,6 @@
                   <a class="dropdown-item" href="{% url 'dj-sports-manager:team-create' %}">Creation</a>
                 </div>
               </li>
-              {% comment %}
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Practice
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="{% url 'dj-sports-manager:practices-list' %}">List</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{% url 'dj-sports-manager:practice-create' %}">Creation</a>
-                </div>
-              </li>
-              {% endcomment %}
             </ul>
             <ul class="navbar-nav navbar-right">
               {% if not user.is_authenticated %}
@@ -84,7 +72,11 @@
               {% else %}
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ user }}
+                    {% if user.get_full_name %}
+                      {{ user.get_full_name }}
+                    {% else %}
+                      {{ user.get_username }}
+                    {% endif %}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                     {% if user.is_staff %}
@@ -113,9 +105,11 @@
                     <h1>
                       {% block page_title %}
                         Page title
-                      {% endblock %}  
-                      {% block page_title_buttons %}
                       {% endblock %}
+                      <div class="btn-group float-right" role="group">
+                        {% block page_title_buttons %}
+                        {% endblock %}
+                      </div>
                     </h1>
                     {% block content %}{% endblock %}
                 </main>

@@ -79,8 +79,17 @@ class TeamUpdateView(UpdateView):
     """View that updates a new team."""
 
     model = Team
-    fields = '__all__'
     slug_field = 'slug'
+    fields = [
+        'name',
+        'category',
+        'level',
+        'sex',
+        'is_recruiting',
+        'url',
+        'description',
+        'img',
+    ]
 
     def get(self, request, *args, **kwargs):
         """."""

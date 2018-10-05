@@ -109,6 +109,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'dj_sports_manager.context_processors.sports_manager_data'
             ],
         },
     },
@@ -195,10 +196,10 @@ BOOTSTRAP4 = {
     'include_jquery': False,
 
     # Label class to use in horizontal forms
-    'horizontal_label_class': 'col-md-3',
+    'horizontal_label_class': 'col-md-2',
 
     # Field class to use in horizontal forms
-    'horizontal_field_class': 'col-md-9',
+    'horizontal_field_class': 'col-md-10',
 
     # Set placeholder attributes to label if no placeholder is provided
     'set_placeholder': True,
@@ -228,3 +229,7 @@ BOOTSTRAP4 = {
 LOGIN_URL = "/login"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+
+SPORTS_MANAGER = {
+    'webmaster': 'webmaster@volley-club-nogent.fr'
+}

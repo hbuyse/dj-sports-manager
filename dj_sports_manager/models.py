@@ -93,20 +93,17 @@ class Team(models.Model):
         )),
         ('FFVB', (
             # Female
-            ("N1F", _('Elite Female')),
-            ("N2F", _('National 2 Female')),
-            ("R1F", _('Regional 1 Female')),
-            ("R2F", _('Regional 2 Female')),
-            ("R3F", _('Regional 3 Female')),
-            ("DEPF", _('Departemental Female')),
-            # Male
-            ("N1M", _('Elite Male')),
-            ("N2M", _('National 2 Male')),
-            ("R1M", _('Regional 1 Male')),
-            ("R2M", _('Regional 2 Male')),
-            ("R3M", _('Regional 3 Male')),
-            ("DEPM", _('Departemental Male')),
-        )),
+            ("N1", _('Elite')),
+            ("N2", _('National 2')),
+            ("R1", _('Regional 1')),
+            ("R2", _('Regional 2')),
+            ("R3", _('Regional 3')),
+            ("DEP", _('Departemental')),
+            ("U20", _('Under 20')),
+            ("U17", _('Under 17')),
+            ("U15", _('Under 15')),
+            ("U13", _('Under 13')),
+        ))
     )
     SEXES = (
         ('MA', _('Male')),
@@ -240,7 +237,7 @@ class License(models.Model):
 
     def __str__(self):
         """String representation."""
-        return "{} - {} {} ({})".format(self.team.name, self.first_name, self.last_name, self.license_number)
+        return "{} {} - {} ({})".format(self.first_name, self.last_name, self.team.name, self.license_number)
 
     class Meta:
         """Meta class."""

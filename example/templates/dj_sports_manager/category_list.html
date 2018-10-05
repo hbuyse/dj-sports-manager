@@ -17,19 +17,25 @@
 {% endblock %}
 
 {% block content %}
-  <div class="list-group">
-  {% for c in category_list %}
-    <a href="{% url 'dj-sports-manager:category-detail' c.slug %}" class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex row">
-        <img class="col-md-3" src="{{ c.img.url }}" alt="{{ c.name }}'s logo">
-        <div class="col-md-9 align-self-center">
-          <h5 class="mb-1">{{ c }}</h5>
-          <p class="mb-1">{{ c.summary }}</p>
+  <div> {# Workaround to remove the border-top on the first item... #}
+    <div class="list-group list-group-flush">
+    {% for c in category_list %}
+      <a href="{% url 'dj-sports-manager:category-detail' c.slug %}" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex row">
+          {% if c.img %}
+          <img class="col-3" src="{{ c.img.url }}" alt="{{ c.name }}'s logo">
+          {% else %}
+            <div class="col-3"></div>
+          {% endif %}
+          <div class="col-9 align-self-center">
+            <h5 class="mb-1">{{ c }}</h5>
+            <p class="mb-1">{{ c.summary }}</p>
+          </div>
         </div>
-      </div>
-    </a>
-  {% empty %}
-    <p>No category listed yet...</p>
-  {% endfor %}
+      </a>
+    {% empty %}
+      <p>No category listed yet...</p>
+    {% endfor %}
+    </div>
   </div>
 {% endblock %}

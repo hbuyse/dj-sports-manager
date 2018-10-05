@@ -26,17 +26,31 @@
 {% endblock %}
 
 {% block content %}
+    <div class="alert {% if team.is_recruiting %}alert-success{% else %}alert-warning{% endif %}" role="alert">
+      This team is {% if not team.is_recruiting %}not{% endif %} recruiting players.
+    </div>
   {% if team.img %}
     <img src="{{ team.img.url }}" alt="{{ team.name }} image" />
   {% endif %}
 
   <h2 class="mt-4">Informations</h2>
-  <p>Category: {{ team.category }}</p>
-  <p>Level: {{ team.get_level_display }}</p>
-  <p>Sex: {{ team.get_sex_display }}</p>
-  {% if team.trainer %}<p>Trainer: {{ team.trainer }}</p>{% endif %}
-  <p>Url: {{ team.url }}</p>
-  <p>Is_recruiting: {{ team.is_recruiting }}</p>
+  <div class="row">
+    <div class="col-1">Category:</div> <div class="col-10">{{ team.category }}</div>
+  </div>
+  <div class="row">
+    <div class="col-1">Level:</div> <div class="col-10">{{ team.get_level_display }}</div>
+  </div>
+  <div class="row">
+    <div class="col-1">Sex:</div> <div class="col-10">{{ team.get_sex_display }}</div>
+  </div>
+  {% if team.trainer %}
+    <div class="row">
+      <div class="col-1">Trainer:</div> <div class="col-10">{{ team.trainer.get_full_name }}</div>
+    </div>
+  {% endif %}
+  <div class="row">
+    <div class="col-1">Url:</div> <div class="col-10">{{ team.url }}</div>
+  </div>
 
   {% if team.description %}
     <h2 class="mt-4">Description</h2>

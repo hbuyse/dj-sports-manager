@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'dj-sports-manager:licenses-list' user.get_username %}">Licenses</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'dj-sports-manager:license-detail' user.get_username license.id %}">{{ license }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Deletion</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+  {{ license }} deletion
+{% endblock %}
+
+{% block content %}
+  <p>
+    If you really want to delete that license, click on that 
+    <a href="mailto:{{ sports_manager.webmaster }}?Subject=[DELETION] {{ license }}">link</a>
+  </p>
+{% endblock %}

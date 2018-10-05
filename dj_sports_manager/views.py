@@ -28,7 +28,5 @@ from .views_timeslot import (
 from .views_license import (
     LicenseListView,
     LicenseDetailView,
-    LicenseCreateView,
-    LicenseUpdateView,
-    LicenseDeleteView
+    LicenseCreateView
 )

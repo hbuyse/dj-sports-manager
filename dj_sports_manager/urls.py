@@ -82,12 +82,4 @@ urlpatterns = [
          view=views.LicenseDetailView.as_view(),
          name='license-detail',
          ),
-    path("<str:username>/license/<int:pk>/update",
-         view=views.LicenseUpdateView.as_view(),
-         name='license-update',
-         ),
-    path("<str:username>/license/<int:pk>/delete",
-         view=views.LicenseDeleteView.as_view(),
-         name='license-delete',
-         ),
 ]
