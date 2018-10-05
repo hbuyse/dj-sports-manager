@@ -237,7 +237,11 @@ class License(models.Model):
 
     def __str__(self):
         """String representation."""
-        return "{} {} - {} ({})".format(self.first_name, self.last_name, self.team.name, self.license_number)
+        if self.license_number:
+            s = "License n°" + self.license_number
+        else:
+            s = "{} {} - {}".format(self.first_name, self.last_name, self.team.name)
+        return s
 
     class Meta:
         """Meta class."""
