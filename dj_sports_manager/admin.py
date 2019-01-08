@@ -9,8 +9,8 @@ from .models import (
     Team,
     TimeSlot,
     License,
+    Player,
 )
-
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -20,7 +20,6 @@ class CategoryAdmin(admin.ModelAdmin):
         'min_age',
         'max_age'
     )
-
 
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
@@ -32,7 +31,6 @@ class TeamAdmin(admin.ModelAdmin):
         'sex'
     )
 
-
 @admin.register(TimeSlot)
 class TimeSlotAdmin(admin.ModelAdmin):
     list_display = (
@@ -41,12 +39,18 @@ class TimeSlotAdmin(admin.ModelAdmin):
         'day'
     )
 
+@admin.register(Player)
+class PlayerAdmin(admin.ModelAdmin):
+    list_display = (
+        'first_name',
+        'last_name',
+        'owner',
+    )
 
 @admin.register(License)
 class LicenseAdmin(admin.ModelAdmin):
     list_display = (
-        'first_name',
-        'last_name',
-        'team',
-        'owner',
+        'player',
+        'license_number',
+        'is_payed',
     )

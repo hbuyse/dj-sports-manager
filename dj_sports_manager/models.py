@@ -181,7 +181,7 @@ class TimeSlot(models.Model):
     day = models.PositiveSmallIntegerField(_("time slot day"), choices=DAYS_OF_WEEK)
     start = models.TimeField(_("time slot starting time"))
     end = models.TimeField(_("time slot starting time"))
-    gymnasium = models.ForeignKey('dj_gymnasiums.Gymnasium', on_delete=models.CASCADE)
+    # gymnasium = models.ForeignKey('dj_gymnasiums.Gymnasium', on_delete=models.CASCADE)
 
     def __str__(self):
         """String representation."""
@@ -195,10 +195,37 @@ class TimeSlot(models.Model):
         ordering = ("day",)
 
 
-class License(models.Model):
-    """Licence model.
+class Player(models.Model):
+    """Player model
+    """
 
-    TODO: Link with an urgence contact.
+    SEXES = (
+        ('MA', _('Male')),
+        ('FE', _('Female'))
+    )
+
+    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    certif = models.ForeignKey("MedicalCertification", on_delete=models.CASCADE)
+    first_name = models.CharField(_("first name"), max_length=30)
+    last_name = models.CharField(_("last name"), max_length=150)
+    sex = models.CharField(_("sex"), max_length=2, choices=SEXES)
+    birthday = models.DateField(_("birthday"))
+    created = models.DateTimeField(_('creation date'), auto_now_add=True)
+
+    def __str__(self):
+        """String representation."""
+        return "{} {}".format(self.first_name, self.last_name)
+
+    class Meta:
+        """Meta class."""
+
+        verbose_name = _("player")
+        verbose_name_plural = _("players")
+        ordering = ("last_name", "first_name")
+
+
+class MedicalCertification(models.Model):
+    """Medical certification file model
     """
 
     CERTIFICATION_NOT_UPLOADED = 0
@@ -206,46 +233,49 @@ class License(models.Model):
     CERTIFICATION_VALID = 2
     CERTIFICATION_REJECTED = 3
 
-    SEXES = (
-        ('MA', _('Male')),
-        ('FE', _('Female'))
-    )
-
     CERTIFICATION_STEPS = (
         (CERTIFICATION_NOT_UPLOADED, _("Certification not uploaded")),
         (CERTIFICATION_IN_VALIDATION, _("Certification in validation")),
         (CERTIFICATION_VALID, _("Certification valid")),
         (CERTIFICATION_REJECTED, _("Certification rejected")),
     )
-    # Team
-    team = models.ForeignKey('Team', on_delete=models.CASCADE, blank=True)
-    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    first_name = models.CharField(_("licensee first name"), max_length=30)
-    last_name = models.CharField(_("licensee last name"), max_length=150)
-    sex = models.CharField(_("sex"), max_length=2, choices=SEXES)
-    birthday = models.DateField(_("birthday"))
-    license_number = models.CharField(_("license number"), max_length=20, blank=True)
-    # Possibility to add a medical certification after having created the license
-    certif = models.FileField(_('license medical certification'), upload_to=image_upload_to, blank=True)
+
+    certif = models.FileField(_('medical certification'), upload_to=image_upload_to)
     certif_valid = models.PositiveSmallIntegerField(_("license medical certification validation"),
                                                     choices=CERTIFICATION_STEPS,
                                                     default=CERTIFICATION_NOT_UPLOADED)
-    is_payed = models.BooleanField(_('licence payed'))
-    is_captain = models.BooleanField(_("is team captain"), default=False)
+    start = models.DateTimeField(_('starting date'))
+    end = models.DateTimeField(_('starting date'))
+
+    class Meta:
+        """Meta class."""
+
+        verbose_name = _("medical certification")
+        verbose_name_plural = _("medical certifications")
+        ordering = ("player",)
+
+
+
+class License(models.Model):
+    """Licence model.
+
+    TODO: Link with an urgence contact.
+    """
+    # Team
+    team = models.ManyToManyField('Team', blank=True)
+    player = models.ForeignKey('Player', on_delete=models.CASCADE)
+    license_number = models.CharField(_("license number"), max_length=20, blank=True)
+    is_payed = models.BooleanField(_('license payed'))
     created = models.DateTimeField('licence creation date', auto_now_add=True)
     modified = models.DateTimeField('licence last modification date', auto_now=True)
 
     def __str__(self):
         """String representation."""
-        if self.license_number:
-            s = "License n°" + self.license_number
-        else:
-            s = "{} {} - {}".format(self.first_name, self.last_name, self.team.name)
-        return s
+        return "{} - {} ({})".format(self.team.name, self.player, self.license_number)
 
     class Meta:
         """Meta class."""
 
         verbose_name = _("license")
         verbose_name_plural = _("licenses")
-        ordering = ("team", "first_name", "last_name")
+        ordering = ("player",)

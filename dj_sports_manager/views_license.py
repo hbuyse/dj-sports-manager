@@ -29,7 +29,7 @@ class LicenseListView(ListView):
 
     def get_queryset(self):
         """Queryset."""
-        return self.model.objects.filter(owner__username=self.kwargs.get('username'))
+        return self.model.objects.filter(player__owner__username=self.kwargs.get('username'))
 
     def get(self, request, *args, **kwargs):
         """."""
@@ -58,17 +58,17 @@ class LicenseDetailView(DetailView):
                 "Superuser" if request.user.is_superuser else "Staff",
                 request.user.get_username(),
                 request.path,
-                self.object.owner.get_username()))
+                self.object.player.owner.username))
             pass
         # Anonymous user can not update account
         elif request.user.is_anonymous:
             logger.error("Anonymous user tried to GET the URL {} owned by {}".format(
-                request.path, self.object.owner.get_username()))
+                request.path, self.object.player.owner.username))
             raise PermissionDenied
         # Authenticated user can not update an other user account
         else:
             logger.error("User {} tried to GET the URL {} owned by {}".format(
-                request.user.get_username(), request.path, self.object.owner.get_username()))
+                request.user.username, request.path, self.object.player.owner.username))
             raise PermissionDenied
 
         return super().get(request, *args, **kwargs)
@@ -87,8 +87,29 @@ class LicenseCreateView(CreateView):
     ]
 
     def post(self, request, *args, **kwargs):
-        """View on a POST method."""
-        user = get_object_or_404(get_user_model(), *args, **kwargs)
+        """Override post function."""
+        if request.user.is_anonymous:
+            raise PermissionDenied
+        return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        """Validate the form."""
+        form.instance.player__owner = self.request.user
+        form.instance.is_payed = False
+        form.instance.is_captain = False
+
+        if form.instance.certif:
+            form.instance.certif_valid = License.CERTIFICATION_IN_VALIDATION
+        else:
+            form.instance.certif_valid = License.CERTIFICATION_NOT_UPLOADED
+
+        return super().form_valid(form)
+
+    def get_success_url(self, **kwargs):
+        """Get the URL after the success."""
+        messages.success(self.request, "License '{}' for '{}' created successfully".format(
+            self.object.license_number, self.object.team.name))
+        return reverse('dj-sports-manager:license-detail', kwargs={'pk': self.object.pk})
 
         if request.user.get_username() == user.get_username():
             pass
