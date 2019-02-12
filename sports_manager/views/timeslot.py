@@ -11,6 +11,7 @@ from django.http import Http404
 from django.urls import reverse
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
+# Current django project
 from sports_manager.models import Team, TimeSlot
 
 logger = logging.getLogger(__name__)

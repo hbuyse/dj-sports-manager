@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
+# Django
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
 
 class StaffMixin(LoginRequiredMixin, UserPassesTestMixin):
     """

@@ -7,7 +7,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from ..helper import create_user, create_player
+from ..helper import create_player, create_user
 
 
 class TestPlayerListViewAsAnonymous(TestCase):

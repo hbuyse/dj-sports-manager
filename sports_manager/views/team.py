@@ -11,6 +11,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
+# Current django project
 from sports_manager.models import Team
 
 logger = logging.getLogger(__name__)

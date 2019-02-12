@@ -6,15 +6,14 @@ import logging
 
 # Django
 from django.contrib import messages
-
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 # Current django project
-from sports_manager.models import Player
 from sports_manager.forms.player import PlayerCreationForm
+from sports_manager.models import Player
 
 logger = logging.getLogger(__name__)
 

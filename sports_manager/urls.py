@@ -6,14 +6,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 
-from sports_manager import views
-
+# Current django project
 import sports_manager.views.category as vcategory
 import sports_manager.views.gymnasium as vgymnasium
 import sports_manager.views.license as vlicense
 import sports_manager.views.player as vplayer
 import sports_manager.views.team as vteam
 import sports_manager.views.timeslot as vtimeslot
+from sports_manager import views
 
 app_name = 'sports-manager'
 urlpatterns = [
