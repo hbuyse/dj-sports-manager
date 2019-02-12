@@ -31,7 +31,7 @@ Add it to your `INSTALLED_APPS`:
 
     INSTALLED_APPS = (
         ...
-        'dj_sports_manager.apps.DjSportsManagerConfig',
+        'sports_manager.apps.DjSportsManagerConfig',
         ...
     )
 
@@ -39,12 +39,12 @@ Add Django Sports Manager's URL patterns:
 
 .. code-block:: python
 
-    from dj_sports_manager import urls as dj_sports_manager_urls
+    from sports_manager import urls as sports_manager_urls
 
 
     urlpatterns = [
         ...
-        url(r'^', include(dj_sports_manager_urls)),
+        url(r'^', include(sports_manager_urls)),
         ...
     ]
 

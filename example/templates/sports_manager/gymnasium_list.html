@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Gymnases</a></li>
+    </ol>
+  </nav>
+{% endblock %}
+
+
+{% block page_title %}
+  Gymnases
+{% endblock %}
+
+
+{% block content %}
+  <div class="card-columns">
+  {% for g in gymnasiums %}
+    <div class="card">
+      <h5 class="card-header">
+        {{ g }}
+      </h5>
+      <div class="card-body">
+        <p class="card-text">
+          {{ g.address }}<br/>
+          {{ g.zip_code }} {{ g.city }}
+        </p>
+        {% if g.phone %}
+        <p class="card-text">
+          Tél: {{ g.phone }}
+        </p>
+        {% endif %}
+        <a href="{% url 'sports-manager:gymnasium-detail' g.id %}" class="card-link">Plus d'informations</a>
+      </div>
+    </div>
+  {% empty %}
+    <p>No gymnasium...</p>
+  {% endfor %}
+  </div>
+{% endblock %}

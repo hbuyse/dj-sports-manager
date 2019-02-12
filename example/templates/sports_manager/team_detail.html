@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+
+{% block path %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'sports-manager:teams-list' %}">Teams</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ team }}</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block page_title %}
+  {{ team }}
+{% endblock %}
+
+{% block page_title_buttons %}
+  {% if user.is_staff or user.is_superuser %}
+  <div class="btn-group float-right" role="group">
+    <a href="{% url 'sports-manager:team-update' team.slug %}" class="btn btn-primary btn-sm">Update</a>
+    <a href="{% url 'sports-manager:team-delete' team.slug %}" class="btn btn-danger btn-sm">Delete</a>
+  </div>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="alert {% if team.is_recruiting %}alert-success{% else %}alert-warning{% endif %}" role="alert">
+      This team is {% if not team.is_recruiting %}not{% endif %} recruiting players.
+    </div>
+  {% if team.img %}
+    <img src="{{ team.img.url }}" alt="{{ team.name }} image" />
+  {% endif %}
+
+  <h2 class="mt-4">Informations</h2>
+  <div class="row">
+    <div class="col-1">Category:</div> <div class="col-10">{{ team.category }}</div>
+  </div>
+  <div class="row">
+    <div class="col-1">Level:</div> <div class="col-10">{{ team.get_level_display }}</div>
+  </div>
+  <div class="row">
+    <div class="col-1">Sex:</div> <div class="col-10">{{ team.get_sex_display }}</div>
+  </div>
+  {% if team.trainer %}
+    <div class="row">
+      <div class="col-1">Trainer:</div> <div class="col-10">{{ team.trainer.get_full_name }}</div>
+    </div>
+  {% endif %}
+  <div class="row">
+    <div class="col-1">Url:</div> <div class="col-10">{{ team.url }}</div>
+  </div>
+
+  {% if team.description %}
+    <h2 class="mt-4">Description</h2>
+    {{ team.description }}
+  {% endif %}
+
+  <h2 class="mt-4">Teammates</h2>
+  {% for license in team.license_set.all %}
+    {% if forloop.first %}
+      <div class="card-deck">
+    {% endif %}
+
+    <div class="card">
+      <div class="card-body">
+        {{ license.first_name }} {{ license.last_name }}
+        {% if license.is_captain %}
+        (captain)
+        {% endif %}
+      </div>
+    </div>
+
+    {% if forloop.last %}
+      </div>
+    {% endif %}
+  {% empty %}
+    <p>No known teammate related to this team</p>
+  {% endfor %}
+{% endblock %}

@@ -76,7 +76,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'dj_sports_manager',
+    'sports_manager',
 
     # if your app has other dependencies that need to be added to the site
     # they should be added here
@@ -109,7 +109,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'dj_sports_manager.context_processors.sports_manager_data'
+                'sports_manager.context_processors.sports_manager_data'
             ],
         },
     },

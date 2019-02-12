@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:teams-list' %}">Teams</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-detail' team.slug %}">{{ team }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Deletion</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+  {{ team }} deletion
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <p>Do you really want to delete the team "{{ team }}" and everything link to it?</p>
+    {% bootstrap_button "Confirm" button_type="submit" button_class="btn-primary" %}
+  </form>
+{% endblock %}
