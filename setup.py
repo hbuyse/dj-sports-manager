@@ -30,7 +30,6 @@ VERSION = None
 REQUIRED = [
     "Django>=2.0,<2.2",
     "django-markdownx==2.0.28",
-    "django-braces==1.13.0"
 ]
 
 # What packages are optional?
