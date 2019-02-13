@@ -9,7 +9,7 @@ import django
 
 
 def runtests(*test_args):
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "breakfasts.tests.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sports_manager.tests.settings")
     django.setup()
 
     parent = os.path.dirname(os.path.abspath(__file__))
@@ -19,7 +19,7 @@ def runtests(*test_args):
         from django.test.runner import DiscoverRunner
         runner_class = DiscoverRunner
         if not test_args:
-            test_args = ["breakfasts.tests"]
+            test_args = ["sports_manager.tests"]
     except ImportError:
         from django.test.simple import DjangoTestSuiteRunner
         runner_class = DjangoTestSuiteRunner
