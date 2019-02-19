@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block content %}
-  <form action="." method="post">
+  <form action="{% url 'sports-manager:player-create' user.username %}" method="post">
     {% csrf_token %}
 {% comment %}
     <h5>Player informations</h5>
@@ -68,9 +68,15 @@
     {% endfor %}
 {% endcomment %}
 
-    {% crispy player_form %}
-    {% crispy certificate_form %}
-    {% crispy emergency_form %}
+    {{ player_form.as_p }}
+    <br/>
+    <br/>
+    <br/>
+    {{ certificate_form.as_p }}
+    <br/>
+    <br/>
+    <br/>
+    {{ emergency_form.as_p }}
     <button type="submit" class="btn btn-primary">Submit"</button>
     <button type="reset" class="btn btn-warning">Reset"</button>
   </form>
