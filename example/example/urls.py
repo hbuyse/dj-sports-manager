@@ -27,7 +27,6 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('', include('sports_manager.urls', namespace='sports_manager')),
-    path('gymnasium/', include('dj_gymnasiums.urls', namespace='dj_gymnasiums')),
     path('markdownx/', include('markdownx.urls')),
 ]
 

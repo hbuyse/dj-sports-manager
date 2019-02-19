@@ -31,6 +31,24 @@ class TestCategoryModel(TestCase):
         """Test the plural verbose name."""
         self.assertEqual(str(Category._meta.verbose_name_plural), "categories")
 
+    def test_save_override(self):
+        """Test save override."""
+        d = {
+            "name": "Fédération Française de Volley-Ball",
+            'min_age': 7
+        }
+        c = Category.objects.create(**d)
+        self.assertEqual(c.slug, "federation-francaise-de-volley-ball")
+
+    def test_get_absolute_url(self):
+        """Test the description_md function of post class."""
+        d = {
+            'name': "Fédération Française de Volley-Ball",
+            'min_age': 7
+        }
+        c = Category.objects.create(**d)
+        self.assertEqual(c.get_absolute_url(), "/category/federation-francaise-de-volley-ball/")
+
     def test_description_md(self):
         """Test the description_md function of post class."""
         i = 0
@@ -57,13 +75,13 @@ class TestCategoryModel(TestCase):
         self.assertFalse(c.has_teams_with_trainer())
 
         # Create team with no trainer
-        Team.objects.create(category=c, name='a', is_recruiting=True)
+        Team.objects.create(category=c, name='a', recrutment=True)
         self.assertEqual(c.team_set.count(), 1)
         self.assertFalse(c.has_teams_with_trainer())
 
         # Create team with trainer
         u = get_user_model().objects.create(first_name="Toto", last_name="Toto")
-        Team.objects.create(category=c, name='b', is_recruiting=False, trainer=u)
+        Team.objects.create(category=c, name='b', recrutment=False, trainer=u)
         self.assertEqual(c.team_set.count(), 2)
         self.assertTrue(c.has_teams_with_trainer())
 

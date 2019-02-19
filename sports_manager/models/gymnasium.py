@@ -5,7 +5,7 @@
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.text import slugify
-from django.utils.translation import gettext_lazy as _  # noqa
+from django.utils.translation import ugettext_lazy as _  # noqa
 
 
 class Gymnasium(models.Model):
@@ -39,8 +39,14 @@ class Gymnasium(models.Model):
 
     class Meta:
         verbose_name = _("gymnasium")
+        verbose_name_plural = _("gymnasiums")
         ordering = ("name", "city")
 
     def save(self, *args, **kwargs):
+        """Override the save method in order to rewrite the slug field each time we save the object."""
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    def get_time_slots(self):
+        """Return a list of all the time slots in the gymnasium."""
+        return self.time_slot_set.all()

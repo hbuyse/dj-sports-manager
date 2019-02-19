@@ -7,7 +7,7 @@ import os
 # Django
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 
 # Current django project
 from markdownx.models import MarkdownxField
@@ -17,17 +17,14 @@ logger = logging.getLogger(__name__)
 
 
 class License(models.Model):
-    """License model.
+    """License model."""
 
-    TODO: Link with an urgence contact.
-    """
-    # Team
-    team = models.ManyToManyField('Team', blank=True)
-    player = models.ForeignKey('Player', on_delete=models.CASCADE)
+    teams = models.ManyToManyField('Team', blank=True, verbose_name=_("teams"))
+    player = models.ForeignKey('Player', on_delete=models.CASCADE, verbose_name=_("player"))
     number = models.CharField(_("number"), max_length=20, blank=True)
     is_payed = models.BooleanField(_('has been payed'))
-    created = models.DateTimeField('creation date', auto_now_add=True)
-    modified = models.DateTimeField('last modification date', auto_now=True)
+    created = models.DateTimeField(_('creation date'), auto_now_add=True)
+    modified = models.DateTimeField(_('last modification date'), auto_now=True)
 
     def __str__(self):
         """String representation."""
@@ -38,4 +35,4 @@ class License(models.Model):
 
         verbose_name = _("license")
         verbose_name_plural = _("licenses")
-        ordering = ("player",)
+        ordering = ("created",)

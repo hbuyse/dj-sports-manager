@@ -8,11 +8,12 @@ import logging
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 # Current django project
-from sports_manager.forms.player import PlayerCreationForm
+from sports_manager.forms.player import EmergencyContactForm, MedicalCertificateForm, PlayerCreationForm
 from sports_manager.models import Player
 
 logger = logging.getLogger(__name__)
@@ -134,4 +135,34 @@ class PlayerDeleteView(DeleteView):
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
         messages.success(self.request, "Player '{}' deleted successfully".format(self.object.name))
-        return reverse('sports-manager:categorie-list')
+        return reverse('sports-manager:category-list')
+
+
+def create_new_player(request, username):
+    """Check http://www.joshuakehn.com/2013/7/18/multiple-django-forms-in-one-form.html."""
+    if request.POST:
+        logging.debug("Receive post")
+        player_form = PlayerCreationForm(request.POST, prefix="player")
+        emergency_form = EmergencyContactForm(request.POST, request.FILES, prefix="emergency")
+        certificate_form = MedicalCertificateForm(request.POST, prefix="certif")
+
+        if player_form.is_valid() and emergency_form.is_valid() and certificate_form.is_valid():
+            player = player_form.save()
+            emergency_contact = emergency_form.save(commit=False)
+            emergency_contact.player = player
+            emergency_contact.save()
+            medical_certificate = certificate_form.save(commit=False)
+            medical_certificate.player = player
+            medical_certificate.save()
+
+            return reverse('sports-manager:category-list')
+
+    else:
+        player_form = PlayerCreationForm(prefix="player")
+        emergency_form = EmergencyContactForm(prefix="emergency")
+        certificate_form = MedicalCertificateForm(prefix="certif")
+
+    return render(request,
+                  'sports_manager/player_creation_form.html',
+                  {'player_form': player_form, 'emergency_form': emergency_form, 'certificate_form': certificate_form}
+    )

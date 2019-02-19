@@ -59,7 +59,7 @@ class CategoryCreateView(CreateView):
     def get_success_url(self):
         """Get the URL after the success."""
         messages.success(self.request, "Category '{}' added successfully".format(self.object.name))
-        return reverse('sports-manager:category-detail', kwargs={'slug': self.object.slug})
+        return self.object.get_absolute_url()
 
 
 class CategoryUpdateView(UpdateView):
@@ -93,7 +93,7 @@ class CategoryUpdateView(UpdateView):
     def get_success_url(self):
         """Get the URL after the success."""
         messages.success(self.request, "Category '{}' updated successfully".format(self.object.name))
-        return reverse('sports-manager:category-detail', kwargs={'slug': self.object.slug})
+        return self.object.get_absolute_url()
 
 
 class CategoryDeleteView(DeleteView):
@@ -119,4 +119,4 @@ class CategoryDeleteView(DeleteView):
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
         messages.success(self.request, "Category '{}' deleted successfully".format(self.object.name))
-        return reverse('sports-manager:categorie-list')
+        return reverse('sports-manager:category-list')

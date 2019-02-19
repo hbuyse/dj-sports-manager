@@ -1,0 +1,347 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-02-19 11:13+0100\n"
+"PO-Revision-Date: 2019-02-19 13:28+0100\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: models/category.py:41 models/gymnasium.py:14 models/team.py:74
+msgid "slug"
+msgstr "slug"
+
+#: models/category.py:42 models/gymnasium.py:15 models/team.py:76
+msgid "name"
+msgstr "nom"
+
+#: models/category.py:43 models/team.py:86
+msgid "image"
+msgstr "image"
+
+#: models/category.py:44
+msgid "minimal age"
+msgstr "âge minimal"
+
+#: models/category.py:45
+msgid "maximal age"
+msgstr "âge maximal"
+
+#: models/category.py:46
+msgid "summary"
+msgstr "résumé"
+
+#: models/category.py:47 models/team.py:85
+msgid "description"
+msgstr "description"
+
+#: models/category.py:56
+msgid "category"
+msgstr "catégorie"
+
+#: models/category.py:57
+msgid "categories"
+msgstr "catégories"
+
+#: models/gymnasium.py:16
+msgid "address"
+msgstr "adresse"
+
+#: models/gymnasium.py:17
+msgid "city"
+msgstr "ville"
+
+#: models/gymnasium.py:18
+msgid "zip code"
+msgstr "code postal"
+
+#: models/gymnasium.py:20
+msgid "phone number"
+msgstr "numéro de téléphone"
+
+#: models/gymnasium.py:30
+msgid "This is not a correct phone number"
+msgstr "Cela n'est pas un numéro de téléphine correct"
+
+#: models/gymnasium.py:33
+msgid "surface"
+msgstr "surface"
+
+#: models/gymnasium.py:34
+msgid "capacity"
+msgstr "capacité"
+
+#: models/gymnasium.py:41 models/team.py:148
+msgid "gymnasium"
+msgstr "gymnase"
+
+#: models/gymnasium.py:42
+msgid "gymnasiums"
+msgstr "gymnases"
+
+#: models/license.py:25 models/team.py:97
+msgid "teams"
+msgstr "équipes"
+
+#: models/license.py:26 models/player.py:76 models/player.py:97
+msgid "player"
+msgstr "joueur"
+
+#: models/license.py:27
+msgid "number"
+msgstr "numéro"
+
+#: models/license.py:28
+msgid "has been payed"
+msgstr "est payée"
+
+#: models/license.py:29 models/player.py:67
+msgid "creation date"
+msgstr "date de création"
+
+#: models/license.py:30
+msgid "last modification date"
+msgstr "date de dernière modification"
+
+#: models/license.py:39
+msgid "license"
+msgstr "licence"
+
+#: models/license.py:40
+msgid "licenses"
+msgstr "licence"
+
+#: models/player.py:49
+#, python-format
+msgid ""
+"Player is not old enough (min: %(min)s years old, birthday given: "
+"%(birthday)s)"
+msgstr ""
+"Le joueur n'est pas assez vieux (min: %(min)s ans, date d'anniversaire "
+"donnée: %(birthday)s)"
+
+#: models/player.py:58 models/team.py:70
+msgid "male"
+msgstr "masculin"
+
+#: models/player.py:59 models/team.py:72
+msgid "female"
+msgstr "féminin"
+
+#: models/player.py:63
+msgid "first name"
+msgstr "prénom"
+
+#: models/player.py:64
+msgid "last name"
+msgstr "nom de famille"
+
+#: models/player.py:65 models/team.py:78
+msgid "sex"
+msgstr "sexe"
+
+#: models/player.py:66
+msgid "birthday"
+msgstr "date d'anniversaire"
+
+#: models/player.py:77
+msgid "players"
+msgstr "joueurs"
+
+#: models/player.py:91
+msgid "not uploaded"
+msgstr "non chargé"
+
+#: models/player.py:92
+msgid "in validation"
+msgstr "en cours de validation"
+
+#: models/player.py:93
+msgid "valid"
+msgstr "valide"
+
+#: models/player.py:94
+msgid "rejected"
+msgstr "rejeté"
+
+#: models/player.py:98
+msgid "file"
+msgstr "fichier"
+
+#: models/player.py:99
+msgid "validation step"
+msgstr "étape de validation"
+
+#: models/player.py:102
+msgid "starting date"
+msgstr "date de début"
+
+#: models/player.py:103
+msgid "ending date"
+msgstr "date de fin"
+
+#: models/player.py:108
+msgid "medical certificate"
+msgstr "certificat médical"
+
+#: models/player.py:109
+msgid "medical certificates"
+msgstr "certificats médicaux"
+
+#: models/team.py:46
+msgid "gold"
+msgstr "or"
+
+#: models/team.py:47
+msgid "silver"
+msgstr "argent"
+
+#: models/team.py:48
+msgid "bronze"
+msgstr "bronze"
+
+#: models/team.py:51
+msgid "hard"
+msgstr "hard"
+
+#: models/team.py:52
+msgid "medium"
+msgstr "medium"
+
+#: models/team.py:53
+msgid "easy"
+msgstr "easy"
+
+#: models/team.py:57
+msgid "elite"
+msgstr "élite"
+
+#: models/team.py:58
+msgid "national 2"
+msgstr "national 2"
+
+#: models/team.py:59
+msgid "regional 1"
+msgstr "pré-national"
+
+#: models/team.py:60
+msgid "regional 2"
+msgstr "régionale 2"
+
+#: models/team.py:61
+msgid "regional 3"
+msgstr "régional 3"
+
+#: models/team.py:62
+msgid "departemental"
+msgstr "départemental"
+
+#: models/team.py:63
+msgid "under 20"
+msgstr "moins de 20 ans"
+
+#: models/team.py:64
+msgid "under 17"
+msgstr "moins de 17 ans"
+
+#: models/team.py:65
+msgid "under 15"
+msgstr "moins de 15 ans"
+
+#: models/team.py:66
+msgid "under 13"
+msgstr "moins de 13 ans"
+
+#: models/team.py:71
+msgid "mixed"
+msgstr "mixte"
+
+#: models/team.py:77
+msgid "level"
+msgstr "niveau"
+
+#: models/team.py:83
+msgid "trainer"
+msgstr "entraineur(euse)"
+
+#: models/team.py:84
+msgid "competition URL"
+msgstr "URL du championnat"
+
+#: models/team.py:87
+msgid "is recruting"
+msgstr "recrute"
+
+#: models/team.py:96 models/team.py:147
+msgid "team"
+msgstr "équipe"
+
+#: models/team.py:133
+msgid "monday"
+msgstr "lundi"
+
+#: models/team.py:134
+msgid "tuesday"
+msgstr "mardi"
+
+#: models/team.py:135
+msgid "wednesday"
+msgstr "mercredi"
+
+#: models/team.py:136
+msgid "thursday"
+msgstr "jeudi"
+
+#: models/team.py:137
+msgid "friday"
+msgstr "vendredi"
+
+#: models/team.py:138
+msgid "saturday"
+msgstr "samedi"
+
+#: models/team.py:139
+msgid "sunday"
+msgstr "dimanche"
+
+#: models/team.py:142
+msgid "practice"
+msgstr "entraînement"
+
+#: models/team.py:143
+msgid "match"
+msgstr "match"
+
+#: models/team.py:146
+msgid "type"
+msgstr "type"
+
+#: models/team.py:149
+msgid "day"
+msgstr "jour"
+
+#: models/team.py:150 models/team.py:151
+msgid "starting time"
+msgstr "heure de début"
+
+#: models/team.py:161
+msgid "time slot"
+msgstr "créneau horaire"
+
+#: models/team.py:162
+msgid "time slots"
+msgstr "créneaux horaire"
+
+#~ msgid "Male"
+#~ msgstr "Masculin"

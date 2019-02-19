@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+
+{% load crispy_forms_tags %}
+
+{% block path %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-list' user.username %}">My players</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Creation</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block page_title %}
+  Creation of a new player
+{% endblock %}
+
+{% block content %}
+  <form action="." method="post">
+    {% csrf_token %}
+{% comment %}
+    <h5>Player informations</h5>
+    {% for field in player_form %}
+      {% if forloop.first %}
+        <div class="form-row">
+      {% endif %}
+
+        <div class="col-6">{{ field|as_crispy_field }}</div>
+
+      {% if forloop.last %}
+        </div>
+      {% elif forloop.counter|divisibleby:2 %}
+        </div><div class="form-row">
+      {% endif %}
+    {% endfor %}
+
+    <h5>Medical certificate</h5>
+    {% for field in certificate_form %}
+      {% if forloop.first %}
+        <div class="form-row">
+      {% endif %}
+
+        <div class="col-6">{{ field|as_crispy_field }}</div>
+
+      {% if forloop.last %}
+        </div>
+      {% elif forloop.counter|divisibleby:2 %}
+        </div><div class="form-row">
+      {% endif %}
+    {% endfor %}
+  
+    <h5>Emergency contact</h5>
+    {% for field in emergency_form %}
+      {% if forloop.first %}
+        <div class="form-row">
+      {% endif %}
+
+        <div class="col-6">{{ field|as_crispy_field }}</div>
+
+      {% if forloop.last %}
+        </div>
+      {% elif forloop.counter|divisibleby:2 %}
+        </div><div class="form-row">
+      {% endif %}
+    {% endfor %}
+{% endcomment %}
+
+    {% crispy player_form %}
+    {% crispy certificate_form %}
+    {% crispy emergency_form %}
+    <button type="submit" class="btn btn-primary">Submit"</button>
+    <button type="reset" class="btn btn-warning">Reset"</button>
+  </form>
+{% endblock %}

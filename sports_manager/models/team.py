@@ -8,7 +8,7 @@ import os
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.text import slugify
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 
 # Current django project
 from markdownx.models import MarkdownxField
@@ -43,47 +43,48 @@ class Team(models.Model):
 
     LEVELS = (
         ('FSGT 6x6', (
-            ("GOL", _('Gold')),
-            ("SIL", _('Silver')),
-            ("BRO", _('Bronze')),
+            ("GOL", _('gold')),
+            ("SIL", _('silver')),
+            ("BRO", _('bronze')),
         )),
         ('FSGT 4x4', (
-            ("HAR", _('Hard')),
-            ("MED", _('Medium')),
-            ("EAS", _('Easy')),
+            ("HAR", _('hard')),
+            ("MED", _('medium')),
+            ("EAS", _('easy')),
         )),
         ('FFVB', (
             # Female
-            ("N1", _('Elite')),
-            ("N2", _('National 2')),
-            ("R1", _('Regional 1')),
-            ("R2", _('Regional 2')),
-            ("R3", _('Regional 3')),
-            ("DEP", _('Departemental')),
-            ("U20", _('Under 20')),
-            ("U17", _('Under 17')),
-            ("U15", _('Under 15')),
-            ("U13", _('Under 13')),
+            ("N1", _('elite')),
+            ("N2", _('national 2')),
+            ("R1", _('regional 1')),
+            ("R2", _('regional 2')),
+            ("R3", _('regional 3')),
+            ("DEP", _('departemental')),
+            ("U20", _('under 20')),
+            ("U17", _('under 17')),
+            ("U15", _('under 15')),
+            ("U13", _('under 13')),
         ))
     )
     SEXES = (
-        ('MA', _('Male')),
-        ('MI', _('Mixed')),
-        ('FE', _('Female'))
+        ('MA', _('male')),
+        ('MI', _('mixed')),
+        ('FE', _('female'))
     )
-    slug = models.SlugField(_("team slug"), unique=True, max_length=128, null=True)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
-    name = models.CharField(_("team name"), unique=True, max_length=128)
-    level = models.CharField(_("team level"), max_length=4, choices=LEVELS)
-    sex = models.CharField(_("team sex"), max_length=2, choices=SEXES)
+    slug = models.SlugField(_("slug"), unique=True, max_length=128, null=True)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='category')
+    name = models.CharField(_("name"), unique=True, max_length=128)
+    level = models.CharField(_("level"), max_length=4, choices=LEVELS)
+    sex = models.CharField(_("sex"), max_length=2, choices=SEXES)
     trainer = models.ForeignKey(get_user_model(),
                                 on_delete=models.CASCADE,
                                 blank=True,
-                                null=True)
-    url = models.URLField(_("team competition URL"))
-    description = MarkdownxField(_('team description'))
-    img = models.ImageField(_('team img'), storage=OverwriteStorage(), upload_to=image_upload_to, blank=True)
-    is_recruiting = models.BooleanField(_('team recruitement'))
+                                null=True,
+                                verbose_name=_('trainer'))
+    url = models.URLField(_("competition URL"))
+    description = MarkdownxField(_('description'))
+    img = models.ImageField(_('image'), storage=OverwriteStorage(), upload_to=image_upload_to, blank=True)
+    recrutment = models.BooleanField(_('is recruting'))
 
     def __str__(self):
         """String representation."""
@@ -97,6 +98,7 @@ class Team(models.Model):
         ordering = ("sex", "level", "name")
     
     def save(self, *args, **kwargs):
+        """Override the save method in order to rewrite the slug field each time we save the object."""
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
@@ -106,7 +108,7 @@ class Team(models.Model):
 
     def get_training_days(self):
         """Get the list of training days ordered by day."""
-        return self.training_set.order_by("day")
+        return self.training_set.all()
 
     def get_players(self):
         """Get the list of teamates of the team."""
@@ -128,25 +130,25 @@ class TimeSlot(models.Model):
     MATCH = 1
 
     DAYS_OF_WEEK = (
-        (MONDAY, _('Monday')),
-        (TUESDAY, _('Tuesday')),
-        (WEDNESDAY, _('Wednesday')),
-        (THURSDAY, _('Thursday')),
-        (FRIDAY, _('Friday')),
-        (SATURDAY, _('Saturday')),
-        (SUNDAY, _('Sunday')),
+        (MONDAY, _('monday')),
+        (TUESDAY, _('tuesday')),
+        (WEDNESDAY, _('wednesday')),
+        (THURSDAY, _('thursday')),
+        (FRIDAY, _('friday')),
+        (SATURDAY, _('saturday')),
+        (SUNDAY, _('sunday')),
     )
     TYPE_PRACTICE = (
-        (PRACTICE, _('Practice')),
-        (MATCH, _('Match')),
+        (PRACTICE, _('practice')),
+        (MATCH, _('match')),
     )
 
     type = models.PositiveSmallIntegerField(_("type"), choices=TYPE_PRACTICE)
-    team = models.ForeignKey('Team', on_delete=models.CASCADE)
-    gymnasium = models.ForeignKey('Gymnasium', on_delete=models.CASCADE)
+    team = models.ForeignKey('Team', on_delete=models.CASCADE, verbose_name=_('team'))
+    gymnasium = models.ForeignKey('Gymnasium', on_delete=models.CASCADE, verbose_name=_('gymnasium'))
     day = models.PositiveSmallIntegerField(_("day"), choices=DAYS_OF_WEEK)
     start = models.TimeField(_("starting time"))
-    end = models.TimeField(_("starting time"))
+    end = models.TimeField(_("ending time"))
     # gymnasium = models.ForeignKey('dj_gymnasiums.Gymnasium', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -157,4 +159,5 @@ class TimeSlot(models.Model):
         """Meta class."""
 
         verbose_name = _("time slot")
+        verbose_name_plural = _("time slots")
         ordering = ("day", "start", "end")

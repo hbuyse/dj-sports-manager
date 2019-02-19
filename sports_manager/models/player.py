@@ -3,11 +3,14 @@
 # Standard library
 import logging
 import os
+from datetime import date, timedelta
 
 # Django
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 
 # Current django project
 from markdownx.models import MarkdownxField
@@ -45,18 +48,20 @@ def file_upload_to(instance, filename):
 MIN_AGE = 6
 
 def is_player_old_enough(birthday):
-    if birthday < (date.today() - timedelta(weeks=MIN_AGE*52)):
-        raise ValidationError(_("Player is not old enough (min: %(min)s years old, birthday given: %(birthday)s"),
+    if birthday > (date.today() - timedelta(weeks=MIN_AGE*52)):
+        raise ValidationError(_("Player is not old enough (min: %(min)s years old, birthday given: %(birthday)s)"),
                               params={'min': MIN_AGE, "birthday": birthday}
         )
 
 class Player(models.Model):
     """Player model
+
+    TODO: Link with an urgence contact.
     """
 
     SEXES = (
-        ('MA', _('Male')),
-        ('FE', _('Female'))
+        ('MA', _('male')),
+        ('FE', _('female'))
     )
 
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
@@ -74,6 +79,7 @@ class Player(models.Model):
         """Meta class."""
 
         verbose_name = _("player")
+        verbose_name_plural = _("players")
         ordering = ("last_name", "first_name")
 
 
@@ -81,23 +87,23 @@ class MedicalCertificate(models.Model):
     """Medical certificate file model
     """
 
-    CERTIFICATION_NOT_UPLOADED = 0
-    CERTIFICATION_IN_VALIDATION = 1
-    CERTIFICATION_VALID = 2
-    CERTIFICATION_REJECTED = 3
+    NOT_UPLOADED = 0
+    IN_VALIDATION = 1
+    VALID = 2
+    REJECTED = 3
 
     CERTIFICATION_STEPS = (
-        (CERTIFICATION_NOT_UPLOADED, _("Certification not uploaded")),
-        (CERTIFICATION_IN_VALIDATION, _("Certification in validation")),
-        (CERTIFICATION_VALID, _("Certification valid")),
-        (CERTIFICATION_REJECTED, _("Certification rejected")),
+        (NOT_UPLOADED, _("not uploaded")),
+        (IN_VALIDATION, _("in validation")),
+        (VALID, _("valid")),
+        (REJECTED, _("rejected")),
     )
 
-    player = models.ForeignKey("Player", on_delete=models.CASCADE)
+    player = models.ForeignKey("Player", on_delete=models.CASCADE, verbose_name=_('player'))
     file = models.FileField(_('file'), upload_to=file_upload_to, null=True)
-    validation = models.PositiveSmallIntegerField(_("validation"),
+    validation = models.PositiveSmallIntegerField(_("validation step"),
                                                   choices=CERTIFICATION_STEPS,
-                                                  default=CERTIFICATION_NOT_UPLOADED)
+                                                  default=NOT_UPLOADED)
     start = models.DateField(_('starting date'), auto_now_add=True)
     end = models.DateField(_('ending date'), null=True)
 
@@ -105,8 +111,32 @@ class MedicalCertificate(models.Model):
         """Meta class."""
 
         verbose_name = _("medical certificate")
+        verbose_name_plural = _("medical certificates")
         ordering = ("player", "start", "validation")
     
     def is_valid(self):
         """Check if the medical certificate is valid."""
         return self.validation == self.CERTIFICATION_VALID
+
+
+class EmergencyContact(models.Model):
+    """Emergency contact linked to a Player."""
+
+    player = models.ForeignKey("Player", on_delete=models.CASCADE, verbose_name=_('player'))
+    first_name = models.CharField(_("first name"), max_length=30)
+    last_name = models.CharField(_("last name"), max_length=150)
+    email = models.EmailField(_("email"), max_length=255)
+    phone = models.CharField(
+        _('phone number'),
+        max_length=10,
+        blank=True,
+        validators=[
+            # ^
+            #     (?:(?:\+|00)33|0)     # Dialing code
+            #     \s*[1-9]              # First number (from 1 to 9)
+            #     (?:[\s.-]*\d{2}){4}   # End of the phone number
+            # $
+            RegexValidator(regex=r"^(?:(?:\+|00)33|0)\s*[1-7,9](?:[\s.-]*\d{2}){4}$",
+                           message=_("This is not a correct phone number"))
+        ]
+    )

@@ -2,22 +2,23 @@
 {% load bootstrap4 %}
 
 {% block path %}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'sports-manager:categories-list' %}">Categories list</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Connexion</li>
-  </ol>
-</nav>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Connexion</li>
+    </ol>
+  </nav>
 {% endblock %}
 
 
 {% block page_title %}
-Connexion
+  Connexion
 {% endblock %}
+
 {% block content %}
-<form method="post">
-  {% csrf_token %}
-  {% bootstrap_form form layout="horizontal" %}
-  {% bootstrap_button "Connexion" button_type="submit" button_class="btn-primary" %}
-</form>
+  <form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form layout="horizontal" %}
+    {% bootstrap_button "Connexion" button_type="submit" button_class="btn-primary" %}
+  </form>
 {% endblock %}

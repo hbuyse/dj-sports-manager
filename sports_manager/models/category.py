@@ -7,8 +7,9 @@ import os
 # Django
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 
 # Current django project
 from markdownx.models import MarkdownxField
@@ -25,6 +26,7 @@ def image_upload_to(instance, filename):
     If the file instance is a Sponsor, the file has to be the logo so it will be uploaded to
         MEDIA_ROOT/sponsors/<sponsor_name>/logo<ext>.
     """
+    logger.debug("Hello!")
     path = None
     basename, ext = os.path.splitext(filename)
     if isinstance(instance, Category):
@@ -57,7 +59,11 @@ class Category(models.Model):
         verbose_name_plural = _("categories")
         ordering = ("name",)
     
+    def get_absolute_url(self):
+        return reverse("sports-manager:category-detail", kwargs={"slug": self.slug})
+    
     def save(self, *args, **kwargs):
+        """Override the save method in order to rewrite the slug field each time we save the object."""
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 

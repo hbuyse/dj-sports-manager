@@ -97,7 +97,7 @@ class TestCategoryUpdateViewAsStaff(TestCase):
         r = self.client.post(reverse('sports-manager:category-delete', kwargs={'slug': self.category.slug}))
 
         self.assertEqual(r.status_code, 302)
-        self.assertEqual(r.url, reverse('sports-manager:categorie-list'))
+        self.assertEqual(r.url, reverse('sports-manager:category-list'))
 
 
 class TestCategoryUpdateViewAsSuperuser(TestCase):
@@ -129,4 +129,4 @@ class TestCategoryUpdateViewAsSuperuser(TestCase):
         r = self.client.post(reverse('sports-manager:category-delete', kwargs={'slug': self.category.slug}))
 
         self.assertEqual(r.status_code, 302)
-        self.assertEqual(r.url, reverse('sports-manager:categorie-list'))
+        self.assertEqual(r.url, reverse('sports-manager:category-list'))

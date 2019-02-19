@@ -13,7 +13,7 @@ class TestUrlsCategory(TestCase):
 
     def test_category_list_url(self):
         """Test the URL of the listing of VCN accounts."""
-        url = reverse('sports-manager:categorie-list')
+        url = reverse('sports-manager:category-list')
         self.assertEqual(url, '/category/')
 
     def test_category_create_url(self):
@@ -135,7 +135,8 @@ class TestUrlsLicense(TestCase):
         """Test the URL of that allows the creation of a VCN account."""
         import django
         with self.assertRaises(django.urls.exceptions.NoReverseMatch):
-            for k, v in {'pk': 123456, 'username': "toto"}:
+            d = {'pk': 123456, 'username': "toto"}
+            for k, v in d.items():
                 url = reverse('sports-manager:license-create', kwargs={k: v})
 
         url = reverse('sports-manager:license-detail', kwargs={'number': 123456, 'username': "toto"})

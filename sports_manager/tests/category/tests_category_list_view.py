@@ -15,7 +15,7 @@ class TestCategoryListViewAsAnonymous(TestCase):
 
     def tests_empty(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:categorie-list'))
+        r = self.client.get(reverse('sports-manager:category-list'))
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['category_list']), 0)
@@ -24,7 +24,7 @@ class TestCategoryListViewAsAnonymous(TestCase):
         """Tests."""
         c = create_category()[1]
 
-        r = self.client.get(reverse('sports-manager:categorie-list'))
+        r = self.client.get(reverse('sports-manager:category-list'))
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['category_list']), 1)
@@ -41,7 +41,7 @@ class TestCategoryListViewAsLogged(TestCase):
     def tests_empty(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:categorie-list'))
+        r = self.client.get(reverse('sports-manager:category-list'))
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['category_list']), 0)
@@ -51,7 +51,7 @@ class TestCategoryListViewAsLogged(TestCase):
         c = create_category()[1]
 
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:categorie-list'))
+        r = self.client.get(reverse('sports-manager:category-list'))
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['category_list']), 1)
@@ -68,7 +68,7 @@ class TestCategoryListViewAsStaff(TestCase):
     def tests_empty(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:categorie-list'))
+        r = self.client.get(reverse('sports-manager:category-list'))
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['category_list']), 0)
@@ -78,7 +78,7 @@ class TestCategoryListViewAsStaff(TestCase):
         c = create_category()[1]
 
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:categorie-list'))
+        r = self.client.get(reverse('sports-manager:category-list'))
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['category_list']), 1)
@@ -95,7 +95,7 @@ class TestCategoryListViewAsSuperuser(TestCase):
     def tests_empty(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:categorie-list'))
+        r = self.client.get(reverse('sports-manager:category-list'))
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['category_list']), 0)
@@ -105,7 +105,7 @@ class TestCategoryListViewAsSuperuser(TestCase):
         c = create_category()[1]
 
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:categorie-list'))
+        r = self.client.get(reverse('sports-manager:category-list'))
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['category_list']), 1)

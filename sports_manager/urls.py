@@ -19,7 +19,7 @@ app_name = 'sports-manager'
 urlpatterns = [
      path("category/",
           view=vcategory.CategoryListView.as_view(),
-          name='categorie-list',
+          name='category-list',
           ),
      path("category/create/",
           view=vcategory.CategoryCreateView.as_view(),
@@ -95,6 +95,10 @@ urlpatterns += [
      path("<str:username>/player/",
           view=vplayer.PlayerListView.as_view(),
           name='player-list',
+          ),
+     path("<str:username>/player/create/",
+          view=vplayer.create_new_player,
+          name='player-create',
           ),
 ]
 

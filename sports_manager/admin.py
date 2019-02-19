@@ -7,10 +7,10 @@ from django.contrib import admin
 
 # Current django project
 import sports_manager
-from sports.models import Category, License, Player, Team, TimeSlot
+# from sports.models import Category, License, Player, Team, TimeSlot
 
 
-@admin.register(sports_manager.category.Category)
+@admin.register(sports_manager.models.category.Category)
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     list_display = (
@@ -19,7 +19,7 @@ class CategoryAdmin(admin.ModelAdmin):
         'max_age'
     )
 
-@admin.register(sports_manager.team.Team)
+@admin.register(sports_manager.models.team.Team)
 class TeamAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     list_display = (
@@ -29,15 +29,15 @@ class TeamAdmin(admin.ModelAdmin):
         'sex'
     )
 
-@admin.register(sports_manager.team.TimeSlot)
+@admin.register(sports_manager.models.team.TimeSlot)
 class TimeSlotAdmin(admin.ModelAdmin):
     list_display = (
         'team',
-        'type_time_slot',
+        'type',
         'day'
     )
 
-@admin.register(sports_manager.player.Player)
+@admin.register(sports_manager.models.player.Player)
 class PlayerAdmin(admin.ModelAdmin):
     list_display = (
         'first_name',
@@ -45,10 +45,39 @@ class PlayerAdmin(admin.ModelAdmin):
         'owner',
     )
 
-@admin.register(sports_manager.license.License)
+@admin.register(sports_manager.models.player.MedicalCertificate)
+class MedicalCertificateAdmin(admin.ModelAdmin):
+    list_display = (
+        'player_first_name',
+        'player_last_name',
+        'start',
+        'validation'
+    )
+
+    def player_first_name(self, obj):
+        return obj.player.first_name
+
+    def player_last_name(self, obj):
+        return obj.player.last_name
+
+@admin.register(sports_manager.models.player.EmergencyContact)
+class EmergencyContactAdmin(admin.ModelAdmin):
+    list_display = (
+        'player_first_name',
+        'player_last_name',
+        'phone',
+    )
+
+    def player_first_name(self, obj):
+        return obj.player.first_name
+
+    def player_last_name(self, obj):
+        return obj.player.last_name
+
+@admin.register(sports_manager.models.license.License)
 class LicenseAdmin(admin.ModelAdmin):
     list_display = (
         'player',
-        'license_number',
+        'number',
         'is_payed',
     )
