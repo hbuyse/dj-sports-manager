@@ -1,0 +1,115 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-02-20 17:54+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: example/settings.py:141
+msgid "English"
+msgstr "Anglais"
+
+#: example/settings.py:142
+msgid "French"
+msgstr "Français"
+
+#: templates/403.html:24
+msgid "Go back"
+msgstr "Retourner en arrière"
+
+#: templates/403.html:25
+msgid "Go to homepage"
+msgstr "Retourner à la page d'accueil"
+
+#: templates/base.html:31 templates/base.html:38
+msgid "sports-manager"
+msgstr ""
+
+#: templates/base.html:48
+msgid "Categories"
+msgstr "Catégories"
+
+#: templates/base.html:53
+msgid "Category"
+msgstr "Category"
+
+#: templates/base.html:56 templates/base.html:67
+msgid "List"
+msgstr "Liste"
+
+#: templates/base.html:58 templates/base.html:69
+msgid "Creation"
+msgstr "Création"
+
+#: templates/base.html:64
+msgid "Team"
+msgstr "Équipe"
+
+#: templates/base.html:77
+msgid "Login"
+msgstr "Connexion"
+
+#: templates/base.html:91
+msgid "Admin"
+msgstr "Administration"
+
+#: templates/base.html:94
+msgid "My players"
+msgstr "Mes joueurs"
+
+#: templates/base.html:95
+msgid "Licenses"
+msgstr "Licences"
+
+#: templates/base.html:97
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: templates/base.html:116
+msgid "Page title"
+msgstr "Titre de la page"
+
+#: templates/home.html:8 templates/home.html:15
+msgid "Home"
+msgstr "Accueil"
+
+#: templates/home.html:21
+msgid "Welcome to the Volley-ball Club of Nogent-Sur-Marne website"
+msgstr "Bienvenue sur le site web du club de volley-ball de Nogent-Sur-Marne "
+
+#: templates/sports_manager/player_list.html:35
+msgid "First name"
+msgstr "Prénom"
+
+#: templates/sports_manager/player_list.html:36
+msgid "Last name"
+msgstr "Nom de famille"
+
+#: templates/sports_manager/player_list.html:37
+msgid "Medical certificate validation"
+msgstr "Validation du certificat médical"
+
+#: templates/sports_manager/player_list.html:39
+msgid "Links"
+msgstr "Liens"
+
+#: templates/sports_manager/player_list.html:54
+msgid "Update"
+msgstr "Mettre à jour"
+
+#: templates/sports_manager/player_list.html:57
+msgid "Delete"
+msgstr "Supprimer"
