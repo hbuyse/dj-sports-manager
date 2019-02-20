@@ -19,16 +19,24 @@
 {% endblock %}
 
 {% block content %}
-  <form action="{% url 'sports-manager:player-create' user.username %}" method="post">
+  <form  method="post" enctype="multipart/form-data">
     {% csrf_token %}
-{% comment %}
     <h5>Player informations</h5>
     {% for field in player_form %}
       {% if forloop.first %}
         <div class="form-row">
       {% endif %}
 
-        <div class="col-6">{{ field|as_crispy_field }}</div>
+        <div class="col-6">
+          {% if field.errors %}
+            <ol>
+            {% for error in field.errors %}
+                <li><strong>{{ error|escape }}</strong></li>
+            {% endfor %}
+            </ol>
+        {% endif %}
+        {{ field|as_crispy_field }}
+        </div>
 
       {% if forloop.last %}
         </div>
@@ -38,12 +46,22 @@
     {% endfor %}
 
     <h5>Medical certificate</h5>
+    {{ certificate_form|as_crispy_errors }}
     {% for field in certificate_form %}
       {% if forloop.first %}
         <div class="form-row">
       {% endif %}
 
-        <div class="col-6">{{ field|as_crispy_field }}</div>
+      <div class="col-6">
+        {% if field.errors %}
+          <ol>
+          {% for error in field.errors %}
+              <li><strong>{{ error|escape }}</strong></li>
+          {% endfor %}
+          </ol>
+        {% endif %}
+        {{ field|as_crispy_field }}
+      </div>
 
       {% if forloop.last %}
         </div>
@@ -66,18 +84,8 @@
         </div><div class="form-row">
       {% endif %}
     {% endfor %}
-{% endcomment %}
 
-    {{ player_form.as_p }}
-    <br/>
-    <br/>
-    <br/>
-    {{ certificate_form.as_p }}
-    <br/>
-    <br/>
-    <br/>
-    {{ emergency_form.as_p }}
-    <button type="submit" class="btn btn-primary">Submit"</button>
-    <button type="reset" class="btn btn-warning">Reset"</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="reset" class="btn btn-warning">Reset</button>
   </form>
 {% endblock %}

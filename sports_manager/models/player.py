@@ -33,15 +33,14 @@ def file_upload_to(instance, filename):
     path = None
     basename, ext = os.path.splitext(filename)
     if isinstance(instance, MedicalCertificate):
-        path = os.path.join('licenses',
-                            instance.owner.get_username().lower(),
-                            "{team}_{fn}_{ln}".format(team=instance.team.slug.lower(),
-                                                      fn=instance.first_name.lower(),
-                                                      ln=instance.last_name.lower(),
-                                                      ),
-                            '{}_medical_certificate'.format(ext))
+        path = os.path.join(instance.player.owner.get_username().lower(),
+                            "{fn}_{ln}".format(fn=instance.player.first_name.lower(),
+                                               ln=instance.player.last_name.lower(),
+                            ),
+                            str(date.today().year),
+                            'medical_certificate{ext}'.format(ext=ext))
 
-    logger.info("Image {filename} saved in {path}".format(path=path, filename=filename))
+    logger.info("Medical certificate {filename} saved in {path}".format(path=path, filename=filename))
 
     return path
 
@@ -100,12 +99,13 @@ class MedicalCertificate(models.Model):
     )
 
     player = models.ForeignKey("Player", on_delete=models.CASCADE, verbose_name=_('player'))
-    file = models.FileField(_('file'), upload_to=file_upload_to, null=True)
+    file = models.FileField(_('file'), upload_to=file_upload_to, blank=True)
     validation = models.PositiveSmallIntegerField(_("validation step"),
                                                   choices=CERTIFICATION_STEPS,
                                                   default=NOT_UPLOADED)
     start = models.DateField(_('starting date'), auto_now_add=True)
     end = models.DateField(_('ending date'), null=True)
+    created = models.DateTimeField(_('creation date'), auto_now_add=True)
 
     class Meta:
         """Meta class."""
@@ -125,11 +125,10 @@ class EmergencyContact(models.Model):
     player = models.ForeignKey("Player", on_delete=models.CASCADE, verbose_name=_('player'))
     first_name = models.CharField(_("first name"), max_length=30)
     last_name = models.CharField(_("last name"), max_length=150)
-    email = models.EmailField(_("email"), max_length=255)
+    email = models.EmailField(_("email"), max_length=255, blank=True)
     phone = models.CharField(
         _('phone number'),
         max_length=10,
-        blank=True,
         validators=[
             # ^
             #     (?:(?:\+|00)33|0)     # Dialing code

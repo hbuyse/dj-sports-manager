@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+{% load staticfiles %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">My players</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+  My players
+{% endblock %}
+
+{% block page_title_buttons %}
+  {% if user.is_authenticated %} 
+    <div class="btn-group float-right" role="group" aria-label="Basic example">
+      <a class="btn btn-primary" href="{% url 'sports-manager:player-create' user.username %}">New player</a>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="list-group">
+  {% for player in player_list %}
+    {% comment %} <a href="{% url 'sports-manager:player-detail' player.owner.get_username player.pk %}" class="list-group-item list-group-item-action flex-column align-items-start"> {% endcomment %}
+      <div class="d-flex row">
+        <div class="col-md-9 align-self-center">
+          <p class="mb-1">{{ player.first_name }} {{ player.last_name }}</p>
+        </div>
+      </div>
+    {% comment %} </a> {% endcomment %}
+  {% empty %}
+    <p>No player listed yet...</p>
+  {% endfor %}
+  </div>
+{% endblock %}

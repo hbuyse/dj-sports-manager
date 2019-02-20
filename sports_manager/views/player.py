@@ -8,6 +8,7 @@ import logging
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
@@ -84,7 +85,7 @@ class PlayerCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def get_success_url(self):
         """Get the URL after the success."""
         messages.success(self.request, "Player '{}' added successfully".format(self.object.name))
-        return reverse('sports-manager:category-detail', kwargs={'slug': self.object.slug})
+        return reverse('sports-manager:player-detail', kwargs={'slug': self.object.slug})
 
 
 class PlayerUpdateView(UpdateView):
@@ -110,7 +111,7 @@ class PlayerUpdateView(UpdateView):
     def get_success_url(self):
         """Get the URL after the success."""
         messages.success(self.request, "Player '{}' updated successfully".format(self.object.name))
-        return reverse('sports-manager:category-detail', kwargs={'slug': self.object.slug})
+        return reverse('sports-manager:player-detail', kwargs={'slug': self.object.slug})
 
 
 class PlayerDeleteView(DeleteView):
@@ -135,19 +136,21 @@ class PlayerDeleteView(DeleteView):
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
         messages.success(self.request, "Player '{}' deleted successfully".format(self.object.name))
-        return reverse('sports-manager:category-list')
+        return reverse('sports-manager:player-list')
 
 
 def create_new_player(request, username):
     """Check http://www.joshuakehn.com/2013/7/18/multiple-django-forms-in-one-form.html."""
     if request.POST:
-        logging.debug("Receive post")
+        logger.debug("Receive post")
         player_form = PlayerCreationForm(request.POST, prefix="player")
-        emergency_form = EmergencyContactForm(request.POST, request.FILES, prefix="emergency")
-        certificate_form = MedicalCertificateForm(request.POST, prefix="certif")
-
+        emergency_form = EmergencyContactForm(request.POST, prefix="emergency")
+        certificate_form = MedicalCertificateForm(request.POST, request.FILES, prefix="certif")
+    
         if player_form.is_valid() and emergency_form.is_valid() and certificate_form.is_valid():
-            player = player_form.save()
+            player = player_form.save(commit=False)
+            player.owner = request.user
+            player.save()
             emergency_contact = emergency_form.save(commit=False)
             emergency_contact.player = player
             emergency_contact.save()
@@ -155,8 +158,7 @@ def create_new_player(request, username):
             medical_certificate.player = player
             medical_certificate.save()
 
-            return reverse('sports-manager:category-list')
-
+            return HttpResponseRedirect(reverse('sports-manager:player-list', kwargs={'username': request.user.username}))
     else:
         player_form = PlayerCreationForm(prefix="player")
         emergency_form = EmergencyContactForm(prefix="emergency")
