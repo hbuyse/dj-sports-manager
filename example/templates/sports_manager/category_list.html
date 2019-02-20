@@ -6,14 +6,14 @@
 {% block path %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Categories</li>
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Categories" %}</li>
     </ol>
   </nav>
 {% endblock %}
 
 {% block page_title %}
-  Categories
+  {% trans "Categories" %}
 {% endblock %}
 
 {% block content %}
@@ -34,7 +34,7 @@
         </div>
       </a>
     {% empty %}
-      <p>No category listed yet...</p>
+      <p>{% trans "No category listed yet" %}...</p>
     {% endfor %}
     </div>
   </div>

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load bootstrap4 %}
+{% load i18n %}
 {% load staticfiles %}
 
 {% block path %}
@@ -17,9 +18,9 @@
 {% endblock %}
 
 {% block page_title_buttons %}
-  {% if user.is_authenticated %} 
+  {% if user.is_authenticated and user == player.owner %}
     <div class="btn-group float-right" role="group" aria-label="Basic example">
-      <a class="btn btn-primary" href="{% url 'sports-manager:player-create' user.username %}">New player</a>
+      <a class="btn btn-primary" href="{% url 'sports-manager:player-create' user.get_username %}">New player</a>
     </div>
   {% endif %}
 {% endblock %}
@@ -27,13 +28,43 @@
 {% block content %}
   <div class="list-group">
   {% for player in player_list %}
-    {% comment %} <a href="{% url 'sports-manager:player-detail' player.owner.get_username player.pk %}" class="list-group-item list-group-item-action flex-column align-items-start"> {% endcomment %}
-      <div class="d-flex row">
-        <div class="col-md-9 align-self-center">
-          <p class="mb-1">{{ player.first_name }} {{ player.last_name }}</p>
-        </div>
-      </div>
-    {% comment %} </a> {% endcomment %}
+    {% if forloop.first %}
+      <table class="table table-hover" id="myTable">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">{% trans "First name" %}</th>
+            <th scope="col">{% trans "Last name" %}</th>
+            <th scope="col">{% trans "Medical certificate validation" %}</th>
+            {% if user.is_authenticated and user == player.owner %}
+              <th scope="col">{% trans "Links" %}</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+    {% endif %}
+
+          <tr>
+            <td>{{ player.first_name }}</td>
+            <td>{{ player.last_name }}</td>
+            <td>{{ player.get_last_medical_certificate.get_validation_display }}</td>
+            {% if user.is_authenticated and user == player.owner %}
+              <td>
+                <div class="btn-group btn-group-sm float-right" role="group">
+                  {% if perms.breakfasts.change_breakfast %}
+                    <a class="btn btn-primary" href="#">{% trans "Update" %}</a>
+                  {% endif %}
+                  {% if perms.breakfasts.delete_breakfast %}
+                    <a class="btn btn-danger" href="#">{% trans "Delete" %}</a>
+                  {% endif %}
+                </div>
+              </td>
+            {% endif %}
+          </tr>
+
+    {% if forloop.last %}
+        </tbody>
+      </table>
+    {% endif %}
   {% empty %}
     <p>No player listed yet...</p>
   {% endfor %}

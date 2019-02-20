@@ -87,7 +87,7 @@ urlpatterns += [
           view=vlicense.LicenseCreateView.as_view(),
           name='license-create',
           ),
-     path("<str:username>/license/<int:number>/",
+     path("<str:username>/license/<int:pk>/",
           view=vlicense.LicenseDetailView.as_view(),
           name='license-detail',
           ),

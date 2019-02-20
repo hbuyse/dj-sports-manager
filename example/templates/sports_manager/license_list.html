@@ -18,8 +18,8 @@
 
 {% block page_title_buttons %}
   {% if user.is_authenticated %} 
-    <div class="btn-group float-right" role="group" aria-label="Basic example">
-      <a class="btn btn-primary" href="{% url 'sports-manager:license-create' user.username %}">New license</a>
+    <div class="btn-group float-right" role="group">
+      <a class="btn btn-primary" href="{% url 'sports-manager:license-create' user.get_username %}">New license</a>
     </div>
   {% endif %}
 {% endblock %}
@@ -27,12 +27,12 @@
 {% block content %}
   <div class="list-group">
   {% for license in license_list %}
-    <a href="{% url 'sports-manager:license-detail' license.owner.get_username license.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
+    <a href="{% url 'sports-manager:license-detail' license.player.owner.get_username license.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
       <div class="d-flex row">
         <div class="col-md-9 align-self-center">
-          <h5 class="mb-1">{{ license.first_name }} {{ license.last_name }}</h5>
+          <h5 class="mb-1">{{ license.player.first_name }} {{ license.player.last_name }}</h5>
           <p class="mb-1">
-            {{ license.team.category.name }} - {{ license.team.name }}
+            {{ license.teams }} - {{ license.team.name }}
             {% if license.license_number %}
              - {{ license.license_number }}
             {% endif %}

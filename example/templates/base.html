@@ -1,13 +1,15 @@
+{# Load the static files library #}
+{% load static %}
+{% load i18n %}
+
+{# Load the tag library #}
+{% load bootstrap4 %}
+{% load icons %}
+
 <!DOCTYPE html>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-
-        {# Load the static files library #}
-        {% load static %}
-
-        {# Load the tag library #}
-        {% load bootstrap4 %}
 
         {# Load Bootstrap4 CSS#}
         {% bootstrap_css %}
@@ -26,14 +28,14 @@
         <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
 
 
-        <title>{% block title %}sports-manager{% endblock %}</title>
+        <title>{% block title %}{% trans "sports-manager" %}{% endblock %}</title>
     </head>
     <body content="text/html" class="bs-docs-home">
 
         {# Add the bootstrapped navbar #}
         <header class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
           <a class="navbar-brand" href="#">
-            sports-manager
+            {% trans "sports-manager" %}
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#DjVcnAccountsNavbarSupportedContent" aria-controls="DjVcnAccountsNavbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -41,32 +43,44 @@
 
           <div class="collapse navbar-collapse" id="DjVcnAccountsNavbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Category
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="{% url 'sports-manager:category-list' %}">List</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{% url 'sports-manager:category-create' %}">Creation</a>
-                </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Team
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="{% url 'sports-manager:team-list' %}">List</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{% url 'sports-manager:team-create' %}">Creation</a>
-                </div>
-              </li>
+              {% if not user.is_staff %}
+                <li class="nav-item">
+                  <a class="nav-link" href="#">{% trans "Categories" %}</a>
+                </li>
+              {% else %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% trans "Categories" %}
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="{% url 'sports-manager:category-list' %}">{% trans "List" %}</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'sports-manager:category-create' %}">{% trans "Creation" %}</a>
+                  </div>
+                </li>
+              {% endif %}
+              {% if not user.is_staff %}
+                <li class="nav-item">
+                  <a class="nav-link" href="#">{% trans "Teams" %}</a>
+                </li>
+              {% else %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% trans "Teams" %}
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="{% url 'sports-manager:team-list' %}">{% trans "List" %}</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'sports-manager:team-create' %}">{% trans "Creation" %}</a>
+                  </div>
+                </li>
+              {% endif %}
             </ul>
             <ul class="navbar-nav navbar-right">
               {% if not user.is_authenticated %}
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'login' %}">
-                    Login
+                    {% trans "Login" %}
                   </a>
                 </li> 
               {% else %}
@@ -80,12 +94,13 @@
                   </a>
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                     {% if user.is_staff %}
-                      <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
+                      <a class="dropdown-item" href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
                       <div class="dropdown-divider"></div>
                     {% endif %}
-                    <a class="dropdown-item" href="{% url 'sports-manager:license-list' user.get_username %}">Licenses</a>
+                    <a class="dropdown-item" href="{% url 'sports-manager:player-list' username=user.get_username %}">{% icon 'users' %} {% trans "My players" %}</a>
+                    <a class="dropdown-item" href="{% url 'sports-manager:license-list' user.get_username %}">{% icon 'folder' %} {% trans "Licenses" %}</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'logout' %}">{% trans "Logout" %}</a>
                   </div>
                 </li>
               {% endif %}
@@ -104,7 +119,7 @@
                     {% block path %}<p> </p>{% endblock %}
                     <h1>
                       {% block page_title %}
-                        Page title
+                        {% trans "Page title" %}%
                       {% endblock %}
                       <div class="btn-group float-right" role="group">
                         {% block page_title_buttons %}
@@ -115,7 +130,6 @@
                 </main>
             </div>
         </div>
-
 
         {# Load Bootstrap JavaScript #}
         {% bootstrap_javascript jquery='full' %}

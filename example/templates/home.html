@@ -1,22 +1,26 @@
 {% extends "base.html" %}
-{% load bootstrap4 %}
+{% load i18n %}
 
 
 {% block path %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item active" aria-current="page">Home</li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Home" %}</li>
     </ol>
   </nav>
 {% endblock %}
 
+
 {% block page_title %}
-  Home
+  {% trans "Home" %}
 {% endblock %}
 
-{% block page_title_buttons %}
-{% endblock %}
 
 {% block content %}
-Use the dropdowns that are above.
+  <div class="jumbotron">
+    <h1 class="display-4">{% trans "Welcome to the Volley-ball Club of Nogent-Sur-Marne website" %}</h1>
+    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+    <hr class="my-4">
+    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+  </div>
 {% endblock %}

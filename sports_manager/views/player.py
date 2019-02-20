@@ -32,7 +32,7 @@ def test_user_superuser(request):
 
 def test_user_own_page(request, kwargs, field_to_test):
     """Test if the user logged in owned the page asked to be accessed."""
-    return request.user.username == kwargs.get(field_to_test) 
+    return request.user.get_username() == kwargs.get(field_to_test) 
 
 
 def test_access_private_page(request, kwargs, field_to_test):
@@ -158,7 +158,7 @@ def create_new_player(request, username):
             medical_certificate.player = player
             medical_certificate.save()
 
-            return HttpResponseRedirect(reverse('sports-manager:player-list', kwargs={'username': request.user.username}))
+            return HttpResponseRedirect(reverse('sports-manager:player-list', kwargs={'username': request.user.get_username()}))
     else:
         player_form = PlayerCreationForm(prefix="player")
         emergency_form = EmergencyContactForm(prefix="emergency")

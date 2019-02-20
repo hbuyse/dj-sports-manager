@@ -7,7 +7,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-      <li class="breadcrumb-item" aria-current="page"><a href="{% url 'sports-manager:license-list' license.owner.get_username %}">Licenses</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a href="{% url 'sports-manager:license-list' license.player.owner.get_username %}">Licenses</a></li>
       <li class="breadcrumb-item active" aria-current="page">{{ license }}</li>
     </ol>
   </nav>
@@ -25,27 +25,27 @@
 {% endblock %}
 
 {% block page_title %}
-  {{ license }}
+  {{ license.player }}
 {% endblock %}
 
 {% block content %}
   <div class="row">
-    <div class="col-2">First name:</div><div class="col-10">{{ license.first_name }}</div>
+    <div class="col-2">First name:</div><div class="col-10">{{ license.player.first_name }}</div>
   </div>
   <div class="row">
-    <div class="col-2">Last name:</div><div class="col-10">{{ license.last_name }}</div>
+    <div class="col-2">Last name:</div><div class="col-10">{{ license.player.last_name }}</div>
   </div>
   <div class="row">
-    <div class="col-2">Team:</div><div class="col-10">{{ license.team.name }}</div>
+    <div class="col-2">Team:</div><div class="col-10">{{ license.teams }}</div>
   </div>
   <div class="row">
-    <div class="col-2">Owner:</div><div class="col-10">{{ license.owner }}</div>
+    <div class="col-2">Owner:</div><div class="col-10">{{ license.player.owner }}</div>
   </div>
   <div class="row">
-    <div class="col-2">Sex:</div><div class="col-10">{{ license.get_sex_display }}</div>
+    <div class="col-2">Sex:</div><div class="col-10">{{ license.player.get_sex_display }}</div>
   </div>
   <div class="row">
-    <div class="col-2">Birthday:</div><div class="col-10">{{ license.birthday }}</div>
+    <div class="col-2">Birthday:</div><div class="col-10">{{ license.player.birthday }}</div>
   </div>
   {% if license.license_number %}
     <div class="row">

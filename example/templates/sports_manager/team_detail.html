@@ -26,8 +26,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="alert {% if team.is_recruiting %}alert-success{% else %}alert-warning{% endif %}" role="alert">
-      This team is {% if not team.is_recruiting %}not{% endif %} recruiting players.
+    <div class="alert {% if team.recrutment %}alert-success{% else %}alert-warning{% endif %}" role="alert">
+      This team is {% if not team.recrutment %}not{% endif %} recruiting players.
     </div>
   {% if team.img %}
     <img src="{{ team.img.url }}" alt="{{ team.name }} image" />

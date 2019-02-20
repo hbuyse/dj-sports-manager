@@ -22,15 +22,9 @@ logger = logging.getLogger(__name__)
 
 def file_upload_to(instance, filename):
     """Callback to create the path where to store the files.
-
-    If the file instance is a Sponsor, the file has to be the logo so it will be uploaded to
-        MEDIA_ROOT/sponsors/<sponsor_name>/logo<ext>.
-    If the file instance is a SponsorImage, the file has to be an image so it will be uploaded to
-        MEDIA_ROOT/sponsors/<sponsor_name>/images/<filename>.
-    If the file instance is a SponsorFile, the file has to be a file so it will be uploaded to
-        MEDIA_ROOT/sponsors/<sponsor_name>/files/<filename>.
+    
+    result: 
     """
-    path = None
     basename, ext = os.path.splitext(filename)
     if isinstance(instance, MedicalCertificate):
         path = os.path.join(instance.player.owner.get_username().lower(),
@@ -39,8 +33,7 @@ def file_upload_to(instance, filename):
                             ),
                             str(date.today().year),
                             'medical_certificate{ext}'.format(ext=ext))
-
-    logger.info("Medical certificate {filename} saved in {path}".format(path=path, filename=filename))
+        logger.info("Medical certificate {filename} saved in {path}".format(path=path, filename=filename))
 
     return path
 
@@ -80,6 +73,10 @@ class Player(models.Model):
         verbose_name = _("player")
         verbose_name_plural = _("players")
         ordering = ("last_name", "first_name")
+    
+    def get_last_medical_certificate(self):
+        """Retrieve the last medical certificate uploaded."""
+        return self.medicalcertificate_set.last()
 
 
 class MedicalCertificate(models.Model):
@@ -102,7 +99,8 @@ class MedicalCertificate(models.Model):
     file = models.FileField(_('file'), upload_to=file_upload_to, blank=True)
     validation = models.PositiveSmallIntegerField(_("validation step"),
                                                   choices=CERTIFICATION_STEPS,
-                                                  default=NOT_UPLOADED)
+                                                  default=NOT_UPLOADED,
+                                                  blank=False)
     start = models.DateField(_('starting date'), auto_now_add=True)
     end = models.DateField(_('ending date'), null=True)
     created = models.DateTimeField(_('creation date'), auto_now_add=True)

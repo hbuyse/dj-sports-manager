@@ -8,7 +8,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-list' user.username %}">My players</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-list' user.get_username %}">My players</a></li>
     <li class="breadcrumb-item active" aria-current="page">Creation</li>
   </ol>
 </nav>
