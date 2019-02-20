@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block path %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">403</li>
+  </ol>
+</nav>
+{% endblock %}
+
+
+{% block page_title %}
+  Permission denied
+{% endblock %}
+
+
+{% block content %}
+  <p>You do not have the rights to watch this page.</p>
+
+  <form>
+    <button type="button" class="btn btn-primary" onclick="history.back()">{% trans "Go back" %}</button>
+    <a href="{% url 'home' %}" class="btn btn-primary" role="button">{% trans "Go to homepage" %}</a>
+  </form>
+{% endblock %}

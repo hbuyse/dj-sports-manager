@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block path %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">404</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block page_title %}
+  Not found
+{% endblock %}
+
+{% block content %}
+  The page does not exist...
+
+  <form>
+    <input type="button" value="Go back!" onclick="history.back()">
+  </form>
+{% endblock %}
