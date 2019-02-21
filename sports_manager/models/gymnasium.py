@@ -46,6 +46,9 @@ class Gymnasium(models.Model):
         """Override the save method in order to rewrite the slug field each time we save the object."""
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+    
+    def get_absolute_url(self):
+        return reverse("sports-manager:gymnasium-detail", kwargs={"slug": self.slug})
 
     def get_time_slots(self):
         """Return a list of all the time slots in the gymnasium."""

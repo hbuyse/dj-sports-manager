@@ -36,3 +36,6 @@ class License(models.Model):
         verbose_name = _("license")
         verbose_name_plural = _("licenses")
         ordering = ("created",)
+    
+    def get_absolute_url(self):
+        return reverse("sports-manager:license-detail", kwargs={"slug": self.slug})

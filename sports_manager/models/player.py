@@ -56,6 +56,7 @@ class Player(models.Model):
         ('FE', _('female'))
     )
 
+    slug = models.SlugField(_("slug"), max_length=128)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     first_name = models.CharField(_("first name"), max_length=30)
     last_name = models.CharField(_("last name"), max_length=150)
@@ -73,6 +74,16 @@ class Player(models.Model):
         verbose_name = _("player")
         verbose_name_plural = _("players")
         ordering = ("last_name", "first_name")
+    
+    def save(self, *args, **kwargs):
+        """Override the save method in order to rewrite the slug field each time we save the object."""
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+    
+    def get_absolute_url(self):
+        return reverse("sports-manager:player-detail",
+                       kwargs={"username": self.owner.get_username(), "id": self.id}
+        )
     
     def get_last_medical_certificate(self):
         """Retrieve the last medical certificate uploaded."""

@@ -57,7 +57,8 @@ class PlayerListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         
         This view will ony show the player owned by the <username> user.
         """
-        return self.model.objects.filter(owner__username=self.kwargs.get('username'))
+        queryset = super().get_queryset()
+        return queryset.filter(owner__username=self.kwargs.get('username'))
 
 
 class PlayerDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -69,6 +70,10 @@ class PlayerDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def test_func(self):
         return test_access_private_page(self.request, self.kwargs, 'username')
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(owner__username=self.kwargs.get('username'))
 
 
 class PlayerCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -88,11 +93,16 @@ class PlayerCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return reverse('sports-manager:player-detail', kwargs={'slug': self.object.slug})
 
 
-class PlayerUpdateView(UpdateView):
+class PlayerUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """View that updates a new category."""
 
     model = Player
     fields = '__all__'
+    permission_denied_message = "You do not have the right to view this page."            # from AccessMixin
+    raise_exception = True
+
+    def test_func(self):
+        return test_access_private_page(self.request, self.kwargs, 'username')
 
     def get(self, request, *args, **kwargs):
         """."""
@@ -114,10 +124,15 @@ class PlayerUpdateView(UpdateView):
         return reverse('sports-manager:player-detail', kwargs={'slug': self.object.slug})
 
 
-class PlayerDeleteView(DeleteView):
+class PlayerDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """View that deletes a new category."""
 
     model = Player
+    permission_denied_message = "You do not have the right to view this page."            # from AccessMixin
+    raise_exception = True
+
+    def test_func(self):
+        return test_access_private_page(self.request, self.kwargs, 'username')
 
     def get(self, request, *args, **kwargs):
         """."""

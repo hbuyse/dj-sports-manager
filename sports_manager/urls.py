@@ -100,6 +100,18 @@ urlpatterns += [
           view=vplayer.create_new_player,
           name='player-create',
           ),
+     path("<str:username>/player/<int:pk>/",
+          view=vplayer.PlayerDetailView.as_view(),
+          name='player-detail',
+          ),
+     path("<str:username>/player/<int:pk>/update/",
+          view=vplayer.PlayerUpdateView.as_view(),
+          name='player-update',
+          ),
+     path("<str:username>/player/<int:pk>/delete/",
+          view=vplayer.PlayerDeleteView.as_view(),
+          name='player-delete',
+          ),
 ]
 
 urlpatterns += [

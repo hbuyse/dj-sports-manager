@@ -51,10 +51,10 @@
               <td>
                 <div class="btn-group btn-group-sm float-right" role="group">
                   {% if perms.breakfasts.change_breakfast %}
-                    <a class="btn btn-primary" href="#">{% trans "Update" %}</a>
+                    <a class="btn btn-primary" href="{% url 'sports-manager:player-update' player.owner.get_username player.id %}">{% trans "Update" %}</a>
                   {% endif %}
                   {% if perms.breakfasts.delete_breakfast %}
-                    <a class="btn btn-danger" href="#">{% trans "Delete" %}</a>
+                    <a class="btn btn-danger" href="{% url 'sports-manager:player-delete' player.owner.get_username player.id %}">{% trans "Delete" %}</a>
                   {% endif %}
                 </div>
               </td>

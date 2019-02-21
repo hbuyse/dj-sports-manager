@@ -67,8 +67,9 @@ class Category(models.Model):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    @property
     def description_md(self):
-        """Return the text mardownified."""
+        """Return the desrcription mardownified."""
         return markdownify(self.description)
 
     def has_teams_with_trainer(self):
