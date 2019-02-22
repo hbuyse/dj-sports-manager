@@ -7,6 +7,7 @@ import os
 # Django
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 # Current django project
@@ -21,6 +22,7 @@ class License(models.Model):
 
     teams = models.ManyToManyField('Team', blank=True, verbose_name=_("teams"))
     player = models.ForeignKey('Player', on_delete=models.CASCADE, verbose_name=_("player"))
+    season = models.CharField(_("Season"), max_length=12)
     number = models.CharField(_("number"), max_length=20, blank=True)
     is_payed = models.BooleanField(_('has been payed'))
     created = models.DateTimeField(_('creation date'), auto_now_add=True)
@@ -35,7 +37,9 @@ class License(models.Model):
 
         verbose_name = _("license")
         verbose_name_plural = _("licenses")
-        ordering = ("created",)
+        ordering = ("season", "player", "created")
     
     def get_absolute_url(self):
-        return reverse("sports-manager:license-detail", kwargs={"slug": self.slug})
+        return reverse("sports-manager:license-detail",
+                       kwargs={'username': self.player.owner.get_username(), 'slug': self.slug}
+        )

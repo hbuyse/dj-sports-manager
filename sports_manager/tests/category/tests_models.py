@@ -75,13 +75,13 @@ class TestCategoryModel(TestCase):
         self.assertFalse(c.has_teams_with_trainer())
 
         # Create team with no trainer
-        Team.objects.create(category=c, name='a', recrutment=True)
+        Team.objects.create(category=c, name='a', recruitment=True)
         self.assertEqual(c.team_set.count(), 1)
         self.assertFalse(c.has_teams_with_trainer())
 
         # Create team with trainer
         u = get_user_model().objects.create(first_name="Toto", last_name="Toto")
-        Team.objects.create(category=c, name='b', recrutment=False, trainer=u)
+        Team.objects.create(category=c, name='b', recruitment=False, trainer=u)
         self.assertEqual(c.team_set.count(), 2)
         self.assertTrue(c.has_teams_with_trainer())
 

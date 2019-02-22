@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 # Current django project
@@ -77,12 +78,13 @@ class Player(models.Model):
     
     def save(self, *args, **kwargs):
         """Override the save method in order to rewrite the slug field each time we save the object."""
-        self.slug = slugify(self.name)
+        self.slug = slugify("{} {}".format(self.first_name, self.last_name))
         super().save(*args, **kwargs)
     
     def get_absolute_url(self):
+        """Override the get_absolute_url method in order to use it in templates."""
         return reverse("sports-manager:player-detail",
-                       kwargs={"username": self.owner.get_username(), "id": self.id}
+                       kwargs={"username": self.owner.get_username(), "slug": self.slug}
         )
     
     def get_last_medical_certificate(self):

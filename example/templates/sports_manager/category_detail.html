@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% load bootstrap4 %}
+{% load i18n %}
 
 {% block path %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'sports-manager:category-list' %}">Categories</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'sports-manager:category-list' %}">{% trans "Categories" %}</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ category }}</li>
   </ol>
 </nav>
@@ -18,8 +18,8 @@
 
 {% block page_title_buttons %}
   {% if user.is_staff or user.is_superuser %}
-    <a href="{% url 'sports-manager:category-update' category.slug %}" class="btn btn-primary btn-sm">Update</button>
-    <a href="{% url 'sports-manager:category-delete' category.slug %}" class="btn btn-danger btn-sm">Delete</a>
+    <a href="{% url 'sports-manager:category-update' category.slug %}" class="btn btn-primary btn-sm">{% trans "Update" %}</button>
+    <a href="{% url 'sports-manager:category-delete' category.slug %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
   {% endif %}
 {% endblock %}
 
@@ -36,28 +36,28 @@
     </div>
   {% endif %}
 
-  <h2 class="mt-4">Constraints</h3>
+  <h2 class="mt-4">{% trans "Constraints" %}</h3>
   <dl class="row">
-    <dt class="col-sm-2">Minimum age</dt>
+    <dt class="col-sm-2">{% trans "Minimum age" %}</dt>
     <dd class="col-sm-4">{{ category.min_age }}</dd>
 
     {% if category.max_age %}
-    <dt class="col-sm-2">Maximum age</dt>
+    <dt class="col-sm-2">{% trans "Maximum age" %}</dt>
     <dd class="col-sm-4">{{ category.max_age }}</dd>
     {% endif %}
   </dl>
 
   {% for team in category.team_set.all %}
     {% if forloop.first %}
-      <h2 class="mt-4">Équipes</h3>
+      <h2 class="mt-4">{% trans "Teams" %}</h3>
 
       <table class="table table-hover">
         <thead class="thead-light">
           <tr>
-            <th scope="col">Team</th>
-            <th scope="col">Sex</th>
-            <th scope="col">Level</th>
-            <th scope="col">Details</th>
+            <th scope="col">{% trans "Team" %}</th>
+            <th scope="col">{% trans "Sex" %}</th>
+            <th scope="col">{% trans "Level" %}</th>
+            <th scope="col">{% trans "Details" %}</th>
           </tr>
         </thead>
         <tbody>
@@ -65,10 +65,10 @@
 
     <tr>
       <td>{{ team.name }}</td>
-      <td>{{ team.get_sex_display }}</td>
-      <td>{{ team.get_level_display }}</td>
+      <td>{{ team.get_sex_display|title }}</td>
+      <td>{{ team.get_level_display|title }}</td>
       <td>
-        <a class="btn btn-outline-secondary btn-sm" href="{% url 'sports-manager:team-detail' team.slug %}">Link</a>
+        <a class="btn btn-outline-secondary btn-sm" href="{% url 'sports-manager:team-detail' team.slug %}">{% trans "Link" %}</a>
       </td>
     </tr>
 
@@ -77,6 +77,6 @@
       </table>
     {% endif %}
   {% empty %}
-    <p>No team related to this category</p>
+    <p>{% trans "No team related to this category" %}</p>
   {% endfor %}
 {% endblock %}

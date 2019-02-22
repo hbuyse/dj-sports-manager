@@ -34,7 +34,7 @@
 
         {# Add the bootstrapped navbar #}
         <header class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="{% url 'home' %}">
             {% trans "sports-manager" %}
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#DjVcnAccountsNavbarSupportedContent" aria-controls="DjVcnAccountsNavbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,7 @@
             <ul class="navbar-nav mr-auto">
               {% if not user.is_staff %}
                 <li class="nav-item">
-                  <a class="nav-link" href="#">{% trans "Categories" %}</a>
+                  <a class="nav-link" href="{% url 'sports-manager:category-list' %}">{% trans "Categories" %}</a>
                 </li>
               {% else %}
                 <li class="nav-item dropdown">
@@ -61,7 +61,7 @@
               {% endif %}
               {% if not user.is_staff %}
                 <li class="nav-item">
-                  <a class="nav-link" href="#">{% trans "Teams" %}</a>
+                  <a class="nav-link" href="{% url 'sports-manager:team-list' %}">{% trans "Teams" %}</a>
                 </li>
               {% else %}
                 <li class="nav-item dropdown">

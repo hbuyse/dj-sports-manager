@@ -1,37 +1,41 @@
 {% extends "base.html" %}
 
-{% load bootstrap4 %}
-{% load staticfiles %}
+{% load i18n %}
 
 {% block path %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Teams</li>
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Teams" %}</li>
     </ol>
   </nav>
 {% endblock %}
 
 {% block page_title %}
-  Teams
+  {% trans "Teams" %}
 {% endblock %}
 
 {% block content %}
   <div class="list-group">
   {% for team in team_list %}
-    <a href="{% url 'sports-manager:team-detail' team.slug %}" class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex row">
+    {% if forloop.first %}
+      <div class="card-columns">
+    {% endif %}
+      <div class="card">
         {% if team.img %}
-        <img class="col-md-3" src="{{ team.img.url }}" alt="{{ team.name }}'s logo">
+          <img class="card-img-top" src="{{ team.img.url }}" alt="{{ team.name }}'s logo">
         {% endif %}
-        <div class="col-md-9 align-self-center">
-          <h5 class="mb-1">{{ team }}</h5>
-          <p class="mb-1">{{ team.summary }}</p>
+        <div class="card-body">
+          <h5 class="card-title">{{ team }}</h5>
+          <p class="card-text">{{ team.summary }}</p>
+          <a href="{{ team.get_absolute_url }}" class="card-link">{% trans "Details" %}</a>
         </div>
       </div>
-    </a>
+    {% if forloop.last %}
+      </div>
+    {% endif %}
   {% empty %}
-    <p>No team listed yet...</p>
+    <p>{% trans "No team listed yet" %}...</p>
   {% endfor %}
   </div>
 {% endblock %}

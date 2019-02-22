@@ -17,6 +17,7 @@
   The page does not exist...
 
   <form>
-    <input type="button" value="Go back!" onclick="history.back()">
+    <button type="button" class="btn btn-primary" onclick="history.back()">{% trans "Go back" %}</button>
+    <a href="{% url 'home' %}" class="btn btn-primary" role="button">{% trans "Go to homepage" %}</a>
   </form>
 {% endblock %}

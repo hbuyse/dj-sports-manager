@@ -10,7 +10,7 @@
       {% if 'create' in request.path %}
         <li class="breadcrumb-item active" aria-current="page">{% trans "Creation" %}</a></li>
       {% elif 'update' in request.path %}
-        <li class="breadcrumb-item"><a href="{% url 'sports-manager:category-detail' category.slug %}">{{ category }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ category.get_absolute_url }}">{{ category }}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{% trans "Update" %}</a></li>
       {% endif %}
     </ol>
@@ -28,7 +28,20 @@
 {% block content %}
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {% crispy form %}
+    <div class="form-row">
+      <div class="col-6">{{ form.name|as_crispy_field }}</div>
+      <div class="col-6">{{ form.img|as_crispy_field }}</div>
+    </div>
+    <div class="form-row">
+      <div class="col-6">{{ form.min_age|as_crispy_field }}</div>
+      <div class="col-6">{{ form.max_age|as_crispy_field }}</div>
+    </div>
+    <div class="form-row">
+      <div class="col-12">{{ form.summary|as_crispy_field }}</div>
+    </div>
+    <div class="form-row">
+      <div class="col-12">{{ form.description|as_crispy_field }}</div>
+    </div>
     {{ form.media }}
 
     <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>

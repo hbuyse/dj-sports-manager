@@ -15,42 +15,16 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView, U
 
 # Current django project
 from sports_manager.forms.player import EmergencyContactForm, MedicalCertificateForm, PlayerCreationForm
+from sports_manager.mixins import OwnerOrStaffMixin
 from sports_manager.models import Player
 
 logger = logging.getLogger(__name__)
 
 
-def test_user_staff(request):
-    """Test if the connected user is part of staff."""
-    return request.user.is_staff
-
-
-def test_user_superuser(request):
-    """Test if the connected user is a superuser."""
-    return request.user.is_superuser
-
-
-def test_user_own_page(request, kwargs, field_to_test):
-    """Test if the user logged in owned the page asked to be accessed."""
-    return request.user.get_username() == kwargs.get(field_to_test) 
-
-
-def test_access_private_page(request, kwargs, field_to_test):
-    """Fusion of all the tests defined above."""
-    return test_user_staff(request) or \
-            test_user_superuser(request) or \
-            test_user_own_page(request, kwargs, field_to_test)
-
-
-class PlayerListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class PlayerListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView):
     """View that returns the list of categories."""
 
     model = Player
-    permission_denied_message = "You do not have the right to view this page."            # from AccessMixin
-    raise_exception = True
-
-    def test_func(self):
-        return test_access_private_page(self.request, self.kwargs, 'username')
 
     def get_queryset(self):
         """Override the getter of the queryset.
@@ -61,31 +35,21 @@ class PlayerListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return queryset.filter(owner__username=self.kwargs.get('username'))
 
 
-class PlayerDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class PlayerDetailView(LoginRequiredMixin, OwnerOrStaffMixin, DetailView):
     """View that returns the details of a category."""
 
     model = Player
-    permission_denied_message = "You do not have the right to view this page."            # from AccessMixin
-    raise_exception = True
-
-    def test_func(self):
-        return test_access_private_page(self.request, self.kwargs, 'username')
 
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(owner__username=self.kwargs.get('username'))
 
 
-class PlayerCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class PlayerCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateView):
     """View that creates a new category."""
 
     model = Player
     form_class = PlayerCreationForm
-    permission_denied_message = "You do not have the right to view this page."            # from AccessMixin
-    raise_exception = True
-
-    def test_func(self):
-        return test_access_private_page(self.request, self.kwargs, 'username')
 
     def get_success_url(self):
         """Get the URL after the success."""
@@ -93,16 +57,11 @@ class PlayerCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return reverse('sports-manager:player-detail', kwargs={'slug': self.object.slug})
 
 
-class PlayerUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class PlayerUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, UpdateView):
     """View that updates a new category."""
 
     model = Player
     fields = '__all__'
-    permission_denied_message = "You do not have the right to view this page."            # from AccessMixin
-    raise_exception = True
-
-    def test_func(self):
-        return test_access_private_page(self.request, self.kwargs, 'username')
 
     def get(self, request, *args, **kwargs):
         """."""
@@ -124,15 +83,10 @@ class PlayerUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return reverse('sports-manager:player-detail', kwargs={'slug': self.object.slug})
 
 
-class PlayerDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class PlayerDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, DeleteView):
     """View that deletes a new category."""
 
     model = Player
-    permission_denied_message = "You do not have the right to view this page."            # from AccessMixin
-    raise_exception = True
-
-    def test_func(self):
-        return test_access_private_page(self.request, self.kwargs, 'username')
 
     def get(self, request, *args, **kwargs):
         """."""

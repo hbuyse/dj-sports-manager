@@ -16,25 +16,26 @@
 {% endblock %}
 
 {% block content %}
-  <div> {# Workaround to remove the border-top on the first item... #}
-    <div class="list-group list-group-flush">
-    {% for c in category_list %}
-      <a href="{% url 'sports-manager:category-detail' c.slug %}" class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex row">
-          {% if c.img %}
-          <img class="col-3" src="{{ c.img.url }}" alt="{{ c.name }}'s logo">
-          {% else %}
-            <div class="col-3"></div>
-          {% endif %}
-          <div class="col-9 align-self-center">
-            <h5 class="mb-1">{{ c }}</h5>
-            <p class="mb-1">{{ c.summary }}</p>
-          </div>
+  <div class="list-group">
+  {% for category in category_list %}
+    {% if forloop.first %}
+      <div class="card-columns">
+    {% endif %}
+      <div class="card">
+        {% if category.img %}
+          <img class="card-img-top" src="{{ category.img.url }}" alt="{{ category.name }}'s logo">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ category }}</h5>
+          <p class="card-text">{{ category.summary }}</p>
+          <a href="{{ category.get_absolute_url }}" class="card-link">{% trans "Details" %}</a>
         </div>
-      </a>
-    {% empty %}
-      <p>{% trans "No category listed yet" %}...</p>
-    {% endfor %}
-    </div>
+      </div>
+    {% if forloop.last %}
+      </div>
+    {% endif %}
+  {% empty %}
+    <p>{% trans "No category listed yet" %}...</p>
+  {% endfor %}
   </div>
 {% endblock %}

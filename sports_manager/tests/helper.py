@@ -54,7 +54,7 @@ def create_team():
         'sex': 'MI',
         'url': 'http://example.com',
         'description': '# TODO',
-        'recrutment': True,
+        'recruitment': True,
     }
     category = create_category()[1]
 

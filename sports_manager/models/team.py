@@ -7,6 +7,7 @@ import os
 # Django
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
@@ -84,11 +85,11 @@ class Team(models.Model):
     url = models.URLField(_("competition URL"))
     description = MarkdownxField(_('description'))
     img = models.ImageField(_('image'), storage=OverwriteStorage(), upload_to=image_upload_to, blank=True)
-    recrutment = models.BooleanField(_('is recruting'))
+    recruitment = models.BooleanField(_('is recruiting'))
 
     def __str__(self):
         """String representation."""
-        return "{} - {}".format(self.name, self.get_sex_display())
+        return "{} {}".format(self.name, self.get_sex_display()).title()
 
     class Meta:
         """Meta class."""
@@ -97,11 +98,15 @@ class Team(models.Model):
         verbose_name_plural = _("teams")
         ordering = ("sex", "level", "name")
     
+    def get_absolute_url(self):
+        return reverse("sports-manager:team-detail", kwargs={"slug": self.slug})
+      
     def save(self, *args, **kwargs):
         """Override the save method in order to rewrite the slug field each time we save the object."""
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    @property
     def description_md(self):
         """Get the description as HTML (not Mdown)."""
         return markdownify(self.description)
@@ -112,6 +117,7 @@ class Team(models.Model):
 
     def get_players(self):
         """Get the list of teamates of the team."""
+
         return self.license_set.order_by("last_name")
 
 

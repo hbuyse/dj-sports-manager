@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% load bootstrap4 %}
+{% load i18n %}
 
 {% block path %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-list' %}">Teams</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-list' %}">{% trans "Teams" %}</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ team }}</li>
   </ol>
 </nav>
@@ -19,45 +19,48 @@
 {% block page_title_buttons %}
   {% if user.is_staff or user.is_superuser %}
   <div class="btn-group float-right" role="group">
-    <a href="{% url 'sports-manager:team-update' team.slug %}" class="btn btn-primary btn-sm">Update</a>
-    <a href="{% url 'sports-manager:team-delete' team.slug %}" class="btn btn-danger btn-sm">Delete</a>
+    <a href="{% url 'sports-manager:team-update' team.slug %}" class="btn btn-primary btn-sm">{% trans "Update" %}</a>
+    <a href="{% url 'sports-manager:team-delete' team.slug %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
   </div>
   {% endif %}
 {% endblock %}
 
 {% block content %}
-    <div class="alert {% if team.recrutment %}alert-success{% else %}alert-warning{% endif %}" role="alert">
-      This team is {% if not team.recrutment %}not{% endif %} recruiting players.
+    <div class="alert {% if team.recruitment %}alert-success{% else %}alert-warning{% endif %}" role="alert">
+      {% blocktrans with recruitment=team.recruitment|yesno:_("is recruiting,is not recruiting") %}
+        This team {{ recruitment }} players.
+      {% endblocktrans %}
     </div>
   {% if team.img %}
     <img src="{{ team.img.url }}" alt="{{ team.name }} image" />
   {% endif %}
 
-  <h2 class="mt-4">Informations</h2>
+  <h2 class="mt-4">{% trans "Informations" %}</h2>
   <div class="row">
-    <div class="col-1">Category:</div> <div class="col-10">{{ team.category }}</div>
+    <div class="col-1">{% trans "Category:" %}</div>
+    <div class="col-5">{{ team.category }}</div>
+    <div class="col-1">{% trans "Level:" %}</div>
+    <div class="col-5">{{ team.get_level_display|title }}</div>
   </div>
   <div class="row">
-    <div class="col-1">Level:</div> <div class="col-10">{{ team.get_level_display }}</div>
-  </div>
-  <div class="row">
-    <div class="col-1">Sex:</div> <div class="col-10">{{ team.get_sex_display }}</div>
+    <div class="col-1">{% trans "Sex:" %}</div>
+    <div class="col-5">{{ team.get_sex_display|title }}</div>
+    <div class="col-1">{% trans "Url:" %}</div>
+    <div class="col-5">{{ team.url }}</div>
   </div>
   {% if team.trainer %}
     <div class="row">
-      <div class="col-1">Trainer:</div> <div class="col-10">{{ team.trainer.get_full_name }}</div>
+      <div class="col-1">{% trans "Trainer:" %}</div>
+      <div class="col-5">{{ team.trainer.get_full_name }}</div>
     </div>
   {% endif %}
-  <div class="row">
-    <div class="col-1">Url:</div> <div class="col-10">{{ team.url }}</div>
-  </div>
 
   {% if team.description %}
-    <h2 class="mt-4">Description</h2>
-    {{ team.description }}
+    <h2 class="mt-4">{% trans "Description" %}</h2>
+    {{ team.description_md|safe }}
   {% endif %}
 
-  <h2 class="mt-4">Teammates</h2>
+  <h2 class="mt-4">{% trans "Teammates" %}</h2>
   {% for license in team.license_set.all %}
     {% if forloop.first %}
       <div class="card-deck">
@@ -65,17 +68,24 @@
 
     <div class="card">
       <div class="card-body">
-        {{ license.first_name }} {{ license.last_name }}
-        {% if license.is_captain %}
-        (captain)
-        {% endif %}
+          {{ license.player.first_name }} {{ license.player.last_name }}
+          {% if license.is_captain %}
+            {% trans "(captain)" %}
+          {% endif %}
       </div>
     </div>
+  
+        <div class="w-100 d-none d-sm-block d-md-none"><!-- wrap every 2 on sm--></div>
+        <div class="w-100 d-none d-md-block d-lg-none"><!-- wrap every 3 on md--></div>
+        <div class="w-100 d-none d-lg-block d-xl-none"><!-- wrap every 4 on lg--></div>
+        <div class="w-100 d-none d-xl-block"><!-- wrap every 5 on xl--></div>
 
     {% if forloop.last %}
       </div>
     {% endif %}
   {% empty %}
-    <p>No known teammate related to this team</p>
+    <p>
+      {% blocktrans %}No known teammate related to this team{% endblocktrans %}
+    </p>
   {% endfor %}
 {% endblock %}

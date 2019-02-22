@@ -126,7 +126,7 @@ class Migration(migrations.Migration):
                 ('url', models.URLField(verbose_name='competition URL')),
                 ('description', markdownx.models.MarkdownxField(verbose_name='description')),
                 ('img', models.ImageField(blank=True, storage=sports_manager.storage.OverwriteStorage(), upload_to=sports_manager.models.team.image_upload_to, verbose_name='image')),
-                ('recrutment', models.BooleanField(verbose_name='is recruting')),
+                ('recruitment', models.BooleanField(verbose_name='is recruting')),
                 ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='sports_manager.Category', verbose_name='category')),
                 ('trainer', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='trainer')),
             ],

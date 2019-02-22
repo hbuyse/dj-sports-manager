@@ -6,7 +6,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">403</li>
+    <li class="breadcrumb-item active" aria-current="page">Permission denied</li>
   </ol>
 </nav>
 {% endblock %}
@@ -18,7 +18,8 @@
 
 
 {% block content %}
-  <p>You do not have the rights to watch this page.</p>
+  <p>Error {{ exception }}</p>
+  <span>We're sorry, but you are not authorized to view this page (Error: 403)</span>
 
   <form>
     <button type="button" class="btn btn-primary" onclick="history.back()">{% trans "Go back" %}</button>
