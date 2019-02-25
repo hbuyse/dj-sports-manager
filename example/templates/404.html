@@ -1,20 +1,22 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+
 {% block path %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">404</li>
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans "Page not found" %}</li>
   </ol>
 </nav>
 {% endblock %}
 
 {% block page_title %}
-  Not found
+  {% trans "Page not found" %}
 {% endblock %}
 
 {% block content %}
-  The page does not exist...
+  {% blocktrans %}The page does not seem to exist...{% endblocktrans %}
 
   <form>
     <button type="button" class="btn btn-primary" onclick="history.back()">{% trans "Go back" %}</button>

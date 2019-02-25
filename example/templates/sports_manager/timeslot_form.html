@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-list' %}">{% trans "Teams" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-detail' object.team.slug %}">{{ timeslot.team }}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-detail' object.team.slug %}">{% trans "Time slots" %}</a></li>
+      {% if 'create' in request.path %}
+        <li class="breadcrumb-item active" aria-current="page">{% trans "Creation" %}</a></li>
+      {% elif 'update' in request.path %}
+        <li class="breadcrumb-item active" aria-current="page">{% trans "Update" %}</a></li>
+      {% endif %}
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+  {% if 'create' in request.path %}
+    Team timeslot creation
+  {% elif 'update' in request.path %}
+    Update {{ team }} time slot
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form layout="horizontal" %}
+    <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+  </form>
+{% endblock %}

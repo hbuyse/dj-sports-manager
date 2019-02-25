@@ -4,22 +4,22 @@
 {% block path %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-list' %}">Teams</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-list' %}">{% trans "Teams" %}</a></li>
       <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-detail' team.slug %}">{{ team }}</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Deletion</li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Deletion" %}</li>
     </ol>
   </nav>
 {% endblock %}
 
 {% block page_title %}
-  {{ team }} deletion
+  {% blocktrans %}{{ team }} deletion{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
   <form method="post">
     {% csrf_token %}
-    <p>Do you really want to delete the team "{{ team }}" and everything link to it?</p>
+    <p>{% blocktrans %}Do you really want to delete the team "{{ team }}" and everything link to it?{% endblocktrans %}</p>
     {% bootstrap_button "Confirm" button_type="submit" button_class="btn-primary" %}
   </form>
 {% endblock %}

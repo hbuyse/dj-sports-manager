@@ -40,6 +40,18 @@ class License(models.Model):
         ordering = ("season", "player", "created")
     
     def get_absolute_url(self):
+        """Override the get_absolute_url method in order to use it in templates."""
         return reverse("sports-manager:license-detail",
                        kwargs={'username': self.player.owner.get_username(), 'slug': self.slug}
         )
+
+    def save(self, *args, **kwargs):
+        """Override the save method in order to write the season only if we create the license."""
+        # self.pk is None:
+        #     current_year = date.today().year
+        #     if date.today() < date(current_year, 7, 15):
+        #         self.season = "{} / {}".format(current_year-1, current_year)
+        #     else:
+        #         self.season = "{} / {}".format(current_year, current_year + 1)
+
+        super().save(*args, **kwargs)

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-list' %}">{% trans "Teams" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-detail' team.slug %}">{{ team }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Time slots" %}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+  {% trans "Time slots" %}
+{% endblock %}
+
+{% block content %}
+  {% for ts in timeslot_list %}
+
+    {% if forloop.first %}
+      <table class="table table-sm table-hover" id="timeslotTable">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">{% trans "Type of time slot" %}</th>
+            <th scope="col">{% trans "Day" %}</th>
+            <th scope="col">{% trans "Starting time" %}</th>
+            <th scope="col">{% trans "Ending time" %}</th>
+            {% if user.is_staff %}
+              <th scope="col">{% trans "Links" %}</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+    {% endif %}
+
+    <tr>
+      <td>{{ ts.get_type_display|title }}</td>
+      <td>{{ ts.get_day_display|title }}</td>
+      <td>{{ ts.start }}</td>
+      <td>{{ ts.end }}</td>
+      {% if user.is_staff %}
+        <td>
+          <div class="btn-group btn-group-sm float-right" role="group">
+            <a class="btn btn-primary" href="{% url 'sports-manager:team-time-slot-update' ts.team.slug ts.pk %}">{% trans "Update" %}</a>
+            <a class="btn btn-danger" href="{% url 'sports-manager:team-time-slot-delete' ts.team.slug ts.pk %}">{% trans "Delete" %}</a>
+          </div>
+        </td>
+      {% endif %}
+    </tr>
+
+    {% if forloop.last %}
+        </tbody>
+      </table>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

@@ -99,6 +99,7 @@ class Team(models.Model):
         ordering = ("sex", "level", "name")
     
     def get_absolute_url(self):
+        """Override the get_absolute_url method in order to use it in templates."""
         return reverse("sports-manager:team-detail", kwargs={"slug": self.slug})
       
     def save(self, *args, **kwargs):
@@ -155,7 +156,6 @@ class TimeSlot(models.Model):
     day = models.PositiveSmallIntegerField(_("day"), choices=DAYS_OF_WEEK)
     start = models.TimeField(_("starting time"))
     end = models.TimeField(_("ending time"))
-    # gymnasium = models.ForeignKey('dj_gymnasiums.Gymnasium', on_delete=models.CASCADE)
 
     def __str__(self):
         """String representation."""

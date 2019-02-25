@@ -1,25 +1,26 @@
 {% extends "base.html" %}
 
+{% load i18n %}
 {% load bootstrap4 %}
 {% load staticfiles %}
 
 {% block path %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Licenses</li>
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Mes Licenses" %}</li>
     </ol>
   </nav>
 {% endblock %}
 
 {% block page_title %}
-  Licenses
+  {% trans "Licenses" %}
 {% endblock %}
 
 {% block page_title_buttons %}
   {% if user.is_authenticated %} 
     <div class="btn-group float-right" role="group">
-      <a class="btn btn-primary" href="{% url 'sports-manager:license-create' user.get_username %}">New license</a>
+      <a class="btn btn-primary" href="{% url 'sports-manager:license-create' user.get_username %}">{% trans "New license" %}</a>
     </div>
   {% endif %}
 {% endblock %}
@@ -32,16 +33,16 @@
         <div class="col-md-9 align-self-center">
           <h5 class="mb-1">{{ license.player.first_name }} {{ license.player.last_name }}</h5>
           <p class="mb-1">
-            {{ license.teams }} - {{ license.team.name }}
-            {% if license.license_number %}
-             - {{ license.license_number }}
-            {% endif %}
+            {% for team in license.teams.all %}
+              {{ team.name }}
+              {% if not forloop.last %},{% endif%}
+            {% endfor %}
           </p>
         </div>
       </div>
     </a>
   {% empty %}
-    <p>No license listed yet...</p>
+    <p>{% blocktrans %}No license listed yet...{% endblocktrans %}</p>
   {% endfor %}
   </div>
 {% endblock %}

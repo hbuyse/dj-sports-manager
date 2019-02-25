@@ -13,6 +13,7 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView, U
 
 # Current django project
 from sports_manager.models import Team
+from sports_manager.mixins import StaffMixin
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +31,7 @@ class TeamDetailView(DetailView):
     slug_field = 'slug'
 
 
-class TeamCreateView(CreateView):
+class TeamCreateView(StaffMixin, CreateView):
     """View that creates a new team."""
 
     model = Team
@@ -45,32 +46,14 @@ class TeamCreateView(CreateView):
         'img',
     ]
 
-    def get(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_staff:
-            raise PermissionDenied
-
-        return super().get(request, args, kwargs)
-
-    def post(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_staff:
-            raise PermissionDenied
-
-        return super().post(request, args, kwargs)
-
-    def form_valid(self, form):
-        """Override form validation for slug field."""
-        form.instance.slug = slugify(form.instance.name)
-        return super().form_valid(form)
-
     def get_success_url(self):
         """Get the URL after the success."""
-        messages.success(self.request, "Team '{}' added successfully".format(self.object.name))
+        msg = _("Team '%(name)s' created successfully") % {'name': self.object.name}
+        messages.success(self.request, msg)
         return reverse('sports-manager:team-detail', kwargs={'slug': self.object.slug})
 
 
-class TeamUpdateView(UpdateView):
+class TeamUpdateView(StaffMixin, UpdateView):
     """View that updates a new team."""
 
     model = Team
@@ -86,52 +69,21 @@ class TeamUpdateView(UpdateView):
         'img',
     ]
 
-    def get(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_staff:
-            raise PermissionDenied
-
-        return super().get(request, args, kwargs)
-
-    def post(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_staff:
-            raise PermissionDenied
-
-        return super().post(request, args, kwargs)
-
-    def form_valid(self, form):
-        """Override form validation for slug field."""
-        form.instance.slug = slugify(form.instance.name)
-        return super().form_valid(form)
-
     def get_success_url(self):
         """Get the URL after the success."""
-        messages.success(self.request, "Team '{}' updated successfully".format(self.object.name))
+        msg = _("Team '%(name)s' updated successfully") % {'name': self.object.name}
+        messages.success(self.request, msg)
         return reverse('sports-manager:team-detail', kwargs={'slug': self.object.slug})
 
 
-class TeamDeleteView(DeleteView):
+class TeamDeleteView(StaffMixin, DeleteView):
     """View that deletes a new team."""
 
     model = Team
     slug_field = 'slug'
 
-    def get(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_staff:
-            raise PermissionDenied
-
-        return super().get(request, args, kwargs)
-
-    def post(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_staff:
-            raise PermissionDenied
-
-        return super().post(request, args, kwargs)
-
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        messages.success(self.request, "Team '{}' deleted successfully".format(self.object.name))
+        msg = _("Team '%(name)s' deleted successfully") % {'name': self.object.name}
+        messages.success(self.request, msg)
         return reverse('sports-manager:team-list')

@@ -11,6 +11,7 @@ from django.core.validators import RegexValidator
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
 # Current django project
@@ -61,7 +62,7 @@ class Player(models.Model):
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     first_name = models.CharField(_("first name"), max_length=30)
     last_name = models.CharField(_("last name"), max_length=150)
-    sex = models.CharField(_("sex"), max_length=2, choices=SEXES)
+    sex = models.CharField(_("sex"), max_length=2, choices=SEXES, blank=False)
     birthday = models.DateField(_("birthday"), validators=[is_player_old_enough])
     created = models.DateTimeField(_('creation date'), auto_now_add=True)
 

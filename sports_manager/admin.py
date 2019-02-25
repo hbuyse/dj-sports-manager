@@ -19,6 +19,15 @@ class CategoryAdmin(admin.ModelAdmin):
         'max_age'
     )
 
+
+@admin.register(sports_manager.models.gymnasium.Gymnasium)
+class GymnasiumAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)}
+    list_display = (
+        'name',
+        'zip_code',
+    )
+
 @admin.register(sports_manager.models.team.Team)
 class TeamAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}

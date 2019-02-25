@@ -4,6 +4,7 @@
 # Django
 from django.core.validators import RegexValidator
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _  # noqa
 
@@ -11,7 +12,16 @@ from django.utils.translation import ugettext_lazy as _  # noqa
 class Gymnasium(models.Model):
     """Gymnasium model for the website."""
 
+    GYMNASIUM_TYPE = 0
+    STADIUM_TYPE = 1
+
+    GYMNASIUM_TYPES = (
+        (GYMNASIUM_TYPE, _("gymnasium")),
+        (STADIUM_TYPE , _("stadium"))
+    )
+
     slug = models.SlugField(_('slug'), unique=True, max_length=128)
+    type = models.PositiveSmallIntegerField(_('type'), blank=False, choices=GYMNASIUM_TYPES, default=GYMNASIUM_TYPE)
     name = models.CharField(_('name'), max_length=128)
     address = models.CharField(_('address'), max_length=255)
     city = models.CharField(_('city'), max_length=255)
@@ -30,17 +40,17 @@ class Gymnasium(models.Model):
                            message=_("This is not a correct phone number"))
         ]
     )
-    surface = models.SmallIntegerField(_('surface'), blank=True, null=True)
+    area = models.SmallIntegerField(_('surface'), blank=True, null=True)
     capacity = models.SmallIntegerField(_('capacity'), blank=True, null=True)
 
     def __str__(self):
         """Representation of a Gymnasium as a string."""
-        return "Gymnasium {}".format(self.name)
+        return "{} {}".format(self.get_type_display().title(), self.name)
 
     class Meta:
         verbose_name = _("gymnasium")
         verbose_name_plural = _("gymnasiums")
-        ordering = ("name", "city")
+        ordering = ("name", "zip_code")
 
     def save(self, *args, **kwargs):
         """Override the save method in order to rewrite the slug field each time we save the object."""
@@ -48,6 +58,7 @@ class Gymnasium(models.Model):
         super().save(*args, **kwargs)
     
     def get_absolute_url(self):
+        """Override the get_absolute_url method in order to use it in templates."""
         return reverse("sports-manager:gymnasium-detail", kwargs={"slug": self.slug})
 
     def get_time_slots(self):

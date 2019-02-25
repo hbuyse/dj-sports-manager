@@ -31,6 +31,7 @@ class GymnasiumCreateView(CreateView):
 
     model = Gymnasium
     fields = [
+        'type',
         'name',
         'address',
         'city',
@@ -66,6 +67,7 @@ class GymnasiumUpdateView(UpdateView):
     model = Gymnasium
     slug_field = 'slug'
     fields = [
+        'type',
         'name',
         'address',
         'city',

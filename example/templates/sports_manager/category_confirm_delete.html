@@ -1,12 +1,13 @@
 {% extends "base.html" %}
-{% load bootstrap4 %}
+
+{% load i18n %}
 
 {% block path %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
       <li class="breadcrumb-item"><a href="{% url 'sports-manager:category-list' %}">{% trans "Categories" %}</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'sports-manager:category-detail' category.slug %}">{{ category }}</a></li>
+      <li class="breadcrumb-item"><a href="{{ category.get_absolute_url }}">{{ category }}</a></li>
       <li class="breadcrumb-item active" aria-current="page">{% trans "Deletion" %}</li>
     </ol>
   </nav>
@@ -21,7 +22,7 @@
     {% csrf_token %}
     <p>{% blocktrans %}Do you really want to delete the category "{{ category }}" and everything link to it?{% endblocktrans %}</p>
 
-    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-    <button type="button" class="btn btn-primary" onclick="history.back()">{% trans "Go back" %}</button>
+    <button type="submit" class="btn btn-danger">{% trans "Yes, I am sure" %}</button>
+    <button type="button" class="btn btn-primary" onclick="history.back()">{% trans "No, I want to go back" %}</button>
   </form>
 {% endblock %}

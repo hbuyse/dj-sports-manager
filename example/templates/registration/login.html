@@ -1,24 +1,29 @@
 {% extends 'base.html' %}
-{% load bootstrap4 %}
+{% load i18n %}
+{% load crispy_forms_tags %}
 
 {% block path %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Connexion</li>
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Login" %}</li>
     </ol>
   </nav>
 {% endblock %}
 
 
 {% block page_title %}
-  Connexion
+  {% trans "Login" %}
 {% endblock %}
 
 {% block content %}
   <form method="post">
     {% csrf_token %}
-    {% bootstrap_form form layout="horizontal" %}
-    {% bootstrap_button "Connexion" button_type="submit" button_class="btn-primary" %}
+    <div class="form-row">
+      <div class="col-6">{{ form.username|as_crispy_field }}</div>
+      <div class="col-6">{{ form.password|as_crispy_field }}</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">{% trans "Login" %}</button>
   </form>
 {% endblock %}

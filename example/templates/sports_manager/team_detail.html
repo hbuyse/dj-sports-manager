@@ -46,13 +46,55 @@
     <div class="col-1">{% trans "Sex:" %}</div>
     <div class="col-5">{{ team.get_sex_display|title }}</div>
     <div class="col-1">{% trans "Url:" %}</div>
-    <div class="col-5">{{ team.url }}</div>
+    <div class="col-5"><a href="{{ team.url }}" target="_blank">{{ team.url }}</a></div>
   </div>
   {% if team.trainer %}
     <div class="row">
       <div class="col-1">{% trans "Trainer:" %}</div>
       <div class="col-5">{{ team.trainer.get_full_name }}</div>
     </div>
+  {% endif %}
+
+  {% if team.timeslot_set.all %}
+    <h2 class="mt-4">{% trans "Time slots" %}</h2>
+    {% for ts in team.timeslot_set.all %}
+
+      {% if forloop.first %}
+        <table class="table table-sm table-hover" id="timeslotTable">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">{% trans "Type of time slot" %}</th>
+              <th scope="col">{% trans "Day" %}</th>
+              <th scope="col">{% trans "Starting time" %}</th>
+              <th scope="col">{% trans "Ending time" %}</th>
+              {% if user.is_staff %}
+                <th scope="col">{% trans "Links" %}</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+      {% endif %}
+
+          <tr>
+            <td>{{ ts.get_type_display|title }}</td>
+            <td>{{ ts.get_day_display|title }}</td>
+            <td>{{ ts.start }}</td>
+            <td>{{ ts.end }}</td>
+            {% if user.is_staff %}
+              <td>
+                <div class="btn-group btn-group-sm float-right" role="group">
+                  <a class="btn btn-primary" href="{% url 'sports-manager:team-time-slot-update' team.slug ts.pk %}">{% trans "Update" %}</a>
+                  <a class="btn btn-danger" href="{% url 'sports-manager:team-time-slot-delete' team.slug ts.pk %}">{% trans "Delete" %}</a>
+                </div>
+              </td>
+            {% endif %}
+          </tr>
+
+    {% if forloop.last %}
+        </tbody>
+      </table>
+    {% endif %}
+    {% endfor %}
   {% endif %}
 
   {% if team.description %}
@@ -75,10 +117,15 @@
       </div>
     </div>
   
-        <div class="w-100 d-none d-sm-block d-md-none"><!-- wrap every 2 on sm--></div>
-        <div class="w-100 d-none d-md-block d-lg-none"><!-- wrap every 3 on md--></div>
-        <div class="w-100 d-none d-lg-block d-xl-none"><!-- wrap every 4 on lg--></div>
-        <div class="w-100 d-none d-xl-block"><!-- wrap every 5 on xl--></div>
+    {% if forloop.counter0 == 2 %}
+      <div class="w-100 d-none d-sm-block d-md-none"><!-- wrap every 2 on sm--></div>
+    {% elif forloop.counter0 == 3 %}
+      <div class="w-100 d-none d-md-block d-lg-none"><!-- wrap every 3 on md--></div>
+    {% elif forloop.counter0 == 4 %}
+      <div class="w-100 d-none d-lg-block d-xl-none"><!-- wrap every 4 on lg--></div>
+    {% elif forloop.counter0 == 5 %}
+      <div class="w-100 d-none d-xl-block"><!-- wrap every 5 on xl--></div>
+    {% endif %}
 
     {% if forloop.last %}
       </div>

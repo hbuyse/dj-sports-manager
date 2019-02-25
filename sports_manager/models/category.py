@@ -60,6 +60,7 @@ class Category(models.Model):
         ordering = ("name",)
     
     def get_absolute_url(self):
+        """Override the get_absolute_url method in order to use it in templates."""
         return reverse("sports-manager:category-detail", kwargs={"slug": self.slug})
     
     def save(self, *args, **kwargs):
