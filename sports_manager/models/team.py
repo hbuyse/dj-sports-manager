@@ -73,10 +73,10 @@ class Team(models.Model):
         ('FE', _('female'))
     )
     slug = models.SlugField(_("slug"), unique=True, max_length=128, null=True)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='category')
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='category', blank=False)
     name = models.CharField(_("name"), unique=True, max_length=128)
-    level = models.CharField(_("level"), max_length=4, choices=LEVELS)
-    sex = models.CharField(_("sex"), max_length=2, choices=SEXES)
+    level = models.CharField(_("level"), max_length=4, choices=LEVELS, blank=False)
+    sex = models.CharField(_("sex"), max_length=2, choices=SEXES, blank=False)
     trainer = models.ForeignKey(get_user_model(),
                                 on_delete=models.CASCADE,
                                 blank=True,

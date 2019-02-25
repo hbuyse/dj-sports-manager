@@ -2,6 +2,7 @@
 
 # Django
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.utils.translation import ugettext_lazy as _  # noqa
 
 
 class StaffMixin(UserPassesTestMixin):
@@ -55,7 +56,7 @@ def test_access_private_page(user, kwargs, field_to_test):
 
 class OwnerOrStaffMixin(UserPassesTestMixin):
     """Mixin that check if the user logged in has the rights to view the page."""
-    permission_denied_message = "You do not have the right to view this page."            # from AccessMixin
+    permission_denied_message = _("You do not have the right to view this page.")            # from AccessMixin
     raise_exception = True
 
     def test_func(self):

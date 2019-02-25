@@ -28,24 +28,3 @@ class TimeSlotForm(ModelForm):
             'birthday',
             'sex'
         ]
-
-
-class EmergencyContactForm(ModelForm):
-    
-    class Meta:
-        model = EmergencyContact
-        fields = [
-            'first_name',
-            'last_name',
-            'phone',
-            'email',
-        ]
-
-
-class MedicalCertificateForm(ModelForm):
-    
-    class Meta:
-        model = MedicalCertificate
-        fields = [
-            'file',
-        ]

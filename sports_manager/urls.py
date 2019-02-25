@@ -91,6 +91,10 @@ urlpatterns += [
           view=vlicense.LicenseDetailView.as_view(),
           name='license-detail',
           ),
+     path("<str:username>/license/<int:pk>/update/",
+          view=vlicense.LicenseUpdateView.as_view(),
+          name='license-update',
+          ),
 
      path("<str:username>/player/",
           view=vplayer.PlayerListView.as_view(),

@@ -40,7 +40,7 @@ class Gymnasium(models.Model):
                            message=_("This is not a correct phone number"))
         ]
     )
-    area = models.SmallIntegerField(_('surface'), blank=True, null=True)
+    area = models.SmallIntegerField(_('area'), blank=True, null=True)
     capacity = models.SmallIntegerField(_('capacity'), blank=True, null=True)
 
     def __str__(self):

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load i18n %}
 {% load bootstrap4 %}
 {% load staticfiles %}
 
@@ -25,18 +26,15 @@
 {% endblock %}
 
 {% block page_title %}
-  {{ license.player }}
+  {{ license.player }} - {{ license.season }}
 {% endblock %}
 
 {% block content %}
   <div class="row">
-    <div class="col-2">First name:</div><div class="col-10">{{ license.player.first_name }}</div>
+    <div class="col-2">Season:</div><div class="col-10">{{ license.season }}</div>
   </div>
   <div class="row">
-    <div class="col-2">Last name:</div><div class="col-10">{{ license.player.last_name }}</div>
-  </div>
-  <div class="row">
-    <div class="col-2">Team:</div><div class="col-10">{{ license.teams }}</div>
+    <div class="col-2">Team:</div><div class="col-10">{{ license.teams.all }}</div>
   </div>
   <div class="row">
     <div class="col-2">Owner:</div><div class="col-10">{{ license.player.owner }}</div>

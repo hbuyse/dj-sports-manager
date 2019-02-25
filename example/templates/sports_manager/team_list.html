@@ -15,6 +15,14 @@
   {% trans "Teams" %}
 {% endblock %}
 
+{% block page_title_buttons %}
+  {% if user.is_staff %}
+    <div class="btn-group float-right" role="group">
+      <a class="btn btn-primary" href="{% url 'sports-manager:team-create' %}">{% trans "New team" %}</a>
+    </div>
+  {% endif %}
+{% endblock %}
+
 {% block content %}
   <div class="list-group">
   {% for team in team_list %}

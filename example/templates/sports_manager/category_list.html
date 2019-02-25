@@ -15,6 +15,14 @@
   {% trans "Categories" %}
 {% endblock %}
 
+{% block page_title_buttons %}
+  {% if user.is_staff %}
+    <div class="btn-group float-right" role="group">
+      <a class="btn btn-primary" href="{% url 'sports-manager:category-create' %}">{% trans "New category" %}</a>
+    </div>
+  {% endif %}
+{% endblock %}
+
 {% block content %}
   <div class="list-group">
   {% for category in category_list %}

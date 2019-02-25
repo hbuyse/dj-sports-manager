@@ -87,6 +87,7 @@ class EmergencyContactAdmin(admin.ModelAdmin):
 class LicenseAdmin(admin.ModelAdmin):
     list_display = (
         'player',
+        'season',
         'number',
         'is_payed',
     )

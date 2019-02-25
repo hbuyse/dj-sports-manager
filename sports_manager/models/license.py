@@ -1,6 +1,7 @@
 """."""
 
 # Standard library
+from datetime import date
 import logging
 import os
 
@@ -21,7 +22,7 @@ class License(models.Model):
     """License model."""
 
     teams = models.ManyToManyField('Team', blank=True, verbose_name=_("teams"))
-    player = models.ForeignKey('Player', on_delete=models.CASCADE, verbose_name=_("player"))
+    player = models.ForeignKey('Player', on_delete=models.CASCADE, verbose_name=_("player"), blank=False)
     season = models.CharField(_("Season"), max_length=12)
     number = models.CharField(_("number"), max_length=20, blank=True)
     is_payed = models.BooleanField(_('has been payed'))
@@ -37,21 +38,22 @@ class License(models.Model):
 
         verbose_name = _("license")
         verbose_name_plural = _("licenses")
-        ordering = ("season", "player", "created")
+        ordering = ("-season", "player", "created")
     
     def get_absolute_url(self):
         """Override the get_absolute_url method in order to use it in templates."""
         return reverse("sports-manager:license-detail",
-                       kwargs={'username': self.player.owner.get_username(), 'slug': self.slug}
+                       kwargs={'username': self.player.owner.get_username(), 'pk': self.pk}
         )
 
     def save(self, *args, **kwargs):
         """Override the save method in order to write the season only if we create the license."""
-        # self.pk is None:
-        #     current_year = date.today().year
-        #     if date.today() < date(current_year, 7, 15):
-        #         self.season = "{} / {}".format(current_year-1, current_year)
-        #     else:
-        #         self.season = "{} / {}".format(current_year, current_year + 1)
+        if self.pk is None:
+            current_year = date.today().year
+            if date.today() < date(current_year, 7, 15):
+                self.season = "{} / {}".format(current_year-1, current_year)
+            else:
+                self.season = "{} / {}".format(current_year, current_year + 1)
 
         super().save(*args, **kwargs)
+        print(self.player)

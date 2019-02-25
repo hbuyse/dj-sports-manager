@@ -20,7 +20,7 @@ class PlayerCreationForm(ModelForm):
     class Meta:
         model = Player
         widgets = {
-            "birthday": DateInput(attrs={'class': 'form-control', 'placeholder': 'YYYY-MM-DD'})
+            "birthday": DateInput(attrs={'class': 'form-control'})
         }
         fields = [
             'first_name',
@@ -28,6 +28,7 @@ class PlayerCreationForm(ModelForm):
             'birthday',
             'sex'
         ]
+        localized_fields = ('birthday',)
 
 
 class EmergencyContactForm(ModelForm):

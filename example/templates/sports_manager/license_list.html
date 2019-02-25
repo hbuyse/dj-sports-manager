@@ -8,13 +8,13 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-      <li class="breadcrumb-item active" aria-current="page">{% trans "Mes Licenses" %}</li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "My licenses" %}</li>
     </ol>
   </nav>
 {% endblock %}
 
 {% block page_title %}
-  {% trans "Licenses" %}
+  {% trans "My licenses" %}
 {% endblock %}
 
 {% block page_title_buttons %}
@@ -26,23 +26,29 @@
 {% endblock %}
 
 {% block content %}
-  <div class="list-group">
   {% for license in license_list %}
-    <a href="{% url 'sports-manager:license-detail' license.player.owner.get_username license.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex row">
-        <div class="col-md-9 align-self-center">
-          <h5 class="mb-1">{{ license.player.first_name }} {{ license.player.last_name }}</h5>
-          <p class="mb-1">
-            {% for team in license.teams.all %}
-              {{ team.name }}
-              {% if not forloop.last %},{% endif%}
-            {% endfor %}
-          </p>
+    {% ifchanged license.season %}
+      {% if not forloop.first %}
+        </div>
+      {% endif %}
+      <h2>{{ license.season }}</h2>
+      <div class="card-columns">
+    {% endifchanged %}
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ license.player }}</h5>
+          {% for team in  license.teams.all %}
+            <p class="card-text">{{ team }}</p>
+          {% endfor %}
+          <a href="{{ license.get_absolute_url }}" class="card-link">{% trans "Details" %}</a>
         </div>
       </div>
-    </a>
+
+    {% if forloop.last %}
+      </div>
+    {% endif %}
   {% empty %}
-    <p>{% blocktrans %}No license listed yet...{% endblocktrans %}</p>
+    <p>{% trans "No category listed yet" %}...</p>
   {% endfor %}
-  </div>
 {% endblock %}

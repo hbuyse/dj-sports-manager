@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-22 16:01+0100\n"
-"PO-Revision-Date: 2019-02-22 18:10+0100\n"
+"POT-Creation-Date: 2019-02-25 22:57+0000\n"
+"PO-Revision-Date: 2019-02-26 00:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: example/settings.py:144
 msgid "English"
@@ -26,21 +26,67 @@ msgstr "Anglais"
 msgid "French"
 msgstr "Français"
 
-#: templates/403.html:25 templates/404.html:20
-#: templates/sports_manager/category_confirm_delete.html:25
+#: templates/403.html:8 templates/404.html:8 templates/home.html:10
+#: templates/registration/login.html:8
+#: templates/sports_manager/category_confirm_delete.html:8
+#: templates/sports_manager/category_detail.html:8
+#: templates/sports_manager/category_form.html:8
+#: templates/sports_manager/category_list.html:8
+#: templates/sports_manager/gymnasium_detail.html:8
+#: templates/sports_manager/gymnasium_form.html:9
+#: templates/sports_manager/gymnasium_list.html:8
+#: templates/sports_manager/license_confirm_delete.html:9
+#: templates/sports_manager/license_detail.html:10
+#: templates/sports_manager/license_form.html:9
+#: templates/sports_manager/license_list.html:10
+#: templates/sports_manager/player_creation_form.html:11
+#: templates/sports_manager/player_list.html:11
+#: templates/sports_manager/team_confirm_delete.html:7
+#: templates/sports_manager/team_detail.html:8
+#: templates/sports_manager/team_form.html:9
+#: templates/sports_manager/team_list.html:8
+#: templates/sports_manager/timeslot_form.html:8
+#: templates/sports_manager/timeslot_list.html:8
+msgid "Home"
+msgstr "Accueil"
+
+#: templates/403.html:9 templates/403.html:16
+msgid "Permission denied"
+msgstr "Permission refusée"
+
+#: templates/403.html:21
+#, python-format
+msgid "Error: %(exception)s"
+msgstr "Erreur: %(exception)s"
+
+#: templates/403.html:22
+msgid "We're sorry, but you are not authorized to view this page (Error: 403)"
+msgstr ""
+"Nous sommes désolés mais vous n'avez pas l'autorisation de voir cette page "
+"(erreur: 403)"
+
+#: templates/403.html:25 templates/404.html:22
 msgid "Go back"
 msgstr "Retourner en arrière"
 
-#: templates/403.html:26 templates/404.html:21
+#: templates/403.html:26 templates/404.html:23
 msgid "Go to homepage"
 msgstr "Retourner à la page d'accueil"
+
+#: templates/404.html:9 templates/404.html:15
+msgid "Page not found"
+msgstr "Page non trouvée"
+
+#: templates/404.html:19
+msgid "The page does not seem to exist..."
+msgstr "Cette page n'a pas l'air d'exister."
 
 #: templates/base.html:31 templates/base.html:38
 msgid "sports-manager"
 msgstr ""
 
 #: templates/base.html:48 templates/base.html:53
-#: templates/sports_manager/category_confirm_delete.html:8
+#: templates/sports_manager/category_confirm_delete.html:9
 #: templates/sports_manager/category_detail.html:9
 #: templates/sports_manager/category_form.html:9
 #: templates/sports_manager/category_list.html:9
@@ -48,68 +94,83 @@ msgstr ""
 msgid "Categories"
 msgstr "Catégories"
 
-#: templates/base.html:56 templates/base.html:72
+#: templates/base.html:56 templates/base.html:72 templates/base.html:88
 msgid "List"
 msgstr "Liste"
 
-#: templates/base.html:58 templates/base.html:74
+#: templates/base.html:58 templates/base.html:74 templates/base.html:90
 #: templates/sports_manager/category_form.html:11
+#: templates/sports_manager/gymnasium_form.html:12
+#: templates/sports_manager/gymnasium_form.html:23
+#: templates/sports_manager/license_form.html:12
+#: templates/sports_manager/team_form.html:12
+#: templates/sports_manager/timeslot_form.html:13
 msgid "Creation"
 msgstr "Création"
 
 #: templates/base.html:64 templates/base.html:69
 #: templates/sports_manager/category_detail.html:52
+#: templates/sports_manager/team_confirm_delete.html:8
 #: templates/sports_manager/team_detail.html:9
+#: templates/sports_manager/team_form.html:10
+#: templates/sports_manager/team_list.html:9
+#: templates/sports_manager/team_list.html:15
+#: templates/sports_manager/timeslot_form.html:9
+#: templates/sports_manager/timeslot_list.html:9
 msgid "Teams"
 msgstr "Équipes"
 
-#: templates/base.html:83
+#: templates/base.html:80 templates/base.html:85
+#: templates/sports_manager/gymnasium_detail.html:9
+#: templates/sports_manager/gymnasium_form.html:10
+#: templates/sports_manager/gymnasium_list.html:9
+#: templates/sports_manager/gymnasium_list.html:16
+msgid "Gymnasiums"
+msgstr "Gymnases"
+
+#: templates/base.html:99 templates/registration/login.html:9
+#: templates/registration/login.html:16 templates/registration/login.html:27
 msgid "Login"
 msgstr "Connexion"
 
-#: templates/base.html:97
+#: templates/base.html:113
 msgid "Admin"
 msgstr "Administration"
 
-#: templates/base.html:100
+#: templates/base.html:116 templates/sports_manager/player_list.html:12
+#: templates/sports_manager/player_list.html:18
 msgid "My players"
 msgstr "Mes joueurs"
 
-#: templates/base.html:101
-msgid "Licenses"
-msgstr "Licences"
+#: templates/base.html:117 templates/sports_manager/license_form.html:10
+#: templates/sports_manager/license_list.html:11
+#: templates/sports_manager/license_list.html:17
+msgid "My licenses"
+msgstr "Mes licences"
 
-#: templates/base.html:103
+#: templates/base.html:119
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: templates/base.html:122
+#: templates/base.html:138
 msgid "Page title"
 msgstr "Titre de la page"
 
-#: templates/home.html:8 templates/home.html:15
-#: templates/sports_manager/category_confirm_delete.html:7
-#: templates/sports_manager/category_detail.html:8
-#: templates/sports_manager/category_form.html:8
-#: templates/sports_manager/category_list.html:8
-#: templates/sports_manager/team_detail.html:8
-msgid "Home"
-msgstr "Accueil"
-
-#: templates/home.html:21
+#: templates/home.html:16
 msgid "Welcome to the Volley-ball Club of Nogent-Sur-Marne website"
-msgstr "Bienvenue sur le site web du club de volley-ball de Nogent-Sur-Marne "
+msgstr "Bienvenue sur le site web du club de volley-ball de Nogent-Sur-Marne"
 
-#: templates/sports_manager/category_confirm_delete.html:10
+#: templates/sports_manager/category_confirm_delete.html:11
+#: templates/sports_manager/team_confirm_delete.html:10
 msgid "Deletion"
 msgstr "Suppression"
 
-#: templates/sports_manager/category_confirm_delete.html:16
+#: templates/sports_manager/category_confirm_delete.html:17
 #, python-format
 msgid "%(category)s deletion"
 msgstr "Suppression de \"%(category)s\""
 
-#: templates/sports_manager/category_confirm_delete.html:22
+#: templates/sports_manager/category_confirm_delete.html:23
 #, python-format
 msgid ""
 "Do you really want to delete the category \"%(category)s\" and everything "
@@ -118,27 +179,47 @@ msgstr ""
 "Voulez-vous vraiment supprimer la catégorie \"%(category)s\" et tout ce qui "
 "est lié à cette catégorie?"
 
-#: templates/sports_manager/category_confirm_delete.html:24
-msgid "Submit"
-msgstr "Soumettre"
+#: templates/sports_manager/category_confirm_delete.html:25
+msgid "Yes, I am sure"
+msgstr "Oui, je suis sûr"
+
+#: templates/sports_manager/category_confirm_delete.html:26
+msgid "No, I want to go back"
+msgstr "Non, je veux revenir en arrière"
 
 #: templates/sports_manager/category_detail.html:21
 #: templates/sports_manager/category_form.html:14
 #: templates/sports_manager/category_form.html:24
-#: templates/sports_manager/player_list.html:54
+#: templates/sports_manager/gymnasium_form.html:15
+#: templates/sports_manager/license_form.html:15
+#: templates/sports_manager/player_list.html:56
 #: templates/sports_manager/team_detail.html:22
+#: templates/sports_manager/team_detail.html:86
+#: templates/sports_manager/team_form.html:15
+#: templates/sports_manager/timeslot_form.html:15
+#: templates/sports_manager/timeslot_list.html:47
 msgid "Update"
 msgstr "Mettre à jour"
 
 #: templates/sports_manager/category_detail.html:22
 #: templates/sports_manager/player_list.html:57
 #: templates/sports_manager/team_detail.html:23
+#: templates/sports_manager/team_detail.html:87
+#: templates/sports_manager/timeslot_list.html:48
 msgid "Delete"
 msgstr "Supprimer"
 
 #: templates/sports_manager/category_detail.html:39
 msgid "Constraints"
 msgstr "Contraintes"
+
+#: templates/sports_manager/category_detail.html:41
+msgid "Minimum age"
+msgstr "Âge minimal"
+
+#: templates/sports_manager/category_detail.html:45
+msgid "Maximum age"
+msgstr "Âge maximal"
 
 #: templates/sports_manager/category_detail.html:57
 msgid "Team"
@@ -153,6 +234,10 @@ msgid "Level"
 msgstr "Niveau"
 
 #: templates/sports_manager/category_detail.html:60
+#: templates/sports_manager/category_list.html:39
+#: templates/sports_manager/gymnasium_list.html:40
+#: templates/sports_manager/license_list.html:44
+#: templates/sports_manager/team_list.html:39
 msgid "Details"
 msgstr "Détails"
 
@@ -160,37 +245,99 @@ msgstr "Détails"
 msgid "Link"
 msgstr "Lien"
 
+#: templates/sports_manager/category_detail.html:80
+msgid "No team related to this category"
+msgstr "Pas d'équipe liée à cette catégorie"
+
 #: templates/sports_manager/category_form.html:22
 msgid "Category creation"
 msgstr "Création d'une catégorie"
 
-#: templates/sports_manager/category_form.html:34
+#: templates/sports_manager/category_form.html:47
+#: templates/sports_manager/gymnasium_form.html:48
+#: templates/sports_manager/license_form.html:34
+#: templates/sports_manager/team_form.html:52
+#: templates/sports_manager/timeslot_form.html:33
 msgid "Save"
 msgstr "Sauver"
 
-#: templates/sports_manager/category_form.html:35
+#: templates/sports_manager/category_form.html:48
 msgid "Reset"
 msgstr "Réinitialiser"
 
-#: templates/sports_manager/category_list.html:36
+#: templates/sports_manager/category_list.html:21
+msgid "New category"
+msgstr "Nouvelle catégorie"
+
+#: templates/sports_manager/category_list.html:46
+#: templates/sports_manager/license_list.html:52
 msgid "No category listed yet"
 msgstr "Pas de catégorie pour le moment"
 
-#: templates/sports_manager/player_list.html:35
+#: templates/sports_manager/gymnasium_form.html:25
+#, python-format
+msgid "%(gymnasium)s update"
+msgstr "Mise à jour de '%(gymnasium)s'"
+
+#: templates/sports_manager/gymnasium_list.html:22
+msgid "New gymnasium"
+msgstr "Nouveau gymnase"
+
+#: templates/sports_manager/gymnasium_list.html:38
+msgid "Phone: "
+msgstr "Téléphone: "
+
+#: templates/sports_manager/license_form.html:23
+msgid "License creation"
+msgstr "Création d'une licence"
+
+#: templates/sports_manager/license_form.html:25
+#, python-format
+msgid "%(license)s update "
+msgstr "Mise à jour de %(license)s"
+
+#: templates/sports_manager/license_list.html:23
+msgid "New license"
+msgstr "Nouvelle license"
+
+#: templates/sports_manager/player_list.html:24
+msgid "New player"
+msgstr "Nouveau joueur"
+
+#: templates/sports_manager/player_list.html:36
 msgid "First name"
 msgstr "Prénom"
 
-#: templates/sports_manager/player_list.html:36
+#: templates/sports_manager/player_list.html:37
 msgid "Last name"
 msgstr "Nom de famille"
 
-#: templates/sports_manager/player_list.html:37
+#: templates/sports_manager/player_list.html:38
+msgid "Birthday"
+msgstr "Date de naissance"
+
+#: templates/sports_manager/player_list.html:39
 msgid "Medical certificate validation"
 msgstr "Validation du certificat médical"
 
-#: templates/sports_manager/player_list.html:39
+#: templates/sports_manager/player_list.html:41
+#: templates/sports_manager/team_detail.html:71
+#: templates/sports_manager/timeslot_list.html:32
 msgid "Links"
 msgstr "Liens"
+
+#: templates/sports_manager/team_confirm_delete.html:16
+#, python-format
+msgid "%(team)s deletion"
+msgstr "Suppression de \"%(team)s\""
+
+#: templates/sports_manager/team_confirm_delete.html:22
+#, python-format
+msgid ""
+"Do you really want to delete the team \"%(team)s\" and everything link to it?"
+msgstr ""
+"Voulez-vous vraiment supprimer l'équipe \"%(team)s\" et tout ce qui est lié "
+"à cette catégorie?"
 
 #: templates/sports_manager/team_detail.html:30
 msgid "is recruiting,is not recruiting"
@@ -232,17 +379,75 @@ msgid "Trainer:"
 msgstr "Entraîneur:"
 
 #: templates/sports_manager/team_detail.html:59
+#: templates/sports_manager/timeslot_form.html:11
+#: templates/sports_manager/timeslot_list.html:11
+#: templates/sports_manager/timeslot_list.html:17
+msgid "Time slots"
+msgstr "Créneaux"
+
+#: templates/sports_manager/team_detail.html:66
+#: templates/sports_manager/timeslot_list.html:27
+msgid "Type of time slot"
+msgstr "Type de créneau"
+
+#: templates/sports_manager/team_detail.html:67
+#: templates/sports_manager/timeslot_list.html:28
+msgid "Day"
+msgstr "Jour"
+
+#: templates/sports_manager/team_detail.html:68
+#: templates/sports_manager/timeslot_list.html:29
+msgid "Starting time"
+msgstr "Heure de début"
+
+#: templates/sports_manager/team_detail.html:69
+#: templates/sports_manager/timeslot_list.html:30
+msgid "Ending time"
+msgstr "Heure de fin"
+
+#: templates/sports_manager/team_detail.html:101
 msgid "Description"
 msgstr "Description"
 
-#: templates/sports_manager/team_detail.html:63
+#: templates/sports_manager/team_detail.html:105
 msgid "Teammates"
 msgstr "Joueurs de l'équipe"
 
-#: templates/sports_manager/team_detail.html:73
+#: templates/sports_manager/team_detail.html:115
 msgid "(captain)"
 msgstr "(capitaine)"
 
-#: templates/sports_manager/team_detail.html:83
+#: templates/sports_manager/team_detail.html:135
 msgid "No known teammate related to this team"
 msgstr "Pas de joueur lié à  cette équipe"
+
+#: templates/sports_manager/team_form.html:23
+msgid "Team creation"
+msgstr "Création d'une équipe"
+
+#: templates/sports_manager/team_form.html:25
+#, python-format
+msgid "Update %(team)s"
+msgstr "Mise à jour de %(team)s"
+
+#: templates/sports_manager/team_list.html:21
+msgid "New team"
+msgstr "Nouvelle équipe"
+
+#: templates/sports_manager/team_list.html:46
+msgid "No team listed yet"
+msgstr "Pas d'équipe pour le moment"
+
+#~ msgid "My licenses "
+#~ msgstr "Mes licences"
+
+#~ msgid "Licenses"
+#~ msgstr "Licences"
+
+#, fuzzy
+#~| msgid "No category listed yet"
+#~ msgid "No license listed yet..."
+#~ msgstr "Pas de catégorie pour le moment"
+
+#~ msgid "Submit"
+#~ msgstr "Soumettre"

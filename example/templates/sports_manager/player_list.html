@@ -2,6 +2,7 @@
 
 {% load bootstrap4 %}
 {% load i18n %}
+{% load l10n %}
 {% load staticfiles %}
 
 {% block path %}
@@ -18,9 +19,9 @@
 {% endblock %}
 
 {% block page_title_buttons %}
-  {% if user.is_authenticated and user == player.owner %}
-    <div class="btn-group float-right" role="group" aria-label="Basic example">
-      <a class="btn btn-primary" href="{% url 'sports-manager:player-create' user.get_username %}">New player</a>
+  {% if user.is_authenticated %}
+    <div class="btn-group float-right" role="group">
+      <a class="btn btn-primary" href="{% url 'sports-manager:player-create' user.get_username %}">{% trans "New player" %}</a>
     </div>
   {% endif %}
 {% endblock %}
@@ -29,11 +30,12 @@
   <div class="list-group">
   {% for player in player_list %}
     {% if forloop.first %}
-      <table class="table table-hover" id="myTable">
+      <table class="table table-hover" id="myPlayerTable">
         <thead class="thead-light">
           <tr>
             <th scope="col">{% trans "First name" %}</th>
             <th scope="col">{% trans "Last name" %}</th>
+            <th scope="col">{% trans "Birthday" %}</th>
             <th scope="col">{% trans "Medical certificate validation" %}</th>
             {% if user.is_authenticated and user == player.owner %}
               <th scope="col">{% trans "Links" %}</th>
@@ -46,6 +48,7 @@
           <tr>
             <td>{{ player.first_name }}</td>
             <td>{{ player.last_name }}</td>
+            <td>{{ player.birthday|localize }}</td>
             <td>{{ player.get_last_medical_certificate.get_validation_display }}</td>
             {% if user.is_authenticated and user == player.owner %}
               <td>
