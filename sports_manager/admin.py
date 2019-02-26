@@ -91,3 +91,6 @@ class LicenseAdmin(admin.ModelAdmin):
         'number',
         'is_payed',
     )
+
+    def season(self, obj):
+        return obj.get_season()

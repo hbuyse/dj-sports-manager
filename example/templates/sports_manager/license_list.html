@@ -27,11 +27,11 @@
 
 {% block content %}
   {% for license in license_list %}
-    {% ifchanged license.season %}
+    {% ifchanged license.get_season %}
       {% if not forloop.first %}
         </div>
       {% endif %}
-      <h2>{{ license.season }}</h2>
+      <h2>{{ license.get_season }}</h2>
       <div class="card-columns">
     {% endifchanged %}
 
