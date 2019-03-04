@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 class LicenseListView(OwnerOrStaffMixin, ListView):
     """List of license."""
 
+    template_name = "sports_manager/license/list.html"
     model = License
     paginate_by = 10
 
@@ -37,12 +38,14 @@ class LicenseListView(OwnerOrStaffMixin, ListView):
 class LicenseDetailView(OwnerOrStaffMixin, DetailView):
     """Detail of a license."""
 
+    template_name = "sports_manager/license/detail.html"
     model = License
 
 
 class LicenseCreateView(CreateView):
     """Create a license for a logged user."""
 
+    template_name = "sports_manager/license/form.html"
     model = License
     form_class = LicenseCreationForm
     # fields = ['player', 'teams']
@@ -67,6 +70,7 @@ class LicenseCreateView(CreateView):
 class LicenseUpdateView(UpdateView):
     """Create a license for a logged user."""
 
+    template_name = "sports_manager/license/form.html"
     model = License
     form_class = LicenseCreationForm
 

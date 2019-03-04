@@ -22,12 +22,14 @@ logger = logging.getLogger(__name__)
 class TeamListView(ListView):
     """View that returns the list of categories."""
 
+    template_name = "sports_manager/team/list.html"
     model = Team
 
 
 class TeamDetailView(DetailView):
     """View that returns the details of a team."""
 
+    template_name = "sports_manager/team/detail.html"
     model = Team
     slug_field = 'slug'
 
@@ -35,6 +37,7 @@ class TeamDetailView(DetailView):
 class TeamCreateView(StaffMixin, CreateView):
     """View that creates a new team."""
 
+    template_name = "sports_manager/team/form.html"
     model = Team
     fields = [
         'name',
@@ -57,6 +60,7 @@ class TeamCreateView(StaffMixin, CreateView):
 class TeamUpdateView(StaffMixin, UpdateView):
     """View that updates a new team."""
 
+    template_name = "sports_manager/team/form.html"
     model = Team
     slug_field = 'slug'
     fields = [
@@ -80,6 +84,7 @@ class TeamUpdateView(StaffMixin, UpdateView):
 class TeamDeleteView(StaffMixin, DeleteView):
     """View that deletes a new team."""
 
+    template_name = "sports_manager/team/confirm_delete.html"
     model = Team
     slug_field = 'slug'
 

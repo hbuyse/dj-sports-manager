@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 class TeamTimeSlotListView(StaffMixin, ListView):
     """View that returns the list of practices."""
 
+    template_name = "sports_manager/timeslot/list.html"
     model = TimeSlot
 
     def get_context_data(self, **kwargs):
@@ -44,6 +45,7 @@ class TeamTimeSlotListView(StaffMixin, ListView):
 class TeamTimeSlotDetailView(StaffMixin, DetailView):
     """View that returns the details of a Pratice."""
 
+    template_name = "sports_manager/timeslot/detail.html"
     model = TimeSlot
 
     def get_context_data(self, **kwargs):
@@ -61,6 +63,7 @@ class TeamTimeSlotDetailView(StaffMixin, DetailView):
 class TeamTimeSlotCreateView(StaffMixin, CreateView):
     """View that creates a new TimeSlot."""
 
+    template_name = "sports_manager/timeslot/form.html"
     model = TimeSlot
     fields = '__all__'
 
@@ -77,6 +80,7 @@ class TeamTimeSlotCreateView(StaffMixin, CreateView):
 class TeamTimeSlotUpdateView(StaffMixin, UpdateView):
     """View that updates a new TimeSlot."""
 
+    template_name = "sports_manager/timeslot/form.html"
     model = TimeSlot
     fields = '__all__'
 
@@ -93,6 +97,7 @@ class TeamTimeSlotUpdateView(StaffMixin, UpdateView):
 class TeamTimeSlotDeleteView(StaffMixin, DeleteView):
     """View that deletes a new TimeSlot."""
 
+    template_name = "sports_manager/timeslot/confirm_delete.html"
     model = TimeSlot
 
     def get_success_url(self, **kwargs):

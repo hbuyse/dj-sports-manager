@@ -12,6 +12,7 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView, U
 
 # Current django project
 from sports_manager.models import Category
+from sports_manager.mixins import StaffMixin
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +21,7 @@ class CategoryListView(ListView):
     """View that returns the list of categories."""
 
     model = Category
+    template_name = "sports_manager/category/list.html"
 
 
 class CategoryDetailView(DetailView):
@@ -27,11 +29,13 @@ class CategoryDetailView(DetailView):
 
     model = Category
     slug_field = 'slug'
+    template_name = "sports_manager/category/detail.html"
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(StaffMixin, CreateView):
     """View that creates a new category."""
 
+    template_name = "sports_manager/category/form.html"
     model = Category
     fields = [
         'name',
@@ -42,29 +46,17 @@ class CategoryCreateView(CreateView):
         'img',
     ]
 
-    def get(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_staff:
-            raise PermissionDenied
-
-        return super().get(request, args, kwargs)
-
-    def post(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_staff:
-            raise PermissionDenied
-
-        return super().post(request, args, kwargs)
-
     def get_success_url(self):
         """Get the URL after the success."""
-        messages.success(self.request, "Category '{}' added successfully".format(self.object.name))
+        msg = _("Category '%(name)s' added successfully") % {'name': self.object.name}
+        messages.success(self.request, msg)
         return self.object.get_absolute_url()
 
 
-class CategoryUpdateView(UpdateView):
+class CategoryUpdateView(StaffMixin, UpdateView):
     """View that updates a new category."""
 
+    template_name = "sports_manager/category/form.html"
     model = Category
     slug_field = 'slug'
     fields = [
@@ -76,47 +68,22 @@ class CategoryUpdateView(UpdateView):
         'img',
     ]
 
-    def get(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_staff:
-            raise PermissionDenied
-
-        return super().get(request, args, kwargs)
-
-    def post(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_staff:
-            raise PermissionDenied
-
-        return super().post(request, args, kwargs)
-
     def get_success_url(self):
         """Get the URL after the success."""
-        messages.success(self.request, "Category '{}' updated successfully".format(self.object.name))
+        msg = _("Category '%(name)s' updated successfully") % {'name': self.object.name}
+        messages.success(self.request, msg)
         return self.object.get_absolute_url()
 
 
-class CategoryDeleteView(DeleteView):
+class CategoryDeleteView(StaffMixin, DeleteView):
     """View that deletes a new category."""
 
+    template_name = "sports_manager/category/confirm_delete.html"
     model = Category
     slug_field = 'slug'
-
-    def get(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_staff:
-            raise PermissionDenied
-
-        return super().get(request, args, kwargs)
-
-    def post(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_staff:
-            raise PermissionDenied
-
-        return super().post(request, args, kwargs)
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        messages.success(self.request, "Category '{}' deleted successfully".format(self.object.name))
+        msg = _("Category '%(name)s' deleted successfully") % {'name': self.object.name}
+        messages.success(self.request, msg)
         return reverse('sports-manager:category-list')

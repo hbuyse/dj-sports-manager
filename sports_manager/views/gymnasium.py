@@ -17,6 +17,7 @@ from sports_manager.models import Gymnasium
 class GymnasiumListView(ListView):
     """View that returns the list of Gymnasiums."""
 
+    template_name = "sports_manager/gymnasium/list.html"
     model = Gymnasium
     paginate_by = 10
 
@@ -24,6 +25,7 @@ class GymnasiumListView(ListView):
 class GymnasiumDetailView(DetailView):
     """Show the details of a Gymnasium."""
 
+    template_name = "sports_manager/gymnasium/detail.html"
     model = Gymnasium
     slug_field = 'slug'
 
@@ -31,6 +33,7 @@ class GymnasiumDetailView(DetailView):
 class GymnasiumCreateView(StaffMixin, CreateView):
     """Create a Gymnasium."""
 
+    template_name = "sports_manager/gymnasium/form.html"
     model = Gymnasium
     fields = [
         'type',
@@ -53,6 +56,7 @@ class GymnasiumCreateView(StaffMixin, CreateView):
 class GymnasiumUpdateView(StaffMixin, UpdateView):
     """Update a Gymnasium."""
 
+    template_name = "sports_manager/gymnasium/form.html"
     model = Gymnasium
     slug_field = 'slug'
     fields = [
@@ -76,6 +80,7 @@ class GymnasiumUpdateView(StaffMixin, UpdateView):
 class GymnasiumDeleteView(StaffMixin, DeleteView):
     """Delete of a Gymnasium."""
 
+    template_name = "sports_manager/gymnasium/confirm_delete.html"
     model = Gymnasium
     slug_field = 'slug'
 

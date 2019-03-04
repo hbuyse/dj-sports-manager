@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 class PlayerListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView):
     """View that returns the list of categories."""
 
+    template_name = "sports_manager/player/list.html"
     model = Player
 
     def get_queryset(self):
@@ -38,6 +39,7 @@ class PlayerListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView):
 class PlayerDetailView(LoginRequiredMixin, OwnerOrStaffMixin, DetailView):
     """View that returns the details of a category."""
 
+    template_name = "sports_manager/player/detail.html"
     model = Player
 
     def get_queryset(self):
@@ -48,63 +50,41 @@ class PlayerDetailView(LoginRequiredMixin, OwnerOrStaffMixin, DetailView):
 class PlayerCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateView):
     """View that creates a new category."""
 
+    template_name = "sports_manager/player/form.html"
     model = Player
     form_class = PlayerCreationForm
 
     def get_success_url(self):
         """Get the URL after the success."""
-        messages.success(self.request, "Player '{}' added successfully".format(self.object.name))
+        msg = _("Player '{}' added successfully") % {'name': self.object.name}
+        messages.success(self.request, msg)
         return reverse('sports-manager:player-detail', kwargs={'slug': self.object.slug})
 
 
 class PlayerUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, UpdateView):
     """View that updates a new category."""
 
+    template_name = "sports_manager/player/form.html"
     model = Player
     fields = '__all__'
 
-    def get(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_authenticated:
-            raise PermissionDenied
-
-        return super().get(request, args, kwargs)
-
-    def post(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_authenticated:
-            raise PermissionDenied
-
-        return super().post(request, args, kwargs)
-
     def get_success_url(self):
         """Get the URL after the success."""
-        messages.success(self.request, "Player '{}' updated successfully".format(self.object.name))
+        msg = _("Player '{}' updated successfully") % {'name': self.object.name}
+        messages.success(self.request, msg)
         return reverse('sports-manager:player-detail', kwargs={'slug': self.object.slug})
 
 
 class PlayerDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, DeleteView):
     """View that deletes a new category."""
 
+    template_name = "sports_manager/player/confirm_delete.html"
     model = Player
-
-    def get(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_authenticated:
-            raise PermissionDenied
-
-        return super().get(request, args, kwargs)
-
-    def post(self, request, *args, **kwargs):
-        """."""
-        if not request.user.is_authenticated:
-            raise PermissionDenied
-
-        return super().post(request, args, kwargs)
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        messages.success(self.request, "Player '{}' deleted successfully".format(self.object.name))
+        msg = _("Player '{}' deleted successfully") % {'name': self.object.name}
+        messages.success(self.request, msg)
         return reverse('sports-manager:player-list')
 
 
@@ -134,6 +114,6 @@ def create_new_player(request, username):
         certificate_form = MedicalCertificateForm(prefix="certif")
 
     return render(request,
-                  'sports_manager/player_creation_form.html',
+                  'sports_manager/player/creation_form.html',
                   {'player_form': player_form, 'emergency_form': emergency_form, 'certificate_form': certificate_form}
     )
