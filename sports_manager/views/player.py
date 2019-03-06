@@ -11,6 +11,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils.translation import ugettext_lazy as _  # noqa
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 # Current django project
