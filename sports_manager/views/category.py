@@ -33,7 +33,7 @@ class CategoryDetailView(DetailView):
     template_name = "sports_manager/category/detail.html"
 
 
-class CategoryCreateView(StaffMixin, CreateView):
+class CategoryCreateView(LoginRequiredMixin, StaffMixin, CreateView):
     """View that creates a new category."""
 
     template_name = "sports_manager/category/form.html"
@@ -54,7 +54,7 @@ class CategoryCreateView(StaffMixin, CreateView):
         return self.object.get_absolute_url()
 
 
-class CategoryUpdateView(StaffMixin, UpdateView):
+class CategoryUpdateView(LoginRequiredMixin, StaffMixin, UpdateView):
     """View that updates a new category."""
 
     template_name = "sports_manager/category/form.html"
@@ -76,7 +76,7 @@ class CategoryUpdateView(StaffMixin, UpdateView):
         return self.object.get_absolute_url()
 
 
-class CategoryDeleteView(StaffMixin, DeleteView):
+class CategoryDeleteView(LoginRequiredMixin, StaffMixin, DeleteView):
     """View that deletes a new category."""
 
     template_name = "sports_manager/category/confirm_delete.html"

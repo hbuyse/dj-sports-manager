@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _  # noqa
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 # Current django project
-from sports_manager.mixins import StaffMixin
+from sports_manager.mixins import LoginRequiredMixin, StaffMixin
 from sports_manager.models import Gymnasium
 
 
@@ -30,7 +30,7 @@ class GymnasiumDetailView(DetailView):
     slug_field = 'slug'
 
 
-class GymnasiumCreateView(StaffMixin, CreateView):
+class GymnasiumCreateView(LoginRequiredMixin, StaffMixin, CreateView):
     """Create a Gymnasium."""
 
     template_name = "sports_manager/gymnasium/form.html"
@@ -53,7 +53,7 @@ class GymnasiumCreateView(StaffMixin, CreateView):
         return reverse('sports-manager:gymnasium-detail', kwargs={'slug': self.object.slug})
 
 
-class GymnasiumUpdateView(StaffMixin, UpdateView):
+class GymnasiumUpdateView(LoginRequiredMixin, StaffMixin, UpdateView):
     """Update a Gymnasium."""
 
     template_name = "sports_manager/gymnasium/form.html"
@@ -77,7 +77,7 @@ class GymnasiumUpdateView(StaffMixin, UpdateView):
         return reverse('sports-manager:gymnasium-detail', kwargs={'slug': self.object.slug})
 
 
-class GymnasiumDeleteView(StaffMixin, DeleteView):
+class GymnasiumDeleteView(LoginRequiredMixin, StaffMixin, DeleteView):
     """Delete of a Gymnasium."""
 
     template_name = "sports_manager/gymnasium/confirm_delete.html"
