@@ -12,7 +12,7 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView, U
 
 # Current django project
 from sports_manager.mixins import LoginRequiredMixin, StaffMixin
-from sports_manager.models import Gymnasium
+from sports_manager.gymnasium.models import Gymnasium
 
 
 class GymnasiumListView(ListView):

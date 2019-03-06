@@ -11,7 +11,10 @@ from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 
 # Current django project
-from sports_manager.models import Category, Gymnasium, Player, Team, TimeSlot
+from sports_manager.category.models import Category
+from sports_manager.gymnasium.models import Gymnasium
+from sports_manager.player.models import Player
+from sports_manager.team.models import Team, TimeSlot
 
 
 def create_gymnasium():

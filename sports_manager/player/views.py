@@ -15,9 +15,9 @@ from django.utils.translation import ugettext_lazy as _  # noqa
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 # Current django project
-from sports_manager.forms.player import EmergencyContactForm, MedicalCertificateForm, PlayerCreationForm
+from sports_manager.player.forms import EmergencyContactForm, MedicalCertificateForm, PlayerCreationForm
 from sports_manager.mixins import OwnerOrStaffMixin
-from sports_manager.models import Player
+from sports_manager.player.models import Player
 
 logger = logging.getLogger(__name__)
 

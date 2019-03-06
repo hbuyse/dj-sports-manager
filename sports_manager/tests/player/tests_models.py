@@ -8,7 +8,8 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 # Current django project
-from sports_manager.models import Player, Team
+from sports_manager.player.models import Player
+from sports_manager.team.models import Team
 
 
 class TestPlayerModel(TestCase):

@@ -14,7 +14,7 @@ from django.utils.translation import ugettext_lazy as _
 # Current django project
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
-from sports_manager.models.team import Team
+from sports_manager.team.models import Team
 from sports_manager.storage import OverwriteStorage
 
 logger = logging.getLogger(__name__)

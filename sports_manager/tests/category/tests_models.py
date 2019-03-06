@@ -8,8 +8,8 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 # Current django project
-from sports_manager.models import Category, Team
-from sports_manager.models.category import image_upload_to
+from sports_manager.category.models import Category image_upload_to
+from sports_manager.team.models import Team
 
 
 class TestCategoryModel(TestCase):

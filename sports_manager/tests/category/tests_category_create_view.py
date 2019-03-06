@@ -7,7 +7,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from ..helper import create_user
+from sports_manager.tests.helper import create_user
 
 
 class TestCategoryCreateViewAsAnonymous(TestCase):

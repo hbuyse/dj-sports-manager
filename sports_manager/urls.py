@@ -7,13 +7,11 @@ from django.conf.urls.static import static
 from django.urls import path
 
 # Current django project
-import sports_manager.views.category as vcategory
-import sports_manager.views.gymnasium as vgymnasium
-import sports_manager.views.license as vlicense
-import sports_manager.views.player as vplayer
-import sports_manager.views.team as vteam
-import sports_manager.views.timeslot as vtimeslot
-from sports_manager import views
+import sports_manager.category.views as vcategory
+import sports_manager.gymnasium.views as vgymnasium
+import sports_manager.license.views as vlicense
+import sports_manager.player.views as vplayer
+import sports_manager.team.views as vteam
 
 app_name = 'sports-manager'
 urlpatterns = [
@@ -61,19 +59,19 @@ urlpatterns += [
           name='team-delete',
           ),
      path("team/<str:slug>/time-slot/",
-          view=vtimeslot.TeamTimeSlotListView.as_view(),
+          view=vteam.TeamTimeSlotListView.as_view(),
           name='team-time-slot-list',
           ),
      path("team/<str:slug>/time-slot/create/",
-          view=vtimeslot.TeamTimeSlotCreateView.as_view(),
+          view=vteam.TeamTimeSlotCreateView.as_view(),
           name='team-time-slot-create',
           ),
      path("team/<str:slug>/time-slot/<int:pk>/update/",
-          view=vtimeslot.TeamTimeSlotUpdateView.as_view(),
+          view=vteam.TeamTimeSlotUpdateView.as_view(),
           name='team-time-slot-update',
           ),
      path("team/<str:slug>/time-slot/<int:pk>/delete/",
-          view=vtimeslot.TeamTimeSlotDeleteView.as_view(),
+          view=vteam.TeamTimeSlotDeleteView.as_view(),
           name='team-time-slot-delete',
           )
 ]

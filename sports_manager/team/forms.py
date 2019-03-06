@@ -10,7 +10,7 @@ from django.core.exceptions import ValidationError
 from django.forms import CheckboxSelectMultiple, DateInput, Form, ModelChoiceField, ModelForm, ModelMultipleChoiceField
 
 # Current django project
-from sports_manager.models.team import TimeSlot
+from sports_manager.team.models import TimeSlot
 
 logger = logging.getLogger(__name__)
 

@@ -8,9 +8,9 @@ from django.test import TestCase
 from django.urls import reverse
 
 # Current django project
-from sports_manager.models import Category
+from sports_manager.category.models import Category
 
-from ..helper import create_category, create_user
+from sports_manager.tests.helper import create_category, create_user
 
 
 class TestCategoryUpdateViewAsAnonymous(TestCase):

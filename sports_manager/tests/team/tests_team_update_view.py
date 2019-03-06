@@ -8,9 +8,9 @@ from django.test import TestCase
 from django.urls import reverse
 
 # Current django project
-from sports_manager.models import Team
+from sports_manager.team.models import Team
 
-from ..helper import create_team, create_user
+from sports_manager.tests.helper import create_team, create_user
 
 
 class TestTeamUpdateViewAsAnonymous(TestCase):

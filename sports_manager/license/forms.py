@@ -10,9 +10,9 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 # Current django project
-from sports_manager.models.license import License
-from sports_manager.models.player import Player
-from sports_manager.models.team import Team
+from sports_manager.license.models import License
+from sports_manager.player.models import Player
+from sports_manager.team.models import Team
 
 logger = logging.getLogger(__name__)
 

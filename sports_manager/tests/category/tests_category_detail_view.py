@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from ..helper import create_category, create_user
+from sports_manager.tests.helper import create_category, create_user
 
 
 class TestCategoryDetailViewAsAnonymous(TestCase):

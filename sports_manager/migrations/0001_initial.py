@@ -5,9 +5,9 @@ import django.core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 import markdownx.models
-import sports_manager.models.category
-import sports_manager.models.player
-import sports_manager.models.team
+import sports_manager.category.models
+import sports_manager.player.models
+import sports_manager.team.models
 import sports_manager.storage
 
 
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('slug', models.SlugField(max_length=128, null=True, unique=True, verbose_name='slug')),
                 ('name', models.CharField(max_length=128, unique=True, verbose_name='name')),
-                ('img', models.ImageField(blank=True, storage=sports_manager.storage.OverwriteStorage(), upload_to=sports_manager.models.category.image_upload_to, verbose_name='image')),
+                ('img', models.ImageField(blank=True, storage=sports_manager.storage.OverwriteStorage(), upload_to=sports_manager.category.models.image_upload_to, verbose_name='image')),
                 ('min_age', models.PositiveSmallIntegerField(verbose_name='minimal age')),
                 ('max_age', models.PositiveSmallIntegerField(blank=True, null=True, verbose_name='maximal age')),
                 ('summary', models.TextField(max_length=512, verbose_name='summary')),
@@ -86,7 +86,7 @@ class Migration(migrations.Migration):
             name='MedicalCertificate',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('file', models.FileField(blank=True, upload_to=sports_manager.models.player.file_upload_to, verbose_name='file')),
+                ('file', models.FileField(blank=True, upload_to=sports_manager.player.models.file_upload_to, verbose_name='file')),
                 ('validation', models.PositiveSmallIntegerField(choices=[(0, 'not uploaded'), (1, 'in validation'), (2, 'valid'), (3, 'rejected')], default=0, verbose_name='validation step')),
                 ('start', models.DateField(auto_now_add=True, verbose_name='starting date')),
                 ('end', models.DateField(null=True, verbose_name='ending date')),
@@ -105,7 +105,7 @@ class Migration(migrations.Migration):
                 ('first_name', models.CharField(max_length=30, verbose_name='first name')),
                 ('last_name', models.CharField(max_length=150, verbose_name='last name')),
                 ('sex', models.CharField(choices=[('MA', 'male'), ('FE', 'female')], max_length=2, verbose_name='sex')),
-                ('birthday', models.DateField(validators=[sports_manager.models.player.is_player_old_enough], verbose_name='birthday')),
+                ('birthday', models.DateField(validators=[sports_manager.player.models.is_player_old_enough], verbose_name='birthday')),
                 ('created', models.DateTimeField(auto_now_add=True, verbose_name='creation date')),
                 ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
@@ -125,7 +125,7 @@ class Migration(migrations.Migration):
                 ('sex', models.CharField(choices=[('MA', 'male'), ('MI', 'mixed'), ('FE', 'female')], max_length=2, verbose_name='sex')),
                 ('url', models.URLField(verbose_name='competition URL')),
                 ('description', markdownx.models.MarkdownxField(verbose_name='description')),
-                ('img', models.ImageField(blank=True, storage=sports_manager.storage.OverwriteStorage(), upload_to=sports_manager.models.team.image_upload_to, verbose_name='image')),
+                ('img', models.ImageField(blank=True, storage=sports_manager.storage.OverwriteStorage(), upload_to=sports_manager.team.models.image_upload_to, verbose_name='image')),
                 ('recruitment', models.BooleanField(verbose_name='is recruting')),
                 ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='sports_manager.Category', verbose_name='category')),
                 ('trainer', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='trainer')),

@@ -9,7 +9,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 # Current django project
-from sports_manager.models import Gymnasium
+from sports_manager.gymnasium.models import Gymnasium
 
 
 class TestVcnAccountDetailViewAsAnonymous(TestCase):

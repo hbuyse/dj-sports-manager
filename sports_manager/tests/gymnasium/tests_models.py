@@ -7,7 +7,7 @@
 from django.test import TestCase
 
 # Current django project
-from sports_manager.models import Gymnasium
+from sports_manager.gymnasium.models import Gymnasium
 
 
 class TestGymnasiumModel(TestCase):
