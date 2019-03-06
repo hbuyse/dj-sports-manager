@@ -50,12 +50,12 @@ def test_user_own_page(user, kwargs, field_to_test):
 
 def test_access_private_page(user, kwargs, field_to_test):
     """Fusion of all the tests defined above."""
-    return test_user_staff(user) or \
-            test_user_superuser(user) or \
-            test_user_own_page(user, kwargs, field_to_test)
+    return test_user_staff(user) or test_user_superuser(user) or test_user_own_page(user, kwargs, field_to_test)
+
 
 class OwnerOrStaffMixin(UserPassesTestMixin):
     """Mixin that check if the user logged in has the rights to view the page."""
+
     permission_denied_message = _("You do not have the right to view this page.")            # from AccessMixin
     raise_exception = True
 
