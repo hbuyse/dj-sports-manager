@@ -19,7 +19,14 @@ def runtests(*test_args):
         from django.test.runner import DiscoverRunner
         runner_class = DiscoverRunner
         if not test_args:
-            test_args = ["sports_manager.tests"]
+            test_args = [
+                "sports_manager.tests",
+                "sports_manager.category.tests",
+                "sports_manager.gymnasium.tests",
+                "sports_manager.license.tests",
+                "sports_manager.player.tests",
+                "sports_manager.team.tests",
+            ]
     except ImportError:
         from django.test.simple import DjangoTestSuiteRunner
         runner_class = DjangoTestSuiteRunner
