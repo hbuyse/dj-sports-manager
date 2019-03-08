@@ -69,3 +69,5 @@ MIDDLEWARE = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
+
+SPORTS_MANAGER_PLAYER_MIN_AGE = 6

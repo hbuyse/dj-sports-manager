@@ -4,137 +4,23 @@
 # Django
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import path
 
 # Current django project
-import sports_manager.category.views as vcategory
-import sports_manager.gymnasium.views as vgymnasium
-import sports_manager.license.views as vlicense
-import sports_manager.player.views as vplayer
-import sports_manager.team.views as vteam
+from sports_manager.category.urls import category_urlpatterns
+from sports_manager.gymnasium.urls import gymnasium_urlpatterns
+from sports_manager.license.urls import license_urlpatterns
+from sports_manager.player.urls import player_urlpatterns
+from sports_manager.team.urls import team_urlpatterns
 
 app_name = 'sports-manager'
-urlpatterns = [
-     path("category/",
-          view=vcategory.CategoryListView.as_view(),
-          name='category-list',
-          ),
-     path("category/create/",
-          view=vcategory.CategoryCreateView.as_view(),
-          name='category-create',
-          ),
-     path("category/<str:slug>/",
-          view=vcategory.CategoryDetailView.as_view(),
-          name='category-detail',
-          ),
-     path("category/<str:slug>/update/",
-          view=vcategory.CategoryUpdateView.as_view(),
-          name='category-update',
-          ),
-     path("category/<str:slug>/delete/",
-          view=vcategory.CategoryDeleteView.as_view(),
-          name='category-delete',
-          )
-]
+urlpatterns = list()
+urlpatterns += category_urlpatterns
+urlpatterns += gymnasium_urlpatterns
+urlpatterns += license_urlpatterns
+urlpatterns += player_urlpatterns
+urlpatterns += team_urlpatterns
 
-urlpatterns += [
-     path("team/",
-          view=vteam.TeamListView.as_view(),
-          name='team-list',
-          ),
-     path("team/create/",
-          view=vteam.TeamCreateView.as_view(),
-          name='team-create',
-          ),
-     path("team/<str:slug>/",
-          view=vteam.TeamDetailView.as_view(),
-          name='team-detail',
-          ),
-     path("team/<str:slug>/update/",
-          view=vteam.TeamUpdateView.as_view(),
-          name='team-update',
-          ),
-     path("team/<str:slug>/delete/",
-          view=vteam.TeamDeleteView.as_view(),
-          name='team-delete',
-          ),
-     path("team/<str:slug>/time-slot/",
-          view=vteam.TeamTimeSlotListView.as_view(),
-          name='team-time-slot-list',
-          ),
-     path("team/<str:slug>/time-slot/create/",
-          view=vteam.TeamTimeSlotCreateView.as_view(),
-          name='team-time-slot-create',
-          ),
-     path("team/<str:slug>/time-slot/<int:pk>/update/",
-          view=vteam.TeamTimeSlotUpdateView.as_view(),
-          name='team-time-slot-update',
-          ),
-     path("team/<str:slug>/time-slot/<int:pk>/delete/",
-          view=vteam.TeamTimeSlotDeleteView.as_view(),
-          name='team-time-slot-delete',
-          )
-]
 
-urlpatterns += [
-     path("<str:username>/license/",
-          view=vlicense.LicenseListView.as_view(),
-          name='license-list',
-          ),
-     path("<str:username>/license/create/",
-          view=vlicense.LicenseCreateView.as_view(),
-          name='license-create',
-          ),
-     path("<str:username>/license/<int:pk>/",
-          view=vlicense.LicenseDetailView.as_view(),
-          name='license-detail',
-          ),
-     path("<str:username>/license/<int:pk>/update/",
-          view=vlicense.LicenseUpdateView.as_view(),
-          name='license-update',
-          ),
-
-     path("<str:username>/player/",
-          view=vplayer.PlayerListView.as_view(),
-          name='player-list',
-          ),
-     path("<str:username>/player/create/",
-          view=vplayer.create_new_player,
-          name='player-create',
-          ),
-     path("<str:username>/player/<int:pk>/",
-          view=vplayer.PlayerDetailView.as_view(),
-          name='player-detail',
-          ),
-     path("<str:username>/player/<int:pk>/update/",
-          view=vplayer.PlayerUpdateView.as_view(),
-          name='player-update',
-          ),
-     path("<str:username>/player/<int:pk>/delete/",
-          view=vplayer.PlayerDeleteView.as_view(),
-          name='player-delete',
-          ),
-]
-
-urlpatterns += [
-     path("gymnasium/",
-          view=vgymnasium.GymnasiumListView.as_view(),
-          name='gymnasium-list',
-          ),
-     path("gymnasium/create/",
-          view=vgymnasium.GymnasiumCreateView.as_view(),
-          name='gymnasium-create',
-          ),
-     path("gymnasium/<slug:slug>/",
-          view=vgymnasium.GymnasiumDetailView.as_view(),
-          name='gymnasium-detail',
-          ),
-     path("gymnasium/<slug:slug>/update/",
-          view=vgymnasium.GymnasiumUpdateView.as_view(),
-          name='gymnasium-update',
-          ),
-     path("gymnasium/<slug:slug>/delete/",
-          view=vgymnasium.GymnasiumDeleteView.as_view(),
-          name='gymnasium-delete',
-          )
-]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.SETTINGS_URL, document_root=settings.SETTINGS_ROOT)

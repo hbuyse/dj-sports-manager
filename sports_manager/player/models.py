@@ -3,15 +3,10 @@
 # Standard library
 import logging
 import os
-from datetime import date, timedelta
-
-# Third-party
-from markdownx.models import MarkdownxField
-from markdownx.utils import markdownify
+from datetime import date
 
 # Django
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db import models
 from django.urls import reverse
@@ -19,38 +14,32 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
 # Current django project
-from sports_manager.storage import OverwriteStorage
+from sports_manager.player.validators import is_player_old_enough
 
 logger = logging.getLogger(__name__)
 
 
 def file_upload_to(instance, filename):
-    """Callback to create the path where to store the files.
-    
-    result: 
+    """Create the path where to store the files.
+
+    result: path to the file
     """
     basename, ext = os.path.splitext(filename)
     if isinstance(instance, MedicalCertificate):
         path = os.path.join(instance.player.owner.get_username().lower(),
                             "{fn}_{ln}".format(fn=instance.player.first_name.lower(),
                                                ln=instance.player.last_name.lower(),
-                            ),
+                                               ),
                             str(date.today().year),
-                            'medical_certificate{ext}'.format(ext=ext))
+                            'medical_certificate{ext}'.format(ext=ext)
+                            )
         logger.info("Medical certificate {filename} saved in {path}".format(path=path, filename=filename))
 
     return path
 
-MIN_AGE = 6
-
-def is_player_old_enough(birthday):
-    if birthday > (date.today() - timedelta(weeks=MIN_AGE*52)):
-        raise ValidationError(_("Player is not old enough (min: %(min)s years old, birthday given: %(birthday)s)"),
-                              params={'min': MIN_AGE, "birthday": birthday}
-        )
 
 class Player(models.Model):
-    """Player model
+    """Player model.
 
     TODO: Link with an urgence contact.
     """
@@ -69,7 +58,7 @@ class Player(models.Model):
     created = models.DateTimeField(_('creation date'), auto_now_add=True)
 
     def __str__(self):
-        """String representation."""
+        """Representation of a Gymnasium as a string."""
         return "{} {}".format(self.first_name, self.last_name)
 
     class Meta:
@@ -78,26 +67,25 @@ class Player(models.Model):
         verbose_name = _("player")
         verbose_name_plural = _("players")
         ordering = ("last_name", "first_name")
-    
+
     def save(self, *args, **kwargs):
         """Override the save method in order to rewrite the slug field each time we save the object."""
         self.slug = slugify("{} {}".format(self.first_name, self.last_name))
         super().save(*args, **kwargs)
-    
+
     def get_absolute_url(self):
         """Override the get_absolute_url method in order to use it in templates."""
         return reverse("sports-manager:player-detail",
                        kwargs={"username": self.owner.get_username(), "slug": self.slug}
-        )
-    
+                       )
+
     def get_last_medical_certificate(self):
         """Retrieve the last medical certificate uploaded."""
         return self.medicalcertificate_set.last()
 
 
 class MedicalCertificate(models.Model):
-    """Medical certificate file model
-    """
+    """Medical certificate file model."""
 
     NOT_UPLOADED = 0
     IN_VALIDATION = 1
@@ -127,7 +115,7 @@ class MedicalCertificate(models.Model):
         verbose_name = _("medical certificate")
         verbose_name_plural = _("medical certificates")
         ordering = ("player", "start", "validation")
-    
+
     def is_valid(self):
         """Check if the medical certificate is valid."""
         return self.validation == self.CERTIFICATION_VALID

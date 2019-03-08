@@ -1,36 +1,10 @@
 # -*- coding: utf-8 -*-
 
+"""Apps mixins."""
+
 # Django
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.utils.translation import ugettext_lazy as _  # noqa
-
-
-class StaffMixin(UserPassesTestMixin):
-    """
-    Mixin allows you to require a user with `is_staff` set to True.
-    """
-    raise_exception = True
-
-    def test_func(self):
-        return self.request.user.is_staff
-
-
-class SuperuserMixin(UserPassesTestMixin):
-    """
-    Mixin allows you to require a user with `is_superuser` set to True.
-    """
-    raise_exception = True
-
-    def test_func(self):
-        return self.request.user.is_superuser
-
-
-class OwnerMixin(UserPassesTestMixin):
-    owner_kwargs = 'username'
-    raise_exception = True
-
-    def test_func(self):
-        return self.request.user.user.username == self.kwargs.get(self.owner_kwargs)
 
 
 def test_user_staff(user):
@@ -45,12 +19,43 @@ def test_user_superuser(user):
 
 def test_user_own_page(user, kwargs, field_to_test):
     """Test if the user logged in owned the page asked to be accessed."""
-    return user.get_username() == kwargs.get(field_to_test) 
+    return user.get_username() == kwargs.get(field_to_test)
 
 
 def test_access_private_page(user, kwargs, field_to_test):
     """Fusion of all the tests defined above."""
     return test_user_staff(user) or test_user_superuser(user) or test_user_own_page(user, kwargs, field_to_test)
+
+
+class StaffMixin(UserPassesTestMixin):
+    """Mixin allows you to require a user with `is_staff` set to True."""
+
+    raise_exception = True
+
+    def test_func(self):
+        """Check if the logged user is staff."""
+        return self.request.user.is_staff
+
+
+class SuperuserMixin(UserPassesTestMixin):
+    """Mixin allows you to require a user with `is_superuser` set to True."""
+
+    raise_exception = True
+
+    def test_func(self):
+        """Check if the logged user is superuser."""
+        return self.request.user.is_superuser
+
+
+class OwnerMixin(UserPassesTestMixin):
+    """Mixin that test if the logged user owns the page."""
+
+    owner_kwargs = 'username'
+    raise_exception = True
+
+    def test_func(self):
+        """Check if the logged user is the owner of the page."""
+        return self.request.user.get_username() == self.kwargs.get(self.owner_kwargs)
 
 
 class OwnerOrStaffMixin(UserPassesTestMixin):
@@ -60,4 +65,5 @@ class OwnerOrStaffMixin(UserPassesTestMixin):
     raise_exception = True
 
     def test_func(self):
+        """Check if the user logged in has the rights to view the page."""
         return test_access_private_page(self.request.user, self.kwargs, 'username')

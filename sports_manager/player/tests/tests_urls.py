@@ -10,5 +10,5 @@ from django.utils.text import slugify
 
 class TestUrlsPlayer(TestCase):
     """Tests the urls for the sports-manager."""
-    
+
     pass

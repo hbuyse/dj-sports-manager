@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 class TimeSlotForm(ModelForm):
-    
+
     class Meta:
         model = Player
         widgets = {

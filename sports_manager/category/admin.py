@@ -11,6 +11,8 @@ from sports_manager.category.models import Category
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    """Category administration."""
+
     prepopulated_fields = {"slug": ("name",)}
     list_display = (
         'name',

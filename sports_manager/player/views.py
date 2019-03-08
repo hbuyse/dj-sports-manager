@@ -7,7 +7,6 @@ import logging
 # Django
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -30,8 +29,8 @@ class PlayerListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView):
 
     def get_queryset(self):
         """Override the getter of the queryset.
-        
-        This view will ony show the player owned by the <username> user.
+
+        This method will only get the players owned by the <username> user.
         """
         queryset = super().get_queryset()
         return queryset.filter(owner__username=self.kwargs.get('username'))
@@ -44,6 +43,10 @@ class PlayerDetailView(LoginRequiredMixin, OwnerOrStaffMixin, DetailView):
     model = Player
 
     def get_queryset(self):
+        """Override the getter of the queryset.
+
+        This method will only get the players owned by the <username> user.
+        """
         queryset = super().get_queryset()
         return queryset.filter(owner__username=self.kwargs.get('username'))
 
@@ -96,7 +99,7 @@ def create_new_player(request, username):
         player_form = PlayerCreationForm(request.POST, prefix="player")
         emergency_form = EmergencyContactForm(request.POST, prefix="emergency")
         certificate_form = MedicalCertificateForm(request.POST, request.FILES, prefix="certif")
-    
+
         if player_form.is_valid() and emergency_form.is_valid() and certificate_form.is_valid():
             player = player_form.save(commit=False)
             player.owner = request.user
@@ -108,7 +111,10 @@ def create_new_player(request, username):
             medical_certificate.player = player
             medical_certificate.save()
 
-            return HttpResponseRedirect(reverse('sports-manager:player-list', kwargs={'username': request.user.get_username()}))
+            return HttpResponseRedirect(reverse('sports-manager:player-list',
+                                                kwargs={'username': request.user.get_username()}
+                                                )
+                                        )
     else:
         player_form = PlayerCreationForm(prefix="player")
         emergency_form = EmergencyContactForm(prefix="emergency")
@@ -117,4 +123,4 @@ def create_new_player(request, username):
     return render(request,
                   'sports_manager/player/creation_form.html',
                   {'player_form': player_form, 'emergency_form': emergency_form, 'certificate_form': certificate_form}
-    )
+                  )

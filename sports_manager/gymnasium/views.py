@@ -5,14 +5,13 @@
 # Django
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _  # noqa
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 # Current django project
 from sports_manager.gymnasium.models import Gymnasium
-from sports_manager.mixins import LoginRequiredMixin, StaffMixin
+from sports_manager.mixins import StaffMixin
 
 
 class GymnasiumListView(ListView):

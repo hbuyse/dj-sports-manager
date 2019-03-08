@@ -3,11 +3,9 @@
 
 # Standard library
 import logging
-from datetime import date, timedelta
 
 # Django
-from django.core.exceptions import ValidationError
-from django.forms import CheckboxSelectMultiple, DateInput, Form, ModelChoiceField, ModelForm, ModelMultipleChoiceField
+from django.forms import DateInput, ModelForm
 
 # Current django project
 from sports_manager.player.models import EmergencyContact, MedicalCertificate, Player
@@ -16,7 +14,8 @@ logger = logging.getLogger(__name__)
 
 
 class PlayerCreationForm(ModelForm):
-    
+    """Player creation form."""
+
     class Meta:
         model = Player
         widgets = {
@@ -32,7 +31,8 @@ class PlayerCreationForm(ModelForm):
 
 
 class EmergencyContactForm(ModelForm):
-    
+    """Emergency contact form."""
+
     class Meta:
         model = EmergencyContact
         fields = [
@@ -44,7 +44,8 @@ class EmergencyContactForm(ModelForm):
 
 
 class MedicalCertificateForm(ModelForm):
-    
+    """Medical certificate form."""
+
     class Meta:
         model = MedicalCertificate
         fields = [

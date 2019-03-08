@@ -11,6 +11,8 @@ from sports_manager.license.models import License
 
 @admin.register(License)
 class LicenseAdmin(admin.ModelAdmin):
+    """License admin object."""
+
     list_display = (
         'player',
         'season',
@@ -19,4 +21,5 @@ class LicenseAdmin(admin.ModelAdmin):
     )
 
     def season(self, obj):
+        """Return the license season."""
         return obj.get_season()
