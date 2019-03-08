@@ -91,7 +91,7 @@ class Team(models.Model):
 
     def __str__(self):
         """String representation."""
-        return "{} {}".format(self.name, self.get_sex_display()).title()
+        return "{} {}".format(self.name.title(), self.get_sex_display()).title()
 
     class Meta:
         """Meta class."""
