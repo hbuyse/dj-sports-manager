@@ -8,7 +8,7 @@ import logging
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _  # noqa
-from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 # Current django project
 from sports_manager.license.forms import LicenseCreationForm

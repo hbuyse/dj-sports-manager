@@ -3,18 +3,20 @@
 
 """Tests for `sports-manager` models module."""
 
+# Standard library
 from datetime import date, timedelta
 
 # Django
 from django.conf import settings
-from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.test import TestCase, override_settings
 
 # Current django project
-from sports_manager.player.models import file_upload_to, is_player_old_enough, Player
+from sports_manager.player.models import Player, file_upload_to, is_player_old_enough
 from sports_manager.team.models import Team
 from sports_manager.tests.helper import create_user
+
 
 class TestIsPlayerOldEnough(TestCase):
     """Test is_player_old_enough fn."""
