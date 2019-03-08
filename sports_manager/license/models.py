@@ -1,19 +1,19 @@
 """."""
 
 # Standard library
-from datetime import date
 import logging
 import os
+from datetime import date
+
+# Third-party
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 
 # Django
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-
-# Current django project
-from markdownx.models import MarkdownxField
-from markdownx.utils import markdownify
 
 logger = logging.getLogger(__name__)
 

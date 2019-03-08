@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 # Current django project
-from sports_manager.category.models import Category image_upload_to
+from sports_manager.category.models import Category, image_upload_to
 from sports_manager.team.models import Team
 
 
@@ -41,7 +41,7 @@ class TestCategoryModel(TestCase):
         self.assertEqual(c.slug, "federation-francaise-de-volley-ball")
 
     def test_get_absolute_url(self):
-        """Test the description_md function of post class."""
+        """Test the description_md function of the class."""
         d = {
             'name': "Fédération Française de Volley-Ball",
             'min_age': 7
@@ -50,10 +50,10 @@ class TestCategoryModel(TestCase):
         self.assertEqual(c.get_absolute_url(), "/category/federation-francaise-de-volley-ball/")
 
     def test_description_md(self):
-        """Test the description_md function of post class."""
+        """Test the description_md property of the class."""
         i = 0
         c = Category.objects.create(name=str(i), min_age=18)
-        self.assertEqual(len(c.description_md()), 0)
+        self.assertEqual(len(c.description_md), 0)
 
         tests = (
             ("# Toto", "<h1>", "</h1>"),
@@ -66,11 +66,11 @@ class TestCategoryModel(TestCase):
         for test in tests:
             i += 1
             c = Category.objects.create(name=str(i), min_age=18, description=test[0])
-            self.assertIn(test[1], c.description_md())
-            self.assertIn(test[2], c.description_md())
+            self.assertIn(test[1], c.description_md)
+            self.assertIn(test[2], c.description_md)
 
     def test_has_teams_with_trainer(self):
-        """Test the description_md function of post class."""
+        """Test the description_md function of the class."""
         c = Category.objects.create(min_age=18)
         self.assertFalse(c.has_teams_with_trainer())
 

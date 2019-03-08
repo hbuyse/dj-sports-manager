@@ -4,6 +4,10 @@
 import logging
 import os
 
+# Third-party
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
+
 # Django
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -12,8 +16,6 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
 # Current django project
-from markdownx.models import MarkdownxField
-from markdownx.utils import markdownify
 from sports_manager.gymnasium.models import Gymnasium
 from sports_manager.storage import OverwriteStorage
 

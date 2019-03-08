@@ -30,7 +30,7 @@ class TestGymnasiumListViewAsAnonymous(TestCase):
             city='Nogent-Sur-Marne',
             zip_code=94130,
             phone='0100000000',
-            surface=123,
+            area=123,
             capacity=456
         )
 
@@ -48,7 +48,7 @@ class TestGymnasiumListViewAsAnonymous(TestCase):
                 city='Nogent-Sur-Marne',
                 zip_code=94130,
                 phone='0100000000',
-                surface=123,
+                area=123,
                 capacity=456
             )
 
@@ -90,7 +90,7 @@ class TestGymnasiumListViewAsLogged(TestCase):
             city='Nogent-Sur-Marne',
             zip_code=94130,
             phone='0100000000',
-            surface=123,
+            area=123,
             capacity=456
         )
 
@@ -109,7 +109,7 @@ class TestGymnasiumListViewAsLogged(TestCase):
                 city='Nogent-Sur-Marne',
                 zip_code=94130,
                 phone='0100000000',
-                surface=123,
+                area=123,
                 capacity=456
             )
 
@@ -150,7 +150,7 @@ class TestGymnasiumListViewAsStaff(TestCase):
             city='Nogent-Sur-Marne',
             zip_code=94130,
             phone='0100000000',
-            surface=123,
+            area=123,
             capacity=456
         )
 
@@ -169,7 +169,7 @@ class TestGymnasiumListViewAsStaff(TestCase):
                 city='Nogent-Sur-Marne',
                 zip_code=94130,
                 phone='0100000000',
-                surface=123,
+                area=123,
                 capacity=456
             )
 
@@ -210,7 +210,7 @@ class TestGymnasiumListViewAsSuperuser(TestCase):
             city='Nogent-Sur-Marne',
             zip_code=94130,
             phone='0100000000',
-            surface=123,
+            area=123,
             capacity=456
         )
 
@@ -229,7 +229,7 @@ class TestGymnasiumListViewAsSuperuser(TestCase):
                 city='Nogent-Sur-Marne',
                 zip_code=94130,
                 phone='0100000000',
-                surface=123,
+                area=123,
                 capacity=456
             )
 

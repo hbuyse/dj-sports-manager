@@ -2,6 +2,7 @@
 
 """Admin."""
 
+# Current django project
 from sports_manager.category.admin import CategoryAdmin
 from sports_manager.gymnasium.admin import GymnasiumAdmin
 from sports_manager.license.admin import LicenseAdmin

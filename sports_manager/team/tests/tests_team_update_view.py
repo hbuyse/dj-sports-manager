@@ -9,7 +9,6 @@ from django.urls import reverse
 
 # Current django project
 from sports_manager.team.models import Team
-
 from sports_manager.tests.helper import create_team, create_user
 
 

@@ -18,12 +18,13 @@ class TestGymnasiumUpdateViewAsAnonymous(TestCase):
     def setUp(self):
         """Setup for al the following tests."""
         self.gymnasium_data = {
+            'type': 0,
             'name': 'Watteau',
             'address': '37 rue Lequesne',
             'city': 'Nogent-Sur-Marne',
             'zip_code': '94130',
             'phone': '0100000000',
-            'surface': '123',
+            'area': '123',
             'capacity': '456',
         }
         self.gymnasium = Gymnasium.objects.create(**self.gymnasium_data)
@@ -58,12 +59,13 @@ class TestGymnasiumUpdateViewAsLogged(TestCase):
         get_user_model().objects.create_user(**self.dict)
 
         self.gymnasium_data = {
+            'type': 0,
             'name': 'Watteau',
             'address': '37 rue Lequesne',
             'city': 'Nogent-Sur-Marne',
             'zip_code': '94130',
             'phone': '0100000000',
-            'surface': '123',
+            'area': '123',
             'capacity': '456',
         }
         self.gymnasium = Gymnasium.objects.create(**self.gymnasium_data)
@@ -101,12 +103,13 @@ class TestGymnasiumUpdateViewAsStaff(TestCase):
         get_user_model().objects.create_user(**self.dict)
 
         self.gymnasium_data = {
+            'type': 0,
             'name': 'Watteau',
             'address': '37 rue Lequesne',
             'city': 'Nogent-Sur-Marne',
             'zip_code': '94130',
             'phone': '0100000000',
-            'surface': '123',
+            'area': '123',
             'capacity': '456',
         }
         self.gymnasium = Gymnasium.objects.create(**self.gymnasium_data)
@@ -144,12 +147,13 @@ class TestGymnasiumUpdateViewAsSuperuser(TestCase):
         get_user_model().objects.create_superuser(**self.dict)
 
         self.gymnasium_data = {
+            'type': 0,
             'name': 'Watteau',
             'address': '37 rue Lequesne',
             'city': 'Nogent-Sur-Marne',
             'zip_code': '94130',
             'phone': '0100000000',
-            'surface': '123',
+            'area': '123',
             'capacity': '456',
         }
         self.gymnasium = Gymnasium.objects.create(**self.gymnasium_data)

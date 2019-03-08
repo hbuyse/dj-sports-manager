@@ -7,135 +7,117 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from sports_manager.tests.helper import create_category, create_user
+# Current django project
+from sports_manager.tests.helper import create_user
 
 
-class TestTeamCreateViewAsAnonymous(TestCase):
-    """Tests CreateView for Team."""
-
-    def setUp(self):
-        """Create a user that will be able to log in."""
-        self.category = create_category()[1]
+class TestCategoryCreateViewAsAnonymous(TestCase):
+    """Tests CreateView for Category."""
 
     def test_get(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:team-create'))
+        r = self.client.get(reverse('sports-manager:category-create'))
 
         self.assertEqual(r.status_code, 403)
 
     def test_post(self):
         """Tests."""
         d = {
-            'category': self.category.id,
-            'name': 'Hello World Team',
-            'level': 'GOL',
-            'sex': 'MI',
-            'url': 'http://example.com',
+            'name': 'Hello World',
+            'min_age': 18,
+            'summary': 'TODO',
             'description': '# TODO',
-            'is_recruiting': True,
         }
 
-        r = self.client.post(reverse('sports-manager:team-create'), d)
+        r = self.client.post(reverse('sports-manager:category-create'), d)
 
         self.assertEqual(r.status_code, 403)
 
 
-class TestTeamCreateViewAsLogged(TestCase):
-    """Tests CreateView for Team."""
+class TestCategoryCreateViewAsLogged(TestCase):
+    """Tests CreateView for Category."""
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.category = create_category()[1]
         self.user_info = create_user()[0]
 
     def test_get(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-create'))
+        r = self.client.get(reverse('sports-manager:category-create'))
 
         self.assertEqual(r.status_code, 403)
 
     def test_post(self):
         """Tests."""
         d = {
-            'category': self.category.id,
-            'name': 'Hello World Team',
-            'level': 'GOL',
-            'sex': 'MI',
-            'url': 'http://example.com',
+            'name': 'Hello World',
+            'min_age': 18,
+            'summary': 'TODO',
             'description': '# TODO',
-            'is_recruiting': True,
         }
 
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.post(reverse('sports-manager:team-create'), d)
+        r = self.client.post(reverse('sports-manager:category-create'), d)
 
         self.assertEqual(r.status_code, 403)
 
 
-class TestTeamCreateViewAsStaff(TestCase):
-    """Tests CreateView for Team."""
+class TestCategoryCreateViewAsStaff(TestCase):
+    """Tests CreateView for Category."""
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.category = create_category()[1]
         self.user_info = create_user(staff=True)[0]
 
     def test_get(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-create'))
+        r = self.client.get(reverse('sports-manager:category-create'))
 
         self.assertEqual(r.status_code, 200)
 
     def test_post(self):
         """Tests."""
         d = {
-            'category': self.category.id,
-            'name': 'Hello World Team',
-            'level': 'GOL',
-            'sex': 'MI',
-            'url': 'http://example.com',
+            'name': 'Hello World',
+            'min_age': 18,
+            'summary': 'TODO',
             'description': '# TODO',
-            'is_recruiting': True,
         }
 
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.post(reverse('sports-manager:team-create'), d)
+        r = self.client.post(reverse('sports-manager:category-create'), d)
 
         self.assertEqual(r.status_code, 302)
         self.assertIn("hello-world", r.url)
 
 
-class TestTeamCreateViewAsSuperuser(TestCase):
-    """Tests CreateView for Team."""
+class TestCategoryCreateViewAsSuperuser(TestCase):
+    """Tests CreateView for Category."""
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.category = create_category()[1]
         self.user_info = create_user(superuser=True)[0]
 
     def test_get(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-create'))
+        r = self.client.get(reverse('sports-manager:category-create'))
 
         self.assertEqual(r.status_code, 200)
 
     def test_post(self):
         """Tests."""
         d = {
-            'category': self.category.id,
-            'name': 'Hello World Team',
-            'level': 'GOL',
-            'sex': 'MI',
-            'url': 'http://example.com',
+            'name': 'Hello World',
+            'min_age': 18,
+            'summary': 'TODO',
             'description': '# TODO',
-            'is_recruiting': True,
         }
 
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.post(reverse('sports-manager:team-create'), d)
+        r = self.client.post(reverse('sports-manager:category-create'), d)
 
         self.assertEqual(r.status_code, 302)
         self.assertIn("hello-world", r.url)

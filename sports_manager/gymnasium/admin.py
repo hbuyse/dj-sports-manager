@@ -9,7 +9,6 @@ from django.contrib import admin
 from sports_manager.gymnasium.models import Gymnasium
 
 
-
 @admin.register(Gymnasium)
 class GymnasiumAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}

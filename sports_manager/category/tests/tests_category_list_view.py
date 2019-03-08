@@ -7,6 +7,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
+# Current django project
 from sports_manager.tests.helper import create_category, create_user
 
 

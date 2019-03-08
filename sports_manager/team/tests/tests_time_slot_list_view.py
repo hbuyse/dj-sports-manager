@@ -7,6 +7,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
+# Current django project
 from sports_manager.tests.helper import create_team, create_time_slot, create_user
 
 
@@ -21,8 +22,7 @@ class TestTimeSlotListViewAsAnonymous(TestCase):
         """Tests."""
         r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'slug': self.team.slug}))
 
-        self.assertEqual(r.status_code, 200)
-        self.assertEqual(len(r.context['timeslot_list']), 0)
+        self.assertEqual(r.status_code, 403)
 
     def tests_one_team(self):
         """Tests."""
@@ -30,9 +30,7 @@ class TestTimeSlotListViewAsAnonymous(TestCase):
 
         r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'slug': self.team.slug}))
 
-        self.assertEqual(r.status_code, 200)
-        self.assertEqual(len(r.context['timeslot_list']), 1)
-        self.assertIn(ts, r.context['timeslot_list'])
+        self.assertEqual(r.status_code, 403)
 
 
 class TestTimeSlotListViewAsLogged(TestCase):
@@ -48,8 +46,7 @@ class TestTimeSlotListViewAsLogged(TestCase):
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
         r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'slug': self.team.slug}))
 
-        self.assertEqual(r.status_code, 200)
-        self.assertEqual(len(r.context['timeslot_list']), 0)
+        self.assertEqual(r.status_code, 403)
 
     def tests_one_team(self):
         """Tests."""
@@ -58,9 +55,7 @@ class TestTimeSlotListViewAsLogged(TestCase):
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
         r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'slug': self.team.slug}))
 
-        self.assertEqual(r.status_code, 200)
-        self.assertEqual(len(r.context['timeslot_list']), 1)
-        self.assertIn(ts, r.context['timeslot_list'])
+        self.assertEqual(r.status_code, 403)
 
 
 class TestTimeSlotListViewAsStaff(TestCase):

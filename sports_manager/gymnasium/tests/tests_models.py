@@ -21,7 +21,7 @@ class TestGymnasiumModel(TestCase):
             'city': 'Nogent-Sur-Marne',
             'zip_code': '94130',
             'phone': '0100000000',
-            'surface': '123',
+            'area': '123',
             'capacity': '456',
         }
 

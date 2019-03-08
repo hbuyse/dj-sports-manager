@@ -20,12 +20,13 @@ from sports_manager.team.models import Team, TimeSlot
 def create_gymnasium():
     """Create a gymnasium."""
     gymnasium_info = {
+        'type': 0,
         'name': "Toto",
         'address': "Toto",
         'city': "Toto",
         'zip_code': 12345,
         'phone': "0100000000",
-        'surface': "48",
+        'area': "48",
         'capacity': "2",
     }
 

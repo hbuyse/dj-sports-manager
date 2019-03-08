@@ -8,6 +8,7 @@ from django.contrib import admin
 # Current django project
 from sports_manager.player.models import EmergencyContact, MedicalCertificate, Player
 
+
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
     list_display = (

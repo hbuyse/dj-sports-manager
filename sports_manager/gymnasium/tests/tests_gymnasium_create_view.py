@@ -24,12 +24,13 @@ class TestGymnasiumCreateViewAsAnonymous(TestCase):
     def test_post(self):
         """Tests."""
         d = {
+            'type': 0,
             'name': 'Watteau',
             'address': '37 rue Lequesne',
             'city': 'Nogent-Sur-Marne',
             'zip_code': '94130',
             'phone': '0100000000',
-            'surface': '123',
+            'area': '123',
             'capacity': '456',
         }
         r = self.client.post(reverse('sports-manager:gymnasium-create'), d)
@@ -60,12 +61,13 @@ class TestGymnasiumCreateViewAsLogged(TestCase):
     def test_post(self):
         """Tests."""
         d = {
+            'type': 0,
             'name': 'Watteau',
             'address': '37 rue Lequesne',
             'city': 'Nogent-Sur-Marne',
             'zip_code': '94130',
             'phone': '0100000000',
-            'surface': '123',
+            'area': '123',
             'capacity': '456',
         }
         self.assertTrue(self.client.login(username=self.dict['username'], password=self.dict['password']))
@@ -98,12 +100,13 @@ class TestGymnasiumCreateViewAsStaff(TestCase):
     def test_post(self):
         """Tests."""
         d = {
+            'type': 0,
             'name': 'Watteau',
             'address': '37 rue Lequesne',
             'city': 'Nogent-Sur-Marne',
             'zip_code': '94130',
             'phone': '0100000000',
-            'surface': '123',
+            'area': '123',
             'capacity': '456',
         }
 
@@ -137,12 +140,13 @@ class TestGymnasiumCreateViewAsSuperuser(TestCase):
     def test_post(self):
         """Tests."""
         d = {
+            'type': 0,
             'name': 'Watteau',
             'address': '37 rue Lequesne',
             'city': 'Nogent-Sur-Marne',
             'zip_code': '94130',
             'phone': '0100000000',
-            'surface': '123',
+            'area': '123',
             'capacity': '456',
         }
 

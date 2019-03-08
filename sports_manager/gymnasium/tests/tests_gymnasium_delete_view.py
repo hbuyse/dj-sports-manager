@@ -12,7 +12,7 @@ from django.urls import reverse
 from sports_manager.gymnasium.models import Gymnasium
 
 
-class TestVcnAccountDetailViewAsAnonymous(TestCase):
+class TestVcnAccountDeleteViewAsAnonymous(TestCase):
     """Tests."""
 
     def setUp(self):
@@ -23,18 +23,23 @@ class TestVcnAccountDetailViewAsAnonymous(TestCase):
             city='Nogent-Sur-Marne',
             zip_code=94130,
             phone='0100000000',
-            surface=123,
+            area=123,
             capacity=456
         )
         self.gymnasium.save()
 
     def test_get(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:gymnasium-detail', kwargs={'slug': self.gymnasium.slug}))
-        self.assertEqual(r.status_code, 200)
+        r = self.client.get(reverse('sports-manager:gymnasium-delete', kwargs={'slug': self.gymnasium.slug}))
+        self.assertEqual(r.status_code, 403)
+
+    def test_post(self):
+        """Tests."""
+        r = self.client.post(reverse('sports-manager:gymnasium-delete', kwargs={'slug': self.gymnasium.slug}))
+        self.assertEqual(r.status_code, 403)
 
 
-class TestVcnAccountDetailViewAsLogged(TestCase):
+class TestVcnAccountDeleteViewAsLogged(TestCase):
     """Tests."""
 
     def setUp(self):
@@ -52,18 +57,23 @@ class TestVcnAccountDetailViewAsLogged(TestCase):
             city='Nogent-Sur-Marne',
             zip_code=94130,
             phone='0100000000',
-            surface=123,
+            area=123,
             capacity=456
         )
         self.gymnasium.save()
 
     def test_get(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:gymnasium-detail', kwargs={'slug': self.gymnasium.slug}))
-        self.assertEqual(r.status_code, 200)
+        r = self.client.get(reverse('sports-manager:gymnasium-delete', kwargs={'slug': self.gymnasium.slug}))
+        self.assertEqual(r.status_code, 403)
+
+    def test_post(self):
+        """Tests."""
+        r = self.client.post(reverse('sports-manager:gymnasium-delete', kwargs={'slug': self.gymnasium.slug}))
+        self.assertEqual(r.status_code, 403)
 
 
-class TestVcnAccountDetailViewAsStaff(TestCase):
+class TestVcnAccountDeleteViewAsStaff(TestCase):
     """Tests."""
 
     def setUp(self):
@@ -82,7 +92,7 @@ class TestVcnAccountDetailViewAsStaff(TestCase):
             city='Nogent-Sur-Marne',
             zip_code=94130,
             phone='0100000000',
-            surface=123,
+            area=123,
             capacity=456
         )
         self.gymnasium.save()
@@ -90,12 +100,19 @@ class TestVcnAccountDetailViewAsStaff(TestCase):
     def test_get(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.dict['username'], password=self.dict['password']))
-        r = self.client.get(reverse('sports-manager:gymnasium-detail', kwargs={'slug': self.gymnasium.slug}))
+        r = self.client.get(reverse('sports-manager:gymnasium-delete', kwargs={'slug': self.gymnasium.slug}))
 
         self.assertEqual(r.status_code, 200)
 
+    def test_post(self):
+        """Tests."""
+        self.assertTrue(self.client.login(username=self.dict['username'], password=self.dict['password']))
+        r = self.client.post(reverse('sports-manager:gymnasium-delete', kwargs={'slug': self.gymnasium.slug}))
 
-class TestVcnAccountDetailViewAsSuperuser(TestCase):
+        self.assertRedirects(r, '/gymnasium/', fetch_redirect_response=False)
+
+
+class TestVcnAccountDeleteViewAsSuperuser(TestCase):
     """Tests."""
 
     def setUp(self):
@@ -114,7 +131,7 @@ class TestVcnAccountDetailViewAsSuperuser(TestCase):
             city='Nogent-Sur-Marne',
             zip_code=94130,
             phone='0100000000',
-            surface=123,
+            area=123,
             capacity=456
         )
         self.gymnasium.save()
@@ -122,6 +139,13 @@ class TestVcnAccountDetailViewAsSuperuser(TestCase):
     def test_get(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.dict['username'], password=self.dict['password']))
-        r = self.client.get(reverse('sports-manager:gymnasium-detail', kwargs={'slug': self.gymnasium.slug}))
+        r = self.client.get(reverse('sports-manager:gymnasium-delete', kwargs={'slug': self.gymnasium.slug}))
 
         self.assertEqual(r.status_code, 200)
+
+    def test_post(self):
+        """Tests."""
+        self.assertTrue(self.client.login(username=self.dict['username'], password=self.dict['password']))
+        r = self.client.post(reverse('sports-manager:gymnasium-delete', kwargs={'slug': self.gymnasium.slug}))
+
+        self.assertRedirects(r, '/gymnasium/', fetch_redirect_response=False)
