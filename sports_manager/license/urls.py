@@ -25,7 +25,7 @@ license_urlpatterns = [
          name='license-update',
          ),
     path("<str:username>/license/<int:pk>/delete/",
-         view=views.License.as_view(),
+         view=views.LicenseDeleteView.as_view(),
          name='license-delete',
          ),
 ]
