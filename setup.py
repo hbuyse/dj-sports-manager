@@ -40,7 +40,7 @@ EXTRAS = {
         'flake8-rst-docstrings',
         'flake8-logging-format',
         'pep8-naming',
-        'isort',
+        'isort==4.3.10',
         'coverage',
         'codecov',
         'pylint'
