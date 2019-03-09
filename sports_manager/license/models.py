@@ -23,8 +23,8 @@ class License(models.Model):
     modified = models.DateTimeField(_('last modification date'), auto_now=True)
 
     def __str__(self):
-        """Representation of a Gymnasium as a string."""
-        return "{} ({})".format(self.player, self.number)
+        """Representation as a string."""
+        return "{} - {}".format(self.player, self.season)
 
     class Meta:
 
@@ -38,7 +38,8 @@ class License(models.Model):
                        kwargs={'username': self.player.owner.get_username(), 'pk': self.pk}
                        )
 
-    def get_season(self):
+    @property
+    def season(self):
         """Get the season based on the license's created field."""
         current_year = date.today().year
         if self.created.date() < date(current_year, 7, 15):

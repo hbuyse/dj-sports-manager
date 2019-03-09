@@ -63,4 +63,4 @@ class Gymnasium(models.Model):
 
     def get_time_slots(self):
         """Return a list of all the time slots in the gymnasium."""
-        return self.time_slot_set.all()
+        return self.timeslot_set.all()

@@ -108,7 +108,7 @@ class Team(models.Model):
 
     def get_training_days(self):
         """Get the list of training days ordered by day."""
-        return self.training_set.all()
+        return self.timeslot_set.filter(team=self)
 
     def get_players(self):
         """Get the list of teamates of the team."""

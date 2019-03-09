@@ -12,6 +12,19 @@ from sports_manager.category.models import Category, image_upload_to
 from sports_manager.team.models import Team
 
 
+class TestImageUploadTo(TestCase):
+    """Test the path creation function."""
+
+    def test_with_no_category_object(self):
+        t = 0
+        self.assertEqual(image_upload_to(t, 'Toto.img'), None)
+
+
+    def test_with_category_object(self):
+        c = Category(slug='hello-world')
+        self.assertEqual(image_upload_to(c, 'Toto.img'), 'categories/hello-world/img.img')
+
+
 class TestCategoryModel(TestCase):
     """Test the Category model."""
 
@@ -84,11 +97,3 @@ class TestCategoryModel(TestCase):
         Team.objects.create(category=c, name='b', recruitment=False, trainer=u)
         self.assertEqual(c.team_set.count(), 2)
         self.assertTrue(c.has_teams_with_trainer())
-
-    def test_path_image_upload_to(self):
-        """Test image_upload_to function for Category."""
-        c = Category.objects.create(min_age=18)
-        self.assertEqual(image_upload_to(c, "toto.png"), 'categories/img.png')
-
-        c = Category.objects.create(name="Hello-World", min_age=18)
-        self.assertEqual(image_upload_to(c, "toto.png"), 'categories/hello-world/img.png')

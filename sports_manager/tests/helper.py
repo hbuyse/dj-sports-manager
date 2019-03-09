@@ -8,7 +8,6 @@ from datetime import date, datetime, timedelta
 
 # Django
 from django.contrib.auth import get_user_model
-from django.utils.text import slugify
 
 # Current django project
 from sports_manager.category.models import Category
@@ -43,17 +42,16 @@ def create_category():
         'summary': 'TODO',
         'description': '# TODO'
     }
-    category_info['slug'] = slugify(category_info['name'])
 
     category = Category.objects.create(**category_info)
 
     return category_info, category
 
 
-def create_team():
+def create_team(name='Hello World Team'):
     """Create a Team object and save it in the DB."""
     team_info = {
-        'name': 'Hello World Team',
+        'name': name,
         'level': 'GOL',
         'sex': 'MI',
         'url': 'http://example.com',
@@ -62,7 +60,6 @@ def create_team():
     }
     category = create_category()[1]
 
-    team_info['slug'] = slugify(team_info['name'])
     team_info['category'] = category
     team = Team.objects.create(**team_info)
 

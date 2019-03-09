@@ -26,7 +26,8 @@ class TestLicenseModel(TestCase):
         p.save()
         l = License(player=p, number="123456", is_payed=True)
         l.save()
-        self.assertEqual(str(l), "Toto Tata (123456)")
+        self.assertIn("Toto Tata", str(l))
+        self.assertIn(str(date.today().year), str(l))
 
     def test_verbose_name(self):
         """Test the verbose name."""

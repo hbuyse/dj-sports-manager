@@ -22,4 +22,4 @@ class LicenseAdmin(admin.ModelAdmin):
 
     def season(self, obj):
         """Return the license season."""
-        return obj.get_season()
+        return obj.season

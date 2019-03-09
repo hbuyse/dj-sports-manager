@@ -11,7 +11,7 @@ from django.urls import reverse
 from sports_manager.tests.helper import create_team, create_user
 
 
-class TestTeamUpdateViewAsAnonymous(TestCase):
+class TestTeamDeleteViewAsAnonymous(TestCase):
     """Tests UpdateView for Post."""
 
     def setUp(self):
@@ -38,7 +38,7 @@ class TestTeamUpdateViewAsAnonymous(TestCase):
         self.assertEqual(r.status_code, 403)
 
 
-class TestTeamUpdateViewAsLogged(TestCase):
+class TestTeamDeleteViewAsLogged(TestCase):
     """Tests UpdateView for Post."""
 
     def setUp(self):
@@ -69,7 +69,7 @@ class TestTeamUpdateViewAsLogged(TestCase):
         self.assertEqual(r.status_code, 403)
 
 
-class TestTeamUpdateViewAsStaff(TestCase):
+class TestTeamDeleteViewAsStaff(TestCase):
     """Tests UpdateView for Post."""
 
     def setUp(self):
@@ -101,7 +101,7 @@ class TestTeamUpdateViewAsStaff(TestCase):
         self.assertEqual(r.url, reverse('sports-manager:team-list'))
 
 
-class TestTeamUpdateViewAsSuperuser(TestCase):
+class TestTeamDeleteViewAsSuperuser(TestCase):
     """Tests UpdateView for Post."""
 
     def setUp(self):
