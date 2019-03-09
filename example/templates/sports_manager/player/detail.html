@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load icons %}
+{% load staticfiles %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a href="{% url 'sports-manager:player-list' user.get_username %}">{% trans "My players" %}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ player }}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title_buttons %}
+  {% if user.get_username == player.owner.get_username or user.is_staff %}
+    <button type="button" class="btn btn-primary btn-sm" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="{% blocktrans %}If you really want to update that player, click on that <a href='mailto:{{ sports_manager.webmaster }}?Subject=[MODIFICATION] {{ player }}'>link</a>{% endblocktrans %}">
+      Update
+    </button>
+    <button type="button" class="btn btn-danger btn-sm" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="{% blocktrans %}If you really want to delete that player, click on that <a href='mailto:{{ sports_manager.webmaster }}?Subject=[DELETION] {{ player }}'>link</a>{% endblocktrans %}">
+      Delete
+    </button>
+  {% endif %}
+{% endblock %}
+
+{% block page_title %}
+  {{ player }}
+{% endblock %}
+
+{% block content %}
+
+  {% for emergencycontact in player.emergencycontact_set.all %}
+    {% if forloop.first %}
+      <h2>{% trans "Emergency contacts" %}</h2>
+    {% endif %}
+    <div class="row">
+      <div class="col-md-4">{% icon 'user' %} {{ emergencycontact.first_name }} {{ emergencycontact.last_name }}</div>
+      <div class="col-md-4">{% icon "phone" %} {{ emergencycontact.phone }}</div>
+      {% if emergencycontact.email %}
+        <div class="col-md-4">{% icon "envelope" %} {{ emergencycontact.email }}</div>
+      {% endif %}
+    </div>
+
+    {% if forloop.last %}
+      <div class="w-100 mb-4"></div>
+    {% endif %}
+  {% endfor %}
+
+  {% for license in player.license_set.all %}
+    {% if forloop.first %}
+      <h2>{% trans "His/her licenses" %}</h2>
+    {% endif %}
+    {% ifchanged license.season %}
+      {% blocktrans with season=license.season %}<h3>{{ season }}'s license</h3>{% endblocktrans %}
+    {% endifchanged %}
+
+    {{ license.teams.all }}
+
+  {% endfor %}
+{% endblock %}
+
+{% block javascript %}
+   <!--modal-->
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="popover"]').popover({
+        html: true,
+        trigger: 'focus'
+      });
+    });
+  </script>
+ {% endblock %}

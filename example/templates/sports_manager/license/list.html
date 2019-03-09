@@ -27,19 +27,19 @@
 
 {% block content %}
   {% for license in license_list %}
-    {% ifchanged license.get_season %}
+    {% ifchanged license.season %}
       {% if not forloop.first %}
         </div>
       {% endif %}
-      <h2>{{ license.get_season }}</h2>
+      <h2>{{ license.season }}</h2>
       <div class="card-columns">
     {% endifchanged %}
 
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">{{ license.player }}</h5>
-          {% for team in  license.teams.all %}
-            <p class="card-text">{{ team }}</p>
+          {% for team in license.teams.all %}
+            <p class="card-text {% if not forloop.last %}mb-0{% endif %}">{{ team }}</p>
           {% endfor %}
           <a href="{{ license.get_absolute_url }}" class="card-link">{% trans "Details" %}</a>
         </div>

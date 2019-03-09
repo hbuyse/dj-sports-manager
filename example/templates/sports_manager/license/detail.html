@@ -8,7 +8,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-      <li class="breadcrumb-item" aria-current="page"><a href="{% url 'sports-manager:license-list' license.player.owner.get_username %}">Licenses</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a href="{% url 'sports-manager:license-list' license.player.owner.get_username %}">{% trans "Licenses" %}</a></li>
       <li class="breadcrumb-item active" aria-current="page">{{ license }}</li>
     </ol>
   </nav>
@@ -16,38 +16,85 @@
 
 {% block page_title_buttons %}
   {% if user.get_username == license.owner.get_username or user.is_staff %}
-    <button type="button" class="btn btn-primary btn-sm" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="If you really want to update that license, click on that <a href='mailto:{{ sports_manager.webmaster }}?Subject=[MODIFICATION] {{ license }}'>link</a>">
-      Update
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateModal">
+      {% trans "Update" %}
     </button>
-    <button type="button" class="btn btn-danger btn-sm" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="If you really want to delete that license, click on that <a href='mailto:{{ sports_manager.webmaster }}?Subject=[DELETION] {{ license }}'>link</a>">
-      Delete
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+      {% trans "Delete" %}
     </button>
+
+    <!-- update modal -->
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateModalLabel">Update</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            {% blocktrans %}
+              If you really want to update that license,
+            {% endblocktrans %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <a class="btn btn-danger" href='mailto:{{ sports_manager.webmaster }}?Subject=[Modification] {{ license }}'>Update</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            {% blocktrans %}
+              <p>If you really want to delete that license, click on that <a href='mailto:{{ sports_manager.webmaster }}?Subject=[DELETION] {{ license }}'>link</a></p>
+            {% endblocktrans %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <a class="btn btn-danger" href='mailto:{{ sports_manager.webmaster }}?Subject=[DELETION] {{ license }}'>Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
   {% endif %}
 {% endblock %}
 
 {% block page_title %}
-  {{ license.player }} - {{ license.get_season }}
+  {{ license }}
 {% endblock %}
 
 {% block content %}
   <div class="row">
-    <div class="col-2">Season:</div><div class="col-10">{{ license.get_season }}</div>
+    <div class="col-2">{% trans "Season" %}:</div><div class="col-10">{{ license.season }}</div>
   </div>
   <div class="row">
-    <div class="col-2">Team:</div><div class="col-10">{% for team in license.teams.all %}{{ team.name }}<br/>{% endfor %}</div>
+    <div class="col-2">{% trans "Team" %}:</div><div class="col-10">{% for team in license.teams.all %}{{ team.name }}<br/>{% endfor %}</div>
   </div>
   <div class="row">
-    <div class="col-2">Owner:</div><div class="col-10">{{ license.player.owner }}</div>
+    <div class="col-2">{% trans "Owner" %}:</div><div class="col-10">{{ license.player.owner }}</div>
   </div>
   <div class="row">
-    <div class="col-2">Sex:</div><div class="col-10">{{ license.player.get_sex_display }}</div>
+    <div class="col-2">{% trans "Sex" %}:</div><div class="col-10">{{ license.player.get_sex_display }}</div>
   </div>
   <div class="row">
-    <div class="col-2">Birthday:</div><div class="col-10">{{ license.player.birthday }}</div>
+    <div class="col-2">{% trans "Birthday" %}:</div><div class="col-10">{{ license.player.birthday }}</div>
   </div>
   {% if license.license_number %}
     <div class="row">
-      <div class="col-2">License number:</div><div class="col-10">{{ license.license_number }}</div>
+      <div class="col-2">{% trans "License number" %}:</div><div class="col-10">{{ license.license_number }}</div>
     </div>
   {% endif %}
 {% endblock %}

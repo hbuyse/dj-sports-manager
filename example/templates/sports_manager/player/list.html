@@ -53,8 +53,9 @@
             {% if user.is_authenticated and user == player.owner %}
               <td>
                 <div class="btn-group btn-group-sm float-right" role="group">
-                  {% comment %} <a class="btn btn-primary" href="{% url 'sports-manager:player-update' player.owner.get_username player.id %}">{% trans "Update" %}</a> {% endcomment %}
-                  {% comment %} <a class="btn btn-danger" href="{% url 'sports-manager:player-delete' player.owner.get_username player.id %}">{% trans "Delete" %}</a> {% endcomment %}
+                  <a class="btn btn-primary" href="{{ player.get_absolute_url }}">{% trans "Details" %}</a>
+                  <a class="btn btn-primary" href="{% url 'sports-manager:player-update' player.owner.get_username player.id %}">{% trans "Update" %}</a>
+                  <a class="btn btn-danger" href="{% url 'sports-manager:player-delete' player.owner.get_username player.id %}">{% trans "Delete" %}</a>
                 </div>
               </td>
             {% endif %}
