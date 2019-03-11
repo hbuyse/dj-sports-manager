@@ -24,6 +24,7 @@ def file_upload_to(instance, filename):
 
     result: path to the file
     """
+    path = None
     basename, ext = os.path.splitext(filename)
     if isinstance(instance, MedicalCertificate):
         path = os.path.join(instance.player.owner.get_username().lower(),

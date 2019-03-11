@@ -20,8 +20,21 @@ from sports_manager.player.models import (
     Player,
     file_upload_to
 )
-from sports_manager.team.models import Team
 from sports_manager.tests.helper import create_user
+
+class TestFileUploadTo(TestCase):
+    """Test the path creation function."""
+
+    def test_with_no_category_object(self):
+        t = 0
+        self.assertEqual(file_upload_to(t, 'Toto.pdf'), None)
+
+
+    def test_with_category_object(self):
+        user = create_user()[1]
+        player = Player(first_name='Titi', last_name='Tutu', owner=user)
+        med_cert = MedicalCertificate(player=player)
+        self.assertEqual(file_upload_to(med_cert, 'Toto.pdf'), '{}/titi_tutu/{}/medical_certificate.pdf'.format(user.get_username(), date.today().year))
 
 
 class TestPlayerModel(TestCase):
