@@ -32,7 +32,7 @@ def image_upload_to(instance, filename):
     if isinstance(instance, Category):
         path = os.path.join('categories', instance.slug, 'img{}'.format(ext))
 
-    logger.info("Image {filename} saved in {path}".format(path=path, filename=filename))
+    logger.info(_("Image %(filename)s saved in %(path)s") % {'path': path, 'filename' filename})
 
     return path
 
@@ -75,4 +75,4 @@ class Category(models.Model):
 
     def has_teams_with_trainer(self):
         """Check if there is at least a team in this category that have a trainer."""
-        return True if Team.objects.filter(category=self, trainer__isnull=False) else False
+        return True if self.team_set.filter(trainer__isnull=False) else False
