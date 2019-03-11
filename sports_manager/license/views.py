@@ -57,7 +57,6 @@ class LicenseCreateView(CreateView):
         self.object = form.save(commit=False)
         self.object.is_payed = False
         self.object.save()
-        print(form.is_valid())
         form.save_m2m()
         # Return directly the Http page because we are saving a m2m
         return HttpResponseRedirect(self.get_success_url())
@@ -80,7 +79,6 @@ class LicenseUpdateView(UpdateView):
         """Validate the form."""
         self.object = form.save(commit=False)
         self.object.save()
-        print(form.cleaned_data)
         form.save_m2m()
         # Return directly the Http page because we are saving a m2m
         return HttpResponseRedirect(self.get_success_url())
@@ -106,7 +104,6 @@ class LicenseDeleteView(DeleteView):
         """Validate the form."""
         self.object = form.save(commit=False)
         self.object.save()
-        print(form.cleaned_data)
         form.save_m2m()
         # Return directly the Http page because we are saving a m2m
         return HttpResponseRedirect(self.get_success_url())
