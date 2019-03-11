@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-25 22:57+0000\n"
+"POT-Creation-Date: 2019-02-26 20:56+0000\n"
 "PO-Revision-Date: 2019-02-26 00:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -81,11 +81,11 @@ msgstr "Page non trouvée"
 msgid "The page does not seem to exist..."
 msgstr "Cette page n'a pas l'air d'exister."
 
-#: templates/base.html:31 templates/base.html:38
+#: templates/base.html:28 templates/base.html:35
 msgid "sports-manager"
 msgstr ""
 
-#: templates/base.html:48 templates/base.html:53
+#: templates/base.html:45 templates/base.html:50
 #: templates/sports_manager/category_confirm_delete.html:9
 #: templates/sports_manager/category_detail.html:9
 #: templates/sports_manager/category_form.html:9
@@ -94,11 +94,11 @@ msgstr ""
 msgid "Categories"
 msgstr "Catégories"
 
-#: templates/base.html:56 templates/base.html:72 templates/base.html:88
+#: templates/base.html:53 templates/base.html:69 templates/base.html:85
 msgid "List"
 msgstr "Liste"
 
-#: templates/base.html:58 templates/base.html:74 templates/base.html:90
+#: templates/base.html:55 templates/base.html:71 templates/base.html:87
 #: templates/sports_manager/category_form.html:11
 #: templates/sports_manager/gymnasium_form.html:12
 #: templates/sports_manager/gymnasium_form.html:23
@@ -108,7 +108,7 @@ msgstr "Liste"
 msgid "Creation"
 msgstr "Création"
 
-#: templates/base.html:64 templates/base.html:69
+#: templates/base.html:61 templates/base.html:66
 #: templates/sports_manager/category_detail.html:52
 #: templates/sports_manager/team_confirm_delete.html:8
 #: templates/sports_manager/team_detail.html:9
@@ -120,7 +120,7 @@ msgstr "Création"
 msgid "Teams"
 msgstr "Équipes"
 
-#: templates/base.html:80 templates/base.html:85
+#: templates/base.html:77 templates/base.html:82
 #: templates/sports_manager/gymnasium_detail.html:9
 #: templates/sports_manager/gymnasium_form.html:10
 #: templates/sports_manager/gymnasium_list.html:9
@@ -128,31 +128,31 @@ msgstr "Équipes"
 msgid "Gymnasiums"
 msgstr "Gymnases"
 
-#: templates/base.html:99 templates/registration/login.html:9
+#: templates/base.html:96 templates/registration/login.html:9
 #: templates/registration/login.html:16 templates/registration/login.html:27
 msgid "Login"
 msgstr "Connexion"
 
-#: templates/base.html:113
+#: templates/base.html:110
 msgid "Admin"
 msgstr "Administration"
 
-#: templates/base.html:116 templates/sports_manager/player_list.html:12
+#: templates/base.html:113 templates/sports_manager/player_list.html:12
 #: templates/sports_manager/player_list.html:18
 msgid "My players"
 msgstr "Mes joueurs"
 
-#: templates/base.html:117 templates/sports_manager/license_form.html:10
+#: templates/base.html:114 templates/sports_manager/license_form.html:10
 #: templates/sports_manager/license_list.html:11
 #: templates/sports_manager/license_list.html:17
 msgid "My licenses"
 msgstr "Mes licences"
 
-#: templates/base.html:119
+#: templates/base.html:116
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: templates/base.html:138
+#: templates/base.html:135
 msgid "Page title"
 msgstr "Titre de la page"
 
@@ -417,7 +417,7 @@ msgstr "Joueurs de l'équipe"
 msgid "(captain)"
 msgstr "(capitaine)"
 
-#: templates/sports_manager/team_detail.html:135
+#: templates/sports_manager/team_detail.html:130
 msgid "No known teammate related to this team"
 msgstr "Pas de joueur lié à  cette équipe"
 
