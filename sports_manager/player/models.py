@@ -33,7 +33,7 @@ def file_upload_to(instance, filename):
                             str(date.today().year),
                             'medical_certificate{ext}'.format(ext=ext)
                             )
-        logger.info("Medical certificate {filename} saved in {path}".format(path=path, filename=filename))
+        logger.info(_("Medical certificate %(filename)s saved in %(path)s") % {'path': path, 'filename': filename})
 
     return path
 
@@ -116,9 +116,17 @@ class MedicalCertificate(models.Model):
         verbose_name_plural = _("medical certificates")
         ordering = ("player", "start", "validation")
 
+    def __str__(self):
+        """Representation of a Gymnasium as a string."""
+        return _("%(player)s (%(validation)s - start: %(start)s)") % {
+            'player': self.player,
+            'validation': self.get_validation_display(),
+            'start': self.start
+        }
+
     def is_valid(self):
         """Check if the medical certificate is valid."""
-        return self.validation == self.CERTIFICATION_VALID
+        return self.validation == self.VALID
 
 
 class EmergencyContact(models.Model):
@@ -141,3 +149,14 @@ class EmergencyContact(models.Model):
                            message=_("This is not a correct phone number"))
         ]
     )
+
+    class Meta:
+        """Meta class."""
+
+        verbose_name = _("emergency contact")
+        verbose_name_plural = _("emergency contacts")
+        ordering = ("player", "first_name", "last_name")
+
+    def __str__(self):
+        """Representation of a Gymnasium as a string."""
+        return "{} {} ({})".format(self.first_name, self.last_name, self.player)
