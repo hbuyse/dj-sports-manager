@@ -97,7 +97,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'sports_manager.context_processors.sports_manager_data'
             ],
         },
     },
