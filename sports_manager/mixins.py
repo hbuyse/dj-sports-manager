@@ -2,29 +2,14 @@
 
 """Apps mixins."""
 
+# Standard library
+import logging
+
 # Django
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.utils.translation import ugettext_lazy as _  # noqa
 
-
-def test_user_staff(user):
-    """Test if the connected user is part of staff."""
-    return user.is_staff
-
-
-def test_user_superuser(user):
-    """Test if the connected user is a superuser."""
-    return user.is_superuser
-
-
-def test_user_own_page(user, kwargs, field_to_test):
-    """Test if the user logged in owned the page asked to be accessed."""
-    return user.get_username() == kwargs.get(field_to_test)
-
-
-def test_access_private_page(user, kwargs, field_to_test):
-    """Fusion of all the tests defined above."""
-    return test_user_staff(user) or test_user_superuser(user) or test_user_own_page(user, kwargs, field_to_test)
+logger = logging.getLogger(__name__)
 
 
 class StaffMixin(UserPassesTestMixin):
@@ -61,9 +46,20 @@ class OwnerMixin(UserPassesTestMixin):
 class OwnerOrStaffMixin(UserPassesTestMixin):
     """Mixin that check if the user logged in has the rights to view the page."""
 
+    owner_kwargs = 'username'
     permission_denied_message = _("You do not have the right to view this page.")            # from AccessMixin
     raise_exception = True
 
     def test_func(self):
         """Check if the user logged in has the rights to view the page."""
-        return test_access_private_page(self.request.user, self.kwargs, 'username')
+        if self.request.user.is_staff:
+            logger.info(_("Staff user %(username)s accessed '%(url)s' page") % {
+                'username': self.request.user.get_username(),
+                'url': self.request.path
+            })
+            ret = True
+        elif self.request.user.get_username() == self.kwargs.get(self.owner_kwargs):
+            ret = True
+        else:
+            ret = False
+        return ret
