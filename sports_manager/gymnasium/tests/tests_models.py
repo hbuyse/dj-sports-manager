@@ -37,18 +37,9 @@ class TestGymnasiumModel(TestCase):
     def test_verbose_name_plural(self):
         """Test the verbose name in plural."""
         self.assertEqual(str(Gymnasium._meta.verbose_name_plural), "gymnasiums")
-<<<<<<< HEAD
     
     def test_get_absolute_url(self):
         g = Gymnasium(**self.dict)
         g.save()
         self.assertEqual(g.get_absolute_url(), "/gymnasium/watteau/")
 
-=======
-
-    def test_get_absolute_url(self):
-        g = Gymnasium(**self.dict)
-        g.save()
-        self.assertEqual(g.slug, "watteau")
-        self.assertEqual(g.get_absolute_url(), "/gymnasium/watteau/")
->>>>>>> Update tests
