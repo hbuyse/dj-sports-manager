@@ -8,6 +8,7 @@ import logging
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _  # noqa
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
@@ -131,6 +132,14 @@ class TeamTimeSlotCreateView(StaffMixin, CreateView):
         'start',
         'end'
     ]
+
+    def get(self, request, *args, **kwargs):
+        get_object_or_404(Team, slug=kwargs['team'])  # Check thta the team we want to edit exist
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        get_object_or_404(Team, slug=kwargs['team'])  # Check thta the team we want to edit exist
+        return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
         """Override the form_valid method to set the team for which we create the timeslot."""
