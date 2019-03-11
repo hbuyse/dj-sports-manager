@@ -110,7 +110,7 @@ def create_user(username='toto', staff=False, superuser=False):
         'password': "hello-world",
         'first_name': "Toto",
         'last_name': "Tata",
-        'is_staff': True if staff or superuser else False,
+        'is_staff': True if staff or superuser else False,  # Attention: Superuser must have is_staff=True.
         'email': 'toto@example.com',
     }
 
