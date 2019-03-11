@@ -16,22 +16,13 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
 # Current django project
-from sports_manager.gymnasium.models import Gymnasium
 from sports_manager.storage import OverwriteStorage
 
 logger = logging.getLogger(__name__)
 
 
 def image_upload_to(instance, filename):
-    """Callback to create the path where to store the files.
-
-    If the file instance is a Sponsor, the file has to be the logo so it will be uploaded to
-        MEDIA_ROOT/sponsors/<sponsor_name>/logo<ext>.
-    If the file instance is a SponsorImage, the file has to be an image so it will be uploaded to
-        MEDIA_ROOT/sponsors/<sponsor_name>/images/<filename>.
-    If the file instance is a SponsorFile, the file has to be a file so it will be uploaded to
-        MEDIA_ROOT/sponsors/<sponsor_name>/files/<filename>.
-    """
+    """Create the path where to store the files."""
     path = None
     basename, ext = os.path.splitext(filename)
     if isinstance(instance, Team):
@@ -40,6 +31,7 @@ def image_upload_to(instance, filename):
     logger.info("Image {filename} saved in {path}".format(path=path, filename=filename))
 
     return path
+
 
 class Team(models.Model):
     """Team model."""
@@ -90,7 +82,7 @@ class Team(models.Model):
     recruitment = models.BooleanField(_('is recruiting'))
 
     def __str__(self):
-        """String representation."""
+        """Representation of a Gymnasium as a string."""
         return "{} {}".format(self.name.title(), self.get_sex_display()).title()
 
     class Meta:
@@ -120,7 +112,6 @@ class Team(models.Model):
 
     def get_players(self):
         """Get the list of teamates of the team."""
-
         return self.license_set.order_by("last_name")
 
 
@@ -160,7 +151,7 @@ class TimeSlot(models.Model):
     end = models.TimeField(_("ending time"))
 
     def __str__(self):
-        """String representation."""
+        """Representation of a Gymnasium as a string."""
         return "{} - {}".format(self.team.name, self.get_day_display())
 
     class Meta:

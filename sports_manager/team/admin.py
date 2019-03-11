@@ -11,6 +11,8 @@ from sports_manager.team.models import Team, TimeSlot
 
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
+    """Team admin."""
+
     prepopulated_fields = {"slug": ("name",)}
     list_display = (
         'name',
@@ -19,8 +21,11 @@ class TeamAdmin(admin.ModelAdmin):
         'sex'
     )
 
+
 @admin.register(TimeSlot)
 class TimeSlotAdmin(admin.ModelAdmin):
+    """Time slot admin."""
+
     list_display = (
         'team',
         'type',

@@ -7,10 +7,8 @@ import logging
 # Django
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.urls import reverse
-from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _  # noqa
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
@@ -108,7 +106,7 @@ class TeamTimeSlotListView(StaffMixin, ListView):
         context = super().get_context_data(**kwargs)
         try:
             context['team'] = Team.objects.get(slug=self.kwargs['slug'])
-        except Team.DoesNotExist as e:
+        except Team.DoesNotExist:
             raise Http404(_("Team with slug '%(slug)s' does not exist") % {'slug': kwargs['slug']})
         if 'slug' in self.kwargs:
             context['team'] = Team.objects.get(slug=self.kwargs['slug'])
@@ -131,7 +129,7 @@ class TeamTimeSlotDetailView(StaffMixin, DetailView):
         context = super().get_context_data(**kwargs)
         try:
             context['team'] = Team.objects.get(slug=kwargs['slug'])
-        except Team.DoesNotExist as e:
+        except Team.DoesNotExist:
             raise Http404(_("Team with slug '%(slug)s' does not exist") % {'slug': kwargs['slug']})
         if 'slug' in kwargs:
             context['team'] = Team.objects.get(slug=kwargs['slug'])

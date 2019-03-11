@@ -16,7 +16,6 @@ from django.utils.translation import ugettext_lazy as _
 
 # Current django project
 from sports_manager.storage import OverwriteStorage
-from sports_manager.team.models import Team
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +31,7 @@ def image_upload_to(instance, filename):
     if isinstance(instance, Category):
         path = os.path.join('categories', instance.slug, 'img{}'.format(ext))
 
-    logger.info(_("Image %(filename)s saved in %(path)s") % {'path': path, 'filename' filename})
+    logger.info(_("Image %(filename)s saved in %(path)s") % {'path': path, 'filename': filename})
 
     return path
 
