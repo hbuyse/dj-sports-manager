@@ -11,7 +11,7 @@ from django.urls import reverse
 from sports_manager.tests.helper import create_team, create_time_slot, create_user
 
 
-class TestTimeSlotListViewAsAnonymous(TestCase):
+class TestTeamTimeSlotListViewAsAnonymous(TestCase):
     """Tests ListView for TimeSlot."""
 
     def setUp(self):
@@ -20,7 +20,7 @@ class TestTimeSlotListViewAsAnonymous(TestCase):
 
     def tests_empty(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'slug': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
 
         self.assertEqual(r.status_code, 403)
 
@@ -28,12 +28,12 @@ class TestTimeSlotListViewAsAnonymous(TestCase):
         """Tests."""
         ts = create_time_slot(team=self.team)[1]
 
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'slug': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
 
         self.assertEqual(r.status_code, 403)
 
 
-class TestTimeSlotListViewAsLogged(TestCase):
+class TestTeamTimeSlotListViewAsLogged(TestCase):
     """Tests ListView for TimeSlot."""
 
     def setUp(self):
@@ -44,7 +44,7 @@ class TestTimeSlotListViewAsLogged(TestCase):
     def tests_empty(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'slug': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
 
         self.assertEqual(r.status_code, 403)
 
@@ -53,12 +53,12 @@ class TestTimeSlotListViewAsLogged(TestCase):
         ts = create_time_slot(team=self.team)[1]
 
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'slug': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
 
         self.assertEqual(r.status_code, 403)
 
 
-class TestTimeSlotListViewAsStaff(TestCase):
+class TestTeamTimeSlotListViewAsStaff(TestCase):
     """Tests ListView for TimeSlot."""
 
     def setUp(self):
@@ -69,7 +69,7 @@ class TestTimeSlotListViewAsStaff(TestCase):
     def tests_empty(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'slug': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['timeslot_list']), 0)
@@ -79,14 +79,14 @@ class TestTimeSlotListViewAsStaff(TestCase):
         ts = create_time_slot(team=self.team)[1]
 
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'slug': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['timeslot_list']), 1)
         self.assertIn(ts, r.context['timeslot_list'])
 
 
-class TestTimeSlotListViewAsSuperuser(TestCase):
+class TestTeamTimeSlotListViewAsSuperuser(TestCase):
     """Tests ListView for TimeSlot."""
 
     def setUp(self):
@@ -97,7 +97,7 @@ class TestTimeSlotListViewAsSuperuser(TestCase):
     def tests_empty(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'slug': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['timeslot_list']), 0)
@@ -107,7 +107,7 @@ class TestTimeSlotListViewAsSuperuser(TestCase):
         ts = create_time_slot(team=self.team)[1]
 
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'slug': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['timeslot_list']), 1)

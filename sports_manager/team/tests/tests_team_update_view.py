@@ -21,13 +21,13 @@ class TestTeamUpdateViewAsAnonymous(TestCase):
 
     def test_get_not_existing(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:team-update', kwargs={'slug': 'not-existing'}))
+        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': 'not-existing'}))
 
         self.assertEqual(r.status_code, 403)
 
     def test_get(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:team-update', kwargs={'slug': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}))
 
         self.assertEqual(r.status_code, 403)
 
@@ -36,7 +36,7 @@ class TestTeamUpdateViewAsAnonymous(TestCase):
         self.team_info['name'] = self.team_info['name'] + " New"
         self.team_info['category'] = self.team_info['category'].id
 
-        r = self.client.post(reverse('sports-manager:team-update', kwargs={'slug': self.team.slug}),
+        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}),
                              self.team_info)
 
         self.assertEqual(r.status_code, 403)
@@ -53,14 +53,14 @@ class TestTeamUpdateViewAsLogged(TestCase):
     def test_get_not_existing(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-update', kwargs={'slug': 'toto'}))
+        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': 'toto'}))
 
         self.assertEqual(r.status_code, 403)
 
     def test_get(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-update', kwargs={'slug': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}))
 
         self.assertEqual(r.status_code, 403)
 
@@ -70,7 +70,7 @@ class TestTeamUpdateViewAsLogged(TestCase):
         self.team_info['category'] = self.team_info['category'].id
 
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.post(reverse('sports-manager:team-update', kwargs={'slug': self.team.slug}),
+        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}),
                              self.team_info)
 
         self.assertEqual(r.status_code, 403)
@@ -87,14 +87,14 @@ class TestTeamUpdateViewAsStaff(TestCase):
     def test_get_not_existing(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-update', kwargs={'slug': 'toto'}))
+        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': 'toto'}))
 
         self.assertEqual(r.status_code, 404)
 
     def test_get(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-update', kwargs={'slug': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}))
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.context['team'], self.team)
@@ -105,14 +105,14 @@ class TestTeamUpdateViewAsStaff(TestCase):
         self.team_info['category'] = self.team_info['category'].id
 
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.post(reverse('sports-manager:team-update', kwargs={'slug': self.team.slug}),
+        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}),
                              self.team_info)
 
         self.assertEqual(r.status_code, 302)
 
         self.team = Team.objects.get(pk=self.team.pk)
 
-        self.assertEqual(r.url, reverse('sports-manager:team-detail', kwargs={'slug': self.team.slug}))
+        self.assertEqual(r.url, reverse('sports-manager:team-detail', kwargs={'team': self.team.slug}))
         self.assertIn("-new", self.team.slug)
 
 
@@ -127,14 +127,14 @@ class TestTeamUpdateViewAsSuperuser(TestCase):
     def test_get_not_existing(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-update', kwargs={'slug': 'toto'}))
+        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': 'toto'}))
 
         self.assertEqual(r.status_code, 404)
 
     def test_get(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-update', kwargs={'slug': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}))
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.context['team'], self.team)
@@ -145,12 +145,12 @@ class TestTeamUpdateViewAsSuperuser(TestCase):
         self.team_info['category'] = self.team_info['category'].id
 
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.post(reverse('sports-manager:team-update', kwargs={'slug': self.team.slug}),
+        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}),
                              self.team_info)
 
         self.assertEqual(r.status_code, 302)
 
         self.team = Team.objects.get(pk=self.team.pk)
 
-        self.assertEqual(r.url, reverse('sports-manager:team-detail', kwargs={'slug': self.team.slug}))
+        self.assertEqual(r.url, reverse('sports-manager:team-detail', kwargs={'team': self.team.slug}))
         self.assertIn("-new", self.team.slug)

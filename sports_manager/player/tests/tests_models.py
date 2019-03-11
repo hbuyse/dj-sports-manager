@@ -14,7 +14,13 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase, override_settings
 
 # Current django project
-from sports_manager.player.models import EmergencyContact, MedicalCertificate, Player, file_upload_to, is_player_old_enough
+from sports_manager.player.models import (
+    EmergencyContact,
+    MedicalCertificate,
+    Player,
+    file_upload_to,
+    is_player_old_enough
+)
 from sports_manager.team.models import Team
 from sports_manager.tests.helper import create_user
 

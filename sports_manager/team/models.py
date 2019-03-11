@@ -160,3 +160,9 @@ class TimeSlot(models.Model):
         verbose_name = _("time slot")
         verbose_name_plural = _("time slots")
         ordering = ("day", "start", "end")
+
+    def get_absolute_url(self):
+        """Override the get_absolute_url method in order to use it in templates."""
+        return reverse("sports-manager:team-time-slot-detail",
+                       kwargs={"team": self.object.team.slug, "pk": self.team.pk}
+                       )

@@ -7,7 +7,7 @@ import logging
 # Django
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _  # noqa
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
@@ -31,13 +31,13 @@ class TeamDetailView(DetailView):
 
     template_name = "sports_manager/team/detail.html"
     model = Team
-    slug_field = 'slug'
+    slug_url_kwarg = 'team'
 
 
 class TeamCreateView(LoginRequiredMixin, StaffMixin, CreateView):
     """View that creates a new team."""
 
-    template_name = "sports_manager/team/form.html"
+    template_name = "sports_manager/team/create_form.html"
     model = Team
     fields = [
         'name',
@@ -54,15 +54,15 @@ class TeamCreateView(LoginRequiredMixin, StaffMixin, CreateView):
         """Get the URL after the success."""
         msg = _("Team '%(name)s' created successfully") % {'name': self.object.name}
         messages.success(self.request, msg)
-        return reverse('sports-manager:team-detail', kwargs={'slug': self.object.slug})
+        return reverse('sports-manager:team-detail', kwargs={'team': self.object.slug})
 
 
 class TeamUpdateView(LoginRequiredMixin, StaffMixin, UpdateView):
     """View that updates a new team."""
 
-    template_name = "sports_manager/team/form.html"
+    template_name = "sports_manager/team/update_form.html"
     model = Team
-    slug_field = 'slug'
+    slug_url_kwarg = 'team'
     fields = [
         'name',
         'category',
@@ -78,7 +78,7 @@ class TeamUpdateView(LoginRequiredMixin, StaffMixin, UpdateView):
         """Get the URL after the success."""
         msg = _("Team '%(name)s' updated successfully") % {'name': self.object.name}
         messages.success(self.request, msg)
-        return reverse('sports-manager:team-detail', kwargs={'slug': self.object.slug})
+        return reverse('sports-manager:team-detail', kwargs={'team': self.object.slug})
 
 
 class TeamDeleteView(LoginRequiredMixin, StaffMixin, DeleteView):
@@ -86,7 +86,7 @@ class TeamDeleteView(LoginRequiredMixin, StaffMixin, DeleteView):
 
     template_name = "sports_manager/team/confirm_delete.html"
     model = Team
-    slug_field = 'slug'
+    slug_url_kwarg = 'team'
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
@@ -101,21 +101,10 @@ class TeamTimeSlotListView(StaffMixin, ListView):
     template_name = "sports_manager/timeslot/list.html"
     model = TimeSlot
 
-    def get_context_data(self, **kwargs):
-        """Add the team object got from the slug in the context data."""
-        context = super().get_context_data(**kwargs)
-        try:
-            context['team'] = Team.objects.get(slug=self.kwargs['slug'])
-        except Team.DoesNotExist:
-            raise Http404(_("Team with slug '%(slug)s' does not exist") % {'slug': kwargs['slug']})
-        if 'slug' in self.kwargs:
-            context['team'] = Team.objects.get(slug=self.kwargs['slug'])
-        return context
-
     def get_queryset(self):
         """Override get_queryset in order to retrieve time slots of one team only."""
         queryset = super().get_queryset()
-        return queryset.filter(team__slug=self.kwargs['slug'])
+        return queryset.filter(team__slug=self.kwargs['team'])
 
 
 class TeamTimeSlotDetailView(StaffMixin, DetailView):
@@ -124,50 +113,68 @@ class TeamTimeSlotDetailView(StaffMixin, DetailView):
     template_name = "sports_manager/timeslot/detail.html"
     model = TimeSlot
 
-    def get_context_data(self, **kwargs):
-        """."""
-        context = super().get_context_data(**kwargs)
-        try:
-            context['team'] = Team.objects.get(slug=kwargs['slug'])
-        except Team.DoesNotExist:
-            raise Http404(_("Team with slug '%(slug)s' does not exist") % {'slug': kwargs['slug']})
-        if 'slug' in kwargs:
-            context['team'] = Team.objects.get(slug=kwargs['slug'])
-        return context
+    def get_queryset(self):
+        """Override get_queryset in order to retrieve time slots of one team only."""
+        queryset = super().get_queryset()
+        return queryset.filter(team__slug=self.kwargs['team'])
 
 
 class TeamTimeSlotCreateView(StaffMixin, CreateView):
     """View that creates a new TimeSlot."""
 
-    template_name = "sports_manager/timeslot/form.html"
+    template_name = "sports_manager/timeslot/create_form.html"
     model = TimeSlot
-    fields = '__all__'
+    fields = [
+        'type',
+        'gymnasium',
+        'day',
+        'start',
+        'end'
+    ]
+
+    def form_valid(self, form):
+        """Override the form_valid method to set the team for which we create the timeslot."""
+        self.object = form.save(commit=False)
+        self.object.team = Team.objects.get(slug=self.kwargs.get('team'))
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         """Get the URL after the success."""
-        msg = _("TimeSlot '%(day)s' for '%(team)s' added successfully") % {
+        msg = _("TimeSlot of '%(day)s' for '%(team)s' added successfully") % {
             'day': self.object.day,
             'team': self.object.team.name
         }
         messages.success(self.request, msg)
-        return reverse('sports-manager:team-detail', kwargs={'slug': self.object.team.slug})
+        return reverse('sports-manager:team-detail', kwargs={'team': self.object.team.slug})
 
 
 class TeamTimeSlotUpdateView(StaffMixin, UpdateView):
     """View that updates a new TimeSlot."""
 
-    template_name = "sports_manager/timeslot/form.html"
+    template_name = "sports_manager/timeslot/update_form.html"
     model = TimeSlot
-    fields = '__all__'
+    fields = [
+        'type',
+        'gymnasium',
+        'day',
+        'start',
+        'end'
+    ]
+
+    def get_queryset(self):
+        """Override get_queryset in order to retrieve time slots of one team only."""
+        queryset = super().get_queryset()
+        return queryset.filter(team__slug=self.kwargs['team'])
 
     def get_success_url(self):
         """Get the URL after the success."""
-        msg = _("TimeSlot '%(day)s' for '%(team)s' updated successfully") % {
+        msg = _("TimeSlot of '%(day)s' for '%(team)s' updated successfully") % {
             'day': self.object.day,
             'team': self.object.team.name
         }
         messages.success(self.request, msg)
-        return reverse('sports-manager:team-detail', kwargs={'slug': self.object.team.slug})
+        return reverse('sports-manager:team-detail', kwargs={'team': self.object.team.slug})
 
 
 class TeamTimeSlotDeleteView(StaffMixin, DeleteView):
@@ -176,11 +183,16 @@ class TeamTimeSlotDeleteView(StaffMixin, DeleteView):
     template_name = "sports_manager/timeslot/confirm_delete.html"
     model = TimeSlot
 
+    def get_queryset(self):
+        """Override get_queryset in order to retrieve time slots of one team only."""
+        queryset = super().get_queryset()
+        return queryset.filter(team__slug=self.kwargs['team'])
+
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        msg = _("TimeSlot '%(day)s' for '%(team)s' deleted successfully") % {
+        msg = _("TimeSlot of '%(day)s' for '%(team)s' deleted successfully") % {
             'day': self.object.day,
             'team': self.object.team.name
         }
         messages.success(self.request, msg)
-        return reverse('sports-manager:team-detail', kwargs={'slug': self.object.team.slug})
+        return reverse('sports-manager:team-detail', kwargs={'team': self.object.team.slug})

@@ -23,27 +23,27 @@ class TestUrlsTeam(TestCase):
 
     def test_detail_url_simple(self):
         """Test the URL of that allows the creation of a VCN account."""
-        url = reverse('sports-manager:team-detail', kwargs={'slug': slugify("Toto")})
+        url = reverse('sports-manager:team-detail', kwargs={'team': slugify("Toto")})
         self.assertEqual(url, '/team/toto/')
 
     def test_detail_url_complex(self):
         """Test the URL of that allows the creation of a VCN account."""
-        url = reverse('sports-manager:team-detail', kwargs={'slug': slugify("Hello World")})
+        url = reverse('sports-manager:team-detail', kwargs={'team': slugify("Hello World")})
         self.assertEqual(url, '/team/hello-world/')
 
     def test_detail_url_complex_2(self):
         """Test the URL of that allows the creation of a VCN account."""
-        url = reverse('sports-manager:team-detail', kwargs={'slug': slugify("Drunk'n Monkey")})
+        url = reverse('sports-manager:team-detail', kwargs={'team': slugify("Drunk'n Monkey")})
         self.assertEqual(url, '/team/drunkn-monkey/')
 
     def test_update_url(self):
         """Test the URL of the listing of VCN accounts."""
-        url = reverse('sports-manager:team-update', kwargs={'slug': 'toto'})
+        url = reverse('sports-manager:team-update', kwargs={'team': 'toto'})
         self.assertEqual(url, "/team/toto/update/")
 
     def test_delete_url(self):
         """Test the URL of the listing of VCN accounts."""
-        url = reverse('sports-manager:team-delete', kwargs={'slug': 'toto'})
+        url = reverse('sports-manager:team-delete', kwargs={'team': 'toto'})
         self.assertEqual(url, "/team/toto/delete/")
 
 
@@ -52,25 +52,25 @@ class TestUrlsTimeSlot(TestCase):
 
     def test_list_url(self):
         """Test the URL of the listing of VCN accounts."""
-        url = reverse('sports-manager:team-time-slot-list', kwargs={'slug': 'toto'})
+        url = reverse('sports-manager:team-time-slot-list', kwargs={'team': 'toto'})
         self.assertEqual(url, '/team/toto/time-slot/')
 
     def test_create_url(self):
         """Test the URL of the listing of VCN accounts."""
-        url = reverse('sports-manager:team-time-slot-create', kwargs={'slug': 'toto'})
+        url = reverse('sports-manager:team-time-slot-create', kwargs={'team': 'toto'})
         self.assertEqual(url, '/team/toto/time-slot/create/')
 
-    # def test_detail_url_simple(self):
-    #     """Test the URL of that allows the creation of a VCN account."""
-    #     url = reverse('sports-manager:team-time-slot-detail', kwargs={'slug': 'toto', 'pk': 1})
-    #     self.assertEqual(url, '/team/toto/time-slot/1/')
+    def test_detail_url_simple(self):
+        """Test the URL of that allows the creation of a VCN account."""
+        url = reverse('sports-manager:team-time-slot-detail', kwargs={'team': 'toto', 'pk': 1})
+        self.assertEqual(url, '/team/toto/time-slot/1/')
 
     def test_update_url(self):
         """Test the URL of the listing of VCN accounts."""
-        url = reverse('sports-manager:team-time-slot-update', kwargs={'slug': 'toto', 'pk': 1})
+        url = reverse('sports-manager:team-time-slot-update', kwargs={'team': 'toto', 'pk': 1})
         self.assertEqual(url, "/team/toto/time-slot/1/update/")
 
     def test_delete_url(self):
         """Test the URL of the listing of VCN accounts."""
-        url = reverse('sports-manager:team-time-slot-delete', kwargs={'slug': 'toto', 'pk': 1})
+        url = reverse('sports-manager:team-time-slot-delete', kwargs={'team': 'toto', 'pk': 1})
         self.assertEqual(url, "/team/toto/time-slot/1/delete/")
