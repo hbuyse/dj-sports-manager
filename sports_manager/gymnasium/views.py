@@ -50,7 +50,7 @@ class GymnasiumCreateView(LoginRequiredMixin, StaffMixin, CreateView):
         """Get the URL after the success."""
         msg = _("Gymnasium '%(name)s' added successfully") % {'name': self.object.name}
         messages.success(self.request, msg)
-        return reverse('sports-manager:gymnasium-detail', kwargs={'slug': self.object.slug})
+        return self.object.get_absolute_url()
 
 
 class GymnasiumUpdateView(LoginRequiredMixin, StaffMixin, UpdateView):
@@ -74,7 +74,7 @@ class GymnasiumUpdateView(LoginRequiredMixin, StaffMixin, UpdateView):
         """Get the URL after the success."""
         msg = _("Gymnasium '%(name)s' updated successfully") % {'name': self.object.name}
         messages.success(self.request, msg)
-        return reverse('sports-manager:gymnasium-detail', kwargs={'slug': self.object.slug})
+        return self.object.get_absolute_url()
 
 
 class GymnasiumDeleteView(LoginRequiredMixin, StaffMixin, DeleteView):
