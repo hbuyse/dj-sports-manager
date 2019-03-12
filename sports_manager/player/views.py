@@ -63,7 +63,7 @@ class PlayerCreateView(LoginRequiredMixin, OwnerOrStaffMixin, View):
     def get(self, request, *args, **kwargs):
         """Return the three forms that are part of the creation view."""
         logger.debug("Receive get")
-        player_form = PlayerCreationForm(prefix="player")
+        player_form = PlayerCreationForm(prefix="player", username=kwargs.get('username'))
         emergency_form = EmergencyContactForm(prefix="emergency")
         certificate_form = MedicalCertificateForm(prefix="certif")
         return render(request,
@@ -77,7 +77,7 @@ class PlayerCreateView(LoginRequiredMixin, OwnerOrStaffMixin, View):
     def post(self, request, *args, **kwargs):
         """Post data to the three forms that are part of the creation view."""
         logger.debug("Receive post")
-        player_form = PlayerCreationForm(request.POST, prefix="player")
+        player_form = PlayerCreationForm(request.POST, prefix="player", username=kwargs.get('username'))
         emergency_form = EmergencyContactForm(request.POST, prefix="emergency")
         certificate_form = MedicalCertificateForm(request.POST, request.FILES, prefix="certif")
 
@@ -94,6 +94,11 @@ class PlayerCreateView(LoginRequiredMixin, OwnerOrStaffMixin, View):
 
             return HttpResponseRedirect(self.get_success_url())
         else:
+            if not player_form.is_valid():
+                msg = _("A player with the same datas already exists in %(username)s's account.") % {
+                    'username': kwargs.get('username')
+                }
+                messages.error(self.request, msg)
             return render(request,
                           self.template_name,
                           {
