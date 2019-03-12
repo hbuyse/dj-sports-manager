@@ -5,7 +5,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, Http404
 from django.test import RequestFactory, TestCase
 from django.views.generic import View
 
@@ -116,8 +116,17 @@ class OwnerMixinTest(TestCase):
         self.request = RequestFactory().get('/rand')
         self.view = self.OwnerMixinView
 
-    def test_anonymous(self):
-        kwargs = {'username': 'hello'}
+    def test_anonymous_user_not_valid(self):
+        user = create_user()[1]
+        kwargs = {'username': user.get_username() + 'a'}
+        self.request.user = AnonymousUser()
+
+        with self.assertRaises(Http404):
+            response = self.view.as_view()(self.request, **kwargs)
+
+    def test_anonymous_user_not_valid(self):
+        user = create_user()[1]
+        kwargs = {'username': user.get_username()}
         self.request.user = AnonymousUser()
 
         with self.assertRaises(PermissionDenied):
@@ -128,7 +137,7 @@ class OwnerMixinTest(TestCase):
         kwargs = {'username': user.get_username() + 'a'}
         self.request.user = user
         
-        with self.assertRaises(PermissionDenied):
+        with self.assertRaises(Http404):
             response = self.view.as_view()(self.request, **kwargs)
 
     def test_normal_user_is_owner(self):
@@ -143,7 +152,7 @@ class OwnerMixinTest(TestCase):
         kwargs = {'username': user.get_username() + 'a'}
         self.request.user = user
         
-        with self.assertRaises(PermissionDenied):
+        with self.assertRaises(Http404):
             response = self.view.as_view()(self.request, **kwargs)
 
     def test_staff_user_is_owner(self):
@@ -158,7 +167,7 @@ class OwnerMixinTest(TestCase):
         kwargs = {'username': user.get_username() + 'a'}
         self.request.user = user
         
-        with self.assertRaises(PermissionDenied):
+        with self.assertRaises(Http404):
             response = self.view.as_view()(self.request, **kwargs)
 
     def test_superuser_user_is_owner(self):
@@ -190,15 +199,15 @@ class OwnerOrStaffMixinTest(TestCase):
         kwargs = {'username': 'hello'}
         self.request.user = AnonymousUser()
 
-        with self.assertRaises(PermissionDenied):
+        with self.assertRaises(Http404):
             response = self.view.as_view()(self.request, **kwargs)
 
     def test_normal_user_is_not_owner(self):
         user = create_user()[1]
         kwargs = {'username': user.get_username() + 'a'}
         self.request.user = user
-        
-        with self.assertRaises(PermissionDenied):
+
+        with self.assertRaises(Http404):
             response = self.view.as_view()(self.request, **kwargs)
 
     def test_normal_user_is_owner(self):
@@ -212,8 +221,9 @@ class OwnerOrStaffMixinTest(TestCase):
         user = create_user(staff=True)[1]
         kwargs = {'username': user.get_username() + 'a'}
         self.request.user = user
-        
-        response = self.view.as_view()(self.request, **kwargs)
+
+        with self.assertRaises(Http404):
+            response = self.view.as_view()(self.request, **kwargs)
 
     def test_staff_user_is_owner(self):
         user = create_user(staff=True)[1]
@@ -227,7 +237,8 @@ class OwnerOrStaffMixinTest(TestCase):
         kwargs = {'username': user.get_username() + 'a'}
         self.request.user = user
         
-        response = self.view.as_view()(self.request, **kwargs)
+        with self.assertRaises(Http404):
+            response = self.view.as_view()(self.request, **kwargs)
 
     def test_superuser_user_is_owner(self):
         user = create_user(superuser=True)[1]

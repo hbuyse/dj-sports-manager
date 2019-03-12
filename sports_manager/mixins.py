@@ -7,6 +7,9 @@ import logging
 
 # Django
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.http import Http404
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _  # noqa
 
 logger = logging.getLogger(__name__)
@@ -40,6 +43,9 @@ class OwnerMixin(UserPassesTestMixin):
 
     def test_func(self):
         """Check if the logged user is the owner of the page."""
+        if not get_user_model().objects.filter(username=self.kwargs.get(self.owner_kwargs)).exists():
+            raise Http404(_("User '%(username)s' does not exist.") % {'username': self.kwargs.get(self.owner_kwargs)})
+
         return self.request.user.get_username() == self.kwargs.get(self.owner_kwargs)
 
 
@@ -52,7 +58,9 @@ class OwnerOrStaffMixin(UserPassesTestMixin):
 
     def test_func(self):
         """Check if the user logged in has the rights to view the page."""
-        if self.request.user.is_staff:
+        if not get_user_model().objects.filter(username=self.kwargs.get(self.owner_kwargs)).exists():
+            raise Http404(_("User '%(username)s' does not exist.") % {'username': self.kwargs.get(self.owner_kwargs)})
+        elif self.request.user.is_staff:
             logger.info(_("Staff user %(username)s accessed '%(url)s' page") % {
                 'username': self.request.user.get_username(),
                 'url': self.request.path
