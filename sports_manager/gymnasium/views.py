@@ -33,7 +33,7 @@ class GymnasiumDetailView(DetailView):
 class GymnasiumCreateView(LoginRequiredMixin, StaffMixin, CreateView):
     """Create a Gymnasium."""
 
-    template_name = "sports_manager/gymnasium/form.html"
+    template_name = "sports_manager/gymnasium/create_form.html"
     model = Gymnasium
     fields = [
         'type',
@@ -56,7 +56,7 @@ class GymnasiumCreateView(LoginRequiredMixin, StaffMixin, CreateView):
 class GymnasiumUpdateView(LoginRequiredMixin, StaffMixin, UpdateView):
     """Update a Gymnasium."""
 
-    template_name = "sports_manager/gymnasium/form.html"
+    template_name = "sports_manager/gymnasium/update_form.html"
     model = Gymnasium
     slug_field = 'slug'
     fields = [

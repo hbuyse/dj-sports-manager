@@ -36,7 +36,7 @@ class CategoryDetailView(DetailView):
 class CategoryCreateView(LoginRequiredMixin, StaffMixin, CreateView):
     """View that creates a new category."""
 
-    template_name = "sports_manager/category/form.html"
+    template_name = "sports_manager/category/create_form.html"
     model = Category
     fields = [
         'name',
@@ -57,7 +57,7 @@ class CategoryCreateView(LoginRequiredMixin, StaffMixin, CreateView):
 class CategoryUpdateView(LoginRequiredMixin, StaffMixin, UpdateView):
     """View that updates a new category."""
 
-    template_name = "sports_manager/category/form.html"
+    template_name = "sports_manager/category/update_form.html"
     model = Category
     slug_field = 'slug'
     fields = [

@@ -14,8 +14,7 @@ from sports_manager.player.forms import EmergencyContactForm, MedicalCertificate
 from sports_manager.tests.helper import create_user
 
 
-class TestBreakfastForm(TestCase):
-    """Form to alternate participants between two breakfasts."""
+class TestPlayerCreationForm(TestCase):
 
     def test_empty(self):
         form_data = {}
@@ -76,4 +75,53 @@ class TestBreakfastForm(TestCase):
             'sex': "MA"
         }
         form = PlayerCreationForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+
+class TestEmergencyContact(TestCase):
+
+    def test_empty(self):
+        form_data = {}
+        form = EmergencyContactForm(data=form_data)
+        self.assertFalse(form.is_valid())
+
+    def test_only_names(self):
+        form_data = {
+            'first_name': "Toto",
+            'last_name': "Tata"
+        }
+        form = EmergencyContactForm(data=form_data)
+        self.assertFalse(form.is_valid())
+
+    def test_only_phone(self):
+        form_data = {
+            'phone': "0100000000"
+        }
+        form = EmergencyContactForm(data=form_data)
+        self.assertFalse(form.is_valid())
+
+    def test_only_email(self):
+        form_data = {
+            'email': "email@email.com"
+        }
+        form = EmergencyContactForm(data=form_data)
+        self.assertFalse(form.is_valid())
+
+    def test_valid_without_email(self):
+        form_data = {
+            'first_name': "Toto",
+            'last_name': "Tata",
+            'phone': "0100000000"
+        }
+        form = EmergencyContactForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_valid_with_email(self):
+        form_data = {
+            'first_name': "Toto",
+            'last_name': "Tata",
+            'phone': "0100000000",
+            'email': "email@email.com"
+        }
+        form = EmergencyContactForm(data=form_data)
         self.assertTrue(form.is_valid())

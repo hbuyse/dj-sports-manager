@@ -41,7 +41,7 @@ class LicenseDetailView(OwnerOrStaffMixin, DetailView):
 class LicenseCreateView(CreateView):
     """Create a license for a logged user."""
 
-    template_name = "sports_manager/license/form.html"
+    template_name = "sports_manager/license/create_form.html"
     model = License
     form_class = LicenseCreationForm
     # fields = ['player', 'teams']
@@ -65,7 +65,7 @@ class LicenseCreateView(CreateView):
 class LicenseUpdateView(UpdateView):
     """Update a license for a logged user."""
 
-    template_name = "sports_manager/license/form.html"
+    template_name = "sports_manager/license/update_form.html"
     model = License
     form_class = LicenseCreationForm
 

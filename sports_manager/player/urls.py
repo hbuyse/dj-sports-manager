@@ -13,7 +13,7 @@ player_urlpatterns = [
          name='player-list',
          ),
     path("<str:username>/player/create/",
-         view=views.create_new_player,
+         view=views.PlayerCreateView.as_view(),
          name='player-create',
          ),
     path("<str:username>/player/<str:slug>/",
