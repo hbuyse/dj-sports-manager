@@ -56,6 +56,19 @@ class TestPlayerModel(TestCase):
         p.save()
         self.assertEqual(p.slug, "toto-tata")
     
+    def test_check_unique_player(self):
+        user1 = create_user()[1]
+        user2 = create_user(username='tata')[1]
+        # First player
+        Player.objects.create(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user1)
+        # Twin of the first player (same birthday)
+        Player.objects.create(first_name="Titi", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user1)
+        # Creation of the same first player but different owner
+        Player.objects.create(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user2)
+        # Recreate first player for the same owner (ValidationError)
+        with self.assertRaises(ValidationError):
+            Player.objects.create(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user1)
+
     def test_get_absolute_url(self):
         user = create_user()[1]
         p = Player(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user)

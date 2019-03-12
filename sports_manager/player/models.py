@@ -7,6 +7,7 @@ from datetime import date
 
 # Django
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db import models
 from django.urls import reverse
@@ -71,8 +72,28 @@ class Player(models.Model):
 
     def save(self, *args, **kwargs):
         """Override the save method in order to rewrite the slug field each time we save the object."""
+        self.check_unique_player()
         self.slug = slugify("{} {}".format(self.first_name, self.last_name))
         super().save(*args, **kwargs)
+
+    def check_unique_player(self):
+        """Check if there is a player that already exists.
+
+        We check the first name, last name and birthday for a given owner.
+        """
+        d = {
+            'owner': self.owner,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'birthday': self.birthday
+        }
+        if Player.objects.filter(**d).exists():
+            raise ValidationError(
+                _("Player '%(first_name)s %(last_name)s' of owner '%(username)s' already exists.") % {
+                    'first_name': d['first_name'],
+                    'last_name': d['last_name'],
+                    'username': d['owner'].get_username(),
+                })
 
     def get_absolute_url(self):
         """Override the get_absolute_url method in order to use it in templates."""
