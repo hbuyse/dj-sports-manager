@@ -12,7 +12,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _  # noqa
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView, View
+from django.views.generic import DeleteView, DetailView, ListView, UpdateView, View
 
 # Current django project
 from sports_manager.mixins import OwnerOrStaffMixin
@@ -61,6 +61,7 @@ class PlayerCreateView(LoginRequiredMixin, OwnerOrStaffMixin, View):
     template_name = 'sports_manager/player/create_form.html'
 
     def get(self, request, *args, **kwargs):
+        """Return the three forms that are part of the creation view."""
         logger.debug("Receive get")
         player_form = PlayerCreationForm(prefix="player")
         emergency_form = EmergencyContactForm(prefix="emergency")
@@ -74,6 +75,7 @@ class PlayerCreateView(LoginRequiredMixin, OwnerOrStaffMixin, View):
                       })
 
     def post(self, request, *args, **kwargs):
+        """Post data to the three forms that are part of the creation view."""
         logger.debug("Receive post")
         player_form = PlayerCreationForm(request.POST, prefix="player")
         emergency_form = EmergencyContactForm(request.POST, prefix="emergency")
@@ -93,12 +95,12 @@ class PlayerCreateView(LoginRequiredMixin, OwnerOrStaffMixin, View):
             return HttpResponseRedirect(self.get_success_url())
         else:
             return render(request,
-                self.template_name,
-                {
-                    'player_form': player_form,
-                    'emergency_form': emergency_form,
-                    'certificate_form': certificate_form
-                })
+                          self.template_name,
+                          {
+                              'player_form': player_form,
+                              'emergency_form': emergency_form,
+                              'certificate_form': certificate_form
+                          })
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""

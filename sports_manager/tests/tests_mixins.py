@@ -178,7 +178,6 @@ class OwnerMixinTest(TestCase):
         response = self.view.as_view()(self.request, **kwargs)
 
 
-
 class OwnerOrStaffMixinTest(TestCase):
     '''
     Tests OwnerOrStaffMixin like a boss
