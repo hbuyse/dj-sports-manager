@@ -16,12 +16,16 @@
 
 {% block page_title_buttons %}
   {% if user.get_username == player.owner.get_username or user.is_staff %}
-    <button type="button" class="btn btn-primary btn-sm" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="{% blocktrans %}If you really want to update that player, click on that <a href='mailto:{{ sports_manager.webmaster }}?Subject=[MODIFICATION] {{ player }}'>link</a>{% endblocktrans %}">
+    {% comment %} <button type="button" class="btn btn-primary btn-sm" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="{% blocktrans %}If you really want to update that player, click on that <a href='mailto:{{ sports_manager.webmaster }}?Subject=[MODIFICATION] {{ player }}'>link</a>{% endblocktrans %}">
       Update
     </button>
     <button type="button" class="btn btn-danger btn-sm" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="{% blocktrans %}If you really want to delete that player, click on that <a href='mailto:{{ sports_manager.webmaster }}?Subject=[DELETION] {{ player }}'>link</a>{% endblocktrans %}">
       Delete
-    </button>
+    </button> {% endcomment %}
+    <div class="btn-group float-right" role="group">
+      <a href="{% url 'sports-manager:player-update' player.owner.get_username player.slug %}" class="btn btn-primary btn-sm">{% trans "Update" %}</a>
+      <a href="{% url 'sports-manager:player-delete' player.owner.get_username player.slug %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+    </div>
   {% endif %}
 {% endblock %}
 
@@ -52,12 +56,22 @@
     {% if forloop.first %}
       <h2>{% trans "His/her licenses" %}</h2>
     {% endif %}
+
     {% ifchanged license.season %}
-      {% blocktrans with season=license.season %}<h3>{{ season }}'s license</h3>{% endblocktrans %}
+      {% if not forloop.first %}
+        </div>
+      {% endif %}
+      <div class="list-group w-50">
+        <li class="list-group-item list-group-item-dark font-weight-bold">{{ license.season }}</li>
     {% endifchanged %}
 
-    {{ license.teams.all }}
+    {% for team in license.teams.all %}
+      <li class="list-group-item">{{ team.category }} - {{ team }}</li>
+    {% endfor %}
 
+    {% if forloop.last %}
+      </div>  <!-- list-group -->
+    {% endif %}
   {% endfor %}
 {% endblock %}
 
