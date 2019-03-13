@@ -4,11 +4,11 @@
 """Tests the views."""
 
 # Django
+from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 
 # Current django project
-import sports_manager
 from sports_manager.team.models import TimeSlot
 from sports_manager.tests.helper import create_gymnasium, create_team, create_time_slot, create_user
 
@@ -145,8 +145,9 @@ class TestTeamTimeSlotCreateViewAsStaff(TestCase):
         self.timeslot_info['start'] = '20:00:00'
         self.timeslot_info['end'] = '23:00:00'
 
-        r = self.client.post(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.slug + 'a'}), self.timeslot_info)
-        self.assertEqual(r.status_code, 404)
+        with self.assertRaises(ObjectDoesNotExist):
+            r = self.client.post(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.slug + 'a'}), self.timeslot_info)
+            self.assertEqual(r.status_code, 404)
 
     def test_post_timeslot(self):
         """Tests."""
@@ -197,8 +198,9 @@ class TestTeamTimeSlotCreateViewAsSuperuser(TestCase):
         self.timeslot_info['start'] = '20:00:00'
         self.timeslot_info['end'] = '23:00:00'
 
-        r = self.client.post(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.slug + 'a'}), self.timeslot_info)
-        self.assertEqual(r.status_code, 404)
+        with self.assertRaises(ObjectDoesNotExist):
+            r = self.client.post(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.slug + 'a'}), self.timeslot_info)
+            self.assertEqual(r.status_code, 404)
 
     def test_post_timeslot(self):
         """Tests."""
