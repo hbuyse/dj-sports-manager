@@ -56,7 +56,7 @@ class Category(models.Model):
 
         verbose_name = _("category")
         verbose_name_plural = _("categories")
-        ordering = ("name",)
+        ordering = ("min_age", "name",)
 
     def get_absolute_url(self):
         """Override the get_absolute_url method in order to use it in templates."""

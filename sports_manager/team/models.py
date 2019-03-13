@@ -90,7 +90,7 @@ class Team(models.Model):
 
         verbose_name = _("team")
         verbose_name_plural = _("teams")
-        ordering = ("sex", "level", "name")
+        ordering = ("category__min_age", "sex", "level", "name")
 
     def get_absolute_url(self):
         """Override the get_absolute_url method in order to use it in templates."""
