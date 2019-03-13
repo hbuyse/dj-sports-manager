@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:category-list' %}">{% trans "Categories" %}</a></li>
+      <li class="breadcrumb-item"><a href="{{ category.get_absolute_url }}">{{ category }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Update" %}</a></li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+ {% blocktrans %}Update {{ category }}{% endblocktrans %}
+{% endblock %}
+
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="col-6">{{ form.name|as_crispy_field }}</div>
+      <div class="col-6">{{ form.img|as_crispy_field }}</div>
+    </div>
+    <div class="form-row">
+      <div class="col-6">{{ form.min_age|as_crispy_field }}</div>
+      <div class="col-6">{{ form.max_age|as_crispy_field }}</div>
+    </div>
+    <div class="form-row">
+      <div class="col-12">{{ form.summary|as_crispy_field }}</div>
+    </div>
+    <div class="form-row">
+      <div class="col-12">{{ form.description|as_crispy_field }}</div>
+    </div>
+    {{ form.media }}
+
+    <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+    <button type="reset" class="btn btn-warning">{% trans "Reset" %}</button>
+  </form>
+{% endblock %}

@@ -29,6 +29,7 @@
     {% if forloop.first %}
       <div class="card-columns">
     {% endif %}
+
       <div class="card">
         {% if category.img %}
           <img class="card-img-top" src="{{ category.img.url }}" alt="{{ category.name }}'s logo">
@@ -39,6 +40,7 @@
           <a href="{{ category.get_absolute_url }}" class="card-link">{% trans "Details" %}</a>
         </div>
       </div>
+
     {% if forloop.last %}
       </div>
     {% endif %}

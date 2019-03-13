@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-list' %}">{% trans "Teams" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-detail' object.team.slug %}">{{ timeslot.team }}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-detail' object.team.slug %}">{% trans "Time slots" %}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Deletion" %}</a></li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+  {% blocktrans %}Time slot deletion{% endblocktrans %}
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <p class="mb-4">{% blocktrans %}Do you really want to delete the following team time slot?{% endblocktrans %}</p>
+
+    <div class="row">
+      <div class="col-2">Team:</div>
+      <div class="col-4">{{ timeslot.team }}</div>
+      <div class="col-2">Day:</div>
+      <div class="col-4">{{ timeslot.get_day_display|title }}</div>
+    </div>
+
+    <div class="row">
+      <div class="col-2">Type:</div>
+      <div class="col-4">{{ timeslot.get_type_display|title }}</div>
+      <div class="col-2">Start:</div>
+      <div class="col-4">{{ timeslot.start }}</div>
+    </div>
+
+    <div class="row">
+      <div class="col-2">Place:</div>
+      <div class="col-4">{{ timeslot.gymnasium }}</div>
+      <div class="col-2">End:</div>
+      <div class="col-4">{{ timeslot.end }}</div>
+    </div>
+
+    <div class="mb-4"></div>
+
+    <button type="submit" class="btn btn-warning">{% trans "Yes, I want it." %}</button>
+    <button type="button" class="btn btn-primary" onclick="history.back()">{% trans "No, I want to go back" %}</button>
+  </form>
+{% endblock %}

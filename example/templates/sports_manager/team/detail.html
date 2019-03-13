@@ -18,10 +18,11 @@
 
 {% block page_title_buttons %}
   {% if user.is_staff or user.is_superuser %}
-  <div class="btn-group float-right" role="group">
-    <a href="{% url 'sports-manager:team-update' team.slug %}" class="btn btn-primary btn-sm">{% trans "Update" %}</a>
-    <a href="{% url 'sports-manager:team-delete' team.slug %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
-  </div>
+    <div class="btn-group float-right" role="group">
+      <a href="{% url 'sports-manager:team-time-slot-create' team.slug %}" class="btn btn-primary btn-sm">{% trans "Add time slot" %}</a>
+      <a href="{% url 'sports-manager:team-update' team.slug %}" class="btn btn-primary btn-sm">{% trans "Update" %}</a>
+      <a href="{% url 'sports-manager:team-delete' team.slug %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+    </div>
   {% endif %}
 {% endblock %}
 
@@ -55,54 +56,46 @@
     </div>
   {% endif %}
 
-  {% if team.timeslot_set.all %}
-    <h2 class="mt-4">{% trans "Time slots" %}</h2>
-    {% for ts in team.timeslot_set.all %}
+  <div class="mb-4"></div>
 
-      {% if forloop.first %}
-        <table class="table table-sm table-hover" id="timeslotTable">
-          <thead class="thead-light">
-            <tr>
-              <th scope="col">{% trans "Type of time slot" %}</th>
-              <th scope="col">{% trans "Day" %}</th>
-              <th scope="col">{% trans "Starting time" %}</th>
-              <th scope="col">{% trans "Ending time" %}</th>
-              {% if user.is_staff %}
-                <th scope="col">{% trans "Links" %}</th>
-              {% endif %}
-            </tr>
-          </thead>
-          <tbody>
+  {% for ts in team.timeslot_set.all %}
+
+    {% if forloop.first %}
+      <h2>{% trans "Time slots" %}</h2>
+      <table class="table table-borderless table-hover" id="timeslotTable">
+        <tbody>
+    {% endif %}
+
+    <tr>
+      <td>{{ ts.get_type_display|title }}</td>
+      <td>{{ ts.get_day_display|title }}</td>
+      <td>{{ ts.start }}</td>
+      <td>{{ ts.end }}</td>
+      <td>{{ ts.gymnasium }}</td>
+      {% if user.is_staff %}
+        <td>
+          <div class="btn-group btn-group-sm float-right" role="group">
+            <a class="btn btn-primary" href="{% url 'sports-manager:team-time-slot-update' team.slug ts.pk %}">{% trans "Update" %}</a>
+            <a class="btn btn-danger" href="{% url 'sports-manager:team-time-slot-delete' team.slug ts.pk %}">{% trans "Delete" %}</a>
+          </div>
+        </td>
       {% endif %}
-
-          <tr>
-            <td>{{ ts.get_type_display|title }}</td>
-            <td>{{ ts.get_day_display|title }}</td>
-            <td>{{ ts.start }}</td>
-            <td>{{ ts.end }}</td>
-            {% if user.is_staff %}
-              <td>
-                <div class="btn-group btn-group-sm float-right" role="group">
-                  <a class="btn btn-primary" href="{% url 'sports-manager:team-time-slot-update' team.slug ts.pk %}">{% trans "Update" %}</a>
-                  <a class="btn btn-danger" href="{% url 'sports-manager:team-time-slot-delete' team.slug ts.pk %}">{% trans "Delete" %}</a>
-                </div>
-              </td>
-            {% endif %}
-          </tr>
+    </tr>
 
     {% if forloop.last %}
         </tbody>
       </table>
+      <div class="mb-4"></div>
     {% endif %}
-    {% endfor %}
-  {% endif %}
+  {% endfor %}
 
   {% if team.description %}
-    <h2 class="mt-4">{% trans "Description" %}</h2>
+    <h2>{% trans "Description" %}</h2>
     {{ team.description_md|safe }}
+    <div class="mb-4"></div>
   {% endif %}
 
-  <h2 class="mt-4">{% trans "Teammates" %}</h2>
+  <h2>{% trans "Teammates" %}</h2>
   {% for license in team.license_set.all %}
     {% if forloop.first %}
       <div class="card-deck">
@@ -130,4 +123,6 @@
       {% blocktrans %}No known teammate related to this team{% endblocktrans %}
     </p>
   {% endfor %}
+  <div class="mb-4"></div>
+
 {% endblock %}

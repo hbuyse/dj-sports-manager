@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-list' %}">{% trans "Teams" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-detail' team.slug %}">{{ team }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Add time slot" %}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+  {% trans "Add team timeslot creation" %}
+{% endblock %}
+
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form layout="horizontal" %}
+    <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+  </form>
+{% endblock %}

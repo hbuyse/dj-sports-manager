@@ -8,22 +8,13 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
       <li class="breadcrumb-item"><a href="{% url 'sports-manager:license-list' user.get_username %}">{% trans "My licenses" %}</a></li>
-      {% if 'create' in request.path %}
-        <li class="breadcrumb-item active" aria-current="page">{% trans "Creation" %}</a></li>
-      {% elif 'update' in request.path %}
-        <li class="breadcrumb-item"><a href="{{ license.get_absolute_url }}">{{ license }}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{% trans "Update" %}</a></li>
-      {% endif %}
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Creation" %}</a></li>
     </ol>
   </nav>
 {% endblock %}
 
 {% block page_title %}
-  {% if 'create' in request.path %}
-    {% trans "License creation" %}
-  {% elif 'update' in request.path %}
-    {% blocktrans %}{{ license }} update {% endblocktrans %}
-  {% endif %}
+  {% trans "License creation" %}
 {% endblock %}
 
 {% block content %}

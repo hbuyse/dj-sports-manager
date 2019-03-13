@@ -8,7 +8,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-      <li class="breadcrumb-item" aria-current="page"><a href="{% url 'sports-manager:license-list' license.player.owner.get_username %}">{% trans "Licenses" %}</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a href="{% url 'sports-manager:license-list' license.player.owner.get_username %}">{% trans "My licenses" %}</a></li>
       <li class="breadcrumb-item active" aria-current="page">{{ license }}</li>
     </ol>
   </nav>
@@ -16,6 +16,7 @@
 
 {% block page_title_buttons %}
   {% if user.get_username == license.owner.get_username or user.is_staff %}
+    {% comment %}
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateModal">
       {% trans "Update" %}
@@ -69,7 +70,13 @@
         </div>
       </div>
     </div>
+  {% endcomment %}
+    <div class="btn-group float-right" role="group">
+      <a href="{% url 'sports-manager:license-update' license.player.owner.get_username license.pk %}" class="btn btn-primary btn-sm">{% trans "Update" %}</a>
+      <a href="{% url 'sports-manager:license-delete' license.player.owner.get_username license.pk %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+    </div>
   {% endif %}
+
 {% endblock %}
 
 {% block page_title %}

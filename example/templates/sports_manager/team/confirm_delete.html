@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% load bootstrap4 %}
+
+{% load i18n %}
 
 {% block path %}
   <nav aria-label="breadcrumb">
@@ -20,6 +21,20 @@
   <form method="post">
     {% csrf_token %}
     <p>{% blocktrans %}Do you really want to delete the team "{{ team }}" and everything link to it?{% endblocktrans %}</p>
-    {% bootstrap_button "Confirm" button_type="submit" button_class="btn-primary" %}
+    {% for license in team.license_set.all %}
+      {% if forloop.first %}
+        <h3>Licenses to be deleted</h3>
+        <ul class="list-group mb-4">
+      {% endif %}
+
+      <li class="list-group-item">{{ license }}</li>
+
+      {% if forloop.last %}
+        </ul>
+      {% endif%}
+    {% endfor %}
+
+    <button type="submit" class="btn btn-warning">{% trans "Yes, I want it." %}</button>
+    <button type="button" class="btn btn-primary" onclick="history.back()">{% trans "No, I want to go back" %}</button>
   </form>
 {% endblock %}

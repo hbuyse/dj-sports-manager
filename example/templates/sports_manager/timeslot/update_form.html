@@ -9,21 +9,13 @@
       <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-list' %}">{% trans "Teams" %}</a></li>
       <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-detail' object.team.slug %}">{{ timeslot.team }}</a></li>
       <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-detail' object.team.slug %}">{% trans "Time slots" %}</a></li>
-      {% if 'create' in request.path %}
-        <li class="breadcrumb-item active" aria-current="page">{% trans "Creation" %}</a></li>
-      {% elif 'update' in request.path %}
-        <li class="breadcrumb-item active" aria-current="page">{% trans "Update" %}</a></li>
-      {% endif %}
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Update" %}</a></li>
     </ol>
   </nav>
 {% endblock %}
 
 {% block page_title %}
-  {% if 'create' in request.path %}
-    Team timeslot creation
-  {% elif 'update' in request.path %}
-    Update {{ team }} time slot
-  {% endif %}
+  {% blocktrans %}Update {{ team }} time slot{% endblocktrans %}
 {% endblock %}
 
 {% block content %}

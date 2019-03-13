@@ -26,9 +26,14 @@
 {% block content %}
   <div class="list-group">
   {% for team in team_list %}
-    {% if forloop.first %}
-      <div class="card-columns">
-    {% endif %}
+    {% ifchanged team.category %}
+      {% if not forloop.first %}
+        </div>
+      {% endif %}
+      <h3>{{ team.category }}</h3>
+      <div class="card-columns mb-4">
+    {% endifchanged %}
+
       <div class="card">
         {% if team.img %}
           <img class="card-img-top" src="{{ team.img.url }}" alt="{{ team.name }}'s logo">
