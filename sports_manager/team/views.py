@@ -133,15 +133,10 @@ class TeamTimeSlotCreateView(StaffMixin, CreateView):
         'end'
     ]
 
-    def get(self, request, *args, **kwargs):
-        """Override the get method to check if the team exists."""
-        get_object_or_404(Team, slug=kwargs['team'])  # Check that the team we want to edit exist
-        return super().get(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        """Override the post method to check if the team exists."""
-        get_object_or_404(Team, slug=kwargs['team'])  # Check that the team we want to edit exist
-        return super().post(request, *args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["team"] = get_object_or_404(Team, slug=self.kwargs['team'])  # Check that the team we want to edit exist
+        return context
 
     def form_valid(self, form):
         """Override the form_valid method to set the team for which we create the timeslot."""
