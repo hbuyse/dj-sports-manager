@@ -17,7 +17,7 @@ from django.views.generic import DeleteView, DetailView, ListView, UpdateView, V
 # Current django project
 from sports_manager.mixins import OwnerOrStaffMixin
 from sports_manager.player.forms import EmergencyContactForm, MedicalCertificateForm, PlayerCreationForm
-from sports_manager.player.models import Player
+from sports_manager.player.models import MedicalCertificate, Player
 
 logger = logging.getLogger(__name__)
 
@@ -89,6 +89,10 @@ class PlayerCreateView(LoginRequiredMixin, OwnerOrStaffMixin, View):
             emergency_contact.player = self.player
             emergency_contact.save()
             medical_certificate = certificate_form.save(commit=False)
+            if medical_certificate.file:
+                medical_certificate.validation = MedicalCertificate.IN_VALIDATION
+            else:
+                medical_certificate.validation = MedicalCertificate.NOT_UPLOADED
             medical_certificate.player = self.player
             medical_certificate.save()
 
@@ -109,7 +113,7 @@ class PlayerCreateView(LoginRequiredMixin, OwnerOrStaffMixin, View):
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        msg = _("Player '{}' created successfully") % {'name': self.player}
+        msg = _("Player '%(name)s' created successfully") % {'name': self.player}
         messages.success(self.request, msg)
         return reverse('sports-manager:player-list', kwargs={'username': self.player.owner.get_username()})
 
