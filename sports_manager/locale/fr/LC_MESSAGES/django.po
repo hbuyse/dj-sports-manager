@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-26 21:56+0100\n"
+"POT-Creation-Date: 2019-03-13 17:41+0100\n"
 "PO-Revision-Date: 2019-02-26 21:57+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,127 +18,278 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 2.2.1\n"
 
-#: mixins.py:59
-msgid "You do not have the right to view this page."
+#: category/models.py:34
+#, python-format
+msgid "Image %(filename)s saved in %(path)s"
 msgstr ""
 
-#: models/category.py:43 models/gymnasium.py:23 models/player.py:61
-#: models/team.py:75
+#: category/models.py:42 gymnasium/models.py:23 player/models.py:54
+#: team/models.py:69
 msgid "slug"
 msgstr "slug"
 
-#: models/category.py:44 models/gymnasium.py:25 models/team.py:77
+#: category/models.py:43 gymnasium/models.py:25 team/models.py:71
 msgid "name"
 msgstr "nom"
 
-#: models/category.py:45 models/team.py:87
+#: category/models.py:44 team/models.py:81
 msgid "image"
 msgstr "image"
 
-#: models/category.py:46
+#: category/models.py:45
 msgid "minimal age"
 msgstr "âge minimal"
 
-#: models/category.py:47
+#: category/models.py:46
 msgid "maximal age"
 msgstr "âge maximal"
 
-#: models/category.py:48
+#: category/models.py:47
 msgid "summary"
 msgstr "résumé"
 
-#: models/category.py:49 models/team.py:86
+#: category/models.py:48 team/models.py:80
 msgid "description"
 msgstr "description"
 
-#: models/category.py:58
+#: category/models.py:57
 msgid "category"
 msgstr "catégorie"
 
-#: models/category.py:59
+#: category/models.py:58
 msgid "categories"
 msgstr "catégories"
 
-#: models/gymnasium.py:19 models/gymnasium.py:51 models/team.py:155
+#: category/views.py:52
+#, python-format
+msgid "Category '%(name)s' added successfully"
+msgstr ""
+
+#: category/views.py:74
+#, python-format
+msgid "Category '%(name)s' updated successfully"
+msgstr ""
+
+#: category/views.py:88
+#, python-format
+msgid "Category '%(name)s' deleted successfully"
+msgstr ""
+
+#: gymnasium/models.py:19 gymnasium/models.py:51 team/models.py:148
 msgid "gymnasium"
 msgstr "gymnase"
 
-#: models/gymnasium.py:20
+#: gymnasium/models.py:20
 #, fuzzy
 #| msgid "medium"
 msgid "stadium"
 msgstr "medium"
 
-#: models/gymnasium.py:24 models/team.py:153
+#: gymnasium/models.py:24 team/models.py:146
 msgid "type"
 msgstr "type"
 
-#: models/gymnasium.py:26
+#: gymnasium/models.py:26
 msgid "address"
 msgstr "adresse"
 
-#: models/gymnasium.py:27
+#: gymnasium/models.py:27
 msgid "city"
 msgstr "ville"
 
-#: models/gymnasium.py:28
+#: gymnasium/models.py:28
 msgid "zip code"
 msgstr "code postal"
 
-#: models/gymnasium.py:30 models/player.py:142
+#: gymnasium/models.py:30 player/models.py:142
 msgid "phone number"
 msgstr "numéro de téléphone"
 
-#: models/gymnasium.py:40 models/player.py:151
+#: gymnasium/models.py:40 player/models.py:151
 msgid "This is not a correct phone number"
 msgstr "Cela n'est pas un numéro de téléphine correct"
 
-#: models/gymnasium.py:43
+#: gymnasium/models.py:43
 msgid "area"
 msgstr "surface"
 
-#: models/gymnasium.py:44
+#: gymnasium/models.py:44
 msgid "capacity"
 msgstr "capacité"
 
-#: models/gymnasium.py:52
+#: gymnasium/models.py:52
 msgid "gymnasiums"
 msgstr "gymnases"
 
-#: models/license.py:24 models/team.py:98
+#: gymnasium/views.py:51
+#, python-format
+msgid "Gymnasium '%(name)s' added successfully"
+msgstr ""
+
+#: gymnasium/views.py:75
+#, python-format
+msgid "Gymnasium '%(name)s' updated successfully"
+msgstr ""
+
+#: gymnasium/views.py:89
+#, python-format
+msgid "Gymnasium '%(name)s' deleted successfully"
+msgstr ""
+
+#: license/models.py:18 team/models.py:92
 msgid "teams"
 msgstr "équipes"
 
-#: models/license.py:25 models/player.py:76 models/player.py:112
-#: models/player.py:137
+#: license/models.py:19 player/models.py:69 player/models.py:104
+#: player/models.py:137
 msgid "player"
 msgstr "joueur"
 
-#: models/license.py:26
+#: license/models.py:20
 msgid "number"
 msgstr "numéro"
 
-#: models/license.py:27
+#: license/models.py:21
 msgid "has been payed"
 msgstr "est payée"
 
-#: models/license.py:28 models/player.py:67 models/player.py:120
+#: license/models.py:22 player/models.py:60 player/models.py:112
 msgid "creation date"
 msgstr "date de création"
 
-#: models/license.py:29
+#: license/models.py:23
 msgid "last modification date"
 msgstr "date de dernière modification"
 
-#: models/license.py:38
+#: license/models.py:31
 msgid "license"
 msgstr "licence"
 
-#: models/license.py:39
+#: license/models.py:32
 msgid "licenses"
 msgstr "licence"
 
-#: models/player.py:46
+#: license/views.py:51
+#, python-format
+msgid "License for '%(name)s created successfully"
+msgstr ""
+
+#: license/views.py:74 license/views.py:99
+#, python-format
+msgid "License for '%(name)s updated successfully"
+msgstr ""
+
+#: mixins.py:46 mixins.py:61
+#, python-format
+msgid "User '%(username)s' does not exist."
+msgstr ""
+
+#: mixins.py:55
+msgid "You do not have the right to view this page."
+msgstr ""
+
+#: mixins.py:65
+#, python-format
+msgid "Staff user %(username)s accessed '%(url)s' page"
+msgstr ""
+
+#: player/forms.py:53
+#, python-format
+msgid ""
+"Player '%(first_name)s %(last_name)s' of owner '%(username)s' already exists."
+msgstr ""
+
+#: player/models.py:38
+#, python-format
+msgid "Medical certificate %(filename)s saved in %(path)s"
+msgstr ""
+
+#: player/models.py:50 team/models.py:65
+msgid "male"
+msgstr "masculin"
+
+#: player/models.py:51 team/models.py:67
+msgid "female"
+msgstr "féminin"
+
+#: player/models.py:56 player/models.py:138
+msgid "first name"
+msgstr "prénom"
+
+#: player/models.py:57 player/models.py:139
+msgid "last name"
+msgstr "nom de famille"
+
+#: player/models.py:58 team/models.py:73
+msgid "sex"
+msgstr "sexe"
+
+#: player/models.py:59
+msgid "birthday"
+msgstr "date d'anniversaire"
+
+#: player/models.py:70
+msgid "players"
+msgstr "joueurs"
+
+#: player/models.py:98
+msgid "not uploaded"
+msgstr "non chargé"
+
+#: player/models.py:99
+msgid "in validation"
+msgstr "en cours de validation"
+
+#: player/models.py:100
+msgid "valid"
+msgstr "valide"
+
+#: player/models.py:101
+msgid "rejected"
+msgstr "rejeté"
+
+#: player/models.py:105
+msgid "file"
+msgstr "fichier"
+
+#: player/models.py:106
+msgid "validation step"
+msgstr "étape de validation"
+
+#: player/models.py:110
+msgid "starting date"
+msgstr "date de début"
+
+#: player/models.py:111
+msgid "ending date"
+msgstr "date de fin"
+
+#: player/models.py:117
+msgid "medical certificate"
+msgstr "certificat médical"
+
+#: player/models.py:118
+msgid "medical certificates"
+msgstr "certificats médicaux"
+
+#: player/models.py:123
+#, python-format
+msgid "%(player)s (%(validation)s - start: %(start)s)"
+msgstr ""
+
+#: player/models.py:140
+msgid "email"
+msgstr ""
+
+#: player/models.py:158
+msgid "emergency contact"
+msgstr ""
+
+#: player/models.py:159
+msgid "emergency contacts"
+msgstr ""
+
+#: player/validators.py:21
 #, python-format
 msgid ""
 "Player is not old enough (min: %(min)s years old, birthday given: "
@@ -147,284 +298,200 @@ msgstr ""
 "Le joueur n'est pas assez vieux (min: %(min)s ans, date d'anniversaire "
 "donnée: %(birthday)s)"
 
-#: models/player.py:57 models/team.py:71
-msgid "male"
-msgstr "masculin"
-
-#: models/player.py:58 models/team.py:73
-msgid "female"
-msgstr "féminin"
-
-#: models/player.py:63 models/player.py:138
-msgid "first name"
-msgstr "prénom"
-
-#: models/player.py:64 models/player.py:139
-msgid "last name"
-msgstr "nom de famille"
-
-#: models/player.py:65 models/team.py:79
-msgid "sex"
-msgstr "sexe"
-
-#: models/player.py:66
-msgid "birthday"
-msgstr "date d'anniversaire"
-
-#: models/player.py:77
-msgid "players"
-msgstr "joueurs"
-
-#: models/player.py:106
-msgid "not uploaded"
-msgstr "non chargé"
-
-#: models/player.py:107
-msgid "in validation"
-msgstr "en cours de validation"
-
-#: models/player.py:108
-msgid "valid"
-msgstr "valide"
-
-#: models/player.py:109
-msgid "rejected"
-msgstr "rejeté"
-
-#: models/player.py:113
-msgid "file"
-msgstr "fichier"
-
-#: models/player.py:114
-msgid "validation step"
-msgstr "étape de validation"
-
-#: models/player.py:118
-msgid "starting date"
-msgstr "date de début"
-
-#: models/player.py:119
-msgid "ending date"
-msgstr "date de fin"
-
-#: models/player.py:125
-msgid "medical certificate"
-msgstr "certificat médical"
-
-#: models/player.py:126
-msgid "medical certificates"
-msgstr "certificats médicaux"
-
-#: models/player.py:140
-msgid "email"
+#: player/views.py:102
+#, python-format
+msgid "A player with the same datas already exists in %(username)s's account."
 msgstr ""
 
-#: models/team.py:47
+#: player/views.py:116
+#, python-format
+msgid "Player '%(name)s' created successfully"
+msgstr ""
+
+#: player/views.py:130
+msgid "Player '{}' updated successfully"
+msgstr ""
+
+#: player/views.py:143
+msgid "Player '{}' deleted successfully"
+msgstr ""
+
+#: team/models.py:41
 msgid "gold"
 msgstr "or"
 
-#: models/team.py:48
+#: team/models.py:42
 msgid "silver"
 msgstr "argent"
 
-#: models/team.py:49
+#: team/models.py:43
 msgid "bronze"
 msgstr "bronze"
 
-#: models/team.py:52
+#: team/models.py:46
 msgid "hard"
 msgstr "hard"
 
-#: models/team.py:53
+#: team/models.py:47
 msgid "medium"
 msgstr "medium"
 
-#: models/team.py:54
+#: team/models.py:48
 msgid "easy"
 msgstr "easy"
 
-#: models/team.py:58
+#: team/models.py:52
 msgid "elite"
 msgstr "élite"
 
-#: models/team.py:59
+#: team/models.py:53
 msgid "national 2"
 msgstr "national 2"
 
-#: models/team.py:60
+#: team/models.py:54
 msgid "regional 1"
 msgstr "pré-national"
 
-#: models/team.py:61
+#: team/models.py:55
 msgid "regional 2"
 msgstr "régionale 2"
 
-#: models/team.py:62
+#: team/models.py:56
 msgid "regional 3"
 msgstr "régional 3"
 
-#: models/team.py:63
+#: team/models.py:57
 msgid "departemental"
 msgstr "départemental"
 
-#: models/team.py:64
+#: team/models.py:58
 msgid "under 20"
 msgstr "moins de 20 ans"
 
-#: models/team.py:65
+#: team/models.py:59
 msgid "under 17"
 msgstr "moins de 17 ans"
 
-#: models/team.py:66
+#: team/models.py:60
 msgid "under 15"
 msgstr "moins de 15 ans"
 
-#: models/team.py:67
+#: team/models.py:61
 msgid "under 13"
 msgstr "moins de 13 ans"
 
-#: models/team.py:72
+#: team/models.py:66
 msgid "mixed"
 msgstr "mixte"
 
-#: models/team.py:78
+#: team/models.py:72
 msgid "level"
 msgstr "niveau"
 
-#: models/team.py:84
+#: team/models.py:78
 msgid "trainer"
 msgstr "entraineur(euse)"
 
-#: models/team.py:85
+#: team/models.py:79
 msgid "competition URL"
 msgstr "URL du championnat"
 
-#: models/team.py:88
+#: team/models.py:82
 #, fuzzy
 #| msgid "is recruting"
 msgid "is recruiting"
 msgstr "recrute"
 
-#: models/team.py:92
-#, python-format
-msgid "%(name)s %(sex)s"
-msgstr ""
-
-#: models/team.py:97 models/team.py:154
+#: team/models.py:91 team/models.py:147
 msgid "team"
 msgstr "équipe"
 
-#: models/team.py:140
+#: team/models.py:133
 msgid "monday"
 msgstr "lundi"
 
-#: models/team.py:141
+#: team/models.py:134
 msgid "tuesday"
 msgstr "mardi"
 
-#: models/team.py:142
+#: team/models.py:135
 msgid "wednesday"
 msgstr "mercredi"
 
-#: models/team.py:143
+#: team/models.py:136
 msgid "thursday"
 msgstr "jeudi"
 
-#: models/team.py:144
+#: team/models.py:137
 msgid "friday"
 msgstr "vendredi"
 
-#: models/team.py:145
+#: team/models.py:138
 msgid "saturday"
 msgstr "samedi"
 
-#: models/team.py:146
+#: team/models.py:139
 msgid "sunday"
 msgstr "dimanche"
 
-#: models/team.py:149
+#: team/models.py:142
 msgid "practice"
 msgstr "entraînement"
 
-#: models/team.py:150
+#: team/models.py:143
 msgid "match"
 msgstr "match"
 
-#: models/team.py:156
+#: team/models.py:149
 msgid "day"
 msgstr "jour"
 
-#: models/team.py:157
+#: team/models.py:150
 msgid "starting time"
 msgstr "heure de début"
 
-#: models/team.py:158
+#: team/models.py:151
 #, fuzzy
 #| msgid "ending date"
 msgid "ending time"
 msgstr "date de fin"
 
-#: models/team.py:167
+#: team/models.py:160
 msgid "time slot"
 msgstr "créneau horaire"
 
-#: models/team.py:168
+#: team/models.py:161
 msgid "time slots"
 msgstr "créneaux horaire"
 
-#: views/gymnasium.py:48
-#, python-format
-msgid "Gymnasium '%(name)s' added successfully"
-msgstr ""
-
-#: views/gymnasium.py:71
-#, python-format
-msgid "Gymnasium '%(name)s' updated successfully"
-msgstr ""
-
-#: views/gymnasium.py:84
-#, python-format
-msgid "Gymnasium '%(name)s' deleted successfully"
-msgstr ""
-
-#: views/license.py:52
-#, python-format
-msgid "License for '%(name)s created successfully"
-msgstr ""
-
-#: views/license.py:75
-#, python-format
-msgid "License for '%(name)s updated successfully"
-msgstr ""
-
-#: views/team.py:52
+#: team/views.py:56
 #, python-format
 msgid "Team '%(name)s' created successfully"
 msgstr ""
 
-#: views/team.py:75
+#: team/views.py:80
 #, python-format
 msgid "Team '%(name)s' updated successfully"
 msgstr ""
 
-#: views/team.py:88
+#: team/views.py:94
 #, python-format
 msgid "Team '%(name)s' deleted successfully"
 msgstr ""
 
-#: views/timeslot.py:69
+#: team/views.py:150
 #, python-format
-msgid "TimeSlot '%(day)s' for '%(team)s' added successfully"
+msgid "TimeSlot of '%(day)s' for '%(team)s' added successfully"
 msgstr ""
 
-#: views/timeslot.py:85
+#: team/views.py:178
 #, python-format
-msgid "TimeSlot '%(day)s' for '%(team)s' updated successfully"
+msgid "TimeSlot of '%(day)s' for '%(team)s' updated successfully"
 msgstr ""
 
-#: views/timeslot.py:100
+#: team/views.py:199
 #, python-format
-msgid "TimeSlot '%(day)s' for '%(team)s' deleted successfully"
+msgid "TimeSlot of '%(day)s' for '%(team)s' deleted successfully"
 msgstr ""
 
 #~ msgid "surface"
