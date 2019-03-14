@@ -173,7 +173,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 BOOTSTRAP4 = {
 
     # The URL to the jQuery JavaScript file
-    'jquery_url': '//code.jquery.com/jquery-3.3.1.slim.min.js',
+    'jquery_url': '//code.jquery.com/jquery-3.3.1.min.js',
 
     # The Bootstrap base URL
     'base_url': '//stackpath.bootstrapcdn.com/bootstrap/4.1.3/',

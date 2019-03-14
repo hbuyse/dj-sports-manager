@@ -13,7 +13,7 @@ license_urlpatterns = [
          name='license-list',
          ),
     path("<str:username>/license/create/",
-         view=views.LicenseCreateView.as_view(),
+         view=views.LicenseCreateView2.as_view(),
          name='license-create',
          ),
     path("<str:username>/license/<int:pk>/",
@@ -28,4 +28,8 @@ license_urlpatterns = [
          view=views.LicenseDeleteView.as_view(),
          name='license-delete',
          ),
+    path("get_list_category/",
+         view=views.GetCategoryFromPlayerBirthday.as_view(),
+         name='license-get-list-category'
+         )
 ]

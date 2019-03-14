@@ -18,10 +18,30 @@
 {% endblock %}
 
 {% block content %}
-  <form method="post" enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data" id="licenseForm" data-categories-url="{% url 'sports-manager:license-get-list-category' %}">
     {% csrf_token %}
     {% bootstrap_form form layout="horizontal" %}
     {{ form.media }}
     <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
   </form>
+{% endblock %}
+
+{% block javascript %}
+  <script>
+    $("#id_player").change(function () {
+      var url = $("#licenseForm").attr("data-categories-url");  {# get the url of the `load_cities` view #}
+      var playerId = $(this).val();  {# get the selected country ID from the HTML input #}
+      console.log("Player ID changed to " + playerId);
+      $.ajax({                       {# initialize an AJAX request #}
+        url: url,                    {# set the url of the request (= localhost:8000/hr/ajax/load-cities/) #}
+        data: {
+          'player': playerId       {# add the country id to the GET parameters #}
+        },
+        success: function (data) {   {# `data` is the return of the `load_cities` view function #}
+          console.log(data);
+          $("#id_category").html(data);  {# replace the contents of the city input with the data that came from the server #}
+        }
+      });
+    });
+  </script>
 {% endblock %}
