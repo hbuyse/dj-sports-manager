@@ -39,12 +39,7 @@ class LicenseCreationForm(forms.ModelForm):
 class LicenseCreationForm2(forms.Form):
     """License creation form."""
 
-    player = forms.ModelChoiceField(queryset=Player.objects.none())
-    category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label=None)
-    teams = forms.ModelChoiceField(queryset=Team.objects.all(), widget=forms.CheckboxSelectMultiple, empty_label=None)
+    player = forms.ModelChoiceField(queryset=Player.objects.all())
+    category = forms.ModelChoiceField(queryset=Category.objects.all())
+    teams = forms.ModelChoiceField(queryset=Team.objects.all(), widget=forms.CheckboxSelectMultiple)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['player'].queryset = kwargs['initial']['player']
-        self.fields['category'].queryset = kwargs['initial']['category']
-        self.fields['teams'].queryset = kwargs['initial']['teams']

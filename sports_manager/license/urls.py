@@ -28,8 +28,12 @@ license_urlpatterns = [
          view=views.LicenseDeleteView.as_view(),
          name='license-delete',
          ),
-    path("get_list_category/",
-         view=views.GetCategoryFromPlayerBirthday.as_view(),
-         name='license-get-list-category'
-         )
+    path("get_list_categories/",
+         view=views.LicenseCreateAjaxGetCategories.as_view(),
+         name='license-get-list-categories'
+         ),
+    path("get_list_teams/",
+         view=views.LicenseCreateAjaxGetTeams.as_view(),
+         name='license-get-list-teams'
+         ),
 ]

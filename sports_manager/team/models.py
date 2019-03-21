@@ -62,9 +62,9 @@ class Team(models.Model):
         ))
     )
     SEXES = (
+        ('FE', _('female')),
         ('MA', _('male')),
         ('MI', _('mixed')),
-        ('FE', _('female'))
     )
     slug = models.SlugField(_("slug"), unique=True, max_length=128, null=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='category', blank=False)
