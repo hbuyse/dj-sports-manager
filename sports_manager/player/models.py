@@ -57,6 +57,25 @@ class Player(models.Model):
     last_name = models.CharField(_("last name"), max_length=150)
     sex = models.CharField(_("sex"), max_length=2, choices=SEXES, blank=False)
     birthday = models.DateField(_("birthday"), validators=[is_player_old_enough])
+    address = models.CharField(_("address"), max_length=256)
+    add_address = models.CharField(_("additional address"), max_length=256, blank=True)
+    zip_code = models.CharField(_("zip code"), max_length=5)
+    city = models.CharField(_("city"), max_length=128)
+    phone = models.CharField(
+        _('phone number'),
+        max_length=10,
+        blank=True,
+        validators=[
+            # ^
+            #     (?:(?:\+|00)33|0)     # Dialing code
+            #     \s*[1-9]              # First number (from 1 to 9)
+            #     (?:[\s.-]*\d{2}){4}   # End of the phone number
+            # $
+            RegexValidator(regex=r"^(?:(?:\+|00)33|0)\s*[1-7,9](?:[\s.-]*\d{2}){4}$",
+                           message=_("This is not a correct phone number"))
+        ]
+    )
+    email = models.EmailField(_("email"), blank=True)
     created = models.DateTimeField(_('creation date'), auto_now_add=True)
 
     def __str__(self):

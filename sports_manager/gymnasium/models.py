@@ -25,7 +25,7 @@ class Gymnasium(models.Model):
     name = models.CharField(_('name'), max_length=128)
     address = models.CharField(_('address'), max_length=255)
     city = models.CharField(_('city'), max_length=255)
-    zip_code = models.IntegerField(_('zip code'))
+    zip_code = models.CharField(_("zip code"), max_length=5, default="43701")
     phone = models.CharField(
         _('phone number'),
         max_length=10,

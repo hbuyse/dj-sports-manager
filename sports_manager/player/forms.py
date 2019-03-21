@@ -27,7 +27,13 @@ class PlayerCreationForm(ModelForm):
             'first_name',
             'last_name',
             'birthday',
-            'sex'
+            'sex',
+            'address',
+            'add_address',
+            'zip_code',
+            'city',
+            'phone',
+            'email',
         ]
         localized_fields = ('birthday',)
 

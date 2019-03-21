@@ -35,6 +35,25 @@
 
 {% block content %}
 
+  <h2>{% trans "Informations" %}</h2>
+  <div class="row">
+    <div class="col-md-2 font-weight-bold">{% icon 'venus-mars' %} </div><div class="col-md-4">{{ player.get_sex_display|title }}</div>
+    <div class="col-md-2 font-weight-bold">{% icon "birthday-cake" %}</div><div class="col-md-4">{{ player.birthday }}</div>
+  </div>
+  <div class="mb-4"></div>
+
+  <h3>{% trans "Address" %}</h3>
+  <div class="row">
+    <div class="col-md-12">{{ player.address }}</div>
+    {% if player.add_address %}<div class="col-md-12">{{ player.add_address }}</div>{% endif %}
+    <div class="col-md-12">{{ player.zip_code }}, {{ player.city }}</div>
+  </div>
+  <div class="row">
+    {% if player.phone %}<div class="col-md-2 font-weight-bold">{% trans "Phone" %}</div><div class="col-md-4">{{ player.phone }}</div>{% endif %}
+    {% if player.email %}<div class="col-md-2 font-weight-bold">{% trans "Email" %}</div><div class="col-md-4">{{ player.email }}</div>{% endif %}
+  </div>
+  <div class="mb-4"></div>
+
   {% for emergencycontact in player.emergencycontact_set.all %}
     {% if forloop.first %}
       <h2>{% trans "Emergency contacts" %}</h2>
