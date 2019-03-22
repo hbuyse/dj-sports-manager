@@ -1,0 +1,3 @@
+First name,Last name,Birthday
+{% for license in licenses %}{{ license.player.first_name|addslashes }},{{ license.player.last_name|addslashes }},{{ license.player.birthday|addslashes }}
+{% endfor %}
