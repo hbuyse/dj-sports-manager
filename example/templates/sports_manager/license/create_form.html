@@ -19,24 +19,30 @@
 {% endblock %}
 
 {% block content %}
-  <form method="post" enctype="multipart/form-data" id="licenseForm" data-categories-url="{% url 'sports-manager:license-get-list-categories' %}" data-teams-url="{% url 'sports-manager:license-get-list-teams' %}">
+  <form method="post" enctype="multipart/form-data" id="licenseForm"">
     {% csrf_token %}
-    {{ form.player|as_crispy_field }}
-    {{ form.category|as_crispy_field }}
-    {{ form.teams|as_crispy_field }}
+
+    <div>
+      {% if form.player.errors %}
+        <ol>
+        {% for error in form.player.errors %}
+            <li><strong>{{ error|escape }}</strong></li>
+        {% endfor %}
+        </ol>
+        {% endif %}
+      {{ form.player|as_crispy_field }}
+    </div>
+
+    <div>
+      {% if form.teams.errors %}
+        <ol>
+        {% for error in form.teams.errors %}
+            <li><strong>{{ error|escape }}</strong></li>
+        {% endfor %}
+        </ol>
+        {% endif %}
+      {{ form.teams|as_crispy_field }}
+    </div>
     <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
   </form>
-{% endblock %}
-
-{% block javascript %}
-  <script>
-    $(document).ready(function() {
-      console.log("Document ready");
-      $("#div_id_category").hide();
-      $("#div_id_teams").hide();
-    });
-  </script>
-  <script src="{% static 'js/license_creation_get_categories.js' %}"></script>
-  <script src="{% static 'js/license_creation_get_teams.js' %}"></script>
-
 {% endblock %}

@@ -15,8 +15,10 @@ from sports_manager.player.models import EmergencyContact, MedicalCertificate, P
 logger = logging.getLogger(__name__)
 
 
-class PlayerCreationForm(ModelForm):
-    """Player creation form."""
+class PlayerCreateForm(ModelForm):
+    """Player form.
+    
+    This first form will check if there is already a Player with the same datas linked to the user."""
 
     class Meta:
         model = Player
@@ -41,27 +43,52 @@ class PlayerCreationForm(ModelForm):
         """Override init in order to get the owner of the page."""
         self.username = kwargs.pop('username', None)
         super().__init__(*args, **kwargs)
-
+    
     def clean(self):
-        """Check if there is a player that already exists.
+        cleaned_data = self.cleaned_data
 
-        We check the first name, last name and birthday for a given owner.
-        """
-        d = {
+        datas = {
             'owner__username': self.username,
-            'first_name': self.cleaned_data.get('first_name'),
-            'last_name': self.cleaned_data.get('last_name'),
-            'birthday': self.cleaned_data.get('birthday')
+            'first_name': cleaned_data.get('first_name'),
+            'last_name': cleaned_data.get('last_name'),
         }
-        logger.debug(d)
-        if Player.objects.filter(**d).exists():
-            raise ValidationError(
-                _("Player '%(first_name)s %(last_name)s' of owner '%(username)s' already exists.") % {
-                    'first_name': d['first_name'],
-                    'last_name': d['last_name'],
-                    'username': d['owner__username'],
-                })
-        return self.cleaned_data
+
+        if Player.objects.filter(**datas).exists:
+            raise ValidationError(_("A player with the first name (%(first_name)s) and last name (%(last_name)s) "
+                                    "already exists for user '%(username)s'."),
+                                  params={
+                                      'username': datas['owner__username'],
+                                      'first_name': datas['first_name'],
+                                      'last_name': datas['last_name'],
+                                  })
+
+        # Always return cleaned_data
+        return cleaned_data
+
+
+class PlayerUpdateForm(ModelForm):
+    """Player update form.
+    
+    This first form will not check if there is already a Player with the same datas linked to the user."""
+
+    class Meta:
+        model = Player
+        widgets = {
+            "birthday": DateInput(attrs={'class': 'form-control'})
+        }
+        fields = [
+            'first_name',
+            'last_name',
+            'birthday',
+            'sex',
+            'address',
+            'add_address',
+            'zip_code',
+            'city',
+            'phone',
+            'email',
+        ]
+        localized_fields = ('birthday',)
 
 
 class EmergencyContactForm(ModelForm):
@@ -84,4 +111,18 @@ class MedicalCertificateForm(ModelForm):
         model = MedicalCertificate
         fields = [
             'file',
+        ]
+
+
+
+class StaffMedicalCertificateForm(ModelForm):
+    """Medical certificate form."""
+
+    class Meta:
+        model = MedicalCertificate
+        fields = [
+            'file',
+            'validation',
+            'start',
+            'end'
         ]

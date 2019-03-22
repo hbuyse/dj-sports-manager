@@ -22,8 +22,7 @@
 {% block content %}
   <form  method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <h5>Player informations</h5>
-    {% for field in player_form %}
+    {% for field in form %}
       {% if forloop.first %}
         <div class="form-row">
       {% endif %}
@@ -38,46 +37,6 @@
         {% endif %}
         {{ field|as_crispy_field }}
         </div>
-
-      {% if forloop.last %}
-        </div>
-      {% elif forloop.counter|divisibleby:2 %}
-        </div><div class="form-row">
-      {% endif %}
-    {% endfor %}
-
-    <h5>Medical certificate</h5>
-    {{ certificate_form|as_crispy_errors }}
-    {% for field in certificate_form %}
-      {% if forloop.first %}
-        <div class="form-row">
-      {% endif %}
-
-      <div class="col-6">
-        {% if field.errors %}
-          <ol>
-          {% for error in field.errors %}
-              <li><strong>{{ error|escape }}</strong></li>
-          {% endfor %}
-          </ol>
-        {% endif %}
-        {{ field|as_crispy_field }}
-      </div>
-
-      {% if forloop.last %}
-        </div>
-      {% elif forloop.counter|divisibleby:2 %}
-        </div><div class="form-row">
-      {% endif %}
-    {% endfor %}
-  
-    <h5>Emergency contact</h5>
-    {% for field in emergency_form %}
-      {% if forloop.first %}
-        <div class="form-row">
-      {% endif %}
-
-        <div class="col-6">{{ field|as_crispy_field }}</div>
 
       {% if forloop.last %}
         </div>

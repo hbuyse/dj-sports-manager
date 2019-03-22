@@ -88,6 +88,7 @@ class Player(models.Model):
         verbose_name = _("player")
         verbose_name_plural = _("players")
         ordering = ("last_name", "first_name")
+        unique_together = ('first_name', 'last_name', 'owner',)
 
     def save(self, *args, **kwargs):
         """Override the save method in order to rewrite the slug field each time we save the object."""
@@ -99,6 +100,10 @@ class Player(models.Model):
         return reverse("sports-manager:player-detail",
                        kwargs={"username": self.owner.get_username(), "slug": self.slug}
                        )
+
+    @property
+    def full_name(self):
+        return "{} {}".format(self.first_name, self.last_name)
 
     def get_last_medical_certificate(self):
         """Retrieve the last medical certificate uploaded."""
@@ -126,7 +131,7 @@ class MedicalCertificate(models.Model):
                                                   choices=CERTIFICATION_STEPS,
                                                   default=NOT_UPLOADED,
                                                   blank=False)
-    start = models.DateField(_('starting date'), auto_now_add=True)
+    start = models.DateField(_('starting date'))
     end = models.DateField(_('ending date'), null=True)
     created = models.DateTimeField(_('creation date'), auto_now_add=True)
 
@@ -148,6 +153,15 @@ class MedicalCertificate(models.Model):
     def is_valid(self):
         """Check if the medical certificate is valid."""
         return self.validation == self.VALID
+    
+    def save(self, *args, **kwargs):
+        """On creation, update start field.
+
+        We do not use 'auto_now_add=True' because if we do, it will not be possible to modify it later."""
+        if not self.pk:
+            self.start = date.today()
+        return super().save(*args, **kwargs)
+
 
 
 class EmergencyContact(models.Model):

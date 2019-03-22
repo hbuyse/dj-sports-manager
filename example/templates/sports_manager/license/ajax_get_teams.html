@@ -1,7 +1,0 @@
-{% for team in teams %}
-<div class="form-check form-check-inline">
-  <label id="id__{{ forloop.counter }}" class="form-check-label" for="id_teams_{{ forloop.counter }}">
-    <input class="form-check-input" name="teams" id="id_teams_{{ forloop.counter }}" value="{{ team.pk }}" type="checkbox">{{ team.name }} - {{ team.get_level_display }}
-  </label>
-</div>
-{% endfor %}

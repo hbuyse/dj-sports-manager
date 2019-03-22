@@ -27,5 +27,51 @@ player_urlpatterns = [
     path("<str:username>/player/<str:slug>/delete/",
          view=views.PlayerDeleteView.as_view(),
          name='player-delete',
-         ),
+         )
 ]
+
+# player_urlpatterns += [
+#     path("<str:username>/player/<str:slug>/emergency-contact/",
+#          view=views.EmergencyContactListView.as_view(),
+#          name='player-emergency-contact-list',
+#          ),
+#     path("<str:username>/player/<str:slug>/emergency-contact/create/",
+#          view=views.EmergencyContactDetailView.as_view(),
+#          name='player-emergency-contact-detail',
+#          ),
+#     path("<str:username>/player/<str:slug>/emergency-contact/<int:pk>/",
+#          view=views.EmergencyContactCreateView.as_view(),
+#          name='player-emergency-contact-create',
+#          ),
+#     path("<str:username>/player/<str:slug>/emergency-contact/<int:pk>/update/",
+#          view=views.EmergencyContactUpdateView.as_view(),
+#          name='player-emergency-contact-update',
+#          ),
+#     path("<str:username>/player/<str:slug>/emergency-contact/<int:pk>/delete/",
+#          view=views.EmergencyContactDeleteView.as_view(),
+#          name='player-emergency-contact-delete',
+#          )
+# ]
+
+# player_urlpatterns += [
+#     path("<str:username>/player/<str:slug>/medical-certificate/",
+#          view=views.EmergencyContactListView.as_view(),
+#          name='player-medical-certificate-list',
+#          ),
+#     path("<str:username>/player/<str:slug>/medical-certificate/create/",
+#          view=views.EmergencyContactDetailView.as_view(),
+#          name='player-medical-certificate-detail',
+#          ),
+#     path("<str:username>/player/<str:slug>/medical-certificate/<int:pk>/",
+#          view=views.EmergencyContactCreateView.as_view(),
+#          name='player-medical-certificate-create',
+#          ),
+#     path("<str:username>/player/<str:slug>/medical-certificate/<int:pk>/update/",
+#          view=views.EmergencyContactUpdateView.as_view(),
+#          name='player-medical-certificate-update',
+#          ),
+#     path("<str:username>/player/<str:slug>/medical-certificate/<int:pk>/delete/",
+#          view=views.EmergencyContactDeleteView.as_view(),
+#          name='player-medical-certificate-delete',
+#          )
+# ]
