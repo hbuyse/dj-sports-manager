@@ -9,9 +9,9 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-list' user.get_username %}">My players</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-list' user.get_username %}">{% trans "My players" %}</a></li>
     <li class="breadcrumb-item"><a href="{{ player.get_absolute_url }}">{{ player }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Creation</li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans "Update" %}</li>
   </ol>
 </nav>
 {% endblock %}
@@ -23,28 +23,22 @@
 {% block content %}
   <form  method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {% for field in form %}
-      {% if forloop.first %}
-        <div class="form-row">
-      {% endif %}
-
-        <div class="col-6">
-          {% if field.errors %}
-            <ol>
-            {% for error in field.errors %}
-                <li><strong>{{ error|escape }}</strong></li>
-            {% endfor %}
-            </ol>
-          {% endif %}
-          {{ field|as_crispy_field }}
-        </div>
-
-      {% if forloop.last %}
-        </div>
-      {% elif forloop.counter|divisibleby:2 %}
-        </div><div class="form-row">
-      {% endif %}
+    {% for msg in form.non_field_errors %}
+      <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Error!</strong> {{ msg }}
+      </div>
     {% endfor %}
+
+    <div class="form-row">
+      {% for field in form %}
+        <div class="col-6">{{ field|as_crispy_field }}</div>
+
+        {% if forloop.counter|divisibleby:2 %}
+          </div><div class="form-row">
+        {% endif %}
+      {% endfor %}
+    </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
     <button type="reset" class="btn btn-warning">Reset</button>
