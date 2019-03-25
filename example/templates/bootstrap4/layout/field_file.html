@@ -1,0 +1,22 @@
+{% load crispy_forms_field %}
+
+<div class="custom-file {{ field_class }}">
+    {% comment %} {% crispy_field field 'class' 'custom-file-input' %} {% endcomment %}
+    <input type="file" class="custom-file-input {% if field.errors %}is-invalid{% endif %}" id="{{ field.id_for_label }}" name="certif-file" class="clearablefileinput" {% if field.url %}value={{ field.url }} {% endif %}>
+    <label class="custom-file-label" for="{{ field.id_for_label }}">{{ field.file.url|default:"Choose file" }}</label>
+</div>
+
+{% if field.help_text %}
+    {% if help_text_inline %}
+        <span id="hint_{{ field.auto_id }}" class="text-muted">{{ field.help_text|safe }}</span>
+    {% else %}
+        <small id="hint_{{ field.auto_id }}" class="form-text text-muted">{{ field.help_text|safe }}</small>
+    {% endif %}
+{% endif %}
+
+{% if form_show_errors and field.errors %}
+    {% for error in field.errors %}
+        <p id="error_{{ forloop.counter }}_{{ field.auto_id }}" class="invalid-feedback d-block"><strong>{{ error }}</strong></p>
+    {% endfor %}
+{% endif %}
+{% for i in field %}{{ i }}{% endfor %}
