@@ -15,7 +15,8 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
 # Current django project
-from sports_manager.player.validators import is_player_old_enough
+from sports_manager.player.validators import validate_file_extension, is_player_old_enough
+from sports_manager.storage import OverwriteStorage
 
 logger = logging.getLogger(__name__)
 
@@ -126,7 +127,7 @@ class MedicalCertificate(models.Model):
     )
 
     player = models.ForeignKey("Player", on_delete=models.CASCADE, verbose_name=_('player'))
-    file = models.FileField(_('file'), upload_to=file_upload_to, blank=True)
+    file = models.FileField(_('file'), storage=OverwriteStorage(), upload_to=file_upload_to, validators=[validate_file_extension],  blank=True)
     validation = models.PositiveSmallIntegerField(_("validation step"),
                                                   choices=CERTIFICATION_STEPS,
                                                   default=NOT_UPLOADED,

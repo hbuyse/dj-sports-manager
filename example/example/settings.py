@@ -231,3 +231,7 @@ LOGOUT_REDIRECT_URL = "/"
 SPORTS_MANAGER = {
     'webmaster': 'webmaster@volley-club-nogent.fr'
 }
+
+SPORTS_MANAGER_PLAYER_MIN_AGE = 7
+SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST = ['.pdf', '.doc', '.docx', '.jpg', '.jpeg']
+SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB = 2

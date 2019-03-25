@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% load i18n %}
-{% load bootstrap4 %}
+{% load crispy_forms_tags %}
 
 {% block path %}
   <nav aria-label="breadcrumb">
@@ -21,8 +21,7 @@
 {% block content %}
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {% bootstrap_form form layout="horizontal" %}
-    {{ form.media }}
+    {% crispy form %}
     <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
   </form>
 {% endblock %}

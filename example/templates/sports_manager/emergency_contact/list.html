@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load l10n %}
+{% load staticfiles %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a href="{% url 'sports-manager:player-list' user.get_username %}">{% trans "My players" %}</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a href="{{ player.get_absolute_url }}">{{ player }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Medical certificates" %}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+  {% trans "My players" %}
+{% endblock %}
+
+{% block page_title_buttons %}
+  {% if user.is_authenticated %}
+    <div class="btn-group float-right" role="group">
+      <a class="btn btn-primary" href="{% url 'sports-manager:player-create' user.get_username %}">{% trans "New player" %}</a>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {{ object_list }}
+{% endblock %}

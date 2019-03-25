@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load bootstrap4 %}
+{% load crispy_forms_tags %}
 {% load i18n %}
 
 {% block path %}
@@ -21,7 +21,23 @@
 {% block content %}
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {% bootstrap_form form layout="horizontal" %}
+    {% for msg in form.non_field_errors %}
+      <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Error!</strong> {{ msg }}
+      </div>
+    {% endfor %}
+
+    <div class="form-row">
+      <div class="col-md-6">{{ form.type|as_crispy_field }}</div>
+      <div class="col-md-6">{{ form.gymnasium|as_crispy_field }}</div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-4">{{ form.day|as_crispy_field }}</div>
+      <div class="col-md-4">{{ form.start|as_crispy_field }}</div>
+      <div class="col-md-4">{{ form.end|as_crispy_field }}</div>
+    </div>
+
     <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
   </form>
 {% endblock %}

@@ -20,6 +20,13 @@
 {% block content %}
   <form method="post">
     {% csrf_token %}
+    {% for msg in form.non_field_errors %}
+      <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Error!</strong> {{ msg }}
+      </div>
+    {% endfor %}
+
     <div class="form-row">
       <div class="col-6">{{ form.name|as_crispy_field }}</div>
       <div class="col-6">{{ form.type|as_crispy_field }}</div>

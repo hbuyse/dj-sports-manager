@@ -12,7 +12,7 @@
         <meta charset="UTF-8">
 
         {# Load Bootstrap4 CSS#}
-        {% bootstrap_css %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css" integrity="sha256-Nfu23DiRqsrx/6B6vsI0T9vEVKq1M6KgO8+TV363g3s=" crossorigin="anonymous" />
 
         {# Font Awesome : for icons #}
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
@@ -113,8 +113,8 @@
                       <a class="dropdown-item" href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
                       <div class="dropdown-divider"></div>
                     {% endif %}
-                    <a class="dropdown-item" href="{% url 'sports-manager:player-list' user.get_username %}">{% icon 'users' %} {% trans "My players" %}</a>
-                    <a class="dropdown-item" href="{% url 'sports-manager:license-list' user.get_username %}">{% icon 'folder' %} {% trans "My licenses" %}</a>
+                    <a class="dropdown-item" href="{% url 'sports-manager:player-list' user.get_username %}">{% trans "My players" %}</a>
+                    <a class="dropdown-item" href="{% url 'sports-manager:license-list' user.get_username %}">{% trans "My licenses" %}</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'logout' %}">{% trans "Logout" %}</a>
                   </div>
@@ -127,8 +127,22 @@
         {# Beginning of all other pages #}
         <div class="container">
             {# Display django.contrib.messages as Bootstrap alerts #}
-            {% bootstrap_messages %}
-
+            {% for message in messages %}
+              {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <div class="alert alert-danger alert-dismissable">
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                <div class="alert alert-warning alert-dismissable">
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                <div class="alert alert-success alert-dismissable">
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                <div class="alert alert-info alert-dismissable">
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.DEBUG %}
+                <div class="alert alert-warning alert-dismissable">
+              {% endif %}
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  {{ message }}
+                </div>
+            {% endfor %}
             <div class="row">
                 {# <div class="col-sm-10" id="vcn-content"> #}
                 <main class="col-sm-12 mb-4" id="vcn-content">
@@ -148,7 +162,9 @@
         </div>
 
         {# Load Bootstrap JavaScript #}
-        {% bootstrap_javascript jquery='full' %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous"></script>
         {% block javascript %}{% endblock %}
     </body>
 </html>

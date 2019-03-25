@@ -1,11 +1,14 @@
 """."""
 
 # Standard library
+import logging
 import os
 
 # Django
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+
+logger = logging.getLogger(__name__)
 
 
 class OverwriteStorage(FileSystemStorage):
@@ -18,5 +21,6 @@ class OverwriteStorage(FileSystemStorage):
         """
         # If the filename already exists, remove it as if it was a true file system
         if self.exists(name):
+            logger.info("Removing file {}".format(os.path.join(settings.MEDIA_ROOT, name)))
             os.remove(os.path.join(settings.MEDIA_ROOT, name))
         return name

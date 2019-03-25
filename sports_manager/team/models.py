@@ -77,7 +77,7 @@ class Team(models.Model):
                                 null=True,
                                 verbose_name=_('trainer'))
     url = models.URLField(_("competition URL"))
-    description = MarkdownxField(_('description'))
+    description = MarkdownxField(_('description'), blank=True)
     img = models.ImageField(_('image'), storage=OverwriteStorage(), upload_to=image_upload_to, blank=True)
     recruitment = models.BooleanField(_('is recruiting'))
 

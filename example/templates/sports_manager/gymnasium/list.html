@@ -26,40 +26,29 @@
 
 
 {% block content %}
-  {% for gymnasium in gymnasium_list %}
-    {% if forloop.first %}
-      <div class="card-deck">
-    {% endif %}
-
-    <div class="card mb-4">
-      <div class="card-img-top">
-        <div class="embed-responsive embed-responsive-21by9">
-          <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&q={{ gymnasium.address }},{{ gymnasium.zip_code }},{{ gymnasium.city }}" frameborder="0" style="border:0" allowfullscreen></iframe>
+  <div class="row">
+    {% for gymnasium in gymnasium_list %}
+      <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+        <div class="card">
+          <div class="card-img-top">
+            <div class="embed-responsive embed-responsive-21by9">
+              <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&q={{ gymnasium.address }},{{ gymnasium.zip_code }},{{ gymnasium.city }}" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+          </div>
+          <h5 class="card-header">
+            {{ gymnasium }}
+          </h5>
+          <div class="card-body">
+            <p class="card-text">{{ gymnasium.address }}<br/>{{ gymnasium.zip_code }} {{ gymnasium.city }}</p>
+            {% if gymnasium.phone %}
+              <p class="card-text">{% trans "Phone: " %}{{ gymnasium.phone }}</p>
+            {% endif %}
+            <a href="{{ gymnasium.get_absolute_url }}" class="card-link">{% trans "Details" %}</a>
+          </div>
         </div>
       </div>
-      <h5 class="card-header">
-        {{ gymnasium }}
-      </h5>
-      <div class="card-body">
-        <p class="card-text">{{ gymnasium.address }}<br/>{{ gymnasium.zip_code }} {{ gymnasium.city }}</p>
-        {% if gymnasium.phone %}
-          <p class="card-text">{% trans "Phone: " %}{{ gymnasium.phone }}</p>
-        {% endif %}
-        <a href="{{ gymnasium.get_absolute_url }}" class="card-link">{% trans "Details" %}</a>
-      </div>
-    </div>
-
-    <div class="w-100 d-none d-sm-block d-md-none"><!-- wrap every 1 on sm--></div>
-    <div class="w-100 d-none d-md-block d-lg-none"><!-- wrap every 1 on sm--></div>
-    {% if forloop.counter|divisibleby:2 %}
-      <div class="w-100 d-none d-lg-block d-xl-none"><!-- wrap every 4 on lg--></div>
-      <div class="w-100 d-none d-xl-block d-md-none"><!-- wrap every 1 on sm--></div>
-    {% endif %}
-
-    {% if forloop.last %}
-      </div>
-    {% endif %}
-  {% empty %}
-    <p>No gymnasium...</p>
-  {% endfor %}
+    {% empty %}
+      <p>No gymnasium...</p>
+    {% endfor %}
+  </div>
 {% endblock %}

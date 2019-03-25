@@ -44,7 +44,7 @@ class Category(models.Model):
     img = models.ImageField(_('image'), storage=OverwriteStorage(), upload_to=image_upload_to, blank=True)
     min_age = models.PositiveSmallIntegerField(_('minimal age'))
     max_age = models.PositiveSmallIntegerField(_('maximal age'), blank=True, null=True)
-    summary = models.TextField(_('summary'), max_length=512)
+    summary = models.TextField(_('summary'), max_length=512, blank=True)
     description = MarkdownxField(_('description'))
 
     def __str__(self):

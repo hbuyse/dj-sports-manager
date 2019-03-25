@@ -55,23 +55,23 @@ player_urlpatterns = [
 
 # player_urlpatterns += [
 #     path("<str:username>/player/<str:slug>/medical-certificate/",
-#          view=views.EmergencyContactListView.as_view(),
+#          view=views.MedicalCertificateListView.as_view(),
 #          name='player-medical-certificate-list',
 #          ),
 #     path("<str:username>/player/<str:slug>/medical-certificate/create/",
-#          view=views.EmergencyContactDetailView.as_view(),
+#          view=views.MedicalCertificateDetailView.as_view(),
 #          name='player-medical-certificate-detail',
 #          ),
 #     path("<str:username>/player/<str:slug>/medical-certificate/<int:pk>/",
-#          view=views.EmergencyContactCreateView.as_view(),
+#          view=views.MedicalCertificateCreateView.as_view(),
 #          name='player-medical-certificate-create',
 #          ),
 #     path("<str:username>/player/<str:slug>/medical-certificate/<int:pk>/update/",
-#          view=views.EmergencyContactUpdateView.as_view(),
+#          view=views.MedicalCertificateUpdateView.as_view(),
 #          name='player-medical-certificate-update',
 #          ),
 #     path("<str:username>/player/<str:slug>/medical-certificate/<int:pk>/delete/",
-#          view=views.EmergencyContactDeleteView.as_view(),
+#          view=views.MedicalCertificateDeleteView.as_view(),
 #          name='player-medical-certificate-delete',
 #          )
 # ]

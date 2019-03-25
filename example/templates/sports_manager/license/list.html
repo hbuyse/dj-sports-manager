@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% load i18n %}
-{% load bootstrap4 %}
 {% load staticfiles %}
 
 {% block path %}
@@ -32,9 +31,10 @@
         </div>
       {% endif %}
       <h2>{{ license.season }}</h2>
-      <div class="card-columns">
+      <div class="row">
     {% endifchanged %}
 
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">{{ license.player }}</h5>
@@ -44,6 +44,8 @@
           <a href="{{ license.get_absolute_url }}" class="card-link">{% trans "Details" %}</a>
         </div>
       </div>
+    </div>
+    
 
     {% if forloop.last %}
       </div>

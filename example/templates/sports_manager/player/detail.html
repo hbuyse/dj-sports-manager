@@ -37,8 +37,8 @@
 
   <h2>{% trans "Informations" %}</h2>
   <div class="row">
-    <div class="col-md-2 font-weight-bold">{% icon 'venus-mars' %} </div><div class="col-md-4">{{ player.get_sex_display|title }}</div>
-    <div class="col-md-2 font-weight-bold">{% icon "birthday-cake" %}</div><div class="col-md-4">{{ player.birthday }}</div>
+    <div class="col-md-2 font-weight-bold">{% trans "Sex" %}</div><div class="col-md-4">{{ player.get_sex_display|title }}</div>
+    <div class="col-md-2 font-weight-bold">{% trans "Birthday" %}</div><div class="col-md-4">{{ player.birthday }}</div>
   </div>
   <div class="mb-4"></div>
 
@@ -54,15 +54,16 @@
   </div>
   <div class="mb-4"></div>
 
+  {% comment %}
   {% for emergencycontact in player.emergencycontact_set.all %}
     {% if forloop.first %}
       <h2>{% trans "Emergency contacts" %}</h2>
     {% endif %}
     <div class="row">
-      <div class="col-md-4">{% icon 'user' %} {{ emergencycontact.first_name }} {{ emergencycontact.last_name }}</div>
-      <div class="col-md-4">{% icon "phone" %} {{ emergencycontact.phone }}</div>
+      <div class="col-md-1 font-weight-bold">{% trans "Name" %}</div><div class="col-md-3">{{ emergencycontact.first_name }} {{ emergencycontact.last_name }}</div>
+      <div class="col-md-1 font-weight-bold">{% trans "Phone" %}</div><div class="col-md-3">{{ emergencycontact.phone }}</div>
       {% if emergencycontact.email %}
-        <div class="col-md-4">{% icon "envelope" %} {{ emergencycontact.email }}</div>
+        <div class="col-md-1 font-weight-bold">{% trans "Email" %}</div><div class="col-md-3">{{ emergencycontact.email }}</div>
       {% endif %}
     </div>
 
@@ -70,6 +71,7 @@
       <div class="w-100 mb-4"></div>
     {% endif %}
   {% endfor %}
+  {% endcomment %}
 
   {% for license in player.license_set.all %}
     {% if forloop.first %}

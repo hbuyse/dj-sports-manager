@@ -24,35 +24,20 @@
 {% endblock %}
 
 {% block content %}
-  <div class="list-group">
+  <div class="row">
   {% for category in category_list %}
-    {% if forloop.first %}
-      <div class="card-deck">
-    {% endif %}
-
-      <div class="card mb-4">
-        {% if category.img %}
-          <img class="card-img-top" src="{{ category.img.url }}" alt="{{ category.name }}'s logo">
-        {% endif %}
-        <div class="card-body">
-          <h5 class="card-title">{{ category }}</h5>
-          <p class="card-text">{{ category.summary }}</p>
-          <a href="{{ category.get_absolute_url }}" class="card-link">{% trans "Details" %}</a>
+      <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+        <div class="card">
+          {% if category.img %}
+            <img class="card-img-top" src="{{ category.img.url }}" alt="{{ category.name }}'s logo">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ category }}</h5>
+            <p class="card-text">{{ category.summary }}</p>
+            <a href="{{ category.get_absolute_url }}" class="card-link">{% trans "Details" %}</a>
+          </div>
         </div>
       </div>
-
-      {% if forloop.counter|divisibleby:2 %}
-        <div class="w-100 d-none d-sm-block d-md-none"><!-- wrap every 2 on sm--></div>
-        <div class="w-100 d-none d-md-block d-lg-none"><!-- wrap every 3 on md--></div>
-      {% endif %}
-      {% if forloop.counter|divisibleby:3 %}
-        <div class="w-100 d-none d-lg-block d-xl-none"><!-- wrap every 4 on lg--></div>
-        <div class="w-100 d-none d-xl-block"><!-- wrap every 5 on xl--></div>
-      {% endif %}
-
-    {% if forloop.last %}
-      </div>
-    {% endif %}
   {% empty %}
     <p>{% trans "No category listed yet" %}...</p>
   {% endfor %}
