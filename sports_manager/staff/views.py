@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 class StaffLinksView(TemplateView):
 
-    template_name = 'sports_manager/staff/home.html'
+    template_name = 'sports_manager/staff/index.html'
 
 
 class StaffLicenseListView(View):
