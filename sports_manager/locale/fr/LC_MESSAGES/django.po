@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-13 17:41+0100\n"
+"POT-Creation-Date: 2019-03-25 16:27+0100\n"
 "PO-Revision-Date: 2019-02-26 21:57+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Image %(filename)s saved in %(path)s"
 msgstr ""
 
-#: category/models.py:42 gymnasium/models.py:23 player/models.py:54
+#: category/models.py:42 gymnasium/models.py:23 player/models.py:55
 #: team/models.py:69
 msgid "slug"
 msgstr "slug"
@@ -89,23 +89,23 @@ msgstr "medium"
 msgid "type"
 msgstr "type"
 
-#: gymnasium/models.py:26
+#: gymnasium/models.py:26 player/models.py:61
 msgid "address"
 msgstr "adresse"
 
-#: gymnasium/models.py:27
+#: gymnasium/models.py:27 player/models.py:64
 msgid "city"
 msgstr "ville"
 
-#: gymnasium/models.py:28
+#: gymnasium/models.py:28 player/models.py:63
 msgid "zip code"
 msgstr "code postal"
 
-#: gymnasium/models.py:30 player/models.py:142
+#: gymnasium/models.py:30 player/models.py:66 player/models.py:176
 msgid "phone number"
 msgstr "numéro de téléphone"
 
-#: gymnasium/models.py:40 player/models.py:151
+#: gymnasium/models.py:40 player/models.py:76 player/models.py:185
 msgid "This is not a correct phone number"
 msgstr "Cela n'est pas un numéro de téléphine correct"
 
@@ -140,8 +140,8 @@ msgstr ""
 msgid "teams"
 msgstr "équipes"
 
-#: license/models.py:19 player/models.py:69 player/models.py:104
-#: player/models.py:137
+#: license/models.py:19 player/models.py:89 player/models.py:129
+#: player/models.py:171
 msgid "player"
 msgstr "joueur"
 
@@ -153,7 +153,7 @@ msgstr "numéro"
 msgid "has been payed"
 msgstr "est payée"
 
-#: license/models.py:22 player/models.py:60 player/models.py:112
+#: license/models.py:22 player/models.py:80 player/models.py:137
 msgid "creation date"
 msgstr "date de création"
 
@@ -169,12 +169,12 @@ msgstr "licence"
 msgid "licenses"
 msgstr "licence"
 
-#: license/views.py:51
+#: license/views.py:66
 #, python-format
 msgid "License for '%(name)s created successfully"
 msgstr ""
 
-#: license/views.py:74 license/views.py:99
+#: license/views.py:86 license/views.py:111
 #, python-format
 msgid "License for '%(name)s updated successfully"
 msgstr ""
@@ -193,103 +193,108 @@ msgstr ""
 msgid "Staff user %(username)s accessed '%(url)s' page"
 msgstr ""
 
-#: player/forms.py:53
+#: player/forms.py:57
 #, python-format
 msgid ""
-"Player '%(first_name)s %(last_name)s' of owner '%(username)s' already exists."
+"A player with the first name (%(first_name)s) and last name (%(last_name)s) "
+"already exists for user '%(username)s'."
 msgstr ""
 
-#: player/models.py:38
+#: player/models.py:39
 #, python-format
 msgid "Medical certificate %(filename)s saved in %(path)s"
 msgstr ""
 
-#: player/models.py:50 team/models.py:65
+#: player/models.py:51 team/models.py:66
 msgid "male"
 msgstr "masculin"
 
-#: player/models.py:51 team/models.py:67
+#: player/models.py:52 team/models.py:65
 msgid "female"
 msgstr "féminin"
 
-#: player/models.py:56 player/models.py:138
+#: player/models.py:57 player/models.py:172
 msgid "first name"
 msgstr "prénom"
 
-#: player/models.py:57 player/models.py:139
+#: player/models.py:58 player/models.py:173
 msgid "last name"
 msgstr "nom de famille"
 
-#: player/models.py:58 team/models.py:73
+#: player/models.py:59 team/models.py:73
 msgid "sex"
 msgstr "sexe"
 
-#: player/models.py:59
+#: player/models.py:60
 msgid "birthday"
 msgstr "date d'anniversaire"
 
-#: player/models.py:70
+#: player/models.py:62
+msgid "additional address"
+msgstr ""
+
+#: player/models.py:79 player/models.py:174
+msgid "email"
+msgstr ""
+
+#: player/models.py:90
 msgid "players"
 msgstr "joueurs"
 
-#: player/models.py:98
+#: player/models.py:123
 msgid "not uploaded"
 msgstr "non chargé"
 
-#: player/models.py:99
+#: player/models.py:124
 msgid "in validation"
 msgstr "en cours de validation"
 
-#: player/models.py:100
+#: player/models.py:125
 msgid "valid"
 msgstr "valide"
 
-#: player/models.py:101
+#: player/models.py:126
 msgid "rejected"
 msgstr "rejeté"
 
-#: player/models.py:105
+#: player/models.py:130
 msgid "file"
 msgstr "fichier"
 
-#: player/models.py:106
+#: player/models.py:131
 msgid "validation step"
 msgstr "étape de validation"
 
-#: player/models.py:110
+#: player/models.py:135
 msgid "starting date"
 msgstr "date de début"
 
-#: player/models.py:111
+#: player/models.py:136
 msgid "ending date"
 msgstr "date de fin"
 
-#: player/models.py:117
+#: player/models.py:142
 msgid "medical certificate"
 msgstr "certificat médical"
 
-#: player/models.py:118
+#: player/models.py:143
 msgid "medical certificates"
 msgstr "certificats médicaux"
 
-#: player/models.py:123
+#: player/models.py:148
 #, python-format
 msgid "%(player)s (%(validation)s - start: %(start)s)"
 msgstr ""
 
-#: player/models.py:140
-msgid "email"
-msgstr ""
-
-#: player/models.py:158
+#: player/models.py:192
 msgid "emergency contact"
 msgstr ""
 
-#: player/models.py:159
+#: player/models.py:193
 msgid "emergency contacts"
 msgstr ""
 
-#: player/validators.py:21
+#: player/validators.py:22
 #, python-format
 msgid ""
 "Player is not old enough (min: %(min)s years old, birthday given: "
@@ -298,22 +303,29 @@ msgstr ""
 "Le joueur n'est pas assez vieux (min: %(min)s ans, date d'anniversaire "
 "donnée: %(birthday)s)"
 
-#: player/views.py:102
+#: player/validators.py:32
 #, python-format
-msgid "A player with the same datas already exists in %(username)s's account."
+msgid "Unsupported file extension. Valid extension: %(ext_list)s"
 msgstr ""
 
-#: player/views.py:116
+#: player/validators.py:42
+#, python-format
+msgid "The maximum file size that can be uploaded is %(size)d MB"
+msgstr ""
+
+#: player/views.py:103
+#, python-format
+msgid "Player '%(full_name)s' deleted successfully"
+msgstr ""
+
+#: player/views.py:165
 #, python-format
 msgid "Player '%(name)s' created successfully"
 msgstr ""
 
-#: player/views.py:130
-msgid "Player '{}' updated successfully"
-msgstr ""
-
-#: player/views.py:143
-msgid "Player '{}' deleted successfully"
+#: player/views.py:251
+#, python-format
+msgid "Player '%(name)s' updated successfully"
 msgstr ""
 
 #: team/models.py:41
@@ -380,7 +392,7 @@ msgstr "moins de 15 ans"
 msgid "under 13"
 msgstr "moins de 13 ans"
 
-#: team/models.py:66
+#: team/models.py:67
 msgid "mixed"
 msgstr "mixte"
 
