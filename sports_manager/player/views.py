@@ -236,7 +236,6 @@ class PlayerUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, View):
 
             return HttpResponseRedirect(self.get_success_url())
         else:
-            logger.error(certificate_form)
             return render(request,
                           self.template_name,
                           {

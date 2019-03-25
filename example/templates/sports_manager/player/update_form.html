@@ -70,15 +70,27 @@
       <div class="col-6">{{ certificate_form.end|as_crispy_field }}</div>
       </div><div class="form-row">
       <div class="col-6">{{ certificate_form.validation|as_crispy_field }}</div>
-      <div id="div_id_certif-file" class="form-group">
-        <label for="id_certif-file" class="col-form-label ">Fichier</label>
-        <div class="custom-file">
-  <input type="file" class="custom-file-input" id="customFile">
-  <label class="custom-file-label" for="customFile">Choose file</label>
-</div>
-        <div class="custom-file ">
-          <input name="certif-file" class="clearablefileinput form-control custom-file-input" id="id_certif-file" type="file">
-          <label class="custom-file-label" for="id_certif-file">Choose file</label>
+      <div class="col-6">
+        <div id="div_id_certif-file" class="form-group">
+          <label for="id_certif-file" class="col-form-label  requiredField">
+            File<span class="asteriskField">*</span>
+          </label>
+          <div class="">
+            <div class="input-group mb-3">
+              {% if certificate_form.instance.file %}
+                <div class="input-group-prepend">
+                  <a target="_blank" href="{{ certificate_form.instance.file.url }}" class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon03">Download</a>
+                </div>
+              {% endif %}
+              <div class="custom-file">
+                <input type="file" class="custom-file-input {% if certificate_form.file.errors %}is-invalid{% endif %}" id="id_certif-file" name="certif-file" class="clearablefileinput" required>
+                <label class="custom-file-label" for="id_certif-file">{{ certificate_form.instance.file.name|default:"Choose file..." }}</label>
+              </div>
+              {% for error in certificate_form.file.errors %}
+                <p id="error_{{ forloop.counter }}_id_certif-file" class="invalid-feedback d-block"><strong>{{ error }}</strong></p>
+              {% endfor %}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -90,9 +102,19 @@
 
 {% block javascript %}
   <script>
-  $('#playerCreation a').on('click', function (e) {
-    e.preventDefault()
-    $(this).tab('show')
-  })
+    $("#id_certif-file").change(function () {
+
+      var fieldVal = $(this).val();
+      console.log(fieldVal);
+
+      // Change the node's value by removing the fake path (Chrome)
+      fieldVal = fieldVal.replace("C:\\fakepath\\", "");
+      console.log(fieldVal);
+
+      if (fieldVal != undefined || fieldVal != "") {
+        console.log($(this).next(".custom-file-label").text(fieldVal));
+      }
+
+    });
   </script>
 {% endblock %}
