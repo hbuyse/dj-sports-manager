@@ -48,7 +48,7 @@
             <td>{{ player.first_name }}</td>
             <td>{{ player.last_name }}</td>
             <td>{{ player.birthday|localize }}</td>
-            <td>{{ player.get_last_medical_certificate.get_validation_display }}</td>
+            <td>{{ player.get_last_medical_certificate.get_validation_display|capfirst }}</td>
             {% if user.is_authenticated and user == player.owner %}
               <td>
                 <div class="btn-group btn-group-sm float-right" role="group">

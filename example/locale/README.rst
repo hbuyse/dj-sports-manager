@@ -10,8 +10,8 @@ Create translation file
 
 .. code-block:: bash
 
-    $ python manage.py makemessages -l <code_language>
-    $ python manage.py compilemessages
+    $ django-admin makemessages -l <code_language>
+    $ django-admin compilemessages
 
 ------------------------
 Update translation files
@@ -19,5 +19,5 @@ Update translation files
 
 .. code-block:: bash
 
-    $ python manage.py makemessages
-    $ python manage.py compilemessages
+    $ django-admin makemessages
+    $ django-admin compilemessages

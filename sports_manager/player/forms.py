@@ -5,6 +5,7 @@
 import logging
 
 # Django
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.forms import DateInput, ModelForm
 from django.utils.translation import ugettext_lazy as _  # noqa
@@ -112,6 +113,9 @@ class MedicalCertificateForm(ModelForm):
         fields = [
             'file',
         ]
+        help_texts = {
+            'file': 'Extensions: {}. Max size: {} MB.'.format(', '.join(settings.SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST), settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB),
+        }
 
 
 
@@ -126,3 +130,6 @@ class StaffMedicalCertificateForm(ModelForm):
             'start',
             'end'
         ]
+        help_texts = {
+            'file': 'Extensions: {}. Max size: {} MB.'.format(', '.join(settings.SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST), settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB),
+        }

@@ -24,6 +24,13 @@
 
 {% block page_title %}
   {{ license }}
+  <small>
+    {% if license.is_payed %}
+      <span class="badge badge-success">Payed</span>
+    {% else %}
+      <span class="badge badge-warning">Not payed</span>
+    {% endif %}
+  </small>
 {% endblock %}
 
 {% block content %}

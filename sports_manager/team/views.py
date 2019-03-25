@@ -147,7 +147,7 @@ class TeamTimeSlotCreateView(StaffMixin, CreateView):
 
     def get_success_url(self):
         """Get the URL after the success."""
-        msg = _("TimeSlot of '%(day)s' for '%(team)s' added successfully") % {
+        msg = _("Timeslot of '%(day)s' for '%(team)s' added successfully") % {
             'day': self.object.day,
             'team': self.object.team.name
         }
@@ -175,7 +175,7 @@ class TeamTimeSlotUpdateView(StaffMixin, UpdateView):
 
     def get_success_url(self):
         """Get the URL after the success."""
-        msg = _("TimeSlot of '%(day)s' for '%(team)s' updated successfully") % {
+        msg = _("Timeslot of '%(day)s' for '%(team)s' updated successfully") % {
             'day': self.object.day,
             'team': self.object.team.name
         }
@@ -196,7 +196,7 @@ class TeamTimeSlotDeleteView(StaffMixin, DeleteView):
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        msg = _("TimeSlot of '%(day)s' for '%(team)s' deleted successfully") % {
+        msg = _("Timeslot of '%(day)s' for '%(team)s' deleted successfully") % {
             'day': self.object.day,
             'team': self.object.team.name
         }

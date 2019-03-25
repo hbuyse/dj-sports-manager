@@ -31,7 +31,7 @@ def image_upload_to(instance, filename):
     if isinstance(instance, Category):
         path = os.path.join('categories', instance.slug, 'img{}'.format(ext))
 
-    logger.info(_("Image %(filename)s saved in %(path)s") % {'path': path, 'filename': filename})
+    logger.info("Image {} saved in {}".format(filename, path))
 
     return path
 

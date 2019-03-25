@@ -21,7 +21,16 @@
 {% block content %}
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {% crispy form %}
+    {% for msg in form.non_field_errors %}
+      <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Error!</strong> {{ msg }}
+      </div>
+    {% endfor %}
+
+    {% for field in form %}
+      {{ field|as_crispy_field }}
+    {% endfor %}
     <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
   </form>
 {% endblock %}

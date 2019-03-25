@@ -21,60 +21,74 @@
 {% block content %}
   <form  method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    
+    <ul class="nav nav-tabs" id="playerCreation" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="player-informations-tab" data-toggle="tab" href="#player-informations" role="tab" aria-controls="player-informations" aria-selected="true">Player informations</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="emergency-contact-tab" data-toggle="tab" href="#emergency-contact" role="tab" aria-controls="emergency-contact" aria-selected="false">Emergency contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="medical-certificate-tab" data-toggle="tab" href="#medical-certificate" role="tab" aria-controls="medical-certificate" aria-selected="false">Medical certificate</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="playerCreationContent">
+      <div class="tab-pane fade show active" id="player-informations" role="tabpanel" aria-labelledby="player-informations-tab">
+        {% for msg in player_form.non_field_errors %}
+          <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Error!</strong> {{ msg }}
+          </div>
+        {% endfor %}
 
-    <h2>{% trans "Player informations" %}</h2>
-    {% for msg in player_form.non_field_errors %}
-      <div class="alert alert-danger alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Error!</strong> {{ msg }}
+        <div class="form-row">
+          {% for field in player_form %}
+              <div class="col-6">{{ field|as_crispy_field }}</div>
+            {% if forloop.counter|divisibleby:2 %}
+              </div><div class="form-row">
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
-    {% endfor %}
+      <div class="tab-pane fade" id="emergency-contact" role="tabpanel" aria-labelledby="emergency-contact-tab">
+        {% for msg in emergency_form.non_field_errors %}
+          <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Error!</strong> {{ msg }}
+          </div>
+        {% endfor %}
 
-    <div class="form-row">
-      {% for field in player_form %}
-          <div class="col-6">{{ field|as_crispy_field }}</div>
-        {% if forloop.counter|divisibleby:2 %}
-          </div><div class="form-row">
-        {% endif %}
-      {% endfor %}
+        <div class="form-row">
+          {% for field in emergency_form %}
+              <div class="col-6">{{ field|as_crispy_field }}</div>
+            {% if forloop.counter|divisibleby:2 %}
+              </div><div class="form-row">
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      <div class="tab-pane fade" id="medical-certificate" role="tabpanel" aria-labelledby="medical-certificate-tab">
+        {% for msg in certificate_form.non_field_errors %}
+          <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Error!</strong> {{ msg }}
+          </div>
+        {% endfor %}
+
+        <div class="form-row">
+          {% for field in certificate_form %}
+            {{ field.errors }}
+            <div class="col-6">{{ field|as_crispy_field }}</div>
+            {% if forloop.counter|divisibleby:2 %}
+              </div><div class="form-row">
+            {% endif %}
+          {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+        <button type="reset" class="btn btn-warning">{% trans "Reset" %}</button>
+      </div>
     </div>
 
-    <h2 class="mt-4">{% trans "Emergency contact informations" %}</h2>
-    {% for msg in emergency_form.non_field_errors %}
-      <div class="alert alert-danger alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Error!</strong> {{ msg }}
-      </div>
-    {% endfor %}
-
-    <div class="form-row">
-      {% for field in emergency_form %}
-          <div class="col-6">{{ field|as_crispy_field }}</div>
-        {% if forloop.counter|divisibleby:2 %}
-          </div><div class="form-row">
-        {% endif %}
-      {% endfor %}
-    </div>
-
-    <h2 class="mt-4">{% trans "Medical certificate" %}</h2>
-    {% for msg in certificate_form.non_field_errors %}
-      <div class="alert alert-danger alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Error!</strong> {{ msg }}
-      </div>
-    {% endfor %}
-
-    <div class="form-row">
-      {{ certificate_form.field_errors }}
-      {% for field in certificate_form %}
-          <div class="col-6">{{ field|as_crispy_field }}</div>
-        {% if forloop.counter|divisibleby:2 %}
-          </div><div class="form-row">
-        {% endif %}
-      {% endfor %}
-    </div>
-
-    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-    <button type="reset" class="btn btn-warning">{% trans "Reset" %}</button>
   </form>
 {% endblock %}

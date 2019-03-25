@@ -28,7 +28,7 @@ def image_upload_to(instance, filename):
     if isinstance(instance, Team):
         path = os.path.join('teams', instance.slug, 'team{}'.format(ext))
 
-    logger.info("Image {filename} saved in {path}".format(path=path, filename=filename))
+    logger.info("Image {} saved in {}".format(filename, path))
 
     return path
 

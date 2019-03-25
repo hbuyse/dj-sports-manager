@@ -36,7 +36,7 @@ def file_upload_to(instance, filename):
                             str(date.today().year),
                             'medical_certificate{ext}'.format(ext=ext)
                             )
-        logger.info(_("Medical certificate %(filename)s saved in %(path)s") % {'path': path, 'filename': filename})
+        logger.info("Medical certificate {} saved in {}".format(filename, path))
 
     return path
 

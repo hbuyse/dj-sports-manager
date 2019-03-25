@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-25 16:27+0100\n"
-"PO-Revision-Date: 2019-02-26 00:07+0100\n"
+"POT-Creation-Date: 2019-03-25 17:41+0100\n"
+"PO-Revision-Date: 2019-03-25 17:41+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: example/settings.py:143
 msgid "English"
@@ -202,14 +202,9 @@ msgid "%(category)s deletion"
 msgstr "Suppression de \"%(category)s\""
 
 #: templates/sports_manager/category/confirm_delete.html:23
-#, fuzzy, python-format
-#| msgid ""
-#| "Do you really want to delete the category \"%(category)s\" and everything "
-#| "link to it?"
+#, python-format
 msgid "Do you really want to delete the category \"%(category)s\"?"
-msgstr ""
-"Voulez-vous vraiment supprimer la catégorie \"%(category)s\" et tout ce qui "
-"est lié à cette catégorie?"
+msgstr "Voulez-vous vraiment supprimer la catégorie \"%(category)s\"?"
 
 #: templates/sports_manager/category/confirm_delete.html:25
 #: templates/sports_manager/gymnasium/confirm_delete.html:29
@@ -232,7 +227,7 @@ msgstr "Création d'une catégorie"
 #: templates/sports_manager/gymnasium/create_form.html:46
 #: templates/sports_manager/gymnasium/update_form.html:47
 #: templates/sports_manager/license/create_form.html:33
-#: templates/sports_manager/license/update_form.html:25
+#: templates/sports_manager/license/update_form.html:34
 #: templates/sports_manager/team/create_form.html:50
 #: templates/sports_manager/team/update_form.html:51
 #: templates/sports_manager/timeslot/create_form.html:41
@@ -291,12 +286,12 @@ msgstr "Âge maximal"
 
 #: templates/sports_manager/category/detail.html:56
 #: templates/sports_manager/gymnasium/detail.html:76
-#: templates/sports_manager/license/detail.html:34
+#: templates/sports_manager/license/detail.html:41
 msgid "Team"
 msgstr "Équipe"
 
 #: templates/sports_manager/category/detail.html:57
-#: templates/sports_manager/license/detail.html:40
+#: templates/sports_manager/license/detail.html:47
 #: templates/sports_manager/player/detail.html:41
 msgid "Sex"
 msgstr "Sexe"
@@ -332,17 +327,14 @@ msgid "No category listed yet"
 msgstr "Pas de catégorie pour le moment"
 
 #: templates/sports_manager/category/update_form.html:17
-#, fuzzy, python-format
-#| msgid "Update %(team)s"
+#, python-format
 msgid "Update %(category)s"
-msgstr "Mise à jour de %(team)s"
+msgstr "Mise à jour de %(category)s"
 
 #: templates/sports_manager/emergency_contact/list.html:13
 #: templates/sports_manager/medical_certificate/list.html:13
-#, fuzzy
-#| msgid "Medical certificate validation"
 msgid "Medical certificates"
-msgstr "Validation du certificat médical"
+msgstr "Certificat médicaux"
 
 #: templates/sports_manager/emergency_contact/list.html:25
 #: templates/sports_manager/player/list.html:23
@@ -350,22 +342,18 @@ msgid "New player"
 msgstr "Nouveau joueur"
 
 #: templates/sports_manager/gymnasium/confirm_delete.html:17
-#, fuzzy, python-format
-#| msgid "%(team)s deletion"
+#, python-format
 msgid "%(gymnasium)s deletion"
-msgstr "Suppression de \"%(team)s\""
+msgstr "Suppression du \"%(gymnasium)s\""
 
 #: templates/sports_manager/gymnasium/confirm_delete.html:23
-#, fuzzy, python-format
-#| msgid ""
-#| "Do you really want to delete the team \"%(team)s\" and everything link to "
-#| "it?"
+#, python-format
 msgid ""
 "Do you really want to delete the gymnasium \"%(gymnasium)s\" and everything "
 "link to it?"
 msgstr ""
-"Voulez-vous vraiment supprimer l'équipe \"%(team)s\" et tout ce qui est lié "
-"à cette catégorie?"
+"Voulez-vous vraiment supprimer le \"%(gymnasium)s\" et tout ce qui lui est "
+"lié?"
 
 #: templates/sports_manager/gymnasium/detail.html:72
 #: templates/sports_manager/team/detail.html:64
@@ -416,34 +404,31 @@ msgid "%(gymnasium)s update"
 msgstr "Mise à jour de '%(gymnasium)s'"
 
 #: templates/sports_manager/license/confirm_delete.html:17
-#, fuzzy, python-format
-#| msgid "%(team)s deletion"
+#, python-format
 msgid "%(license)s deletion"
-msgstr "Suppression de \"%(team)s\""
+msgstr "Suppression de \"%(license)s\""
 
 #: templates/sports_manager/license/create_form.html:18
 msgid "License creation"
 msgstr "Création d'une licence"
 
-#: templates/sports_manager/license/detail.html:31
+#: templates/sports_manager/license/detail.html:38
 msgid "Season"
-msgstr ""
+msgstr "Saison"
 
-#: templates/sports_manager/license/detail.html:37
+#: templates/sports_manager/license/detail.html:44
 msgid "Owner"
-msgstr ""
+msgstr "Propriétaire"
 
-#: templates/sports_manager/license/detail.html:43
+#: templates/sports_manager/license/detail.html:50
 #: templates/sports_manager/player/detail.html:42
 #: templates/sports_manager/player/list.html:37
 msgid "Birthday"
 msgstr "Date de naissance"
 
-#: templates/sports_manager/license/detail.html:47
-#, fuzzy
-#| msgid "Licenses"
+#: templates/sports_manager/license/detail.html:54
 msgid "License number"
-msgstr "Licences"
+msgstr "Numéro de licence"
 
 #: templates/sports_manager/license/list.html:22
 msgid "New license"
@@ -455,29 +440,23 @@ msgid "%(license)s update "
 msgstr "Mise à jour de %(license)s"
 
 #: templates/sports_manager/player/confirm_delete.html:9
-#, fuzzy
-#| msgid "My players"
 msgid "Players"
-msgstr "Mes joueurs"
+msgstr "Joueurs"
 
 #: templates/sports_manager/player/create_form.html:25
 #: templates/sports_manager/player/update_form.html:26
-#, fuzzy
-#| msgid "Informations"
 msgid "Player informations"
-msgstr "Informations"
+msgstr "Informations du joueur"
 
 #: templates/sports_manager/player/create_form.html:42
 #: templates/sports_manager/player/update_form.html:43
 msgid "Emergency contact informations"
-msgstr ""
+msgstr "Informations du contact d'urgence"
 
 #: templates/sports_manager/player/create_form.html:59
 #: templates/sports_manager/player/update_form.html:60
-#, fuzzy
-#| msgid "Medical certificate validation"
 msgid "Medical certificate"
-msgstr "Validation du certificat médical"
+msgstr "Certificat médical"
 
 #: templates/sports_manager/player/create_form.html:77
 #: templates/sports_manager/player/update_form.html:77
@@ -491,23 +470,19 @@ msgstr "Informations"
 
 #: templates/sports_manager/player/detail.html:46
 msgid "Address"
-msgstr ""
+msgstr "Adresse"
 
 #: templates/sports_manager/player/detail.html:53
-#, fuzzy
-#| msgid "Phone: "
 msgid "Phone"
-msgstr "Téléphone: "
+msgstr "Téléphone"
 
 #: templates/sports_manager/player/detail.html:54
 msgid "Email"
-msgstr ""
+msgstr "Courriel"
 
 #: templates/sports_manager/player/detail.html:80
-#, fuzzy
-#| msgid "My licenses"
 msgid "His/her licenses"
-msgstr "Mes licences"
+msgstr "Ses licences"
 
 #: templates/sports_manager/player/list.html:35
 msgid "First name"
@@ -536,10 +511,8 @@ msgstr ""
 
 #: templates/sports_manager/team/confirm_delete.html:37
 #: templates/sports_manager/timeslot/confirm_delete.html:49
-#, fuzzy
-#| msgid "Yes, I am sure"
 msgid "Yes, I want it."
-msgstr "Oui, je suis sûr"
+msgstr "Oui, je suis sûr."
 
 #: templates/sports_manager/team/create_form.html:17
 msgid "Team creation"
@@ -547,14 +520,12 @@ msgstr "Création d'une équipe"
 
 #: templates/sports_manager/team/detail.html:22
 #: templates/sports_manager/timeslot/create_form.html:12
-#, fuzzy
-#| msgid "Time slots"
 msgid "Add time slot"
-msgstr "Créneaux"
+msgstr "Ajout d'un créneau"
 
 #: templates/sports_manager/team/detail.html:31
 msgid "is recruiting,is not recruiting"
-msgstr "recherche,ne recherche pas"
+msgstr "recherche des,ne recherche pas de"
 
 #: templates/sports_manager/team/detail.html:31
 #, python-format
@@ -564,7 +535,7 @@ msgid ""
 "      "
 msgstr ""
 "\n"
-"        Cette équipe %(recruitment)s des joueurs.\n"
+"        Cette équipe %(recruitment)s joueurs.\n"
 "      "
 
 #: templates/sports_manager/team/detail.html:41
@@ -596,10 +567,8 @@ msgid "Teammates"
 msgstr "Joueurs de l'équipe"
 
 #: templates/sports_manager/team/detail.html:108
-msgid ""
-"No known teammate related to this team zyhfguzyub zefznyxfuzhfuijf zio "
-"jfiofhzxoxcfnzoczofx zixf hifnuinwzic fwzo jz"
-msgstr ""
+msgid "No known teammate related to this team"
+msgstr "Pas de joueur lié à  cette équipe"
 
 #: templates/sports_manager/team/list.html:21
 msgid "New team"
@@ -615,38 +584,24 @@ msgid "Update %(team)s"
 msgstr "Mise à jour de %(team)s"
 
 #: templates/sports_manager/timeslot/confirm_delete.html:18
-#, fuzzy
-#| msgid "Time slots"
 msgid "Time slot deletion"
-msgstr "Créneaux"
+msgstr "Suppression de créneau"
 
 #: templates/sports_manager/timeslot/confirm_delete.html:24
-#, fuzzy
-#| msgid ""
-#| "Do you really want to delete the team \"%(team)s\" and everything link to "
-#| "it?"
 msgid "Do you really want to delete the following team time slot?"
-msgstr ""
-"Voulez-vous vraiment supprimer l'équipe \"%(team)s\" et tout ce qui est lié "
-"à cette catégorie?"
+msgstr "Voulez-vous vraiment supprimer le créneau de cette équipe?"
 
 #: templates/sports_manager/timeslot/create_form.html:18
-#, fuzzy
-#| msgid "Team creation"
 msgid "Add team timeslot creation"
-msgstr "Création d'une équipe"
+msgstr "Création d'un créneau"
 
 #: templates/sports_manager/timeslot/update_form.html:19
-#, fuzzy, python-format
-#| msgid "Update %(team)s"
+#, python-format
 msgid "Update %(team)s time slot"
-msgstr "Mise à jour de %(team)s"
+msgstr "Mise à jour du créneau de %(team)s"
 
 #~ msgid "(captain)"
 #~ msgstr "(capitaine)"
-
-#~ msgid "No known teammate related to this team"
-#~ msgstr "Pas de joueur lié à  cette équipe"
 
 #~ msgid "My licenses "
 #~ msgstr "Mes licences"

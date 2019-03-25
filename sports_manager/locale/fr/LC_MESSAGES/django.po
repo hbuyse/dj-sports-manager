@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-25 16:27+0100\n"
-"PO-Revision-Date: 2019-02-26 21:57+0100\n"
+"POT-Creation-Date: 2019-03-25 17:50+0100\n"
+"PO-Revision-Date: 2019-03-25 17:57+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: category/models.py:34
 #, python-format
 msgid "Image %(filename)s saved in %(path)s"
-msgstr ""
+msgstr "L'image %(filename)s est sauvegardée dans le chemin %(path)s"
 
 #: category/models.py:42 gymnasium/models.py:23 player/models.py:55
 #: team/models.py:69
@@ -63,27 +63,25 @@ msgstr "catégories"
 #: category/views.py:52
 #, python-format
 msgid "Category '%(name)s' added successfully"
-msgstr ""
+msgstr "La catégorie '%(name)s' a été créée avec succès"
 
 #: category/views.py:74
 #, python-format
 msgid "Category '%(name)s' updated successfully"
-msgstr ""
+msgstr "La catégorie '%(name)s' a été mise à jour avec succès"
 
 #: category/views.py:88
 #, python-format
 msgid "Category '%(name)s' deleted successfully"
-msgstr ""
+msgstr "La catégorie '%(name)s' a été supprimée avec succès"
 
 #: gymnasium/models.py:19 gymnasium/models.py:51 team/models.py:148
 msgid "gymnasium"
 msgstr "gymnase"
 
 #: gymnasium/models.py:20
-#, fuzzy
-#| msgid "medium"
 msgid "stadium"
-msgstr "medium"
+msgstr "stade"
 
 #: gymnasium/models.py:24 team/models.py:146
 msgid "type"
@@ -107,7 +105,7 @@ msgstr "numéro de téléphone"
 
 #: gymnasium/models.py:40 player/models.py:76 player/models.py:185
 msgid "This is not a correct phone number"
-msgstr "Cela n'est pas un numéro de téléphine correct"
+msgstr "Cela n'est pas un numéro de téléphone correct"
 
 #: gymnasium/models.py:43
 msgid "area"
@@ -124,17 +122,17 @@ msgstr "gymnases"
 #: gymnasium/views.py:51
 #, python-format
 msgid "Gymnasium '%(name)s' added successfully"
-msgstr ""
+msgstr "Le gymnase '%(name)s' a été créé avec succès"
 
 #: gymnasium/views.py:75
 #, python-format
 msgid "Gymnasium '%(name)s' updated successfully"
-msgstr ""
+msgstr "Le gymnase '%(name)s' a été mis à jour avec succès"
 
 #: gymnasium/views.py:89
 #, python-format
 msgid "Gymnasium '%(name)s' deleted successfully"
-msgstr ""
+msgstr "Le gymnase '%(name)s' a été supprimé avec succès"
 
 #: license/models.py:18 team/models.py:92
 msgid "teams"
@@ -167,31 +165,31 @@ msgstr "licence"
 
 #: license/models.py:32
 msgid "licenses"
-msgstr "licence"
+msgstr "licences"
 
-#: license/views.py:66
+#: license/views.py:67
 #, python-format
 msgid "License for '%(name)s created successfully"
-msgstr ""
+msgstr "La license pour  '%(name)s' a été créée avec succès"
 
-#: license/views.py:86 license/views.py:111
+#: license/views.py:87 license/views.py:112
 #, python-format
 msgid "License for '%(name)s updated successfully"
-msgstr ""
+msgstr "La license pour  '%(name)s' a été mise à jour avec succès"
 
 #: mixins.py:46 mixins.py:61
 #, python-format
 msgid "User '%(username)s' does not exist."
-msgstr ""
+msgstr "L'utilisateur %(username)s n'existe pas."
 
 #: mixins.py:55
 msgid "You do not have the right to view this page."
-msgstr ""
+msgstr "Vous n'avez pas le droit de voir cette page."
 
 #: mixins.py:65
 #, python-format
 msgid "Staff user %(username)s accessed '%(url)s' page"
-msgstr ""
+msgstr "L'utilisateur du staff %(username)s a accédé la page '%(url)s'"
 
 #: player/forms.py:57
 #, python-format
@@ -199,11 +197,13 @@ msgid ""
 "A player with the first name (%(first_name)s) and last name (%(last_name)s) "
 "already exists for user '%(username)s'."
 msgstr ""
+"Un joueur avec le prénom (%(first_name)s) et nom de famille (%(last_name)s) "
+"existe déjà pour l'utilisateur '%(username)s'."
 
 #: player/models.py:39
 #, python-format
 msgid "Medical certificate %(filename)s saved in %(path)s"
-msgstr ""
+msgstr "Le certificate médical %(filename)s a été sauvegardé %(path)s"
 
 #: player/models.py:51 team/models.py:66
 msgid "male"
@@ -231,11 +231,11 @@ msgstr "date d'anniversaire"
 
 #: player/models.py:62
 msgid "additional address"
-msgstr ""
+msgstr "complément d'adresse"
 
 #: player/models.py:79 player/models.py:174
 msgid "email"
-msgstr ""
+msgstr "courriel"
 
 #: player/models.py:90
 msgid "players"
@@ -284,15 +284,15 @@ msgstr "certificats médicaux"
 #: player/models.py:148
 #, python-format
 msgid "%(player)s (%(validation)s - start: %(start)s)"
-msgstr ""
+msgstr "%(player)s (%(validation)s - début: %(start)s)"
 
 #: player/models.py:192
 msgid "emergency contact"
-msgstr ""
+msgstr "contact d'urgence"
 
 #: player/models.py:193
 msgid "emergency contacts"
-msgstr ""
+msgstr "contacts d'urgence"
 
 #: player/validators.py:22
 #, python-format
@@ -306,27 +306,27 @@ msgstr ""
 #: player/validators.py:32
 #, python-format
 msgid "Unsupported file extension. Valid extension: %(ext_list)s"
-msgstr ""
+msgstr "Extension de fichier non supporté. Extensions valides: %(ext_list)s"
 
 #: player/validators.py:42
 #, python-format
 msgid "The maximum file size that can be uploaded is %(size)d MB"
-msgstr ""
+msgstr "La taille maximale du fichier ne doit pas dépasser %(size)d Mo"
 
 #: player/views.py:103
 #, python-format
 msgid "Player '%(full_name)s' deleted successfully"
-msgstr ""
+msgstr "Le(la) joueur(se) '%(full_name)s' a été supprimé(e) avec succès"
 
 #: player/views.py:165
 #, python-format
 msgid "Player '%(name)s' created successfully"
-msgstr ""
+msgstr "Le(la) joueur(se) '%(name)s' a été créé(e) avec succès"
 
 #: player/views.py:251
 #, python-format
 msgid "Player '%(name)s' updated successfully"
-msgstr ""
+msgstr "Le(la) joueur(se) '%(name)s' a été mis(e) à jour avec succès"
 
 #: team/models.py:41
 msgid "gold"
@@ -409,10 +409,8 @@ msgid "competition URL"
 msgstr "URL du championnat"
 
 #: team/models.py:82
-#, fuzzy
-#| msgid "is recruting"
 msgid "is recruiting"
-msgstr "recrute"
+msgstr "en recrutement"
 
 #: team/models.py:91 team/models.py:147
 msgid "team"
@@ -463,10 +461,8 @@ msgid "starting time"
 msgstr "heure de début"
 
 #: team/models.py:151
-#, fuzzy
-#| msgid "ending date"
 msgid "ending time"
-msgstr "date de fin"
+msgstr "heure de fin"
 
 #: team/models.py:160
 msgid "time slot"
@@ -479,32 +475,34 @@ msgstr "créneaux horaire"
 #: team/views.py:56
 #, python-format
 msgid "Team '%(name)s' created successfully"
-msgstr ""
+msgstr "L'équipe '%(name)s' a été créée avec succès"
 
 #: team/views.py:80
 #, python-format
 msgid "Team '%(name)s' updated successfully"
-msgstr ""
+msgstr "L'équipe '%(name)s' a été mise à jour avec succès"
 
 #: team/views.py:94
 #, python-format
 msgid "Team '%(name)s' deleted successfully"
-msgstr ""
+msgstr "L'équipe '%(name)s' a été supprimée avec succès"
 
 #: team/views.py:150
 #, python-format
-msgid "TimeSlot of '%(day)s' for '%(team)s' added successfully"
-msgstr ""
+msgid "Timeslot of '%(day)s' for '%(team)s' added successfully"
+msgstr "Le créneau du '%(day)s' de l'équipe '%(team)s' a été créé avec succès"
 
 #: team/views.py:178
 #, python-format
-msgid "TimeSlot of '%(day)s' for '%(team)s' updated successfully"
+msgid "Timeslot of '%(day)s' for '%(team)s' updated successfully"
 msgstr ""
+"Le créneau du '%(day)s' de l'équipe '%(team)s' a été mis à jour avec succès"
 
 #: team/views.py:199
 #, python-format
-msgid "TimeSlot of '%(day)s' for '%(team)s' deleted successfully"
+msgid "Timeslot of '%(day)s' for '%(team)s' deleted successfully"
 msgstr ""
+"Le créneau du '%(day)s' de l'équipe '%(team)s' a été supprimé avec succès"
 
 #~ msgid "surface"
 #~ msgstr "surface"

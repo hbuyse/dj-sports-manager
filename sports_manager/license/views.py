@@ -7,6 +7,7 @@ from datetime import date
 
 # Django
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect, JsonResponse
 from django.utils.translation import ugettext_lazy as _  # noqa
 from django.shortcuts import render
@@ -24,7 +25,7 @@ from sports_manager.mixins import OwnerOrStaffMixin
 logger = logging.getLogger(__name__)
 
 
-class LicenseListView(OwnerOrStaffMixin, ListView):
+class LicenseListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView):
     """List of license."""
 
     template_name = "sports_manager/license/list.html"
@@ -37,14 +38,14 @@ class LicenseListView(OwnerOrStaffMixin, ListView):
         return queryset.filter(player__owner__username=self.kwargs.get('username'))
 
 
-class LicenseDetailView(OwnerOrStaffMixin, DetailView):
+class LicenseDetailView(LoginRequiredMixin, OwnerOrStaffMixin, DetailView):
     """Detail of a license."""
 
     template_name = "sports_manager/license/detail.html"
     model = License
 
 
-class LicenseCreateView(OwnerOrStaffMixin, CreateView):
+class LicenseCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateView):
     """Create a license for a logged user."""
 
     template_name = "sports_manager/license/create_form.html"
@@ -68,7 +69,7 @@ class LicenseCreateView(OwnerOrStaffMixin, CreateView):
         return self.object.get_absolute_url()
 
 
-class LicenseUpdateView(OwnerOrStaffMixin, UpdateView):
+class LicenseUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, UpdateView):
     """Update a license for a logged user."""
 
     template_name = "sports_manager/license/update_form.html"
@@ -96,7 +97,7 @@ class LicenseUpdateView(OwnerOrStaffMixin, UpdateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class LicenseDeleteView(DeleteView):
+class LicenseDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, DeleteView):
     """Delete a player's license."""
 
     template_name = "sports_manager/license/confirm_delete.html"
@@ -104,20 +105,10 @@ class LicenseDeleteView(DeleteView):
 
     def get_queryset(self):
         """Return the list of license owned by the 'username'."""
-        return super().get_queryset.filter(player__owner__username=self.kwargs.get('username'))
+        return super().get_queryset().filter(player__owner__username=self.kwargs.get('username'))
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
         msg = _("License for '%(name)s updated successfully") % {'name': self.object.player}
         messages.success(self.request, msg)
         return self.object.get_absolute_url()
-
-    def form_valid(self, form):
-        """Validate the form."""
-        self.object = form.save(commit=False)
-        self.object.save()
-        form.save_m2m()
-        # Return directly the Http page because we are saving a m2m
-        return HttpResponseRedirect(self.get_success_url())
-
-

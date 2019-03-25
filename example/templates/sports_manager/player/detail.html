@@ -37,7 +37,7 @@
 
   <h2>{% trans "Informations" %}</h2>
   <div class="row">
-    <div class="col-md-2 font-weight-bold">{% trans "Sex" %}</div><div class="col-md-4">{{ player.get_sex_display|title }}</div>
+    <div class="col-md-2 font-weight-bold">{% trans "Sex" %}</div><div class="col-md-4">{{ player.get_sex_display|capfirst }}</div>
     <div class="col-md-2 font-weight-bold">{% trans "Birthday" %}</div><div class="col-md-4">{{ player.birthday }}</div>
   </div>
   <div class="mb-4"></div>
@@ -95,15 +95,3 @@
     {% endif %}
   {% endfor %}
 {% endblock %}
-
-{% block javascript %}
-   <!--modal-->
-  <script>
-    $(document).ready(function(){
-      $('[data-toggle="popover"]').popover({
-        html: true,
-        trigger: 'focus'
-      });
-    });
-  </script>
- {% endblock %}
