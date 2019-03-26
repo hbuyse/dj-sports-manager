@@ -67,7 +67,6 @@ INSTALLED_APPS = [
 
     # if your app has other dependencies that need to be added to the site
     # they should be added here
-    'bootstrap4',
     'markdownx',
     'django_icons',
     'crispy_forms',
