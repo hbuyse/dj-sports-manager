@@ -43,7 +43,7 @@
         <tbody>
     {% endif %}
 
-          <tr>
+          <tr class="clickable-row" url="{{ object.get_absolute_url }}">
             <td>{{ object.get_validation_display|capfirst }}</td>
             <td>{{ object.start }}</td>
             <td>{{ object.end }}</td>
@@ -61,3 +61,11 @@
     </p>
   {% endfor %}
 {% endblock %}
+
+{% block javascript %}
+  <script>
+  $(".clickable-row").click(function() {
+    window.location.href = $(this).attr("url")
+  });
+  </script>
+{% endblock javascript %}

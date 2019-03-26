@@ -24,7 +24,7 @@
     {% csrf_token %}
 
     <h2>{% trans "Player informations" %}</h2>
-    {% for msg in player_form.non_field_errors %}
+    {% for msg in form.non_field_errors %}
       <div class="alert alert-danger alert-dismissable">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <strong>{% trans "Error!" %}</strong> {{ msg }}

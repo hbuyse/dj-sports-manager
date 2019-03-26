@@ -44,7 +44,7 @@
         <tbody>
     {% endif %}
 
-          <tr>
+          <tr class="clickable-row" url="{{ object.get_absolute_url }}">
             <td>{{ object.first_name }}</td>
             <td>{{ object.last_name }}</td>
             <td>{{ object.phone|default:"&Oslash" }}</td>
@@ -63,3 +63,11 @@
     </p>
   {% endfor %}
 {% endblock %}
+
+{% block javascript %}
+  <script>
+  $(".clickable-row").click(function() {
+    window.location.href = $(this).attr("url")
+  });
+  </script>
+{% endblock javascript %}

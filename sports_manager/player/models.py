@@ -165,6 +165,12 @@ class MedicalCertificate(models.Model):
             self.start = date.today()
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        """Override the get_absolute_url method in order to use it in templates."""
+        return reverse("sports-manager:player-medical-certificate-detail",
+                       kwargs={"username": self.player.owner.get_username(), "player": self.player.slug, "pk": self.pk}
+                       )
+
 
 
 class EmergencyContact(models.Model):
@@ -198,3 +204,9 @@ class EmergencyContact(models.Model):
     def __str__(self):
         """Representation of a Gymnasium as a string."""
         return "{} {} ({})".format(self.first_name, self.last_name, self.player)
+
+    def get_absolute_url(self):
+        """Override the get_absolute_url method in order to use it in templates."""
+        return reverse("sports-manager:player-emergency-contact-detail",
+                       kwargs={"username": self.player.owner.get_username(), "player": self.player.slug, "pk": self.pk}
+                       )
