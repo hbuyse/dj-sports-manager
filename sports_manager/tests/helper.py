@@ -4,15 +4,21 @@
 """Generate objects."""
 
 # Standard library
+import sys
 from datetime import date, datetime, timedelta
+from importlib import reload, import_module
+from unittest import mock
 
 # Django
+from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.files import File
+from django.urls.base import clear_url_caches
 
 # Current django project
 from sports_manager.category.models import Category
 from sports_manager.gymnasium.models import Gymnasium
-from sports_manager.player.models import Player
+from sports_manager.player.models import Player, MedicalCertificate, EmergencyContact
 from sports_manager.team.models import Team, TimeSlot
 
 
@@ -98,6 +104,35 @@ def create_player(owner):
     player = Player.objects.create(**player_info)
 
     return player_info, player
+
+
+def create_medical_certificate(player):
+    """Create a MedicalCertificate object and save it into the DB."""
+    mc_info = {
+        'player': player,
+        'file': mock.MagicMock(spec=File),
+        'start': date.today(),
+        'end': date.today() + timedelta(weeks=52),
+        'validation': MedicalCertificate.IN_VALIDATION,
+    }
+
+    mc = MedicalCertificate.objects.create(**mc_info)
+
+    return mc_info, mc
+
+
+def create_emergency_contact(player):
+    """Create a EmergencyContact object and save it into the DB."""
+    ec_info = {
+        'player': player,
+        'first_name': "Toto",
+        'last_name': "Tata",
+        'phone': "MA",
+    }
+
+    ec = EmergencyContact.objects.create(**ec_info)
+
+    return ec_info, ec
 
 
 def create_user(username='toto', staff=False, superuser=False):
