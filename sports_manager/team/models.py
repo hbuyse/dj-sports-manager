@@ -16,6 +16,7 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
 # Current django project
+from sports_manager.gymnasium.models import Gymnasium
 from sports_manager.storage import OverwriteStorage
 
 logger = logging.getLogger(__name__)
@@ -144,8 +145,8 @@ class TimeSlot(models.Model):
     )
 
     type = models.PositiveSmallIntegerField(_("type"), choices=TYPE_PRACTICE)
-    team = models.ForeignKey('Team', on_delete=models.CASCADE, verbose_name=_('team'))
-    gymnasium = models.ForeignKey('Gymnasium', on_delete=models.CASCADE, verbose_name=_('gymnasium'))
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name=_('team'))
+    gymnasium = models.ForeignKey(Gymnasium, on_delete=models.CASCADE, verbose_name=_('gymnasium'))
     day = models.PositiveSmallIntegerField(_("day"), choices=DAYS_OF_WEEK)
     start = models.TimeField(_("starting time"))
     end = models.TimeField(_("ending time"))
