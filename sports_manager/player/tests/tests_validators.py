@@ -4,8 +4,8 @@
 """Tests for `sports-manager` models module."""
 
 # Standard library
-import mock
 from datetime import date, timedelta
+from unittest import mock
 
 # Django
 from django.conf import settings
