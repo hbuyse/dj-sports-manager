@@ -23,6 +23,8 @@
       Delete
     </button> {% endcomment %}
     <div class="btn-group float-right" role="group">
+      <a href="{% url 'sports-manager:player-emergency-contact-list' player.owner.get_username player.slug %}" class="btn btn-primary btn-sm">{% trans "Emergency contact" %}</a>
+      <a href="{% url 'sports-manager:player-medical-certificate-list' player.owner.get_username player.slug %}" class="btn btn-primary btn-sm">{% trans "Medical certificate" %}</a>
       <a href="{% url 'sports-manager:player-update' player.owner.get_username player.slug %}" class="btn btn-primary btn-sm">{% trans "Update" %}</a>
       <a href="{% url 'sports-manager:player-delete' player.owner.get_username player.slug %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
     </div>

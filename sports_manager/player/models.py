@@ -15,7 +15,7 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
 # Current django project
-from sports_manager.player.validators import validate_file_extension, is_player_old_enough
+from sports_manager.player.validators import validate_file_extension, validate_file_size, is_player_old_enough
 from sports_manager.storage import OverwriteStorage
 
 logger = logging.getLogger(__name__)
@@ -127,13 +127,14 @@ class MedicalCertificate(models.Model):
     )
 
     player = models.ForeignKey("Player", on_delete=models.CASCADE, verbose_name=_('player'))
-    file = models.FileField(_('file'), storage=OverwriteStorage(), upload_to=file_upload_to, validators=[validate_file_extension],  blank=True)
+    file = models.FileField(_('file'), storage=OverwriteStorage(), upload_to=file_upload_to, validators=[validate_file_extension, validate_file_size],  blank=True)
     validation = models.PositiveSmallIntegerField(_("validation step"),
                                                   choices=CERTIFICATION_STEPS,
                                                   default=NOT_UPLOADED,
                                                   blank=False)
     start = models.DateField(_('starting date'))
     end = models.DateField(_('ending date'), null=True)
+    renewals = models.PositiveSmallIntegerField(_("number of renewals"), default=0)
     created = models.DateTimeField(_('creation date'), auto_now_add=True)
 
     class Meta:
@@ -158,10 +159,11 @@ class MedicalCertificate(models.Model):
     def save(self, *args, **kwargs):
         """On creation, update start field.
 
-        We do not use 'auto_now_add=True' because if we do, it will not be possible to modify it later."""
+        We do not use 'auto_now_add=True' because if we do, it will not be possible to modify it later.
+        """
         if not self.pk:
             self.start = date.today()
-        return super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 

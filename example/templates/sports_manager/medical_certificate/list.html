@@ -16,19 +16,48 @@
 {% endblock %}
 
 {% block page_title %}
-  {% trans "My players" %}
+  {% blocktrans with full_name=player.full_name %}
+    {{ full_name }}'s medical certificates
+  {% endblocktrans %}
 {% endblock %}
 
 {% block page_title_buttons %}
   {% if user.is_authenticated %}
     <div class="btn-group float-right" role="group">
-      {% comment %} <a class="btn btn-primary" href="{% url 'sports-manager:player-medical-certificate-create' user.get_username player.slug %}">{% trans "New medical certificate" %}</a> {% endcomment %}
+      <a class="btn btn-primary" href="{% url 'sports-manager:player-medical-certificate-create' user.get_username player.slug %}">{% trans "New medical certificate" %}</a>
     </div>
   {% endif %}
 {% endblock %}
 
 {% block content %}
-  {% for mc in object_list %}
-    {{ mc }}
+  {% for object in object_list %}
+    {% if forloop.first %}
+      <table class="table table-hover" id="myPlayerTable">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">{% trans "Validation" %}</th>
+            <th scope="col">{% trans "Start" %}</th>
+            <th scope="col">{% trans "End" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+    {% endif %}
+
+          <tr>
+            <td>{{ object.get_validation_display|capfirst }}</td>
+            <td>{{ object.start }}</td>
+            <td>{{ object.end }}</td>
+          </tr>
+
+    {% if forloop.last %}
+        </tbody>
+      </table>
+    {% endif %}
+  {% empty %}
+    <p>
+      {% blocktrans with full_name=player.full_name %}
+        No medical certificate linked to the player {{ full_name }} listed yet...
+      {% endblocktrans %}
+    </p>
   {% endfor %}
 {% endblock %}

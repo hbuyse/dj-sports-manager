@@ -10,23 +10,56 @@
       <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
       <li class="breadcrumb-item" aria-current="page"><a href="{% url 'sports-manager:player-list' user.get_username %}">{% trans "My players" %}</a></li>
       <li class="breadcrumb-item" aria-current="page"><a href="{{ player.get_absolute_url }}">{{ player }}</a></li>
-      <li class="breadcrumb-item active" aria-current="page">{% trans "Medical certificates" %}</li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Emergency contacts" %}</li>
     </ol>
   </nav>
 {% endblock %}
 
 {% block page_title %}
-  {% trans "My players" %}
+  {% blocktrans with full_name=player.full_name %}
+    {{ full_name }}'s emergency contacts
+  {% endblocktrans %}
 {% endblock %}
 
 {% block page_title_buttons %}
   {% if user.is_authenticated %}
     <div class="btn-group float-right" role="group">
-      <a class="btn btn-primary" href="{% url 'sports-manager:player-create' user.get_username %}">{% trans "New player" %}</a>
+      <a class="btn btn-primary" href="{% url 'sports-manager:player-emergency-contact-create' user.get_username player.slug %}">{% trans "New emergency contact" %}</a>
     </div>
   {% endif %}
 {% endblock %}
 
 {% block content %}
-  {{ object_list }}
+  {% for object in object_list %}
+    {% if forloop.first %}
+      <table class="table table-hover" id="myPlayerTable">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">{% trans "First name" %}</th>
+            <th scope="col">{% trans "Last name" %}</th>
+            <th scope="col">{% trans "Phone number" %}</th>
+            <th scope="col">{% trans "Email" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+    {% endif %}
+
+          <tr>
+            <td>{{ object.first_name }}</td>
+            <td>{{ object.last_name }}</td>
+            <td>{{ object.phone|default:"&Oslash" }}</td>
+            <td>{{ object.email|default:"&Oslash" }}</td>
+          </tr>
+
+    {% if forloop.last %}
+        </tbody>
+      </table>
+    {% endif %}
+  {% empty %}
+    <p>
+      {% blocktrans with full_name=player.full_name %}
+        No medical certificate linked to the player {{ full_name }} listed yet...
+      {% endblocktrans %}
+    </p>
+  {% endfor %}
 {% endblock %}

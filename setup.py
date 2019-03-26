@@ -43,7 +43,7 @@ EXTRAS = {
         'isort==4.3.10',
         'coverage',
         'codecov',
-        'pylint'
+        'pylint',
     ]
 }
 

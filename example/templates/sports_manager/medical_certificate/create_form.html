@@ -1,26 +1,26 @@
 {% extends "base.html" %}
 
 {% load i18n %}
-
 {% load crispy_forms_tags %}
 
 {% block path %}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-list' user.get_username %}">{% trans "My players" %}</a></li>
-    <li class="breadcrumb-item"><a href="{{ player.get_absolute_url }}">{{ player }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{% trans "Update" %}</li>
-  </ol>
-</nav>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-list' user.get_username %}">{% trans "My players" %}</a></li>
+      <li class="breadcrumb-item" aria-current="page"><a href="{{ player.get_absolute_url }}">{{ player }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Medical certificates" %}</li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Creation" %}</li>
+    </ol>
+  </nav>
 {% endblock %}
 
 {% block page_title %}
-  {% blocktrans %}Updating {{ player }}{% endblocktrans %}
+  {% trans "Creation of a new player" %}
 {% endblock %}
 
 {% block content %}
-  <form  method="post">
+  <form  method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% for msg in form.non_field_errors %}
         <div class="alert alert-danger alert-dismissable">

@@ -6,8 +6,9 @@ import logging
 
 # Django
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from django.forms import DateInput, ModelForm
+from django.forms import ChoiceField, DateInput, ModelForm, Form, RadioSelect
 from django.utils.translation import ugettext_lazy as _  # noqa
 
 # Current django project
@@ -54,7 +55,9 @@ class PlayerCreateForm(ModelForm):
             'last_name': cleaned_data.get('last_name'),
         }
 
-        if Player.objects.filter(**datas).exists:
+        if not get_user_model().objects.filter(username=self.username).exists():
+            raise ValidationError(_("User (%(username)s) does not exist."), params={'username': self.username})
+        elif Player.objects.filter(**datas).exists():
             raise ValidationError(_("A player with the first name (%(first_name)s) and last name (%(last_name)s) "
                                     "already exists for user '%(username)s'."),
                                   params={
@@ -113,10 +116,14 @@ class MedicalCertificateForm(ModelForm):
         fields = [
             'file',
         ]
-        help_texts = {
-            'file': 'Extensions: {}. Max size: {} MB.'.format(', '.join(settings.SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST), settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB),
-        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if hasattr(settings, 'SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST'):
+            self.fields['file'].help_text += 'Extensions: {}. '.format(', '.join(settings.SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST))
 
+        if hasattr(settings, 'SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB'):
+            self.fields['file'].help_text += 'Max size: {} MB. '.format(settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB)
 
 
 class StaffMedicalCertificateForm(ModelForm):
@@ -130,6 +137,29 @@ class StaffMedicalCertificateForm(ModelForm):
             'start',
             'end'
         ]
-        help_texts = {
-            'file': 'Extensions: {}. Max size: {} MB.'.format(', '.join(settings.SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST), settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB),
-        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if hasattr(settings, 'SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST'):
+            self.fields['file'].help_text += 'Extensions: {}. '.format(', '.join(settings.SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST))
+
+        if hasattr(settings, 'SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB'):
+            self.fields['file'].help_text += 'Max size: {} MB. '.format(settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB)
+
+
+class MedicalCertificateRenewForm(Form):
+    """Renewable medical certificate form."""
+
+    REFUSED = 0
+    ACCEPTED = 1
+
+    CHOICES = (
+        (REFUSED, _('no')),
+        (ACCEPTED, _('yes'))
+    )
+
+    answer = ChoiceField(choices=CHOICES, initial=REFUSED)
+
+    def renew_accepted(self):
+        """User accepted the renewable terms."""
+        return self.cleaned_data["answer"] == self.ACCEPTED

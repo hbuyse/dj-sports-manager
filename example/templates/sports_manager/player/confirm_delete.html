@@ -6,7 +6,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-list' user.get_username %}">{% trans "Players" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-list' user.get_username %}">{% trans "My players" %}</a></li>
       <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-detail' user.get_username player.id %}">{{ player }}</a></li>
       <li class="breadcrumb-item active" aria-current="page">Deletion</li>
     </ol>
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block page_title %}
-  {{ player }} deletion
+  {% blocktrans %}{{ player }} deletion{% endblocktrans %}
 {% endblock %}
 
 {% block content %}

@@ -2,6 +2,7 @@
 """Validator functions."""
 
 # Standard library
+import logging
 import os
 from datetime import date, timedelta
 
@@ -10,6 +11,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+logger = logging.getLogger(__name__)
 
 def is_player_old_enough(birthday):
     """Check if the player that will be created as the minimal age required.
@@ -22,6 +24,8 @@ def is_player_old_enough(birthday):
             raise ValidationError(_("Player is not old enough (min: %(min)s years old, birthday given: %(birthday)s)"),
                                   params={'min': settings.SPORTS_MANAGER_PLAYER_MIN_AGE, "birthday": birthday}
                                   )
+    else:
+        logger.debug("SPORTS_MANAGER_PLAYER_MIN_AGE is not set in settings")
 
 
 def validate_file_extension(value):
@@ -32,6 +36,8 @@ def validate_file_extension(value):
             raise ValidationError(_('Unsupported file extension. Valid extension: %(ext_list)s'),
                                   params={'ext_list': ', '.join(settings.SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST)}
                                   )
+    else:
+        logger.debug("SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST is not set in settings")
 
 
 def validate_file_size(value):
@@ -39,6 +45,12 @@ def validate_file_size(value):
     if hasattr(settings, 'SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB'):
         max_size = settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB << 20
         if value.size > max_size:
-            raise ValidationError(_("The maximum file size that can be uploaded is %(size)d MB"),
-                                  params={'size': settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB}
-                                  )
+            logger.debug(float(value.size) / 1024 / 1024)
+            raise ValidationError(
+                _("The maximum file size that can be uploaded is %(max)d MB (given file: %(size)s MB)"),
+                params={
+                    'max': settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB,
+                    'size': "{0:.2f}".format(float(value.size >> 10) / 1024)
+                })
+    else:
+        logger.debug("SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB is not set in settings")

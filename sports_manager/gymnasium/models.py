@@ -60,7 +60,3 @@ class Gymnasium(models.Model):
     def get_absolute_url(self):
         """Override the get_absolute_url method in order to use it in templates."""
         return reverse("sports-manager:gymnasium-detail", kwargs={"slug": self.slug})
-
-    def get_time_slots(self):
-        """Return a list of all the time slots in the gymnasium."""
-        return self.timeslot_set.all()

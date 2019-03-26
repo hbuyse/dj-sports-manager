@@ -55,6 +55,11 @@ class TestPlayerModel(TestCase):
         self.assertEqual(len(p.slug), 0)
         p.save()
         self.assertEqual(p.slug, "toto-tata")
+    
+    def test_full_name(self):
+        user = create_user()[1]
+        p = Player(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user)
+        self.assertEqual(p.full_name, "Toto Tata")
 
     def test_get_absolute_url(self):
         user = create_user()[1]
@@ -87,6 +92,14 @@ class TestMedicalCertificate(TestCase):
         for test in tests:
             m = MedicalCertificate(player=p, validation=test[0])
             self.assertEqual(m.is_valid(), test[1])
+
+    def test_save(self):
+        user = create_user()[1]
+        p = Player.objects.create(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user)
+        m = MedicalCertificate(player=p)
+        self.assertIsNone(m.start)
+        m.save()
+        self.assertEqual(m.start, date.today())
 
 
 class TestEmergencyContact(TestCase):
