@@ -32,12 +32,15 @@
 {% block content %}
   {% for object in object_list %}
     {% if forloop.first %}
-      <table class="table table-hover" id="myPlayerTable">
+      <table class="table table-hover table-nowrap" id="myPlayerTable">
         <thead class="thead-light">
           <tr>
             <th scope="col">{% trans "Validation" %}</th>
             <th scope="col">{% trans "Start" %}</th>
             <th scope="col">{% trans "End" %}</th>
+            {% if user.is_authenticated and user == player.owner %}
+              <th scope="col">{% trans "Links" %}</th>
+            {% endif %}
           </tr>
         </thead>
         <tbody>
@@ -47,6 +50,15 @@
             <td>{{ object.get_validation_display|capfirst }}</td>
             <td>{{ object.start }}</td>
             <td>{{ object.end }}</td>
+            {% if user.is_authenticated and user == player.owner %}
+              <td>
+                <div class="btn-group btn-group-sm float-right" role="group">
+                  <a class="btn btn-sm btn-primary" href="{{ object.get_absolute_url }}">{% trans "Details" %}</a>
+                  <a class="btn btn-sm btn-primary" href="{% url 'sports-manager:player-medical-certificate-update' object.player.owner.get_username object.player.slug object.pk %}">{% trans "Update" %}</a>
+                  <a class="btn btn-sm btn-danger" href="{% url 'sports-manager:player-medical-certificate-delete' object.player.owner.get_username object.player.slug object.pk %}">{% trans "Delete" %}</a>
+                </div>
+              </td>
+            {% endif %}
           </tr>
 
     {% if forloop.last %}

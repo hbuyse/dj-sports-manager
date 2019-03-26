@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-list' player.owner.get_username %}">{% trans "My players" %}</a></li>
+      <li class="breadcrumb-item"><a href="{{ player.get_absolute_url }}">{{ player }}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-medical-certificate-list' player.owner.get_username player.slug %}">{% trans "Medical certificates" %}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Creation" %}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+  {% blocktrans with full_name=player.full_name trimmed %}
+    New medical certificate for {{ full_name }}
+  {% endblocktrans %}
+{% endblock %}
+
+{% block content %}
+  <form  method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for msg in form.non_field_errors %}
+      <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>{% trans "Error!" %}</strong> {{ msg }}
+      </div>
+    {% endfor %}
+
+    <div class="form-row">
+      {% for field in form %}
+        <div class="col-6">{{ field|as_crispy_field }}</div>
+        {% if forloop.counter|divisibleby:2 %}
+          </div><div class="form-row">
+        {% endif %}
+      {% endfor %}
+    </div>
+    
+    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+    <button type="reset" class="btn btn-warning">{% trans "Reset" %}</button>
+
+  </form>
+{% endblock %}
+
+{% block javascript %}
+  <script>
+  $( document ).ready(function() {
+    var certif_url = $("#playerUpdateForm").attr("data-file-form-url")
+    if (certif_url != undefined || certif_url != "") {
+      var prepend = `<div class="input-group-prepend"><a target="_blank" href="` + certif_url + `" class="btn btn-outline-secondary" type="button">Download</a></div>`
+      $("#id_certif-file").next(".custom-file-label").text(certif_url.replace(/.*\//, ''));
+      $('#id_certif-file').closest(".input-group").prepend(prepend);
+    }
+  });
+  $("#id_certif-file").change(function () {
+
+    var fieldVal = $(this).val();
+    console.log(fieldVal);
+
+    {# Change the node's value by removing the fake path (Chrome) #}
+    fieldVal = fieldVal.replace("C:\\fakepath\\", "");
+    console.log(fieldVal);
+
+    if (fieldVal != undefined || fieldVal != "") {
+      console.log($(this).next(".custom-file-label").text(fieldVal));
+    }
+
+  });
+  </script>
+{% endblock %}
