@@ -112,6 +112,6 @@ if hasattr(settings, 'SPORTS_MANAGER_MEDICAL_CERTIFICATE_MAX_RENEW'):
     player_urlpatterns += [
         path("<str:username>/player/<str:player>/medical-certificate/<int:pk>/renew/",
              view=views.MedicalCertificateRenewView.as_view(),
-             name='player-medical-certificate-delete',
+             name='player-medical-certificate-renew'
              )
     ]

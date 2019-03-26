@@ -117,3 +117,13 @@ def create_user(username='toto', staff=False, superuser=False):
         user = get_user_model().objects.create_user(**user_info)
 
     return user_info, user
+
+
+def reload_urlconf(urlconf=None):
+    clear_url_caches()
+    if urlconf is None:
+        urlconf = settings.ROOT_URLCONF
+    if urlconf in sys.modules:
+        reload(sys.modules[urlconf])
+    else:
+        import_module(urlconf)
