@@ -41,9 +41,8 @@ class License(models.Model):
     @property
     def season(self):
         """Get the season based on the license's created field."""
-        current_year = date.today().year
-        if self.created.date() < date(current_year, 7, 15):
-            season = "{} / {}".format(current_year - 1, current_year)
+        if self.created.date().month <= 7 and self.created.date().day < 15:
+            season = "{} / {}".format(self.created.date().year - 1, self.created.date().year)
         else:
-            season = "{} / {}".format(current_year, current_year + 1)
+            season = "{} / {}".format(self.created.date().year, self.created.date().year + 1)
         return season
