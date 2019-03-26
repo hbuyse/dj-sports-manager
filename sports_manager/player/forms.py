@@ -160,6 +160,6 @@ class MedicalCertificateRenewForm(Form):
 
     answer = ChoiceField(choices=CHOICES, initial=REFUSED)
 
-    def renew_accepted(self):
+    def has_been_renewed(self):
         """User accepted the renewable terms."""
-        return self.cleaned_data["answer"] == self.ACCEPTED
+        return int(self.cleaned_data["answer"]) == self.ACCEPTED

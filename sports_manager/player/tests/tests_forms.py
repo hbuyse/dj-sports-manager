@@ -12,7 +12,7 @@ from django.test import TestCase, override_settings
 # Current django project
 # Local Django
 from sports_manager.player.models import Player
-from sports_manager.player.forms import EmergencyContactForm, MedicalCertificateForm, PlayerCreateForm, PlayerUpdateForm, StaffMedicalCertificateForm
+from sports_manager.player.forms import EmergencyContactForm, MedicalCertificateForm, MedicalCertificateRenewForm ,PlayerCreateForm, PlayerUpdateForm, StaffMedicalCertificateForm
 from sports_manager.tests.helper import create_user
 
 
@@ -337,4 +337,48 @@ class TestStaffMedicalCertificateForm(TestCase):
         self.assertIn(".pdf", form.fields['file'].help_text)
         self.assertIn("Max size", form.fields['file'].help_text)
         self.assertIn("2 MB", form.fields['file'].help_text)
+
+
+class TestMedicalCertificateRenewForm(TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.form = MedicalCertificateRenewForm
+
+    def test_empty(self):
+        form_data = {}
+        form = self.form(data=form_data)
+        self.assertFalse(form.is_valid())
+
+    def test_not_valid_answer_id(self):
+        form_data = {
+            'answer': 3
+        }
+        form = self.form(data=form_data)
+        self.assertFalse(form.is_valid())
+
+    def test_valid_answer_id(self):
+        for choice in MedicalCertificateRenewForm.CHOICES:
+            form_data = {
+                'answer': choice[0]
+            }
+            form = self.form(data=form_data)
+            self.assertTrue(form.is_valid())
+
+    def test_has_been_renewed_refused(self):
+        form_data = {
+            'answer': MedicalCertificateRenewForm.REFUSED
+        }
+        form = self.form(data=form_data)
+        self.assertTrue(form.is_valid())
+        self.assertFalse(form.has_been_renewed())
+
+    def test_has_been_renewed_accepted(self):
+        form_data = {
+            'answer': MedicalCertificateRenewForm.ACCEPTED
+        }
+        form = self.form(data=form_data)
+        self.assertTrue(form.is_valid())
+        self.assertTrue(form.has_been_renewed())
 
