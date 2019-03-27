@@ -70,4 +70,5 @@ MIDDLEWARE = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-SPORTS_MANAGER_PLAYER_MIN_AGE = 6
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

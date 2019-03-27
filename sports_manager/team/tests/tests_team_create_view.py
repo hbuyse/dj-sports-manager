@@ -8,7 +8,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 # Current django project
-from sports_manager.tests.helper import create_category, create_user
+from sports_manager.tests.helper import CategoryHelper, create_user
 
 
 class TestTeamCreateViewAsAnonymous(TestCase):
@@ -16,7 +16,7 @@ class TestTeamCreateViewAsAnonymous(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.category = create_category()[1]
+        self.category = CategoryHelper()
 
     def test_get(self):
         """Tests."""
@@ -27,7 +27,7 @@ class TestTeamCreateViewAsAnonymous(TestCase):
     def test_post(self):
         """Tests."""
         d = {
-            'category': self.category.id,
+            'category': self.category.get('id'),
             'name': 'Hello World Team',
             'level': 'GOL',
             'sex': 'MI',
@@ -46,7 +46,7 @@ class TestTeamCreateViewAsLogged(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.category = create_category()[1]
+        self.category = CategoryHelper()
         self.user_info = create_user()[0]
 
     def test_get(self):
@@ -59,7 +59,7 @@ class TestTeamCreateViewAsLogged(TestCase):
     def test_post(self):
         """Tests."""
         d = {
-            'category': self.category.id,
+            'category': self.category.get('id'),
             'name': 'Hello World Team',
             'level': 'GOL',
             'sex': 'MI',
@@ -79,7 +79,7 @@ class TestTeamCreateViewAsStaff(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.category = create_category()[1]
+        self.category = CategoryHelper()
         self.user_info = create_user(staff=True)[0]
 
     def test_get(self):
@@ -92,7 +92,7 @@ class TestTeamCreateViewAsStaff(TestCase):
     def test_post(self):
         """Tests."""
         d = {
-            'category': self.category.id,
+            'category': self.category.get('id'),
             'name': 'Hello World Team',
             'level': 'GOL',
             'sex': 'MI',
@@ -113,7 +113,7 @@ class TestTeamCreateViewAsSuperuser(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.category = create_category()[1]
+        self.category = CategoryHelper()
         self.user_info = create_user(superuser=True)[0]
 
     def test_get(self):
@@ -126,7 +126,7 @@ class TestTeamCreateViewAsSuperuser(TestCase):
     def test_post(self):
         """Tests."""
         d = {
-            'category': self.category.id,
+            'category': self.category.get('pk'),
             'name': 'Hello World Team',
             'level': 'GOL',
             'sex': 'MI',

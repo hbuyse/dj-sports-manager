@@ -10,7 +10,7 @@ from django.test import TestCase
 # Current django project
 from sports_manager.category.models import Category
 from sports_manager.team.models import Team, image_upload_to
-from sports_manager.tests.helper import create_team, create_category
+from sports_manager.tests.helper import TeamHelper, CategoryHelper
 
 
 class TestImageUploadTo(TestCase):
@@ -29,10 +29,13 @@ class TestImageUploadTo(TestCase):
 class TestTeamModel(TestCase):
     """Test the Team model."""
 
+    def setUp(self):
+        self.helper = TeamHelper(name='Régional 1')
+
     def test_string_representation(self):
         """Test string representation."""
-        obj = create_team('Régional 1')[1]
-        self.assertEqual(str(obj), "Régional 1 Mixed")
+        obj = self.helper.object
+        self.assertEqual(str(self.helper.object), "Régional 1 Mixed")
 
     def test_verbose_name(self):
         """Test the verbose name."""
@@ -44,19 +47,14 @@ class TestTeamModel(TestCase):
 
     def test_save_override(self):
         """Test save override."""
-        obj = create_team('Régional 1')[1]
-        obj.save()
-        self.assertEqual(obj.slug, "regional-1")
+        self.assertEqual(self.helper.get('slug'), "regional-1")
 
     def test_get_absolute_url(self):
         """Test the description_md function of the class."""
-        obj = create_team('Régional 1')[1]
-        obj.save()
-        self.assertEqual(obj.get_absolute_url(), "/team/regional-1/")
+        self.assertEqual(self.helper.object.get_absolute_url(), "/team/regional-1/")
 
     def test_description_md(self):
         """Test the description_md property of the class."""
-        category = create_category()[1]
         tests = (
             (),
             ("# Toto", "<h1>", "</h1>"),
@@ -69,11 +67,11 @@ class TestTeamModel(TestCase):
         for test in tests:
             i = tests.index(test)
             if i == 0:
-                obj = Team(name=str(i), category=category, recruitment=False)
+                obj = Team(name=str(i), category=self.helper.get('category'), recruitment=False)
                 obj.save()
                 self.assertEqual(len(obj.description_md), 0)
             else:
-                obj = Team(name=str(i), description=test[0], category=category, recruitment=False)
+                obj = Team(name=str(i), description=test[0], category=self.helper.get('category'), recruitment=False)
                 obj.save()
                 self.assertIn(test[1], obj.description_md)
                 self.assertIn(test[2], obj.description_md)

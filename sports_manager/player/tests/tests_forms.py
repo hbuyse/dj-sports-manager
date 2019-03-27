@@ -54,12 +54,12 @@ class TestPlayerCreateForm(TestCase):
         form = PlayerCreateForm(data=form_data)
         self.assertFalse(form.is_valid())
 
-    @override_settings(SPORT_MANAGER_PLAYER_MIN_AGE=6)
+    @override_settings(SPORTS_MANAGER_PLAYER_MIN_AGE=6)
     def test_invalid_with_min_age(self):
         form_data = {
             'first_name': "Toto",
             'last_name': "Tata",
-            'birthday': date.today() - timedelta(weeks=(settings.SPORT_MANAGER_PLAYER_MIN_AGE - 1) * 52),
+            'birthday': date.today() - timedelta(weeks=(settings.SPORTS_MANAGER_PLAYER_MIN_AGE - 1) * 52),
             'sex': "MA",
             'address': "Toto",
             'zip_code': "Toto",
@@ -84,13 +84,13 @@ class TestPlayerCreateForm(TestCase):
         # ValidationError: User None does not exist
         self.assertFalse(form.is_valid())
 
-    @override_settings(SPORT_MANAGER_PLAYER_MIN_AGE=6)
+    @override_settings(SPORTS_MANAGER_PLAYER_MIN_AGE=6)
     def test_valid_with_min_age(self):
         user_info = create_user()[0]
         form_data = {
             'first_name': "Toto",
             'last_name': "Tata",
-            'birthday': date.today() - timedelta(weeks=settings.SPORT_MANAGER_PLAYER_MIN_AGE * 52),
+            'birthday': date.today() - timedelta(weeks=settings.SPORTS_MANAGER_PLAYER_MIN_AGE * 52),
             'sex': "MA",
             'address': "Toto",
             'zip_code': "Toto",
@@ -175,12 +175,12 @@ class TestPlayerUpdateForm(TestCase):
         form = PlayerUpdateForm(data=form_data)
         self.assertFalse(form.is_valid())
 
-    @override_settings(SPORT_MANAGER_PLAYER_MIN_AGE=6)
+    @override_settings(SPORTS_MANAGER_PLAYER_MIN_AGE=6)
     def test_invalid_with_min_age(self):
         form_data = {
             'first_name': "Toto",
             'last_name': "Tata",
-            'birthday': date.today() - timedelta(weeks=(settings.SPORT_MANAGER_PLAYER_MIN_AGE - 1) * 52),
+            'birthday': date.today() - timedelta(weeks=(settings.SPORTS_MANAGER_PLAYER_MIN_AGE - 1) * 52),
             'sex': "MA",
             'address': "Toto",
             'zip_code': "Toto",
@@ -204,13 +204,13 @@ class TestPlayerUpdateForm(TestCase):
         form = PlayerUpdateForm(data=form_data)
         self.assertTrue(form.is_valid())
 
-    @override_settings(SPORT_MANAGER_PLAYER_MIN_AGE=6)
+    @override_settings(SPORTS_MANAGER_PLAYER_MIN_AGE=6)
     def test_valid_with_min_age(self):
         user_info = create_user()[0]
         form_data = {
             'first_name': "Toto",
             'last_name': "Tata",
-            'birthday': date.today() - timedelta(weeks=settings.SPORT_MANAGER_PLAYER_MIN_AGE * 52),
+            'birthday': date.today() - timedelta(weeks=settings.SPORTS_MANAGER_PLAYER_MIN_AGE * 52),
             'sex': "MA",
             'address': "Toto",
             'zip_code': "Toto",

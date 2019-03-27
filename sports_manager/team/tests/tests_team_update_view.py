@@ -9,7 +9,7 @@ from django.urls import reverse
 
 # Current django project
 from sports_manager.team.models import Team
-from sports_manager.tests.helper import create_team, create_user
+from sports_manager.tests.helper import TeamHelper, create_user
 
 
 class TestTeamUpdateViewAsAnonymous(TestCase):
@@ -17,7 +17,8 @@ class TestTeamUpdateViewAsAnonymous(TestCase):
 
     def setUp(self):
         """Set up the tests."""
-        self.team_info, self.team = create_team()
+        self.helper = TeamHelper()
+        self.helper.create()
 
     def test_get_not_existing(self):
         """Tests."""
@@ -27,18 +28,14 @@ class TestTeamUpdateViewAsAnonymous(TestCase):
 
     def test_get(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': self.helper.get('slug')}))
 
         self.assertEqual(r.status_code, 403)
 
     def test_post(self):
         """Tests."""
-        self.team_info['name'] = self.team_info['name'] + " New"
-        self.team_info['category'] = self.team_info['category'].id
-
-        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}),
-                             self.team_info)
-
+        self.helper.name = self.helper.name + " New"
+        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.helper.get('slug')}), dict(self.helper))
         self.assertEqual(r.status_code, 403)
 
 
@@ -48,7 +45,8 @@ class TestTeamUpdateViewAsLogged(TestCase):
     def setUp(self):
         """Tests."""
         self.user_info = create_user()[0]
-        self.team_info, self.team = create_team()
+        self.helper = TeamHelper()
+        self.helper.create()
 
     def test_get_not_existing(self):
         """Tests."""
@@ -60,18 +58,15 @@ class TestTeamUpdateViewAsLogged(TestCase):
     def test_get(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': self.helper.get('slug')}))
 
         self.assertEqual(r.status_code, 403)
 
     def test_post(self):
         """Tests."""
-        self.team_info['name'] = self.team_info['name'] + " New"
-        self.team_info['category'] = self.team_info['category'].id
-
+        self.helper.name = self.helper.name + " New"
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}),
-                             self.team_info)
+        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.helper.get('slug')}), dict(self.helper))
 
         self.assertEqual(r.status_code, 403)
 
@@ -82,7 +77,8 @@ class TestTeamUpdateViewAsStaff(TestCase):
     def setUp(self):
         """Tests."""
         self.user_info = create_user(staff=True)[0]
-        self.team_info, self.team = create_team()
+        self.helper = TeamHelper()
+        self.helper.create()
 
     def test_get_not_existing(self):
         """Tests."""
@@ -94,26 +90,17 @@ class TestTeamUpdateViewAsStaff(TestCase):
     def test_get(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': self.helper.get('slug')}))
 
         self.assertEqual(r.status_code, 200)
-        self.assertEqual(r.context['team'], self.team)
+        self.assertEqual(r.context['team'], self.helper.object)
 
     def test_post(self):
         """Tests."""
-        self.team_info['name'] = self.team_info['name'] + " New"
-        self.team_info['category'] = self.team_info['category'].id
-
+        self.helper.name = self.helper.name + " New"
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}),
-                             self.team_info)
-
-        self.assertEqual(r.status_code, 302)
-
-        self.team = Team.objects.get(pk=self.team.pk)
-
-        self.assertEqual(r.url, reverse('sports-manager:team-detail', kwargs={'team': self.team.slug}))
-        self.assertIn("-new", self.team.slug)
+        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.helper.get('slug')}), dict(self.helper.datas_for_form))
+        self.assertRedirects(r, '/team/{}-new/'.format(self.helper.get('slug')), fetch_redirect_response=False)
 
 
 class TestTeamUpdateViewAsSuperuser(TestCase):
@@ -122,7 +109,8 @@ class TestTeamUpdateViewAsSuperuser(TestCase):
     def setUp(self):
         """Tests."""
         self.user_info = create_user(superuser=True)[0]
-        self.team_info, self.team = create_team()
+        self.helper = TeamHelper()
+        self.helper.create()
 
     def test_get_not_existing(self):
         """Tests."""
@@ -134,23 +122,14 @@ class TestTeamUpdateViewAsSuperuser(TestCase):
     def test_get(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}))
+        r = self.client.get(reverse('sports-manager:team-update', kwargs={'team': self.helper.get('slug')}))
 
         self.assertEqual(r.status_code, 200)
-        self.assertEqual(r.context['team'], self.team)
+        self.assertEqual(r.context['team'], self.helper.object)
 
     def test_post(self):
         """Tests."""
-        self.team_info['name'] = self.team_info['name'] + " New"
-        self.team_info['category'] = self.team_info['category'].id
-
+        self.helper.name = self.helper.name + " New"
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.team.slug}),
-                             self.team_info)
-
-        self.assertEqual(r.status_code, 302)
-
-        self.team = Team.objects.get(pk=self.team.pk)
-
-        self.assertEqual(r.url, reverse('sports-manager:team-detail', kwargs={'team': self.team.slug}))
-        self.assertIn("-new", self.team.slug)
+        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.helper.get('slug')}), dict(self.helper.datas_for_form))
+        self.assertRedirects(r, '/team/{}-new/'.format(self.helper.get('slug')), fetch_redirect_response=False)

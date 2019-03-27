@@ -21,16 +21,12 @@ class TestPlayerDetailViewAsAnonymous(TestCase):
 
     def test_get_not_existing(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(),
-                                                                            'slug': 'toto'}))
-
+        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(), 'slug': 'toto'}))
         self.assertEqual(r.status_code, 403)
 
     def test_get(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(),
-                                                                            'slug': self.player.slug}))
-
+        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(), 'slug': self.player.slug}))
         self.assertEqual(r.status_code, 403)
 
 
@@ -45,17 +41,13 @@ class TestPlayerDetailViewAsLogged(TestCase):
     def test_get_not_existing(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(),
-                                                                            'slug': 'toto'}))
-
+        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(), 'slug': 'toto'}))
         self.assertEqual(r.status_code, 404)
 
     def test_get(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(),
-                                                                            'slug': self.player.slug}))
-
+        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(), 'slug': self.player.slug}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.context['player'], self.player)
 
@@ -71,17 +63,13 @@ class TestPlayerDetailViewAsStaff(TestCase):
     def test_get_not_existing(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(),
-                                                                            'slug': 'toto'}))
-
+        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(), 'slug': 'toto'}))
         self.assertEqual(r.status_code, 404)
 
     def test_get(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(),
-                                                                            'slug': self.player.slug}))
-
+        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(), 'slug': self.player.slug}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.context['player'], self.player)
 
@@ -97,16 +85,12 @@ class TestPlayerDetailViewAsSuperuser(TestCase):
     def test_get_not_existing(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(),
-                                                                            'slug': 'toto'}))
-
+        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(), 'slug': 'toto'}))
         self.assertEqual(r.status_code, 404)
 
     def test_get(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(),
-                                                                            'slug': self.player.slug}))
-
+        r = self.client.get(reverse('sports-manager:player-detail', kwargs={'username': self.user.get_username(), 'slug': self.player.slug}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.context['player'], self.player)

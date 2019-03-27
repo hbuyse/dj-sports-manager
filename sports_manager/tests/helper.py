@@ -4,6 +4,7 @@
 """Generate objects."""
 
 # Standard library
+import logging
 import sys
 from datetime import date, datetime, timedelta
 from importlib import reload, import_module
@@ -13,6 +14,7 @@ from unittest import mock
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.files import File
+from django.db.models.base import ModelBase
 from django.urls.base import clear_url_caches
 
 # Current django project
@@ -21,55 +23,160 @@ from sports_manager.gymnasium.models import Gymnasium
 from sports_manager.player.models import Player, MedicalCertificate, EmergencyContact
 from sports_manager.team.models import Team, TimeSlot
 
+logger = logging.getLogger(__name__)
 
-def create_gymnasium():
-    """Create a gymnasium."""
-    gymnasium_info = {
-        'type': 0,
+
+class HelperAttributeNotConfigured(Exception):
+    pass
+
+
+class HelperAttributeImproperlyConfigured(Exception):
+    pass
+
+
+class Helper(object):
+
+    defaults = {}
+    iter_fields = list()
+    model = None
+
+    def __init__(self, *args, **kwargs):
+        """Constructor.
+        
+        Set default first and then we update the defaults.
+        """
+        super().__init__()  # TypeError: object.__init__() takes no arguments
+
+        # Set the default fields
+        for k, v in self.get_defaults().items():
+            setattr(self, k, v)
+        
+        # Overload the fields
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+        self._object = None
+    
+    def __iter__(self):
+        for key in self.get_iter_fields():
+            yield (key, getattr(self, key))
+
+    def get_defaults(self):
+        if not getattr(self, "defaults"):
+            raise HelperAttributeNotConfigured("'defaults' field not set. You have to set it.")
+        elif not isinstance(self.defaults, dict):
+            raise HelperAttributeImproperlyConfigured("'defaults' field has to be a dict.")
+        return self.defaults
+    
+    def get_model(self):
+        """."""
+        if not getattr(self, "model"):
+            raise HelperAttributeNotConfigured("'model' field not set. You have to set it.")
+        elif not isinstance(self.model, ModelBase):
+            raise HelperAttributeImproperlyConfigured("'model' field has to be a django.db.models.base.ModelBase.")
+        return self.model
+    
+    def get_iter_fields(self):
+        """."""
+        if not getattr(self, "iter_fields"):
+            raise HelperAttributeNotConfigured("'iter_fields' field not set. You have to set it.")
+        elif not isinstance(self.iter_fields, (list, tuple)):
+            raise HelperAttributeImproperlyConfigured("'iter_fields' field has to be a list or a tuple.")
+        return self.iter_fields
+    
+    def create(self):
+        self._object = self.get_model().objects.create(**dict(self))
+    
+    def destroy(self):
+        self.get_model().objects.get(pk=self._object.pk).delete()
+    
+    def get(self, attr):
+        if self._object is None:
+            self.create()
+        return getattr(self._object, attr)
+    
+    @property
+    def datas_for_form(self):
+        for key in self.get_iter_fields():
+            if isinstance(type(getattr(self, key)), ModelBase):
+                yield (key, getattr(self, key).pk)
+            else:
+                yield (key, getattr(self, key))
+    
+    @property
+    def object(self):
+        if self._object is None:
+            self.create()
+        return self._object
+    
+    @property
+    def pk(self):
+        return self.get('pk')
+
+
+class GymnasiumHelper(Helper):
+
+    defaults = {
+        'type': Gymnasium.GYMNASIUM_TYPE,
         'name': "Toto",
         'address': "Toto",
         'city': "Toto",
-        'zip_code': 12345,
+        'zip_code': "12345",
         'phone': "0100000000",
         'area': "48",
         'capacity': "2",
     }
-
-    gymnasium = Gymnasium.objects.create(**gymnasium_info)
-
-    return gymnasium_info, gymnasium
+    model = Gymnasium
+    iter_fields = ['type', 'name', 'address', 'city', 'zip_code', 'phone', 'area', 'capacity']
 
 
-def create_category():
-    """Create a Category object and save it in the DB."""
-    category_info = {
+class CategoryHelper(Helper):
+    
+    defaults = {
         'name': 'Hello World',
         'min_age': 18,
         'summary': 'TODO',
-        'description': '# TODO'
+        'description': '# TODO',
+        'img': mock.MagicMock(spec=File, name='file.png', size=1 << 20), # Mock of File 'file.png' with size 2MB
     }
-
-    category = Category.objects.create(**category_info)
-
-    return category_info, category
+    model = Category
+    iter_fields = ['name', 'min_age', 'summary', 'description']
 
 
-def create_team(name='Hello World Team'):
+class TeamHelper(Helper):
     """Create a Team object and save it in the DB."""
-    team_info = {
-        'name': name,
+    
+    defaults = {
+        'name': 'Hello World Team',
         'level': 'GOL',
         'sex': 'MI',
         'url': 'http://example.com',
         'description': '# TODO',
         'recruitment': True,
     }
-    category = create_category()[1]
+    model = Team
+    iter_fields = ['name', 'level', 'sex', 'url', 'description', 'recruitment', 'category']
 
-    team_info['category'] = category
-    team = Team.objects.create(**team_info)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.category = CategoryHelper().object
 
-    return team_info, team
+
+class TimeSlotHelper(Helper):
+    """Create a TimeSlot object and save it in the DB."""
+    
+    defaults = {
+        'type': TimeSlot.PRACTICE,
+        'day': TimeSlot.MONDAY,
+        'start': datetime.strptime('20:00:00', '%H:%M:%S'),
+        'end': datetime.strptime('22:30:00', '%H:%M:%S'),
+    }
+    model = TimeSlot
+    iter_fields = ['type', 'day', 'start', 'end', 'team', 'gymnasium']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.team = TeamHelper().object
+        self.gymnasium = GymnasiumHelper().object
 
 
 def create_time_slot(team=None):
@@ -82,10 +189,10 @@ def create_time_slot(team=None):
     }
     if team is None:
         team = create_team()[1]
-    gymnasium = create_gymnasium()[1]
+    gymnasium = GymnasiumHelper()
 
     time_slot_info['team'] = team
-    time_slot_info['gymnasium'] = gymnasium
+    time_slot_info['gymnasium'] = gymnasium.object
     time_slot = TimeSlot.objects.create(**time_slot_info)
 
     return time_slot_info, time_slot

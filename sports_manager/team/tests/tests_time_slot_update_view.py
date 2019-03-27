@@ -21,39 +21,39 @@ class TestTeamTimeSlotUpdateViewAsAnonymous(TestCase):
         self.timeslot_info, self.timeslot = create_time_slot(team=self.team)
 
     def test_get_team_not_existing(self):
-        """Tests."""
+        """Get a 403 status code because an anonymous user can not access Team's pages so it can not access their time slots pages."""
         r = self.client.get(reverse('sports-manager:team-time-slot-update', kwargs={'team': self.team.slug + 'a', 'pk': self.timeslot.pk}))
 
         self.assertEqual(r.status_code, 403)
 
     def test_get_timeslot_not_existing(self):
-        """Tests."""
+        """Get a 403 status code because an anonymous user can not access Team's pages so it can not access their time slots pages."""
         r = self.client.get(reverse('sports-manager:team-time-slot-update', kwargs={'team': self.team.slug, 'pk': self.timeslot.pk + 1}))
 
         self.assertEqual(r.status_code, 403)
 
     def test_get_timeslot(self):
-        """Tests."""
+        """Get a 403 status code because an anonymous user can not access Team's pages so it can not access their time slots pages."""
         r = self.client.get(reverse('sports-manager:team-time-slot-update', kwargs={'team': self.team.slug, 'pk': self.timeslot.pk}))
 
         self.assertEqual(r.status_code, 403)
 
     def test_post_team_not_existing(self):
-        """Tests."""
+        """Get a 403 status code because an anonymous user can not access Team's pages so it can not access their time slots pages."""
         self.timeslot_info['day'] = TimeSlot.TUESDAY
         r = self.client.post(reverse('sports-manager:team-time-slot-update', kwargs={'team': self.team.slug + 'a', 'pk': self.timeslot.pk}), self.timeslot_info)
 
         self.assertEqual(r.status_code, 403)
 
     def test_post_timeslot_not_existing(self):
-        """Tests."""
+        """Get a 403 status code because an anonymous user can not access Team's pages so it can not access their time slots pages."""
         self.timeslot_info['day'] = TimeSlot.TUESDAY
         r = self.client.post(reverse('sports-manager:team-time-slot-update', kwargs={'team': self.team.slug, 'pk': self.timeslot.pk + 1}), self.timeslot_info)
 
         self.assertEqual(r.status_code, 403)
 
     def test_post_timeslot(self):
-        """Tests."""
+        """Get a 403 status code because an anonymous user can not access Team's pages so it can not access their time slots pages."""
         self.timeslot_info['day'] = TimeSlot.TUESDAY
         r = self.client.post(reverse('sports-manager:team-time-slot-update', kwargs={'team': self.team.slug, 'pk': self.timeslot.pk}), self.timeslot_info)
 
@@ -70,28 +70,28 @@ class TestTeamTimeSlotUpdateViewAsLogged(TestCase):
         self.timeslot_info, self.timeslot = create_time_slot(team=self.team)
 
     def test_get_team_not_existing(self):
-        """Tests."""
+        """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
         r = self.client.get(reverse('sports-manager:team-time-slot-update', kwargs={'team': self.team.slug + 'a', 'pk': self.timeslot.pk}))
 
         self.assertEqual(r.status_code, 403)
 
     def test_get_timeslot_not_existing(self):
-        """Tests."""
+        """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
         r = self.client.get(reverse('sports-manager:team-time-slot-update', kwargs={'team': self.team.slug, 'pk': self.timeslot.pk + 1}))
 
         self.assertEqual(r.status_code, 403)
 
     def test_get_timeslot(self):
-        """Tests."""
+        """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
         r = self.client.get(reverse('sports-manager:team-time-slot-update', kwargs={'team': self.team.slug, 'pk': self.timeslot.pk}))
 
         self.assertEqual(r.status_code, 403)
 
     def test_post_team_not_existing(self):
-        """Tests."""
+        """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
         self.timeslot_info['day'] = TimeSlot.TUESDAY
         r = self.client.post(reverse('sports-manager:team-time-slot-update', kwargs={'team': self.team.slug + 'a', 'pk': self.timeslot.pk}), self.timeslot_info)
@@ -99,7 +99,7 @@ class TestTeamTimeSlotUpdateViewAsLogged(TestCase):
         self.assertEqual(r.status_code, 403)
 
     def test_post_timeslot_not_existing(self):
-        """Tests."""
+        """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
         self.timeslot_info['day'] = TimeSlot.TUESDAY
         r = self.client.post(reverse('sports-manager:team-time-slot-update', kwargs={'team': self.team.slug, 'pk': self.timeslot.pk + 1}), self.timeslot_info)
@@ -107,7 +107,7 @@ class TestTeamTimeSlotUpdateViewAsLogged(TestCase):
         self.assertEqual(r.status_code, 403)
 
     def test_post_timeslot(self):
-        """Tests."""
+        """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
         self.timeslot_info['day'] = TimeSlot.TUESDAY
         r = self.client.post(reverse('sports-manager:team-time-slot-update', kwargs={'team': self.team.slug, 'pk': self.timeslot.pk}), self.timeslot_info)

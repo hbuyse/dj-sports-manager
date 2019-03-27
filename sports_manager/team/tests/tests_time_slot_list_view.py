@@ -19,13 +19,13 @@ class TestTeamTimeSlotListViewAsAnonymous(TestCase):
         self.team = create_team()[1]
 
     def tests_empty(self):
-        """Tests."""
+        """Get a 403 status code because an anonymous user can not access Team's pages so it can not access their time slots pages."""
         r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
 
         self.assertEqual(r.status_code, 403)
 
     def tests_one_team(self):
-        """Tests."""
+        """Get a 403 status code because an anonymous user can not access Team's pages so it can not access their time slots pages."""
         ts = create_time_slot(team=self.team)[1]
 
         r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
@@ -42,14 +42,14 @@ class TestTeamTimeSlotListViewAsLogged(TestCase):
         self.team = create_team()[1]
 
     def tests_empty(self):
-        """Tests."""
+        """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
         r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
 
         self.assertEqual(r.status_code, 403)
 
     def tests_one_team(self):
-        """Tests."""
+        """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
         ts = create_time_slot(team=self.team)[1]
 
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
