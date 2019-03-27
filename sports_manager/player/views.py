@@ -132,7 +132,7 @@ class PlayerDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, DeleteView):
         """Get the URL after the success."""
         msg = _("Player '%(full_name)s' deleted successfully") % {'full_name': self.object.full_name}
         messages.success(self.request, msg)
-        return reverse('sports-manager:player-list')
+        return reverse('sports-manager:player-list', kwargs={'username': self.object.owner.get_username()})
 
 
 class EmergencyContactListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView):
@@ -245,7 +245,9 @@ class EmergencyContactDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, DeleteVi
         """Get the URL after the success."""
         msg = _("Emergency contact of player '%(full_name)s' deleted successfully") % {'full_name': self.object.player.full_name}
         messages.success(self.request, msg)
-        return self.object.get_absolute_url()
+        return reverse("sports-manager:player-emergency-contact-list",
+                       kwargs={"username": self.player.owner.get_username(), "player": self.player.slug}
+                       )
 
 
 class MedicalCertificateListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView):
@@ -358,7 +360,9 @@ class MedicalCertificateDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, Delete
         """Get the URL after the success."""
         msg = _("Medical certificate of player '%(full_name)s' deleted successfully") % {'full_name': self.object.player.full_name}
         messages.success(self.request, msg)
-        return self.object.get_absolute_url()
+        return reverse("sports-manager:player-medical-certificate-list",
+                       kwargs={"username": self.player.owner.get_username(), "player": self.player.slug}
+                       )
 
 
 class MedicalCertificateRenewView(SingleObjectMixin, FormView):
