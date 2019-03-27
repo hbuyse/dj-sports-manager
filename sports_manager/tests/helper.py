@@ -58,7 +58,10 @@ class Helper(object):
     
     def __iter__(self):
         for key in self.get_iter_fields():
-            yield (key, getattr(self, key))
+            if issubclass(type(getattr(self, key)), Helper):
+                yield (key, getattr(self, key).object)
+            else:
+                yield (key, getattr(self, key))
 
     def get_defaults(self):
         if not getattr(self, "defaults"):
@@ -97,8 +100,8 @@ class Helper(object):
     @property
     def datas_for_form(self):
         for key in self.get_iter_fields():
-            if isinstance(type(getattr(self, key)), ModelBase):
-                yield (key, getattr(self, key).pk)
+            if issubclass(type(getattr(self, key)), Helper):
+                yield (key, getattr(self, key).get('pk'))
             else:
                 yield (key, getattr(self, key))
     
@@ -158,7 +161,7 @@ class TeamHelper(Helper):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.category = CategoryHelper().object
+        self.category = CategoryHelper()
 
 
 class TimeSlotHelper(Helper):
@@ -175,8 +178,10 @@ class TimeSlotHelper(Helper):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.team = TeamHelper().object
-        self.gymnasium = GymnasiumHelper().object
+        self.team = TeamHelper() if 'team' not in kwargs else kwargs['team']
+        self.gymnasium = GymnasiumHelper() if 'gymnasium' not in kwargs else kwargs['gymnasium']
+
+
 
 
 def create_time_slot(team=None):

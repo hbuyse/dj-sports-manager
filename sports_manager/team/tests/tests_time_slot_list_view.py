@@ -8,7 +8,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 # Current django project
-from sports_manager.tests.helper import create_team, create_time_slot, create_user
+from sports_manager.tests.helper import TeamHelper, TimeSlotHelper, create_user
 
 
 class TestTeamTimeSlotListViewAsAnonymous(TestCase):
@@ -16,20 +16,19 @@ class TestTeamTimeSlotListViewAsAnonymous(TestCase):
 
     def setUp(self):
         """Create a team."""
-        self.team = create_team()[1]
+        self.team = TeamHelper()
+        if self.id().split('.')[-1] == 'test_one_time_slot':
+            self.helper = TimeSlotHelper(team=self.team)
+            self.helper.create()
 
-    def tests_empty(self):
+    def test_empty(self):
         """Get a 403 status code because an anonymous user can not access Team's pages so it can not access their time slots pages."""
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
-
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
-    def tests_one_team(self):
+    def test_one_time_slot(self):
         """Get a 403 status code because an anonymous user can not access Team's pages so it can not access their time slots pages."""
-        ts = create_time_slot(team=self.team)[1]
-
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
-
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
 
@@ -39,22 +38,21 @@ class TestTeamTimeSlotListViewAsLogged(TestCase):
     def setUp(self):
         """Create a user that will be able to log in."""
         self.user_info, self.user = create_user()
-        self.team = create_team()[1]
+        self.team = TeamHelper()
+        if self.id().split('.')[-1] == 'test_one_time_slot':
+            self.helper = TimeSlotHelper(team=self.team)
+            self.helper.create()
 
-    def tests_empty(self):
+    def test_empty(self):
         """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
-
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
-    def tests_one_team(self):
+    def test_one_time_slot(self):
         """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
-        ts = create_time_slot(team=self.team)[1]
-
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
-
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
 
@@ -64,26 +62,25 @@ class TestTeamTimeSlotListViewAsStaff(TestCase):
     def setUp(self):
         """Create a user that will be able to log in."""
         self.user_info, self.user = create_user(staff=True)
-        self.team = create_team()[1]
+        self.team = TeamHelper()
+        if self.id().split('.')[-1] == 'test_one_time_slot':
+            self.helper = TimeSlotHelper(team=self.team)
+            self.helper.create()
 
-    def tests_empty(self):
+    def test_empty(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
-
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['timeslot_list']), 0)
 
-    def tests_one_team(self):
+    def test_one_time_slot(self):
         """Tests."""
-        ts = create_time_slot(team=self.team)[1]
-
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
-
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['timeslot_list']), 1)
-        self.assertIn(ts, r.context['timeslot_list'])
+        self.assertIn(self.helper.object, r.context['timeslot_list'])
 
 
 class TestTeamTimeSlotListViewAsSuperuser(TestCase):
@@ -92,23 +89,22 @@ class TestTeamTimeSlotListViewAsSuperuser(TestCase):
     def setUp(self):
         """Create a user that will be able to log in."""
         self.user_info, self.user = create_user(superuser=True)
-        self.team = create_team()[1]
+        self.team = TeamHelper()
+        if self.id().split('.')[-1] == 'test_one_time_slot':
+            self.helper = TimeSlotHelper(team=self.team)
+            self.helper.create()
 
-    def tests_empty(self):
+    def test_empty(self):
         """Tests."""
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
-
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['timeslot_list']), 0)
 
-    def tests_one_team(self):
+    def test_one_time_slot(self):
         """Tests."""
-        ts = create_time_slot(team=self.team)[1]
-
         self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.slug}))
-
+        r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['timeslot_list']), 1)
-        self.assertIn(ts, r.context['timeslot_list'])
+        self.assertIn(self.helper.object, r.context['timeslot_list'])

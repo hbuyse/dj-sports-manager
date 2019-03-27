@@ -112,6 +112,12 @@ class TestMedicalCertificate(TestCase):
 
 class TestEmergencyContact(TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user = create_user()[1]
+        cls.player = Player.objects.create(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=cls.user)
+
     def test_string_representation(self):
         p = Player(first_name="Toto", last_name="Tata")
         e = EmergencyContact(first_name="Titi", last_name="Tutu", player=p)
