@@ -27,7 +27,7 @@ def image_upload_to(instance, filename):
         MEDIA_ROOT/sponsors/<sponsor_name>/logo<ext>.
     """
     path = None
-    basename, ext = os.path.splitext(filename)
+    ext = os.path.splitext(filename)[1]
     if isinstance(instance, Category):
         path = os.path.join('categories', instance.slug, 'img{}'.format(ext))
 
