@@ -8,7 +8,23 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-      <li class="breadcrumb-item active" aria-current="page">{% trans "My players" %}</li>
+      <li class="breadcrumb-item">
+        <a href="{% url 'sports-manager:player-list' owner.get_username %}">
+          {% if user.get_username != owner.get_username and user.is_staff %}
+            {% if full_name %}
+              {% blocktrans with name=owner.get_full_name trimmed %}
+                {{ name }}'s players
+              {% endblocktrans %}
+            {% else %}
+              {% blocktrans with name=owner.get_username trimmed %}
+                {{ name }}'s players
+              {% endblocktrans %}
+            {% endif %}
+          {% else %}
+            {% trans "My players" %}
+          {% endif %}
+        </a>
+      </li>
     </ol>
   </nav>
 {% endblock %}
@@ -36,7 +52,7 @@
             <th scope="col">{% trans "Last name" %}</th>
             <th scope="col">{% trans "Birthday" %}</th>
             <th scope="col">{% trans "Medical certificate validation" %}</th>
-            {% if user.is_authenticated and user == player.owner %}
+            {% if user.get_username == player.owner.get_username or user.is_staff %}
               <th scope="col">{% trans "Links" %}</th>
             {% endif %}
           </tr>
@@ -49,7 +65,7 @@
             <td>{{ player.last_name }}</td>
             <td>{{ player.birthday|localize }}</td>
             <td>{{ player.get_last_medical_certificate.get_validation_display|capfirst }}</td>
-            {% if user.is_authenticated and user == player.owner %}
+            {% if user.get_username == player.owner.get_username or user.is_staff %}
               <td>
                 <div class="btn-group btn-group-sm float-right" role="group">
                   <a class="btn btn-primary" href="{{ player.get_absolute_url }}">{% trans "Details" %}</a>

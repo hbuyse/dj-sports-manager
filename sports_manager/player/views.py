@@ -31,6 +31,12 @@ class PlayerListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView):
     template_name = "sports_manager/player/list.html"
     model = Player
 
+    def get_context_data(self, **kwargs):
+        """Add the player in the context of the ListView"""
+        context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
+        return context
+
     def get_queryset(self):
         """Override the getter of the queryset.
 
@@ -62,6 +68,12 @@ class PlayerCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateView):
     model = Player
     form_class = PlayerCreateForm
 
+    def get_context_data(self, **kwargs):
+        """Add the player in the context of the ListView"""
+        context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
+        return context
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['username'] = self.request.user.get_username()
@@ -87,6 +99,14 @@ class PlayerUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, UpdateView):
     model = Player
     form_class = PlayerUpdateForm
 
+    def get_queryset(self):
+        """Override the getter of the queryset.
+
+        This method will only get the players owned by the <username> user.
+        """
+        queryset = super().get_queryset()
+        return queryset.filter(slug=self.kwargs.get('slug'), owner__username=self.kwargs.get('username'))
+
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
         msg = _("Player '%(full_name)s' updated successfully") % {'full_name': self.object.full_name}
@@ -99,6 +119,14 @@ class PlayerDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, DeleteView):
 
     template_name = "sports_manager/player/confirm_delete.html"
     model = Player
+
+    def get_queryset(self):
+        """Override the getter of the queryset.
+
+        This method will only get the players owned by the <username> user.
+        """
+        queryset = super().get_queryset()
+        return queryset.filter(slug=self.kwargs.get('slug'), owner__username=self.kwargs.get('username'))
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""

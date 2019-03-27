@@ -5,13 +5,29 @@
 {% load crispy_forms_tags %}
 
 {% block path %}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-list' user.get_username %}">{% trans "My players" %}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{% trans "Creation" %}</li>
-  </ol>
-</nav>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item">
+        <a href="{% url 'sports-manager:player-list' owner.get_username %}">
+          {% if user.get_username != owner.get_username and user.is_staff %}
+            {% if full_name %}
+              {% blocktrans with name=owner.get_full_name trimmed %}
+                {{ name }}'s players
+              {% endblocktrans %}
+            {% else %}
+              {% blocktrans with name=owner.get_username trimmed %}
+                {{ name }}'s players
+              {% endblocktrans %}
+            {% endif %}
+          {% else %}
+            {% trans "My players" %}
+          {% endif %}
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Creation" %}</li>
+    </ol>
+  </nav>
 {% endblock %}
 
 {% block page_title %}
