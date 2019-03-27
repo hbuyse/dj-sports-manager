@@ -76,12 +76,12 @@ class PlayerCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['username'] = self.request.user.get_username()
+        kwargs['username'] = self.kwargs.get('username')
         return kwargs
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.owner = self.request.user
+        self.object.owner = get_user_model().objects.get(username=self.kwargs.get('username'))
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
