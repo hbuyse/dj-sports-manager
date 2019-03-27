@@ -47,9 +47,12 @@ class Player(models.Model):
     TODO: Link with an urgence contact.
     """
 
+    SEX_FEMALE = 'FE'
+    SEX_MALE = 'MA'
+
     SEXES = (
-        ('MA', _('male')),
-        ('FE', _('female'))
+        (SEX_FEMALE, _('female')),
+        (SEX_MALE, _('male')),
     )
 
     slug = models.SlugField(_("slug"), max_length=128)
