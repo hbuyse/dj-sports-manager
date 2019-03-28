@@ -118,9 +118,6 @@ class Helper(object):
     def refresh_from_db(self):
         if self._object is None:
             self.create()
-
-        obj = self.get_model().objects.get(pk=self._object.pk)
-        print(obj)
         self._object.refresh_from_db()
 
 
