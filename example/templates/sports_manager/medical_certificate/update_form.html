@@ -1,28 +1,30 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load l10n %}
 {% load crispy_forms_tags %}
 
 {% block path %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-list' player.owner.get_username %}">{% trans "My players" %}</a></li>
-      <li class="breadcrumb-item"><a href="{{ player.get_absolute_url }}">{{ player }}</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-medical-certificate-list' player.owner.get_username player.slug %}">{% trans "Medical certificates" %}</a></li>
-      <li class="breadcrumb-item active" aria-current="page">{% trans "Creation" %}</li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-list' object.player.owner.get_username %}">{% trans "My object.players" %}</a></li>
+      <li class="breadcrumb-item"><a href="{{ object.player.get_absolute_url }}">{{ object.player }}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-medical-certificate-list' object.player.owner.get_username object.player.slug %}">{% trans "Medical certificates" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-medical-certificate-list' object.player.owner.get_username object.player.slug %}">{{ object.start|localize }} - {{ object.end|localize }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Updating" %}</li>
     </ol>
   </nav>
 {% endblock %}
 
 {% block page_title %}
-  {% blocktrans with full_name=player.full_name trimmed %}
-    New medical certificate for {{ full_name }}
+  {% blocktrans with full_name=player.full_name start=object.start|localize end=object.end|localize trimmed%}
+    Update medical certificate for {{ start }} - {{ end }}
   {% endblocktrans %}
 {% endblock %}
 
 {% block content %}
-  <form  method="post" enctype="multipart/form-data">
+  <form  method="post" enctype="multipart/form-data" id="MedicalCertificateUpdateForm" data-file-form-url="{{ object.file.url }}"">
     {% csrf_token %}
     {% for msg in form.non_field_errors %}
       <div class="alert alert-danger alert-dismissable">
@@ -49,14 +51,14 @@
 {% block javascript %}
   <script>
   $( document ).ready(function() {
-    var certif_url = $("#playerUpdateForm").attr("data-file-form-url")
+    var certif_url = $("#MedicalCertificateUpdateForm").attr("data-file-form-url")
     if (certif_url != undefined || certif_url != "") {
       var prepend = `<div class="input-group-prepend"><a target="_blank" href="` + certif_url + `" class="btn btn-outline-secondary" type="button">Download</a></div>`
-      $("#id_certif-file").next(".custom-file-label").text(certif_url.replace(/.*\//, ''));
-      $('#id_certif-file').closest(".input-group").prepend(prepend);
+      $("#id_file").next(".custom-file-label").text(certif_url.replace(/.*\//, ''));
+      $('#id_file').closest(".input-group").prepend(prepend);
     }
   });
-  $("#id_certif-file").change(function () {
+  $("#id_file").change(function () {
 
     var fieldVal = $(this).val();
     console.log(fieldVal);
