@@ -47,6 +47,9 @@ EXTRAS = {
     ]
 }
 
+TESTS_REQUIRE = [
+]
+
 # The rest you shouldn't have to touch too much :)
 # ------------------------------------------------
 # Except, perhaps the License and Trove Classifiers!
@@ -131,6 +134,7 @@ setup(
     # },
     install_requires=REQUIRED,
     extras_require=EXTRAS,
+    tests_require=TESTS_REQUIRE,
     include_package_data=True,
     license='MIT',
     classifiers=[
