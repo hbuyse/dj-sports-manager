@@ -8,7 +8,7 @@ import logging
 import sys
 from datetime import date, datetime, timedelta
 from importlib import import_module, reload
-from unittest import mock
+from tempfile import NamedTemporaryFile
 
 # Django
 from django.conf import settings
@@ -117,7 +117,8 @@ class Helper(object):
 
 
 class GymnasiumHelper(Helper):
-
+    """Create a Gymnasium object and save it in the DB."""
+    
     defaults = {
         'type': Gymnasium.GYMNASIUM_TYPE,
         'name': "Toto",
@@ -133,16 +134,17 @@ class GymnasiumHelper(Helper):
 
 
 class CategoryHelper(Helper):
+    """Create a Category object and save it in the DB."""
     
     defaults = {
         'name': 'Hello World',
         'min_age': 18,
         'summary': 'TODO',
         'description': '# TODO',
-        'img': mock.MagicMock(spec=File, name='file.png', size=1 << 20), # Mock of File 'file.png' with size 2MB
+        'img': NamedTemporaryFile(suffix=".jpg").name,
     }
     model = Category
-    iter_fields = ['name', 'min_age', 'summary', 'description']
+    iter_fields = ['name', 'min_age', 'summary', 'img', 'description']
 
 
 class TeamHelper(Helper):
@@ -183,6 +185,8 @@ class TimeSlotHelper(Helper):
 
 
 class PlayerHelper(Helper):
+    """Create a Player object and save it in the DB."""
+    
     defaults = {
         'first_name': "Toto",
         'last_name': "Tata",
@@ -201,6 +205,8 @@ class PlayerHelper(Helper):
 
 
 class UserHelper(Helper):
+    """Create a User object and save it in the DB."""
+    
     defaults = {
         'username': 'toto',
         'password': "hello-world",
@@ -234,8 +240,10 @@ class UserHelper(Helper):
 
 
 class MedicalCertificateHelper(Helper):
+    """Create a MedicalCertificate object and save it in the DB."""
+    
     defaults = {
-        'file': mock.MagicMock(spec=File),
+        'file': NamedTemporaryFile(suffix=".pdf").name,
         'start': date.today(),
         'end': date.today() + timedelta(weeks=52),
         'validation': MedicalCertificate.IN_VALIDATION,
@@ -249,6 +257,8 @@ class MedicalCertificateHelper(Helper):
 
 
 class EmergencyContactHelper(Helper):
+    """Create a EmergencyContact object and save it in the DB."""
+    
     defaults = {
         'first_name': "Toto",
         'last_name': "Tata",

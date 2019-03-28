@@ -3,7 +3,10 @@
 
 """Tests the views."""
 
+from tempfile import NamedTemporaryFile
+
 # Django
+from django.core.files import File
 from django.test import TestCase
 from django.urls import reverse
 
@@ -17,7 +20,6 @@ class TestCategoryCreateViewAsAnonymous(TestCase):
     def test_get(self):
         """Tests."""
         r = self.client.get(reverse('sports-manager:category-create'))
-
         self.assertEqual(r.status_code, 403)
 
     def test_post(self):
@@ -27,10 +29,10 @@ class TestCategoryCreateViewAsAnonymous(TestCase):
             'min_age': 18,
             'summary': 'TODO',
             'description': '# TODO',
+            'img': NamedTemporaryFile(suffix=".jpg").name
         }
 
         r = self.client.post(reverse('sports-manager:category-create'), d)
-
         self.assertEqual(r.status_code, 403)
 
 
@@ -45,7 +47,6 @@ class TestCategoryCreateViewAsLogged(TestCase):
         """Tests."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-create'))
-
         self.assertEqual(r.status_code, 403)
 
     def test_post(self):
@@ -55,11 +56,10 @@ class TestCategoryCreateViewAsLogged(TestCase):
             'min_age': 18,
             'summary': 'TODO',
             'description': '# TODO',
+            'img': NamedTemporaryFile(suffix=".jpg").name
         }
-
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:category-create'), d)
-
         self.assertEqual(r.status_code, 403)
 
 
@@ -74,7 +74,6 @@ class TestCategoryCreateViewAsStaff(TestCase):
         """Tests."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-create'))
-
         self.assertEqual(r.status_code, 200)
 
     def test_post(self):
@@ -84,11 +83,10 @@ class TestCategoryCreateViewAsStaff(TestCase):
             'min_age': 18,
             'summary': 'TODO',
             'description': '# TODO',
+            'img': NamedTemporaryFile(suffix=".jpg").name
         }
-
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:category-create'), d)
-
         self.assertEqual(r.status_code, 302)
         self.assertIn("hello-world", r.url)
 
@@ -104,7 +102,6 @@ class TestCategoryCreateViewAsSuperuser(TestCase):
         """Tests."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-create'))
-
         self.assertEqual(r.status_code, 200)
 
     def test_post(self):
@@ -114,10 +111,9 @@ class TestCategoryCreateViewAsSuperuser(TestCase):
             'min_age': 18,
             'summary': 'TODO',
             'description': '# TODO',
+            'img': NamedTemporaryFile(suffix=".jpg").name
         }
-
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:category-create'), d)
-
         self.assertEqual(r.status_code, 302)
         self.assertIn("hello-world", r.url)
