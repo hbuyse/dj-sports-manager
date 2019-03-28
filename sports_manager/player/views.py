@@ -344,6 +344,7 @@ class MedicalCertificateUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, Update
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
         msg = _("Medical certificate of player '%(full_name)s' updated successfully") % {'full_name': self.object.player.full_name}
+        print(self.object)
         messages.success(self.request, msg)
         return self.object.get_absolute_url()
 
@@ -371,7 +372,7 @@ class MedicalCertificateDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, Delete
                        )
 
 
-class MedicalCertificateRenewView(SingleObjectMixin, FormView):
+class MedicalCertificateRenewView(LoginRequiredMixin, OwnerOrStaffMixin, SingleObjectMixin, FormView):
     """Allow the user to renew a MedicalCertificate already saved."""
 
     template_name = "sports_manager/medical_certificate/renew_form.html"
@@ -380,16 +381,12 @@ class MedicalCertificateRenewView(SingleObjectMixin, FormView):
     
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
-        return queryset
-    
-    def get_object(self, queryset):
-        queryset = queryset.filter(validation=self.model.VALID)
-
+        queryset = queryset.filter(player__slug=self.kwargs.get('player'),
+                                   player__owner__username=self.kwargs.get('username'),
+                                   validation=self.model.VALID)
         if hasattr(settings, 'SPORTS_MANAGER_MEDICAL_CERTIFICATE_MAX_RENEW'):
             queryset = queryset.filter(renewals__lte=settings.SPORTS_MANAGER_MEDICAL_CERTIFICATE_MAX_RENEW)
-
-        return queryset.get()
+        return queryset
     
     def form_valid(self, form):
         """Increase the number of renewals of the """

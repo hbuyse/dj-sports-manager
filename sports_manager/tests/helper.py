@@ -8,12 +8,12 @@ import logging
 import sys
 from datetime import date, datetime, timedelta
 from importlib import import_module, reload
-from tempfile import NamedTemporaryFile
 
 # Django
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
 from django.db.models.base import ModelBase
 from django.urls.base import clear_url_caches
 
@@ -114,6 +114,14 @@ class Helper(object):
     @property
     def pk(self):
         return self.get('pk')
+    
+    def refresh_from_db(self):
+        if self._object is None:
+            self.create()
+
+        obj = self.get_model().objects.get(pk=self._object.pk)
+        print(obj)
+        self._object.refresh_from_db()
 
 
 class GymnasiumHelper(Helper):
@@ -254,6 +262,9 @@ class MedicalCertificateHelper(Helper):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.player = PlayerHelper() if 'player' not in kwargs else kwargs['player']
+    
+    def generate_new_file(self):
+        self.file = NamedTemporaryFile(suffix=".doc").name
 
 
 class EmergencyContactHelper(Helper):
