@@ -334,6 +334,7 @@ class TestMedicalCertificateUpdateViewAsStaff(TestCase):
     def test_post_right_account_player_existing_one_certificate(self):
         """Tests."""
         print(dict(self.certif.datas_for_form))
+        print(reverse('sports-manager:player-medical-certificate-update', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug'), 'pk': self.certif.pk}))
         r = self.client.post(reverse('sports-manager:player-medical-certificate-update',
                                      kwargs={'username': self.user.get_username(), 'player': self.player.get('slug'), 'pk': self.certif.pk}),
                              dict(self.certif.datas_for_form))

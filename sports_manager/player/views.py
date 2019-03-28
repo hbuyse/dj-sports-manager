@@ -333,6 +333,12 @@ class MedicalCertificateUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, Update
     model = MedicalCertificate
     form_class = MedicalCertificateForm
 
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        print(form)
+        self.object = form.save()
+        return super().form_valid(form)
+
     def get_queryset(self):
         """Override the getter of the queryset.
 
