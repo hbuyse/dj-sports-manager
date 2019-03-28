@@ -8,6 +8,7 @@ import logging
 import sys
 from datetime import date, datetime, timedelta
 from importlib import import_module, reload
+from unittest.mock import MagicMock, PropertyMock
 
 # Django
 from django.conf import settings
@@ -248,7 +249,7 @@ class MedicalCertificateHelper(Helper):
     """Create a MedicalCertificate object and save it in the DB."""
     
     defaults = {
-        'file': NamedTemporaryFile(suffix=".pdf").name,
+        'file': None,
         'start': date.today(),
         'end': date.today() + timedelta(weeks=52),
         'validation': MedicalCertificate.IN_VALIDATION,
@@ -259,10 +260,11 @@ class MedicalCertificateHelper(Helper):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.player = PlayerHelper() if 'player' not in kwargs else kwargs['player']
-    
-    def generate_new_file(self):
-        self.file = NamedTemporaryFile(suffix=".doc").name
+        self.generate_new_file()
 
+    def generate_new_file(self, extension='.pdf'):
+        self.file = MagicMock(spec=File, size=1<<20)
+        type(self.file).name = PropertyMock(return_value='file.{}'.format(extension))  # Create the mock for file.name
 
 class EmergencyContactHelper(Helper):
     """Create a EmergencyContact object and save it in the DB."""

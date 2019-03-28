@@ -130,7 +130,12 @@ class MedicalCertificate(models.Model):
     )
 
     player = models.ForeignKey("Player", on_delete=models.CASCADE, verbose_name=_('player'))
-    file = models.FileField(_('file'), storage=OverwriteStorage(), upload_to=file_upload_to, validators=[validate_file_extension, validate_file_size],  blank=True)
+    file = models.FileField(_('file'),
+                            storage=OverwriteStorage(),
+                            upload_to=file_upload_to,
+                            validators=[validate_file_extension, validate_file_size],
+                            blank=True
+                            )
     validation = models.PositiveSmallIntegerField(_("validation step"),
                                                   choices=CERTIFICATION_STEPS,
                                                   default=NOT_UPLOADED,
@@ -173,7 +178,6 @@ class MedicalCertificate(models.Model):
         return reverse("sports-manager:player-medical-certificate-detail",
                        kwargs={"username": self.player.owner.get_username(), "player": self.player.slug, "pk": self.pk}
                        )
-
 
 
 class EmergencyContact(models.Model):

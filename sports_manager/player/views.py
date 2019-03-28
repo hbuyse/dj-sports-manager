@@ -333,11 +333,11 @@ class MedicalCertificateUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, Update
     model = MedicalCertificate
     form_class = MedicalCertificateForm
 
-    def form_valid(self, form):
-        """If the form is valid, save the associated model."""
-        print(form)
-        self.object = form.save()
-        return super().form_valid(form)
+    def get_form_class(self):
+        """Return the form class to use."""
+        if self.request.user.is_staff:
+            return StaffMedicalCertificateForm
+        return self.form_class
 
     def get_queryset(self):
         """Override the getter of the queryset.
@@ -350,7 +350,6 @@ class MedicalCertificateUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, Update
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
         msg = _("Medical certificate of player '%(full_name)s' updated successfully") % {'full_name': self.object.player.full_name}
-        print(self.object)
         messages.success(self.request, msg)
         return self.object.get_absolute_url()
 
