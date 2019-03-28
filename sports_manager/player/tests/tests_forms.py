@@ -13,7 +13,7 @@ from django.test import TestCase, override_settings
 # Local Django
 from sports_manager.player.models import Player
 from sports_manager.player.forms import EmergencyContactForm, MedicalCertificateForm, MedicalCertificateRenewForm ,PlayerCreateForm, PlayerUpdateForm, StaffMedicalCertificateForm
-from sports_manager.tests.helper import create_user
+from sports_manager.tests.helper import UserHelper
 
 
 class TestPlayerCreateForm(TestCase):
@@ -86,7 +86,7 @@ class TestPlayerCreateForm(TestCase):
 
     @override_settings(SPORTS_MANAGER_PLAYER_MIN_AGE=6)
     def test_valid_with_min_age(self):
-        user_info = create_user()[0]
+        user = UserHelper()
         form_data = {
             'first_name': "Toto",
             'last_name': "Tata",
@@ -96,13 +96,13 @@ class TestPlayerCreateForm(TestCase):
             'zip_code': "Toto",
             'city': "Toto",
         }
-        form = PlayerCreateForm(data=form_data, username=user_info['username'])
+        form = PlayerCreateForm(data=form_data, username=user.get('username'))
         self.assertTrue(form.is_valid())
 
     @override_settings()
     def test_valid_without_min_age(self):
         del settings.SPORTS_MANAGER_PLAYER_MIN_AGE
-        user_info = create_user()[0]
+        user = UserHelper()
         form_data = {
             'first_name': "Toto",
             'last_name': "Tata",
@@ -112,13 +112,13 @@ class TestPlayerCreateForm(TestCase):
             'zip_code': "Toto",
             'city': "Toto",
         }
-        form = PlayerCreateForm(data=form_data, username=user_info['username'])
+        form = PlayerCreateForm(data=form_data, username=user.get('username'))
         self.assertTrue(form.is_valid())
 
     @override_settings()
     def test_valid_but_same_player_data_invalid(self):
         del settings.SPORTS_MANAGER_PLAYER_MIN_AGE
-        user_info, user = create_user()
+        user = UserHelper()
         form_data = {
             'first_name': "Toto",
             'last_name': "Tata",
@@ -128,12 +128,12 @@ class TestPlayerCreateForm(TestCase):
             'zip_code': "Toto",
             'city': "Toto",
         }
-        form = PlayerCreateForm(data=form_data, username=user_info['username'])
+        form = PlayerCreateForm(data=form_data, username=user.get('username'))
         self.assertTrue(form.is_valid())
         obj = form.save(commit=False)
-        obj.owner = user
+        obj.owner = user.object
         obj.save()
-        form = PlayerCreateForm(data=form_data, username=user_info['username'])
+        form = PlayerCreateForm(data=form_data, username=user.get('username'))
         self.assertFalse(form.is_valid())
 
 
@@ -206,7 +206,7 @@ class TestPlayerUpdateForm(TestCase):
 
     @override_settings(SPORTS_MANAGER_PLAYER_MIN_AGE=6)
     def test_valid_with_min_age(self):
-        user_info = create_user()[0]
+        user = UserHelper()
         form_data = {
             'first_name': "Toto",
             'last_name': "Tata",
@@ -222,7 +222,7 @@ class TestPlayerUpdateForm(TestCase):
     @override_settings()
     def test_valid_without_min_age(self):
         del settings.SPORTS_MANAGER_PLAYER_MIN_AGE
-        user_info = create_user()[0]
+        user = UserHelper()
         form_data = {
             'first_name': "Toto",
             'last_name': "Tata",

@@ -10,7 +10,7 @@ from django.urls import reverse
 
 # Current django project
 from sports_manager.team.models import TimeSlot
-from sports_manager.tests.helper import TeamHelper, create_time_slot, create_user, GymnasiumHelper
+from sports_manager.tests.helper import TeamHelper, UserHelper, GymnasiumHelper
 
 
 class TestTeamTimeSlotCreateViewAsAnonymous(TestCase):
@@ -59,7 +59,7 @@ class TestTeamTimeSlotCreateViewAsLogged(TestCase):
     def setUpClass(cls):
         """Tests."""
         super().setUpClass()
-        cls.user_info = create_user()[0]
+        cls.user = UserHelper()
         cls.team = TeamHelper()
         cls.team.create()
         gymnasium = GymnasiumHelper()
@@ -73,25 +73,25 @@ class TestTeamTimeSlotCreateViewAsLogged(TestCase):
 
     def test_get_team_not_existing(self):
         """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 403)
 
     def test_get_timeslot(self):
         """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
     def test_post_team_not_existing(self):
         """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.get('slug') + 'a'}), self.datas)
         self.assertEqual(r.status_code, 403)
 
     def test_post_timeslot(self):
         """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.get('slug')}), self.datas)
         self.assertEqual(r.status_code, 403)
 
@@ -103,7 +103,7 @@ class TestTeamTimeSlotCreateViewAsStaff(TestCase):
     def setUpClass(cls):
         """Tests."""
         super().setUpClass()
-        cls.user_info = create_user(staff=True)[0]
+        cls.user = UserHelper(is_staff=True)
         cls.team = TeamHelper()
         cls.team.create()
         gymnasium = GymnasiumHelper()
@@ -117,19 +117,19 @@ class TestTeamTimeSlotCreateViewAsStaff(TestCase):
 
     def test_get_team_not_existing(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_get_timeslot(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 200)
 
     def test_post_team_not_existing(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
         with self.assertRaises(ObjectDoesNotExist):
             r = self.client.post(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.get('slug') + 'a'}), self.datas)
@@ -137,7 +137,7 @@ class TestTeamTimeSlotCreateViewAsStaff(TestCase):
 
     def test_post_timeslot(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.get('slug')}), self.datas)
 
         self.assertEqual(r.status_code, 302)
@@ -151,7 +151,7 @@ class TestTeamTimeSlotCreateViewAsSuperuser(TestCase):
     def setUpClass(cls):
         """Tests."""
         super().setUpClass()
-        cls.user_info = create_user(superuser=True)[0]
+        cls.user = UserHelper(is_superuser=True)
         cls.team = TeamHelper()
         cls.team.create()
         gymnasium = GymnasiumHelper()
@@ -165,21 +165,21 @@ class TestTeamTimeSlotCreateViewAsSuperuser(TestCase):
 
     def test_get_team_not_existing(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.get('slug') + 'a'}))
 
         self.assertEqual(r.status_code, 404)
 
     def test_get_timeslot(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.get('slug')}))
 
         self.assertEqual(r.status_code, 200)
 
     def test_post_team_not_existing(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
         with self.assertRaises(ObjectDoesNotExist):
             r = self.client.post(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.get('slug') + 'a'}), self.datas)
@@ -187,7 +187,7 @@ class TestTeamTimeSlotCreateViewAsSuperuser(TestCase):
 
     def test_post_timeslot(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:team-time-slot-create', kwargs={'team': self.team.get('slug')}), self.datas)
 
         self.assertEqual(r.status_code, 302)

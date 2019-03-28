@@ -8,129 +8,144 @@ from django.test import TestCase
 from django.urls import reverse
 
 # Current django project
-from sports_manager.tests.helper import create_player, create_user
+from sports_manager.player.models import Player
+from sports_manager.tests.helper import PlayerHelper, UserHelper
 
 
 class TestPlayerListViewAsAnonymous(TestCase):
     """Tests ListView for Team."""
 
-    @classmethod
-    def setUpTestData(cls):
+    def setUp(self):
         """Create a user that will be able to log in."""
-        cls.owner_info, cls.owner = create_user()
+        self.other = UserHelper(username='other')
+        if self.id().split('.')[-1] == 'test_one_player':
+            self.player = PlayerHelper(owner=self.other)
+            self.player.create()
 
-    def tests_empty(self):
+    def test_empty(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.owner.username}))
-
+        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.other.get_username()}))
         self.assertEqual(r.status_code, 403)
 
-    def tests_one_player(self):
+    def test_one_player(self):
         """Tests."""
-        self.player_info, self.player = create_player(owner=self.owner)
-        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.owner.username}))
-
+        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.other.get_username()}))
         self.assertEqual(r.status_code, 403)
 
 
 class TestPlayerListViewAsLogged(TestCase):
     """Tests ListView for Team."""
 
-    @classmethod
-    def setUpTestData(cls):
+    def setUp(self):
         """Create a user that will be able to log in."""
-        cls.owner_info, cls.owner = create_user()
-        cls.user_info, cls.user = create_user("client")
+        self.other = UserHelper(username='other')
+        self.user = UserHelper()
+        if 'one_player' in self.id().split('.')[-1]:
+            self.player = PlayerHelper(owner=self.other)
+            self.player.create()
 
-
-    def tests_wrong_account_empty(self):
+    def test_wrong_account_empty(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.owner.username}))
-
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
+        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.other.get_username()}))
         self.assertEqual(r.status_code, 403)
 
-    def tests_wrong_account_one_player(self):
+    def test_wrong_account_one_player(self):
         """Tests."""
-        self.player_info, self.player = create_player(owner=self.owner)
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
-        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.owner.username}))
-
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
+        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.other.get_username()}))
         self.assertEqual(r.status_code, 403)
 
-
-    def tests_right_account_empty(self):
+    def test_right_account_empty(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.owner_info['username'], password=self.owner_info['password']))
-        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.owner.username}))
-
+        self.assertTrue(self.client.login(**dict(self.user.get_credentials())))
+        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.user.get_username()}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['player_list']), 0)
 
-    def tests_right_account_one_player(self):
+    def test_right_account_one_player(self):
         """Tests."""
-        self.player_info, self.player = create_player(owner=self.owner)
-        self.assertTrue(self.client.login(username=self.owner_info['username'], password=self.owner_info['password']))
-        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.owner.username}))
-
+        self.assertTrue(self.client.login(**dict(self.user.get_credentials())))
+        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.user.get_username()}))
         self.assertEqual(r.status_code, 200)
-        self.assertEqual(len(r.context['player_list']), 1)
+        self.assertEqual(len(r.context['player_list']), 0)
 
 
 class TestPlayerListViewAsStaff(TestCase):
     """Tests ListView for Team."""
 
-    @classmethod
-    def setUpTestData(cls):
+    def setUp(self):
         """Create a user that will be able to log in."""
-        cls.owner_info, cls.owner = create_user()
-        cls.user_info, cls.user = create_user("client", staff=True)
+        self.other = UserHelper(username='other')
+        self.user = UserHelper(is_staff=True)
+        if 'one_player' in self.id().split('.')[-1]:
+            self.player = PlayerHelper(owner=self.other)
+            self.player.create()
 
-    def tests_empty(self):
+    def test_wrong_account_empty(self):
         """Tests."""
-        for info in [self.owner_info, self.user_info]:
-            self.assertTrue(self.client.login(username=info['username'], password=info['password']))
-            r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.owner.username}))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
+        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.other.get_username()}))
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(len(r.context['player_list']), 0)
 
-            self.assertEqual(r.status_code, 200)
-            self.assertEqual(len(r.context['player_list']), 0)
-
-    def tests_one_player(self):
+    def test_wrong_account_one_player(self):
         """Tests."""
-        self.player_info, self.player = create_player(owner=self.owner)
-        for info in [self.owner_info, self.user_info]:
-            self.assertTrue(self.client.login(username=info['username'], password=info['password']))
-            r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.owner.username}))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
+        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.other.get_username()}))
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(len(r.context['player_list']), 1)
 
-            self.assertEqual(r.status_code, 200)
-            self.assertEqual(len(r.context['player_list']), 1)
+    def test_right_account_empty(self):
+        """Tests."""
+        self.assertTrue(self.client.login(**dict(self.user.get_credentials())))
+        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.user.get_username()}))
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(len(r.context['player_list']), 0)
+
+    def test_right_account_one_player(self):
+        """Tests."""
+        self.assertTrue(self.client.login(**dict(self.user.get_credentials())))
+        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.user.get_username()}))
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(len(r.context['player_list']), 0)
 
 
 class TestPlayerListViewAsSuperuser(TestCase):
     """Tests ListView for Team."""
 
-    @classmethod
-    def setUpTestData(cls):
+    def setUp(self):
         """Create a user that will be able to log in."""
-        cls.owner_info, cls.owner = create_user()
-        cls.user_info, cls.user = create_user("client", superuser=True)
+        self.other = UserHelper(username='other')
+        self.user = UserHelper(is_superuser=True)
+        if 'one_player' in self.id().split('.')[-1]:
+            self.player = PlayerHelper(owner=self.other)
+            self.player.create()
 
-    def tests_empty(self):
+    def test_wrong_account_empty(self):
         """Tests."""
-        for info in [self.owner_info, self.user_info]:
-            self.assertTrue(self.client.login(username=info['username'], password=info['password']))
-            r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.owner.username}))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
+        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.other.get_username()}))
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(len(r.context['player_list']), 0)
 
-            self.assertEqual(r.status_code, 200)
-            self.assertEqual(len(r.context['player_list']), 0)
-
-    def tests_one_player(self):
+    def test_wrong_account_one_player(self):
         """Tests."""
-        self.player_info, self.player = create_player(owner=self.owner)
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
+        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.other.get_username()}))
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(len(r.context['player_list']), 1)
 
-        for info in [self.owner_info, self.user_info]:
-            self.assertTrue(self.client.login(username=info['username'], password=info['password']))
-            r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.owner.username}))
+    def test_right_account_empty(self):
+        """Tests."""
+        self.assertTrue(self.client.login(**dict(self.user.get_credentials())))
+        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.user.get_username()}))
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(len(r.context['player_list']), 0)
 
-            self.assertEqual(r.status_code, 200)
-            self.assertEqual(len(r.context['player_list']), 1)
+    def test_right_account_one_player(self):
+        """Tests."""
+        self.assertTrue(self.client.login(**dict(self.user.get_credentials())))
+        r = self.client.get(reverse('sports-manager:player-list', kwargs={'username': self.user.get_username()}))
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(len(r.context['player_list']), 0)

@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404
 from django.template import Context, loader
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _  # noqa
@@ -22,12 +22,12 @@ from sports_manager.license.models import License
 logger = logging.getLogger(__name__)
 
 
-class StaffLinksView(TemplateView):
+class StaffLinksView(LoginRequiredMixin, StaffMixin, TemplateView):
 
     template_name = 'sports_manager/staff/index.html'
 
 
-class StaffLicenseListView(View):
+class StaffLicenseListView(LoginRequiredMixin, StaffMixin, View):
 
     csv_template_name = "sports_manager/staff/licenses.csv"
 
@@ -38,7 +38,7 @@ class StaffLicenseListView(View):
 
         t = loader.get_template(self.csv_template_name)
         datas = {
-            'licenses': License.objects.all(),
+            'licenses': get_list_or_404(License),
         }
         response.write(t.render(datas))
         return response

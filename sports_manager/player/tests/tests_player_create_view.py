@@ -13,7 +13,7 @@ from django.utils.text import slugify
 
 # Current django project
 from sports_manager.player.models import Player
-from sports_manager.tests.helper import create_player, create_user
+from sports_manager.tests.helper import UserHelper
 
 
 class TestPlayerCreateViewAsAnonymous(TestCase):
@@ -22,7 +22,7 @@ class TestPlayerCreateViewAsAnonymous(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.other_owner = create_user(username='tata')[1]
+        cls.other_owner = UserHelper(username='tata')
         cls.datas = {
             'first_name': 'Toto',
             'last_name': 'Toto',
@@ -73,8 +73,8 @@ class TestPlayerCreateViewAsLogged(TestCase):
     def setUpClass(cls):
         """Setup for al the following tests."""
         super().setUpClass()
-        cls.user_info, cls.user = create_user()
-        cls.other_owner = create_user(username='tata')[1]
+        cls.user = UserHelper()
+        cls.other_owner = UserHelper(username='tata')
         cls.datas = {
             'first_name': 'Toto',
             'last_name': 'Toto',
@@ -91,7 +91,7 @@ class TestPlayerCreateViewAsLogged(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': 'helloworld'}))
         self.assertEqual(r.status_code, 404)
 
@@ -100,7 +100,7 @@ class TestPlayerCreateViewAsLogged(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}))
         self.assertEqual(r.status_code, 403)
 
@@ -109,7 +109,7 @@ class TestPlayerCreateViewAsLogged(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': self.user.get_username()}))
         self.assertEqual(r.status_code, 200)
 
@@ -118,7 +118,7 @@ class TestPlayerCreateViewAsLogged(TestCase):
        
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': 'helloworld'}), self.datas)
         self.assertEqual(r.status_code, 404)
 
@@ -127,7 +127,7 @@ class TestPlayerCreateViewAsLogged(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}), self.datas)
         self.assertEqual(r.status_code, 403)
 
@@ -136,7 +136,7 @@ class TestPlayerCreateViewAsLogged(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': self.user.get_username()}), self.datas)
         self.assertRedirects(r, '/{}/player/{}/'.format(self.user.get_username(), self.datas['slug']), fetch_redirect_response=False)
 
@@ -148,8 +148,8 @@ class TestPlayerCreateViewAsStaff(TestCase):
     def setUpClass(cls):
         """Setup for al the following tests."""
         super().setUpClass()
-        cls.user_info, cls.user = create_user(staff=True)
-        cls.other_owner = create_user(username='tata')[1]
+        cls.user = UserHelper(is_staff=True)
+        cls.other_owner = UserHelper(username='tata')
         cls.datas = {
             'first_name': 'Toto',
             'last_name': 'Toto',
@@ -166,7 +166,7 @@ class TestPlayerCreateViewAsStaff(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': 'helloworld'}))
         self.assertEqual(r.status_code, 404)
 
@@ -175,7 +175,7 @@ class TestPlayerCreateViewAsStaff(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}))
         self.assertEqual(r.status_code, 200)
 
@@ -184,7 +184,7 @@ class TestPlayerCreateViewAsStaff(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': self.user.get_username()}))
         self.assertEqual(r.status_code, 200)
 
@@ -193,7 +193,7 @@ class TestPlayerCreateViewAsStaff(TestCase):
        
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': 'helloworld'}), self.datas)
         self.assertEqual(r.status_code, 404)
 
@@ -202,7 +202,7 @@ class TestPlayerCreateViewAsStaff(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}), self.datas)
         self.assertRedirects(r, '/{}/player/{}/'.format(self.other_owner.get_username(), self.datas['slug']), fetch_redirect_response=False)
 
@@ -211,7 +211,7 @@ class TestPlayerCreateViewAsStaff(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': self.user.get_username()}), self.datas)
         self.assertRedirects(r, '/{}/player/{}/'.format(self.user.get_username(), self.datas['slug']), fetch_redirect_response=False)
 
@@ -223,8 +223,8 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
     def setUpClass(cls):
         """Setup for al the following tests."""
         super().setUpClass()
-        cls.user_info, cls.user = create_user(superuser=True)
-        cls.other_owner = create_user(username='tata')[1]
+        cls.user = UserHelper(is_superuser=True)
+        cls.other_owner = UserHelper(username='tata')
         cls.datas = {
             'first_name': 'Toto',
             'last_name': 'Toto',
@@ -241,7 +241,7 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': 'helloworld'}))
         self.assertEqual(r.status_code, 404)
 
@@ -250,7 +250,7 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}))
         self.assertEqual(r.status_code, 200)
 
@@ -259,7 +259,7 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': self.user.get_username()}))
         self.assertEqual(r.status_code, 200)
 
@@ -268,7 +268,7 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
        
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': 'helloworld'}), self.datas)
         self.assertEqual(r.status_code, 404)
 
@@ -277,7 +277,7 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}), self.datas)
         self.assertRedirects(r, '/{}/player/{}/'.format(self.other_owner.get_username(), self.datas['slug']), fetch_redirect_response=False)
 
@@ -286,6 +286,6 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
         
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': self.user.get_username()}), self.datas)
         self.assertRedirects(r, '/{}/player/{}/'.format(self.user.get_username(), self.datas['slug']), fetch_redirect_response=False)

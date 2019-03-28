@@ -9,7 +9,7 @@ from django.urls import reverse
 
 # Current django project
 from sports_manager.category.models import Category
-from sports_manager.tests.helper import CategoryHelper, create_user
+from sports_manager.tests.helper import CategoryHelper, UserHelper
 
 
 class TestCategoryUpdateViewAsAnonymous(TestCase):
@@ -41,25 +41,25 @@ class TestCategoryUpdateViewAsLogged(TestCase):
 
     def setUp(self):
         """Tests."""
-        self.user_info = create_user()[0]
+        self.user = UserHelper()
         self.helper = CategoryHelper()
 
     def test_get_not_existing(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-update', kwargs={'slug': 'toto'}))
         self.assertEqual(r.status_code, 403)
 
     def test_get(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-update', kwargs={'slug': self.helper.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
     def test_post(self):
         """Tests."""
         self.helper.name = self.helper.name + " New"
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:category-update', kwargs={'slug': self.helper.get('slug')}), dict(self.helper))
         self.assertEqual(r.status_code, 403)
 
@@ -69,18 +69,18 @@ class TestCategoryUpdateViewAsStaff(TestCase):
 
     def setUp(self):
         """Tests."""
-        self.user_info = create_user(staff=True)[0]
+        self.user = UserHelper(is_staff=True)
         self.helper = CategoryHelper()
 
     def test_get_not_existing(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-update', kwargs={'slug': 'toto'}))
         self.assertEqual(r.status_code, 404)
 
     def test_get(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-update', kwargs={'slug': self.helper.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.context['category'], self.helper.object)
@@ -88,7 +88,7 @@ class TestCategoryUpdateViewAsStaff(TestCase):
     def test_post(self):
         """Tests."""
         self.helper.name = self.helper.name + " New" 
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:category-update', kwargs={'slug': self.helper.get('slug')}), dict(self.helper))
         self.assertEqual(r.status_code, 302)
         category = Category.objects.get(pk=self.helper.object.pk)
@@ -101,18 +101,18 @@ class TestCategoryUpdateViewAsSuperuser(TestCase):
 
     def setUp(self):
         """Tests."""
-        self.user_info = create_user(superuser=True)[0]
+        self.user = UserHelper(is_superuser=True)
         self.helper = CategoryHelper()
 
     def test_get_not_existing(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-update', kwargs={'slug': 'toto'}))
         self.assertEqual(r.status_code, 404)
 
     def test_get(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-update', kwargs={'slug': self.helper.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.context['category'], self.helper.object)
@@ -120,7 +120,7 @@ class TestCategoryUpdateViewAsSuperuser(TestCase):
     def test_post(self):
         """Tests."""
         self.helper.name = self.helper.name + " New" 
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:category-update', kwargs={'slug': self.helper.get('slug')}), dict(self.helper))
         self.assertEqual(r.status_code, 302)
         category = Category.objects.get(pk=self.helper.object.pk)

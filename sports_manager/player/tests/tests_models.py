@@ -20,7 +20,7 @@ from sports_manager.player.models import (
     Player,
     file_upload_to
 )
-from sports_manager.tests.helper import create_user
+from sports_manager.tests.helper import UserHelper
 
 class TestFileUploadTo(TestCase):
     """Test the path creation function."""
@@ -29,10 +29,9 @@ class TestFileUploadTo(TestCase):
         t = 0
         self.assertEqual(file_upload_to(t, 'Toto.pdf'), None)
 
-
     def test_with_category_object(self):
-        user = create_user()[1]
-        player = Player(first_name='Titi', last_name='Tutu', owner=user)
+        user = UserHelper()
+        player = Player(first_name='Titi', last_name='Tutu', owner=user.object)
         med_cert = MedicalCertificate(player=player)
         self.assertEqual(file_upload_to(med_cert, 'Toto.pdf'), '{}/titi_tutu/{}/medical_certificate.pdf'.format(user.get_username(), date.today().year))
 
@@ -50,20 +49,20 @@ class TestPlayerModel(TestCase):
         self.assertEqual(str(Player._meta.verbose_name_plural), "players")
 
     def test_save(self):
-        user = create_user()[1]
-        p = Player(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user)
+        user = UserHelper()
+        p = Player(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user.object)
         self.assertEqual(len(p.slug), 0)
         p.save()
         self.assertEqual(p.slug, "toto-tata")
     
     def test_full_name(self):
-        user = create_user()[1]
-        p = Player(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user)
+        user = UserHelper()
+        p = Player(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user.object)
         self.assertEqual(p.full_name, "Toto Tata")
 
     def test_get_absolute_url(self):
-        user = create_user()[1]
-        p = Player(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user)
+        user = UserHelper()
+        p = Player(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user.object)
         p.save()
         self.assertEqual(p.get_absolute_url(), "/{}/player/toto-tata/".format(user.get_username()))
 
@@ -73,8 +72,8 @@ class TestMedicalCertificate(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = create_user()[1]
-        cls.player = Player.objects.create(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=cls.user)
+        cls.user = UserHelper()
+        cls.player = Player.objects.create(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=cls.user.object)
     
     def test_string_representation(self):
         m = MedicalCertificate(player=self.player)
@@ -115,8 +114,8 @@ class TestEmergencyContact(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = create_user()[1]
-        cls.player = Player.objects.create(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=cls.user)
+        cls.user = UserHelper()
+        cls.player = Player.objects.create(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=cls.user.object)
 
     def test_string_representation(self):
         p = Player(first_name="Toto", last_name="Tata")

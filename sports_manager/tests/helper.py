@@ -182,89 +182,84 @@ class TimeSlotHelper(Helper):
         self.gymnasium = GymnasiumHelper() if 'gymnasium' not in kwargs else kwargs['gymnasium']
 
 
-
-
-def create_time_slot(team=None):
-    """Create a TimeSlot object and save it in the DB."""
-    time_slot_info = {
-        'type': TimeSlot.PRACTICE,
-        'day': TimeSlot.MONDAY,
-        'start': datetime.strptime('20:00:00', '%H:%M:%S'),
-        'end': datetime.strptime('22:30:00', '%H:%M:%S'),
-    }
-    if team is None:
-        team = create_team()[1]
-    gymnasium = GymnasiumHelper()
-
-    time_slot_info['team'] = team
-    time_slot_info['gymnasium'] = gymnasium.object
-    time_slot = TimeSlot.objects.create(**time_slot_info)
-
-    return time_slot_info, time_slot
-
-
-def create_player(owner):
-    """Create a Player object and save it into the DB."""
-    player_info = {
-        'owner': owner,
+class PlayerHelper(Helper):
+    defaults = {
         'first_name': "Toto",
         'last_name': "Tata",
+        'birthday': date.today() - timedelta(weeks=10*52),
         'sex': "MA",
-        'birthday': date.today() - timedelta(weeks=10*52)
+        'address': "Toto",
+        'city': "Toto",
+        'zip_code': "12345",
     }
+    model = Player
+    iter_fields = ['first_name', 'last_name', 'sex', 'birthday', 'address', 'zip_code', 'city', 'owner']
 
-    player = Player.objects.create(**player_info)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.owner = UserHelper() if 'owner' not in kwargs else kwargs['owner']
 
-    return player_info, player
+
+class UserHelper(Helper):
+    defaults = {
+        'username': 'toto',
+        'password': "hello-world",
+        'first_name': "Toto",
+        'last_name': "Tata",
+        'is_staff': False,
+        'is_superuser': False,
+        'email': 'toto@example.com',
+    }
+    model = get_user_model()
+    iter_fields = ['username', 'password', 'first_name', 'last_name', 'email', 'is_staff']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if ('is_staff' in kwargs and kwargs['is_staff']) or ('is_superuser' in kwargs and kwargs['is_superuser']):
+            self.is_staff = True
+        self.create()
+    
+    def create(self):
+        if self.is_superuser:
+            self._object = self.get_model().objects.create_superuser(**dict(self))
+        else:
+            self._object = self.get_model().objects.create_user(**dict(self))
+    
+    def get_credentials(self):
+        for key in ['username', 'password']:
+            yield (key, getattr(self, key))
+    
+    def get_username(self):
+        return self._object.get_username()
 
 
-def create_medical_certificate(player):
-    """Create a MedicalCertificate object and save it into the DB."""
-    mc_info = {
-        'player': player,
+class MedicalCertificateHelper(Helper):
+    defaults = {
         'file': mock.MagicMock(spec=File),
         'start': date.today(),
         'end': date.today() + timedelta(weeks=52),
         'validation': MedicalCertificate.IN_VALIDATION,
     }
+    model = MedicalCertificate
+    iter_fields = ['file', 'start', 'end', 'validation', 'player']
 
-    mc = MedicalCertificate.objects.create(**mc_info)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.player = PlayerHelper() if 'player' not in kwargs else kwargs['player']
 
-    return mc_info, mc
 
-
-def create_emergency_contact(player):
-    """Create a EmergencyContact object and save it into the DB."""
-    ec_info = {
-        'player': player,
+class EmergencyContactHelper(Helper):
+    defaults = {
         'first_name': "Toto",
         'last_name': "Tata",
-        'phone': "MA",
+        'phone': "0100000000",
     }
+    model = EmergencyContact
+    iter_fields = ['first_name', 'last_name', 'phone', 'player']
 
-    ec = EmergencyContact.objects.create(**ec_info)
-
-    return ec_info, ec
-
-
-def create_user(username='toto', staff=False, superuser=False):
-    """Create a standard, staff or super user."""
-    user_info = {
-        'username': username,
-        'password': "hello-world",
-        'first_name': "Toto",
-        'last_name': "Tata",
-        'is_staff': True if staff or superuser else False,  # Attention: Superuser must have is_staff=True.
-        'email': 'toto@example.com',
-    }
-
-    if superuser:
-        user = get_user_model().objects.create_superuser(**user_info)
-    else:
-        user = get_user_model().objects.create_user(**user_info)
-
-    return user_info, user
-
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.player = PlayerHelper() if 'player' not in kwargs else kwargs['player']
 
 def reload_urlconf(urlconf=None):
     clear_url_caches()

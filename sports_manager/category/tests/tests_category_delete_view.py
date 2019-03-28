@@ -8,7 +8,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 # Current django project
-from sports_manager.tests.helper import CategoryHelper, create_user
+from sports_manager.tests.helper import CategoryHelper, UserHelper
 
 
 class TestCategoryDeleteViewAsAnonymous(TestCase):
@@ -42,26 +42,26 @@ class TestCategoryDeleteViewAsLogged(TestCase):
 
     def setUp(self):
         """Tests."""
-        self.user_info = create_user()[0]
+        self.user = UserHelper()
         self.category = CategoryHelper()
 
     def test_get_not_existing(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-delete', kwargs={'slug': 'toto'}))
 
         self.assertEqual(r.status_code, 403)
 
     def test_get(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-delete', kwargs={'slug': self.category.object.slug}))
 
         self.assertEqual(r.status_code, 403)
 
     def test_post(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:category-delete', kwargs={'slug': self.category.object.slug}),
                              dict(self.category))
 
@@ -73,19 +73,19 @@ class TestCategoryDeleteViewAsStaff(TestCase):
 
     def setUp(self):
         """Tests."""
-        self.user_info = create_user(staff=True)[0]
+        self.user = UserHelper(is_staff=True)
         self.category = CategoryHelper()
 
     def test_get_not_existing(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-delete', kwargs={'slug': 'toto'}))
 
         self.assertEqual(r.status_code, 404)
 
     def test_get(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-delete', kwargs={'slug': self.category.object.slug}))
 
         self.assertEqual(r.status_code, 200)
@@ -93,7 +93,7 @@ class TestCategoryDeleteViewAsStaff(TestCase):
 
     def test_post(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:category-delete', kwargs={'slug': self.category.object.slug}))
 
         self.assertEqual(r.status_code, 302)
@@ -105,19 +105,19 @@ class TestCategoryDeleteViewAsSuperuser(TestCase):
 
     def setUp(self):
         """Tests."""
-        self.user_info = create_user(superuser=True)[0]
+        self.user = UserHelper(is_superuser=True)
         self.category = CategoryHelper()
 
     def test_get_not_existing(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-delete', kwargs={'slug': 'toto'}))
 
         self.assertEqual(r.status_code, 404)
 
     def test_get(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-delete', kwargs={'slug': self.category.object.slug}))
 
         self.assertEqual(r.status_code, 200)
@@ -125,7 +125,7 @@ class TestCategoryDeleteViewAsSuperuser(TestCase):
 
     def test_post(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:category-delete', kwargs={'slug': self.category.object.slug}))
 
         self.assertEqual(r.status_code, 302)

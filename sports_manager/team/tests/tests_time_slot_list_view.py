@@ -8,7 +8,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 # Current django project
-from sports_manager.tests.helper import TeamHelper, TimeSlotHelper, create_user
+from sports_manager.tests.helper import TeamHelper, TimeSlotHelper, UserHelper
 
 
 class TestTeamTimeSlotListViewAsAnonymous(TestCase):
@@ -37,7 +37,7 @@ class TestTeamTimeSlotListViewAsLogged(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.user_info, self.user = create_user()
+        self.user = UserHelper()
         self.team = TeamHelper()
         if self.id().split('.')[-1] == 'test_one_time_slot':
             self.helper = TimeSlotHelper(team=self.team)
@@ -45,13 +45,13 @@ class TestTeamTimeSlotListViewAsLogged(TestCase):
 
     def test_empty(self):
         """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
     def test_one_time_slot(self):
         """Get a 403 status code because an normal user can not access Team's pages so it can not access their time slots pages."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
@@ -61,7 +61,7 @@ class TestTeamTimeSlotListViewAsStaff(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.user_info, self.user = create_user(staff=True)
+        self.user = UserHelper(is_staff=True)
         self.team = TeamHelper()
         if self.id().split('.')[-1] == 'test_one_time_slot':
             self.helper = TimeSlotHelper(team=self.team)
@@ -69,14 +69,14 @@ class TestTeamTimeSlotListViewAsStaff(TestCase):
 
     def test_empty(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['timeslot_list']), 0)
 
     def test_one_time_slot(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['timeslot_list']), 1)
@@ -88,7 +88,7 @@ class TestTeamTimeSlotListViewAsSuperuser(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.user_info, self.user = create_user(superuser=True)
+        self.user = UserHelper(is_superuser=True)
         self.team = TeamHelper()
         if self.id().split('.')[-1] == 'test_one_time_slot':
             self.helper = TimeSlotHelper(team=self.team)
@@ -96,14 +96,14 @@ class TestTeamTimeSlotListViewAsSuperuser(TestCase):
 
     def test_empty(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['timeslot_list']), 0)
 
     def test_one_time_slot(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-time-slot-list', kwargs={'team': self.team.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['timeslot_list']), 1)

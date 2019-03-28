@@ -8,7 +8,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 # Current django project
-from sports_manager.tests.helper import TeamHelper, create_user
+from sports_manager.tests.helper import TeamHelper, UserHelper
 
 
 class TestTeamListViewAsAnonymous(TestCase):
@@ -40,14 +40,14 @@ class TestTeamListViewAsLogged(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.user_info, self.user = create_user()
+        self.user = UserHelper()
         if self.id().split('.')[-1] == 'test_one_team':
             self.helper = TeamHelper()
             self.helper.create()
 
     def test_empty(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-list'))
 
         self.assertEqual(r.status_code, 200)
@@ -55,7 +55,7 @@ class TestTeamListViewAsLogged(TestCase):
 
     def test_one_team(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-list'))
 
         self.assertEqual(r.status_code, 200)
@@ -68,14 +68,14 @@ class TestTeamListViewAsStaff(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.user_info, self.user = create_user(staff=True)
+        self.user = UserHelper(is_staff=True)
         if self.id().split('.')[-1] == 'test_one_team':
             self.helper = TeamHelper()
             self.helper.create()
 
     def test_empty(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-list'))
 
         self.assertEqual(r.status_code, 200)
@@ -83,7 +83,7 @@ class TestTeamListViewAsStaff(TestCase):
 
     def test_one_team(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-list'))
 
         self.assertEqual(r.status_code, 200)
@@ -96,14 +96,14 @@ class TestTeamListViewAsSuperuser(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.user_info, self.user = create_user(superuser=True)
+        self.user = UserHelper(is_superuser=True)
         if self.id().split('.')[-1] == 'test_one_team':
             self.helper = TeamHelper()
             self.helper.create()
 
     def test_empty(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-list'))
 
         self.assertEqual(r.status_code, 200)
@@ -111,7 +111,7 @@ class TestTeamListViewAsSuperuser(TestCase):
 
     def test_one_team(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:team-list'))
 
         self.assertEqual(r.status_code, 200)

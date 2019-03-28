@@ -9,7 +9,7 @@ from django.urls import reverse
 
 # Current django project
 from sports_manager.category.models import Category
-from sports_manager.tests.helper import CategoryHelper, create_user
+from sports_manager.tests.helper import CategoryHelper, UserHelper
 
 
 class TestCategoryListViewAsAnonymous(TestCase):
@@ -42,7 +42,7 @@ class TestCategoryListViewAsLogged(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.user_info = create_user()[0]
+        self.user = UserHelper()
         if self.id().split('.')[-1] == 'test_one_category':
             self.helper = CategoryHelper()
             self.helper.create()
@@ -50,7 +50,7 @@ class TestCategoryListViewAsLogged(TestCase):
 
     def test_empty(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-list'))
 
         self.assertEqual(r.status_code, 200)
@@ -58,7 +58,7 @@ class TestCategoryListViewAsLogged(TestCase):
 
     def test_one_category(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-list'))
 
         self.assertEqual(r.status_code, 200)
@@ -71,14 +71,14 @@ class TestCategoryListViewAsStaff(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.user_info = create_user(staff=True)[0]
+        self.user = UserHelper(is_staff=True)
         if self.id().split('.')[-1] == 'test_one_category':
             self.helper = CategoryHelper()
             self.helper.create()
 
     def test_empty(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-list'))
 
         self.assertEqual(r.status_code, 200)
@@ -86,7 +86,7 @@ class TestCategoryListViewAsStaff(TestCase):
 
     def test_one_category(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-list'))
 
         self.assertEqual(r.status_code, 200)
@@ -99,14 +99,14 @@ class TestCategoryListViewAsSuperuser(TestCase):
 
     def setUp(self):
         """Create a user that will be able to log in."""
-        self.user_info = create_user(superuser=True)[0]
+        self.user = UserHelper(is_superuser=True)
         if self.id().split('.')[-1] == 'test_one_category':
             self.helper = CategoryHelper()
             self.helper.create()
 
     def test_empty(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-list'))
 
         self.assertEqual(r.status_code, 200)
@@ -114,7 +114,7 @@ class TestCategoryListViewAsSuperuser(TestCase):
 
     def test_one_category(self):
         """Tests."""
-        self.assertTrue(self.client.login(username=self.user_info['username'], password=self.user_info['password']))
+        self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.get(reverse('sports-manager:category-list'))
 
         self.assertEqual(r.status_code, 200)

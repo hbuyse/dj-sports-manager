@@ -11,7 +11,7 @@ from django.views.generic import View
 
 # Current django project
 from sports_manager.mixins import OwnerMixin, OwnerOrStaffMixin, StaffMixin, SuperuserMixin
-from sports_manager.tests.helper import create_user
+from sports_manager.tests.helper import UserHelper
 
 
 class StaffMixinTest(TestCase):
@@ -33,25 +33,25 @@ class StaffMixinTest(TestCase):
         self.request.user = AnonymousUser()
         
         with self.assertRaises(PermissionDenied):
-            response = self.view.as_view()(self.request)
+            self.view.as_view()(self.request)
 
     def test_normal_user(self):
-        user = create_user()[1]
-        self.request.user = user
+        user = UserHelper()
+        self.request.user = user.object
         
         with self.assertRaises(PermissionDenied):
-            response = self.view.as_view()(self.request)
+            self.view.as_view()(self.request)
 
     def test_staff_user(self):
-        user = create_user(staff=True)[1]
-        self.request.user = user
+        user = UserHelper(is_staff=True)
+        self.request.user = user.object
 
         response = self.view.as_view()(self.request)
         self.assertEqual(response.status_code, 200)
 
     def test_superuser_user(self):
-        user = create_user(superuser=True)[1]
-        self.request.user = user
+        user = UserHelper(is_superuser=True)
+        self.request.user = user.object
 
         response = self.view.as_view()(self.request)
         self.assertEqual(response.status_code, 200)
@@ -76,26 +76,25 @@ class SuperuserMixinTest(TestCase):
         self.request.user = AnonymousUser()
         
         with self.assertRaises(PermissionDenied):
-            response = self.view.as_view()(self.request)
+            self.view.as_view()(self.request)
 
     def test_normal_user(self):
-        user = create_user()[1]
-        self.request.user = user
+        user = UserHelper()
+        self.request.user = user.object
         
         with self.assertRaises(PermissionDenied):
-            response = self.view.as_view()(self.request)
+            self.view.as_view()(self.request)
 
     def test_staff_user(self):
-        user = create_user(staff=True)[1]
-        self.request.user = user
+        user = UserHelper(is_staff=True)
+        self.request.user = user.object
         
         with self.assertRaises(PermissionDenied):
-            response = self.view.as_view()(self.request)
+            self.view.as_view()(self.request)
 
     def test_superuser_user(self):
-        user = create_user(superuser=True)[1]
-        self.request.user = user
-
+        user = UserHelper(is_superuser=True)
+        self.request.user = user.object
         response = self.view.as_view()(self.request)
         self.assertEqual(response.status_code, 200)
 
@@ -117,65 +116,54 @@ class OwnerMixinTest(TestCase):
         self.view = self.OwnerMixinView
 
     def test_anonymous_user_not_valid(self):
-        user = create_user()[1]
-        kwargs = {'username': user.get_username() + 'a'}
+        user = UserHelper()
+        kwargs = {'username': user.object.get_username() + 'a'}
         self.request.user = AnonymousUser()
 
         with self.assertRaises(Http404):
-            response = self.view.as_view()(self.request, **kwargs)
-
-    def test_anonymous_user_not_valid(self):
-        user = create_user()[1]
-        kwargs = {'username': user.get_username()}
-        self.request.user = AnonymousUser()
-
-        with self.assertRaises(PermissionDenied):
-            response = self.view.as_view()(self.request, **kwargs)
+            self.view.as_view()(self.request, **kwargs)
 
     def test_normal_user_is_not_owner(self):
-        user = create_user()[1]
-        kwargs = {'username': user.get_username() + 'a'}
-        self.request.user = user
+        user = UserHelper()
+        kwargs = {'username': user.object.get_username() + 'a'}
+        self.request.user = user.object
         
         with self.assertRaises(Http404):
-            response = self.view.as_view()(self.request, **kwargs)
+            self.view.as_view()(self.request, **kwargs)
 
     def test_normal_user_is_owner(self):
-        user = create_user()[1]
-        kwargs = {'username': user.get_username()}
-        self.request.user = user
-
-        response = self.view.as_view()(self.request, **kwargs)
+        user = UserHelper()
+        kwargs = {'username': user.object.get_username()}
+        self.request.user = user.object
+        self.view.as_view()(self.request, **kwargs)
 
     def test_staff_user_is_not_owner(self):
-        user = create_user(staff=True)[1]
-        kwargs = {'username': user.get_username() + 'a'}
-        self.request.user = user
+        user = UserHelper(is_staff=True)
+        kwargs = {'username': user.object.get_username() + 'a'}
+        self.request.user = user.object
         
         with self.assertRaises(Http404):
-            response = self.view.as_view()(self.request, **kwargs)
+            self.view.as_view()(self.request, **kwargs)
 
     def test_staff_user_is_owner(self):
-        user = create_user(staff=True)[1]
-        kwargs = {'username': user.get_username()}
-        self.request.user = user
-
-        response = self.view.as_view()(self.request, **kwargs)
+        user = UserHelper(is_staff=True)
+        kwargs = {'username': user.object.get_username()}
+        self.request.user = user.object
+        self.view.as_view()(self.request, **kwargs)
 
     def test_superuser_user_is_not_owner(self):
-        user = create_user(superuser=True)[1]
-        kwargs = {'username': user.get_username() + 'a'}
-        self.request.user = user
+        user = UserHelper(is_superuser=True)
+        kwargs = {'username': user.object.get_username() + 'a'}
+        self.request.user = user.object
         
         with self.assertRaises(Http404):
-            response = self.view.as_view()(self.request, **kwargs)
+            self.view.as_view()(self.request, **kwargs)
 
     def test_superuser_user_is_owner(self):
-        user = create_user(superuser=True)[1]
-        kwargs = {'username': user.get_username()}
-        self.request.user = user
-
-        response = self.view.as_view()(self.request, **kwargs)
+        user = UserHelper(is_superuser=True)
+        kwargs = {'username': user.object.get_username()}
+        self.request.user = user.object
+        self.view.as_view()(self.request, **kwargs)
 
 
 class OwnerOrStaffMixinTest(TestCase):
@@ -199,49 +187,46 @@ class OwnerOrStaffMixinTest(TestCase):
         self.request.user = AnonymousUser()
 
         with self.assertRaises(Http404):
-            response = self.view.as_view()(self.request, **kwargs)
+            self.view.as_view()(self.request, **kwargs)
 
     def test_normal_user_is_not_owner(self):
-        user = create_user()[1]
-        kwargs = {'username': user.get_username() + 'a'}
-        self.request.user = user
+        user = UserHelper()
+        kwargs = {'username': user.object.get_username() + 'a'}
+        self.request.user = user.object
 
         with self.assertRaises(Http404):
-            response = self.view.as_view()(self.request, **kwargs)
+            self.view.as_view()(self.request, **kwargs)
 
     def test_normal_user_is_owner(self):
-        user = create_user()[1]
-        kwargs = {'username': user.get_username()}
-        self.request.user = user
-
-        response = self.view.as_view()(self.request, **kwargs)
+        user = UserHelper()
+        kwargs = {'username': user.object.get_username()}
+        self.request.user = user.object
+        self.view.as_view()(self.request, **kwargs)
 
     def test_staff_user_is_not_owner(self):
-        user = create_user(staff=True)[1]
-        kwargs = {'username': user.get_username() + 'a'}
-        self.request.user = user
+        user = UserHelper(is_staff=True)
+        kwargs = {'username': user.object.get_username() + 'a'}
+        self.request.user = user.object
 
         with self.assertRaises(Http404):
-            response = self.view.as_view()(self.request, **kwargs)
+            self.view.as_view()(self.request, **kwargs)
 
     def test_staff_user_is_owner(self):
-        user = create_user(staff=True)[1]
-        kwargs = {'username': user.get_username()}
-        self.request.user = user
-
-        response = self.view.as_view()(self.request, **kwargs)
+        user = UserHelper(is_staff=True)
+        kwargs = {'username': user.object.get_username()}
+        self.request.user = user.object
+        self.view.as_view()(self.request, **kwargs)
 
     def test_superuser_user_is_not_owner(self):
-        user = create_user(superuser=True)[1]
-        kwargs = {'username': user.get_username() + 'a'}
-        self.request.user = user
+        user = UserHelper(is_superuser=True)
+        kwargs = {'username': user.object.get_username() + 'a'}
+        self.request.user = user.object
         
         with self.assertRaises(Http404):
-            response = self.view.as_view()(self.request, **kwargs)
+            self.view.as_view()(self.request, **kwargs)
 
     def test_superuser_user_is_owner(self):
-        user = create_user(superuser=True)[1]
-        kwargs = {'username': user.get_username()}
-        self.request.user = user
-
-        response = self.view.as_view()(self.request, **kwargs)
+        user = UserHelper(is_superuser=True)
+        kwargs = {'username': user.object.get_username()}
+        self.request.user = user.object
+        self.view.as_view()(self.request, **kwargs)
