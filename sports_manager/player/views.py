@@ -252,7 +252,7 @@ class EmergencyContactDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, DeleteVi
         msg = _("Emergency contact of player '%(full_name)s' deleted successfully") % {'full_name': self.object.player.full_name}
         messages.success(self.request, msg)
         return reverse("sports-manager:player-emergency-contact-list",
-                       kwargs={"username": self.player.owner.get_username(), "player": self.player.slug}
+                       kwargs={"username": self.object.player.owner.get_username(), "player": self.object.player.slug}
                        )
 
 
@@ -367,7 +367,7 @@ class MedicalCertificateDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, Delete
         msg = _("Medical certificate of player '%(full_name)s' deleted successfully") % {'full_name': self.object.player.full_name}
         messages.success(self.request, msg)
         return reverse("sports-manager:player-medical-certificate-list",
-                       kwargs={"username": self.player.owner.get_username(), "player": self.player.slug}
+                       kwargs={"username": self.object.player.owner.get_username(), "player": self.object.player.slug}
                        )
 
 

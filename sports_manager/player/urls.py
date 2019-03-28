@@ -69,11 +69,11 @@ player_urlpatterns += [
          name='player-emergency-contact-list'
          ),
     path("<str:username>/player/<str:player>/emergency-contact/create/",
-         view=views.EmergencyContactDetailView.as_view(),
+         view=views.EmergencyContactCreateView.as_view(),
          name='player-emergency-contact-create'
          ),
     path("<str:username>/player/<str:player>/emergency-contact/<int:pk>/",
-         view=views.EmergencyContactCreateView.as_view(),
+         view=views.EmergencyContactDetailView.as_view(),
          name='player-emergency-contact-detail'
          ),
     path("<str:username>/player/<str:player>/emergency-contact/<int:pk>/update/",
