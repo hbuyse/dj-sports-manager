@@ -14,13 +14,9 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase, override_settings
 
 # Current django project
-from sports_manager.player.models import (
-    EmergencyContact,
-    MedicalCertificate,
-    Player,
-    file_upload_to
-)
+from sports_manager.player.models import EmergencyContact, MedicalCertificate, Player, file_upload_to
 from sports_manager.tests.helper import UserHelper
+
 
 class TestFileUploadTo(TestCase):
     """Test the path creation function."""
@@ -133,5 +129,3 @@ class TestEmergencyContact(TestCase):
         m = MedicalCertificate(player=self.player)
         m.save()
         self.assertEqual(m.get_absolute_url(), '/{}/player/{}/medical-certificate/{}/'.format(m.player.owner.get_username(), m.player.slug, m.pk))
-
-

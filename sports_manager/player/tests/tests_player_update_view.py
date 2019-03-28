@@ -3,6 +3,7 @@
 
 """Tests the views."""
 
+# Standard library
 from datetime import date
 
 # Django

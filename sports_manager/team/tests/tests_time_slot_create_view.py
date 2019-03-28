@@ -10,7 +10,7 @@ from django.urls import reverse
 
 # Current django project
 from sports_manager.team.models import TimeSlot
-from sports_manager.tests.helper import TeamHelper, UserHelper, GymnasiumHelper
+from sports_manager.tests.helper import GymnasiumHelper, TeamHelper, UserHelper
 
 
 class TestTeamTimeSlotCreateViewAsAnonymous(TestCase):

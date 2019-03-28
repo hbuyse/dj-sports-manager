@@ -10,7 +10,7 @@ from django.test import TestCase
 # Current django project
 from sports_manager.category.models import Category
 from sports_manager.team.models import Team, image_upload_to
-from sports_manager.tests.helper import TeamHelper, CategoryHelper
+from sports_manager.tests.helper import CategoryHelper, TeamHelper
 
 
 class TestImageUploadTo(TestCase):

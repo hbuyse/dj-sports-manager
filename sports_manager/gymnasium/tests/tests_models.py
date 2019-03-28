@@ -42,4 +42,3 @@ class TestGymnasiumModel(TestCase):
         g = Gymnasium(**self.dict)
         g.save()
         self.assertEqual(g.get_absolute_url(), "/gymnasium/watteau/")
-

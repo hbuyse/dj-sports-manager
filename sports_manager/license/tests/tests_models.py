@@ -4,9 +4,11 @@
 """Tests for `sports-manager` models module."""
 
 # Standard library
-import pytz
 from datetime import date, datetime
 from unittest import mock
+
+# Third-party
+import pytz
 
 # Django
 from django.contrib.auth import get_user_model

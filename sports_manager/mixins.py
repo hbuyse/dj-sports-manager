@@ -6,9 +6,9 @@
 import logging
 
 # Django
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import Http404
-from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _  # noqa
 
 logger = logging.getLogger(__name__)

@@ -10,16 +10,22 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import get_list_or_404, get_object_or_404, render
 from django.urls import reverse
-from django.shortcuts import get_list_or_404, get_object_or_404
 from django.utils.translation import ugettext_lazy as _  # noqa
 from django.views.generic import CreateView, DeleteView, DetailView, FormView, ListView, UpdateView, View
 from django.views.generic.detail import SingleObjectMixin
 
 # Current django project
 from sports_manager.mixins import OwnerOrStaffMixin
-from sports_manager.player.forms import EmergencyContactForm, MedicalCertificateForm, PlayerCreateForm, PlayerUpdateForm, MedicalCertificateRenewForm, StaffMedicalCertificateForm
+from sports_manager.player.forms import (
+    EmergencyContactForm,
+    MedicalCertificateForm,
+    MedicalCertificateRenewForm,
+    PlayerCreateForm,
+    PlayerUpdateForm,
+    StaffMedicalCertificateForm
+)
 from sports_manager.player.models import EmergencyContact, MedicalCertificate, Player
 
 logger = logging.getLogger(__name__)

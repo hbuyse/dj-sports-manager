@@ -5,7 +5,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
-from django.http.response import HttpResponse, Http404
+from django.http.response import Http404, HttpResponse
 from django.test import RequestFactory, TestCase
 from django.views.generic import View
 

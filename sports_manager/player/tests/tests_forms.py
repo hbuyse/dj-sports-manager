@@ -10,9 +10,16 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase, override_settings
 
 # Current django project
+from sports_manager.player.forms import (
+    EmergencyContactForm,
+    MedicalCertificateForm,
+    MedicalCertificateRenewForm,
+    PlayerCreateForm,
+    PlayerUpdateForm,
+    StaffMedicalCertificateForm
+)
 # Local Django
 from sports_manager.player.models import Player
-from sports_manager.player.forms import EmergencyContactForm, MedicalCertificateForm, MedicalCertificateRenewForm ,PlayerCreateForm, PlayerUpdateForm, StaffMedicalCertificateForm
 from sports_manager.tests.helper import UserHelper
 
 
@@ -381,4 +388,3 @@ class TestMedicalCertificateRenewForm(TestCase):
         form = self.form(data=form_data)
         self.assertTrue(form.is_valid())
         self.assertTrue(form.has_been_renewed())
-

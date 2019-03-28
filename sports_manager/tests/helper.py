@@ -7,7 +7,7 @@
 import logging
 import sys
 from datetime import date, datetime, timedelta
-from importlib import reload, import_module
+from importlib import import_module, reload
 from unittest import mock
 
 # Django
@@ -20,7 +20,7 @@ from django.urls.base import clear_url_caches
 # Current django project
 from sports_manager.category.models import Category
 from sports_manager.gymnasium.models import Gymnasium
-from sports_manager.player.models import Player, MedicalCertificate, EmergencyContact
+from sports_manager.player.models import EmergencyContact, MedicalCertificate, Player
 from sports_manager.team.models import Team, TimeSlot
 
 logger = logging.getLogger(__name__)

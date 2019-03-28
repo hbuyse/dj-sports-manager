@@ -8,6 +8,7 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils.text import slugify
 
+# Current django project
 from sports_manager.tests.helper import reload_urlconf
 
 

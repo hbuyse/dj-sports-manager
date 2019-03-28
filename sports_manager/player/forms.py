@@ -8,7 +8,7 @@ import logging
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from django.forms import ChoiceField, DateInput, ModelForm, Form, RadioSelect
+from django.forms import ChoiceField, DateInput, Form, ModelForm, RadioSelect
 from django.utils.translation import ugettext_lazy as _  # noqa
 
 # Current django project

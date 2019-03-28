@@ -15,7 +15,7 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
 # Current django project
-from sports_manager.player.validators import validate_file_extension, validate_file_size, is_player_old_enough
+from sports_manager.player.validators import is_player_old_enough, validate_file_extension, validate_file_size
 from sports_manager.storage import OverwriteStorage
 
 logger = logging.getLogger(__name__)
