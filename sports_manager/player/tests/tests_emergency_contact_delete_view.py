@@ -93,7 +93,8 @@ class TestEmergencyContactDeleteViewAsLogged(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_certificate' in test_name:
-            self.certif = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            self.certif = EmergencyContactHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             self.certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
@@ -191,7 +192,8 @@ class TestEmergencyContactDeleteViewAsLogged(TestCase):
         """Tests."""
         r = self.client.post(reverse('sports-manager:player-emergency-contact-delete',
                                      kwargs={'username': self.user.get_username(), 'player': self.player.get('slug'), 'pk': self.certif.get('pk')}))
-        self.assertRedirects(r, '/{}/player/{}/emergency-contact/'.format(self.user.get_username(), self.player.get('slug')), fetch_redirect_response=False)
+        self.assertRedirects(r, '/{}/player/{}/emergency-contact/'.format(self.user.get_username(),
+                                                                          self.player.get('slug')), fetch_redirect_response=False)
 
 
 class TestEmergencyContactDeleteViewAsStaff(TestCase):
@@ -210,7 +212,8 @@ class TestEmergencyContactDeleteViewAsStaff(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_certificate' in test_name:
-            self.certif = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            self.certif = EmergencyContactHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             self.certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
@@ -284,7 +287,8 @@ class TestEmergencyContactDeleteViewAsStaff(TestCase):
         """Tests."""
         r = self.client.post(reverse('sports-manager:player-emergency-contact-delete',
                                      kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug'), 'pk': self.certif.get('pk')}))
-        self.assertRedirects(r, '/{}/player/{}/emergency-contact/'.format(self.other.get_username(), self.other_player.get('slug')), fetch_redirect_response=False)
+        self.assertRedirects(r, '/{}/player/{}/emergency-contact/'.format(self.other.get_username(),
+                                                                          self.other_player.get('slug')), fetch_redirect_response=False)
 
     def test_post_right_account_player_not_existing_no_certificate(self):
         """Tests."""
@@ -308,7 +312,8 @@ class TestEmergencyContactDeleteViewAsStaff(TestCase):
         """Tests."""
         r = self.client.post(reverse('sports-manager:player-emergency-contact-delete',
                                      kwargs={'username': self.user.get_username(), 'player': self.player.get('slug'), 'pk': self.certif.get('pk')}))
-        self.assertRedirects(r, '/{}/player/{}/emergency-contact/'.format(self.user.get_username(), self.player.get('slug')), fetch_redirect_response=False)
+        self.assertRedirects(r, '/{}/player/{}/emergency-contact/'.format(self.user.get_username(),
+                                                                          self.player.get('slug')), fetch_redirect_response=False)
 
 
 class TestEmergencyContactDeleteViewAsSuperuser(TestCase):
@@ -327,7 +332,8 @@ class TestEmergencyContactDeleteViewAsSuperuser(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_certificate' in test_name:
-            self.certif = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            self.certif = EmergencyContactHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             self.certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
@@ -401,7 +407,8 @@ class TestEmergencyContactDeleteViewAsSuperuser(TestCase):
         """Tests."""
         r = self.client.post(reverse('sports-manager:player-emergency-contact-delete',
                                      kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug'), 'pk': self.certif.get('pk')}))
-        self.assertRedirects(r, '/{}/player/{}/emergency-contact/'.format(self.other.get_username(), self.other_player.get('slug')), fetch_redirect_response=False)
+        self.assertRedirects(r, '/{}/player/{}/emergency-contact/'.format(self.other.get_username(),
+                                                                          self.other_player.get('slug')), fetch_redirect_response=False)
 
     def test_post_right_account_player_not_existing_no_certificate(self):
         """Tests."""
@@ -425,4 +432,5 @@ class TestEmergencyContactDeleteViewAsSuperuser(TestCase):
         """Tests."""
         r = self.client.post(reverse('sports-manager:player-emergency-contact-delete',
                                      kwargs={'username': self.user.get_username(), 'player': self.player.get('slug'), 'pk': self.certif.get('pk')}))
-        self.assertRedirects(r, '/{}/player/{}/emergency-contact/'.format(self.user.get_username(), self.player.get('slug')), fetch_redirect_response=False)
+        self.assertRedirects(r, '/{}/player/{}/emergency-contact/'.format(self.user.get_username(),
+                                                                          self.player.get('slug')), fetch_redirect_response=False)

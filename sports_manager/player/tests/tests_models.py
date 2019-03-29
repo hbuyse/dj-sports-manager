@@ -29,7 +29,8 @@ class TestFileUploadTo(TestCase):
         user = UserHelper()
         player = Player(first_name='Titi', last_name='Tutu', owner=user.object)
         med_cert = MedicalCertificate(player=player)
-        self.assertEqual(file_upload_to(med_cert, 'Toto.pdf'), '{}/titi_tutu/{}/medical_certificate.pdf'.format(user.get_username(), date.today().year))
+        self.assertEqual(file_upload_to(med_cert, 'Toto.pdf'),
+                         '{}/titi_tutu/{}/medical_certificate.pdf'.format(user.get_username(), date.today().year))
 
 
 class TestPlayerModel(TestCase):
@@ -46,19 +47,22 @@ class TestPlayerModel(TestCase):
 
     def test_save(self):
         user = UserHelper()
-        p = Player(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user.object)
+        p = Player(first_name="Toto", last_name="Tata", birthday=date.today()
+                   - timedelta(weeks=7 * 52), owner=user.object)
         self.assertEqual(len(p.slug), 0)
         p.save()
         self.assertEqual(p.slug, "toto-tata")
 
     def test_full_name(self):
         user = UserHelper()
-        p = Player(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user.object)
+        p = Player(first_name="Toto", last_name="Tata", birthday=date.today()
+                   - timedelta(weeks=7 * 52), owner=user.object)
         self.assertEqual(p.full_name, "Toto Tata")
 
     def test_get_absolute_url(self):
         user = UserHelper()
-        p = Player(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user.object)
+        p = Player(first_name="Toto", last_name="Tata", birthday=date.today()
+                   - timedelta(weeks=7 * 52), owner=user.object)
         p.save()
         self.assertEqual(p.get_absolute_url(), "/{}/player/toto-tata/".format(user.get_username()))
 
@@ -69,7 +73,8 @@ class TestMedicalCertificate(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.user = UserHelper()
-        cls.player = Player.objects.create(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=cls.user.object)
+        cls.player = Player.objects.create(first_name="Toto", last_name="Tata",
+                                           birthday=date.today() - timedelta(weeks=7 * 52), owner=cls.user.object)
 
     def test_string_representation(self):
         m = MedicalCertificate(player=self.player)
@@ -102,7 +107,8 @@ class TestMedicalCertificate(TestCase):
         """Test the get_absolute_url from the model MedicalCertificate."""
         m = MedicalCertificate(player=self.player)
         m.save()
-        self.assertEqual(m.get_absolute_url(), '/{}/player/{}/medical-certificate/{}/'.format(m.player.owner.get_username(), m.player.slug, m.pk))
+        self.assertEqual(m.get_absolute_url(
+        ), '/{}/player/{}/medical-certificate/{}/'.format(m.player.owner.get_username(), m.player.slug, m.pk))
 
 
 class TestEmergencyContact(TestCase):
@@ -111,7 +117,8 @@ class TestEmergencyContact(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.user = UserHelper()
-        cls.player = Player.objects.create(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=cls.user.object)
+        cls.player = Player.objects.create(first_name="Toto", last_name="Tata",
+                                           birthday=date.today() - timedelta(weeks=7 * 52), owner=cls.user.object)
 
     def test_string_representation(self):
         p = Player(first_name="Toto", last_name="Tata")
@@ -128,4 +135,5 @@ class TestEmergencyContact(TestCase):
         """Test the get_absolute_url from the model MedicalCertificate."""
         m = MedicalCertificate(player=self.player)
         m.save()
-        self.assertEqual(m.get_absolute_url(), '/{}/player/{}/medical-certificate/{}/'.format(m.player.owner.get_username(), m.player.slug, m.pk))
+        self.assertEqual(m.get_absolute_url(
+        ), '/{}/player/{}/medical-certificate/{}/'.format(m.player.owner.get_username(), m.player.slug, m.pk))

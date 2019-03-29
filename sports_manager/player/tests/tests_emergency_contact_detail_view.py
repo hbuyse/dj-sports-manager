@@ -69,7 +69,8 @@ class TestEmergencyContactDetailViewAsLogged(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_contact' in test_name:
-            self.contact = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            self.contact = EmergencyContactHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             self.contact.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
@@ -138,7 +139,8 @@ class TestEmergencyContactDetailViewAsStaff(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_contact' in test_name:
-            self.contact = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            self.contact = EmergencyContactHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             self.contact.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
@@ -207,7 +209,8 @@ class TestEmergencyContactDetailViewAsSuperuser(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_contact' in test_name:
-            self.contact = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            self.contact = EmergencyContactHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             self.contact.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 

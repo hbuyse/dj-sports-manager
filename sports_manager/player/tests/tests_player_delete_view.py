@@ -32,7 +32,8 @@ class TestPlayerDeleteViewAsAnonymous(TestCase):
 
         We should get a 403 status code since the 'test_func' kicks in first.
         """
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
     def test_get_player_other_owner_player_not_existing(self):
@@ -40,7 +41,8 @@ class TestPlayerDeleteViewAsAnonymous(TestCase):
 
         We should get a 403 status code since the 'test_func' kicks in first.
         """
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 403)
 
     def test_get_player_other_owner_owner_and_player_existing(self):
@@ -48,7 +50,8 @@ class TestPlayerDeleteViewAsAnonymous(TestCase):
 
         We should get a 403 status code since the 'test_func' kicks in first.
         """
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
     def test_post_player_other_owner_owner_not_existing(self):
@@ -56,7 +59,8 @@ class TestPlayerDeleteViewAsAnonymous(TestCase):
 
         We should get a 403 status code since the 'test_func' kicks in first.
         """
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
     def test_post_player_other_owner_player_not_existing(self):
@@ -64,7 +68,8 @@ class TestPlayerDeleteViewAsAnonymous(TestCase):
 
         We should get a 403 status code since the 'test_func' kicks in first.
         """
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 403)
 
     def test_post_player_other_owner_owner_and_player_existing(self):
@@ -72,7 +77,8 @@ class TestPlayerDeleteViewAsAnonymous(TestCase):
 
         We should get a 403 status code since the 'test_func' kicks in first.
         """
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
 
@@ -93,62 +99,73 @@ class TestPlayerDeleteViewAsLogged(TestCase):
     def test_get_player_other_owner_owner_not_existing(self):
         """Get a 404 status code since we are logged but the user 'other_owner' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 404)
 
     def test_get_player_other_owner_player_not_existing(self):
         """Get a 403 status code since we are logged but the user 'other_owner' exists but we do not have the right to view its pages."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 403)
 
     def test_get_player_other_owner_owner_and_player_existing(self):
         """Get a 403 status code since we are logged but the user 'other_owner' exists but we do not have the right to view its pages."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
     def test_get_player_user_player_not_existing(self):
         """Get a 404 status code since the user access its own pages but the 'player' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_get_player_user_owner_and_player_existing(self):
         """Get a 200 status code since the user access its own player."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
 
     def test_post_player_other_owner_owner_not_existing(self):
         """Get a 404 status code since we are logged but the user 'other_owner' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 404)
 
     def test_post_player_other_owner_player_not_existing(self):
         """Get a 403 status code since we are logged but the user 'other_owner' exists but we do not have the right to view its pages."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 403)
 
     def test_post_player_other_owner_owner_and_player_existing(self):
         """Get a 403 status code since we are logged but the user 'other_owner' exists but we do not have the right to view its pages."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
     def test_post_player_user_player_not_existing(self):
         """Get a 404 status code since the user access its own pages but the 'player' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug') + 'a'}))
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_post_player_user_owner_and_player_existing(self):
         """Get a 302 status code with redirection since the user access its own player."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug')}))
-        self.assertRedirects(r, reverse('sports-manager:player-list', kwargs={'username': self.user.get_username()}), fetch_redirect_response=False)
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug')}))
+        self.assertRedirects(r, reverse('sports-manager:player-list',
+                                        kwargs={'username': self.user.get_username()}), fetch_redirect_response=False)
 
 
 class TestPlayerDeleteViewAsStaff(TestCase):
@@ -168,62 +185,74 @@ class TestPlayerDeleteViewAsStaff(TestCase):
     def test_get_player_other_owner_owner_not_existing(self):
         """Get a 404 status code since we are logged but the user 'other_owner' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 404)
 
     def test_get_player_other_owner_player_not_existing(self):
         """Get a 404 status code since the user access other user's pages but the 'player' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_get_player_other_owner_owner_and_player_existing(self):
         """Get a 403 status code since we are logged but the user 'other_owner' exists but we do not have the right to view its pages."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 200)
 
     def test_get_player_user_player_not_existing(self):
         """Get a 404 status code since the user access its own pages but the 'player' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_get_player_user_owner_and_player_existing(self):
         """Get a 200 status code since the user access its own player."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
 
     def test_post_player_other_owner_owner_not_existing(self):
         """Get a 404 status code since we are logged but the user 'other_owner' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 404)
 
     def test_post_player_other_owner_player_not_existing(self):
         """Get a 404 status code since the user access other user's pages but the 'player' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_post_player_other_owner_owner_and_player_existing(self):
         """Get a 403 status code since we are logged but the user 'other_owner' exists but we do not have the right to view its pages."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
-        self.assertRedirects(r, reverse('sports-manager:player-list', kwargs={'username': self.other_owner.get_username()}), fetch_redirect_response=False)
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
+        self.assertRedirects(r, reverse('sports-manager:player-list',
+                                        kwargs={'username': self.other_owner.get_username()}), fetch_redirect_response=False)
 
     def test_post_player_user_player_not_existing(self):
         """Get a 404 status code since the user access its own pages but the 'player' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug') + 'a'}))
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_post_player_user_owner_and_player_existing(self):
         """Get a 302 status code with redirection since the user access its own player."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug')}))
-        self.assertRedirects(r, reverse('sports-manager:player-list', kwargs={'username': self.user.get_username()}), fetch_redirect_response=False)
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug')}))
+        self.assertRedirects(r, reverse('sports-manager:player-list',
+                                        kwargs={'username': self.user.get_username()}), fetch_redirect_response=False)
 
 
 class TestPlayerDeleteViewAsSuperuser(TestCase):
@@ -243,59 +272,71 @@ class TestPlayerDeleteViewAsSuperuser(TestCase):
     def test_get_player_other_owner_owner_not_existing(self):
         """Get a 404 status code since we are logged but the user 'other_owner' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 404)
 
     def test_get_player_other_owner_player_not_existing(self):
         """Get a 404 status code since the user access other user's pages but the 'player' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_get_player_other_owner_owner_and_player_existing(self):
         """Get a 403 status code since we are logged but the user 'other_owner' exists but we do not have the right to view its pages."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 200)
 
     def test_get_player_user_player_not_existing(self):
         """Get a 404 status code since the user access its own pages but the 'player' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_get_player_user_owner_and_player_existing(self):
         """Get a 200 status code since the user access its own player."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-delete',
+                                    kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
 
     def test_post_player_other_owner_owner_not_existing(self):
         """Get a 404 status code since we are logged but the user 'other_owner' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 404)
 
     def test_post_player_other_owner_player_not_existing(self):
         """Get a 404 status code since the user access other user's pages but the 'player' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_post_player_other_owner_owner_and_player_existing(self):
         """Get a 403 status code since we are logged but the user 'other_owner' exists but we do not have the right to view its pages."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
-        self.assertRedirects(r, reverse('sports-manager:player-list', kwargs={'username': self.other_owner.get_username()}), fetch_redirect_response=False)
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
+        self.assertRedirects(r, reverse('sports-manager:player-list',
+                                        kwargs={'username': self.other_owner.get_username()}), fetch_redirect_response=False)
 
     def test_post_player_user_player_not_existing(self):
         """Get a 404 status code since the user access its own pages but the 'player' does not exist."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug') + 'a'}))
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_post_player_user_owner_and_player_existing(self):
         """Get a 302 status code with redirection since the user access its own player."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug')}))
-        self.assertRedirects(r, reverse('sports-manager:player-list', kwargs={'username': self.user.get_username()}), fetch_redirect_response=False)
+        r = self.client.post(reverse('sports-manager:player-delete',
+                                     kwargs={'username': self.user.get_username(), 'slug': self.player.get('slug')}))
+        self.assertRedirects(r, reverse('sports-manager:player-list',
+                                        kwargs={'username': self.user.get_username()}), fetch_redirect_response=False)

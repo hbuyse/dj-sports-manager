@@ -38,7 +38,7 @@ class PlayerListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView):
     model = Player
 
     def get_context_data(self, **kwargs):
-        """Add the player in the context of the ListView"""
+        """Add the player in the context of the ListView."""
         context = super().get_context_data(**kwargs)
         context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
         return context
@@ -75,7 +75,7 @@ class PlayerCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateView):
     form_class = PlayerCreateForm
 
     def get_context_data(self, **kwargs):
-        """Add the player in the context of the ListView"""
+        """Add the player in the context of the ListView."""
         context = super().get_context_data(**kwargs)
         context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
         return context
@@ -86,6 +86,7 @@ class PlayerCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateView):
         return kwargs
 
     def form_valid(self, form):
+        """Override to make some changes before saving the object."""
         self.object = form.save(commit=False)
         self.object.owner = get_user_model().objects.get(username=self.kwargs.get('username'))
         self.object.save()
@@ -148,9 +149,10 @@ class EmergencyContactListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView):
     model = EmergencyContact
 
     def get_context_data(self, **kwargs):
-        """Add the player in the context of the ListView"""
+        """Add the player in the context of the ListView."""
         context = super().get_context_data(**kwargs)
-        context["player"] = get_object_or_404(Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
+        context["player"] = get_object_or_404(
+            Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
         return context
 
     def get_queryset(self):
@@ -159,7 +161,8 @@ class EmergencyContactListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView):
         This method will only get the players owned by the <username> user.
         """
         queryset = super().get_queryset()
-        return queryset.filter(player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
+        return queryset.filter(
+            player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
 
 
 class EmergencyContactDetailView(LoginRequiredMixin, OwnerOrStaffMixin, DetailView):
@@ -174,7 +177,8 @@ class EmergencyContactDetailView(LoginRequiredMixin, OwnerOrStaffMixin, DetailVi
         This method will only get the players owned by the <username> user.
         """
         queryset = super().get_queryset()
-        return queryset.filter(player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
+        return queryset.filter(
+            player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
 
 
 class EmergencyContactCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateView):
@@ -185,9 +189,10 @@ class EmergencyContactCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateVi
     form_class = EmergencyContactForm
 
     def get_context_data(self, **kwargs):
-        """Add the player in the context of the ListView"""
+        """Add the player in the context of the ListView."""
         context = super().get_context_data(**kwargs)
-        context["player"] = get_object_or_404(Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
+        context["player"] = get_object_or_404(
+            Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
         return context
 
     def get_queryset(self):
@@ -196,17 +201,21 @@ class EmergencyContactCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateVi
         This method will only get the players owned by the <username> user.
         """
         queryset = super().get_queryset()
-        return queryset.filter(player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
+        return queryset.filter(
+            player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
 
     def form_valid(self, form):
+        """Override to make some changes before saving the object."""
         self.object = form.save(commit=False)
-        self.object.player = Player.objects.get(slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
+        self.object.player = Player.objects.get(slug=self.kwargs.get(
+            'player'), player__owner__username=self.kwargs.get('username'))
         self.object.save()
         return super().form_valid(form)
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        msg = _("Emergency contact of player '%(full_name)s' added successfully") % {'full_name': self.object.player.full_name}
+        msg = _("Emergency contact of player '%(full_name)s' added successfully") % {
+            'full_name': self.object.player.full_name}
         messages.success(self.request, msg)
         return self.object.get_absolute_url()
 
@@ -224,11 +233,13 @@ class EmergencyContactUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, UpdateVi
         This method will only get the players owned by the <username> user.
         """
         queryset = super().get_queryset()
-        return queryset.filter(player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
+        return queryset.filter(
+            player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        msg = _("Emergency contact of player '%(full_name)s' updated successfully") % {'full_name': self.object.player.full_name}
+        msg = _("Emergency contact of player '%(full_name)s' updated successfully") % {
+            'full_name': self.object.player.full_name}
         messages.success(self.request, msg)
         return self.object.get_absolute_url()
 
@@ -245,11 +256,13 @@ class EmergencyContactDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, DeleteVi
         This method will only get the players owned by the <username> user.
         """
         queryset = super().get_queryset()
-        return queryset.filter(player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
+        return queryset.filter(
+            player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        msg = _("Emergency contact of player '%(full_name)s' deleted successfully") % {'full_name': self.object.player.full_name}
+        msg = _("Emergency contact of player '%(full_name)s' deleted successfully") % {
+            'full_name': self.object.player.full_name}
         messages.success(self.request, msg)
         return reverse("sports-manager:player-emergency-contact-list",
                        kwargs={"username": self.object.player.owner.get_username(), "player": self.object.player.slug}
@@ -263,9 +276,10 @@ class MedicalCertificateListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView
     model = MedicalCertificate
 
     def get_context_data(self, **kwargs):
-        """Add the player in the context of the ListView"""
+        """Add the player in the context of the ListView."""
         context = super().get_context_data(**kwargs)
-        context["player"] = get_object_or_404(Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
+        context["player"] = get_object_or_404(
+            Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
         return context
 
     def get_queryset(self):
@@ -274,7 +288,8 @@ class MedicalCertificateListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView
         This method will only get the players owned by the <username> user.
         """
         queryset = super().get_queryset()
-        return queryset.filter(player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
+        return queryset.filter(
+            player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
 
 
 class MedicalCertificateDetailView(LoginRequiredMixin, OwnerOrStaffMixin, DetailView):
@@ -289,7 +304,8 @@ class MedicalCertificateDetailView(LoginRequiredMixin, OwnerOrStaffMixin, Detail
         This method will only get the players owned by the <username> user.
         """
         queryset = super().get_queryset()
-        return queryset.filter(player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
+        return queryset.filter(
+            player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
 
 
 class MedicalCertificateCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateView):
@@ -300,9 +316,10 @@ class MedicalCertificateCreateView(LoginRequiredMixin, OwnerOrStaffMixin, Create
     form_class = MedicalCertificateForm
 
     def get_context_data(self, **kwargs):
-        """Add the player in the context of the ListView"""
+        """Add the player in the context of the ListView."""
         context = super().get_context_data(**kwargs)
-        context["player"] = get_object_or_404(Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
+        context["player"] = get_object_or_404(
+            Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
         return context
 
     def get_queryset(self):
@@ -311,17 +328,21 @@ class MedicalCertificateCreateView(LoginRequiredMixin, OwnerOrStaffMixin, Create
         This method will only get the players owned by the <username> user.
         """
         queryset = super().get_queryset()
-        return queryset.filter(player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
+        return queryset.filter(
+            player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
 
     def form_valid(self, form):
+        """Override to make some changes before saving the object."""
         self.object = form.save(commit=False)
-        self.object.player = Player.objects.get(slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
+        self.object.player = Player.objects.get(slug=self.kwargs.get(
+            'player'), player__owner__username=self.kwargs.get('username'))
         self.object.save()
         return super().form_valid(form)
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        msg = _("Medical certificate of player '%(full_name)s' added successfully") % {'full_name': self.object.player.full_name}
+        msg = _("Medical certificate of player '%(full_name)s' added successfully") % {
+            'full_name': self.object.player.full_name}
         messages.success(self.request, msg)
         return self.object.get_absolute_url()
 
@@ -345,11 +366,13 @@ class MedicalCertificateUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, Update
         This method will only get the players owned by the <username> user.
         """
         queryset = super().get_queryset()
-        return queryset.filter(player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
+        return queryset.filter(
+            player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        msg = _("Medical certificate of player '%(full_name)s' updated successfully") % {'full_name': self.object.player.full_name}
+        msg = _("Medical certificate of player '%(full_name)s' updated successfully") % {
+            'full_name': self.object.player.full_name}
         messages.success(self.request, msg)
         return self.object.get_absolute_url()
 
@@ -366,11 +389,13 @@ class MedicalCertificateDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, Delete
         This method will only get the players owned by the <username> user.
         """
         queryset = super().get_queryset()
-        return queryset.filter(player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
+        return queryset.filter(
+            player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
 
     def get_success_url(self, **kwargs):
         """Get the URL after the success."""
-        msg = _("Medical certificate of player '%(full_name)s' deleted successfully") % {'full_name': self.object.player.full_name}
+        msg = _("Medical certificate of player '%(full_name)s' deleted successfully") % {
+            'full_name': self.object.player.full_name}
         messages.success(self.request, msg)
         return reverse("sports-manager:player-medical-certificate-list",
                        kwargs={"username": self.object.player.owner.get_username(), "player": self.object.player.slug}
@@ -403,7 +428,8 @@ class MedicalCertificateRenewView(LoginRequiredMixin, OwnerOrStaffMixin, SingleO
 
     def get_success_url(self):
         """Get the URL after the success."""
-        msg = _("Medical certificate of player '%(name)s' updated successfully") % {'name': self.object.player.full_name}
+        msg = _("Medical certificate of player '%(name)s' updated successfully") % {
+            'name': self.object.player.full_name}
         messages.success(self.request, msg)
         return self.object.get_absolute_url()
 
@@ -504,7 +530,8 @@ class PlayerAllInOneUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, View):
         objs = self.get_objects(*args, **kwargs)
         player_form = self.get_player_form()(prefix="player", instance=objs['player'])
         emergency_form = self.get_emergency_form()(prefix="emergency", instance=objs['emergency_contact'])
-        certificate_form = self.get_certificate_form(request.user.is_staff)(prefix="certif", instance=objs['certificate'])
+        certificate_form = self.get_certificate_form(request.user.is_staff)(
+            prefix="certif", instance=objs['certificate'])
         return render(request,
                       self.template_name,
                       {
@@ -519,8 +546,10 @@ class PlayerAllInOneUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, View):
         logger.debug("Receive post")
         objs = self.get_objects(*args, **kwargs)
         player_form = self.get_player_form()(request.POST, prefix="player", instance=objs['player'])
-        emergency_form = self.get_emergency_form()(request.POST, prefix="emergency", instance=objs['emergency_contact'])
-        certificate_form = self.get_certificate_form(request.user.is_staff)(request.POST, request.FILES, prefix="certif", instance=objs['certificate'])
+        emergency_form = self.get_emergency_form()(request.POST, prefix="emergency",
+                                                   instance=objs['emergency_contact'])
+        certificate_form = self.get_certificate_form(request.user.is_staff)(
+            request.POST, request.FILES, prefix="certif", instance=objs['certificate'])
 
         if player_form.is_valid() and emergency_form.is_valid() and certificate_form.is_valid():
             self.player = player_form.save(commit=False)

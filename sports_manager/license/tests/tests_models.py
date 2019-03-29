@@ -28,7 +28,8 @@ class TestLicenseModel(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.owner = get_user_model().objects.create(username="toto")
-        cls.player = Player.objects.create(first_name="Toto", last_name="Tata", owner=cls.owner, birthday=date(1970,1,1))
+        cls.player = Player.objects.create(first_name="Toto", last_name="Tata",
+                                           owner=cls.owner, birthday=date(1970, 1, 1))
 
     def test_string_representation(self):
         """Test string representation."""

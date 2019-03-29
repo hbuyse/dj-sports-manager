@@ -32,22 +32,26 @@ class TestEmergencyContactListViewAsAnonymous(TestCase):
 
     def test_wrong_account_player_not_existing_no_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 403)
 
     def test_wrong_account_player_not_existing_one_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 403)
 
     def test_wrong_account_player_existing_no_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
     def test_wrong_account_player_existing_one_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
 
@@ -67,49 +71,58 @@ class TestEmergencyContactListViewAsLogged(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_contact' in test_name:
-            self.certif = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            self.certif = EmergencyContactHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             self.certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
     def test_wrong_account_player_not_existing_no_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 403)
 
     def test_wrong_account_player_not_existing_one_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 403)
 
     def test_wrong_account_player_existing_no_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
     def test_wrong_account_player_existing_one_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
     def test_right_account_player_not_existing_no_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_right_account_player_not_existing_one_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_right_account_player_existing_no_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['emergencycontact_list']), 0)
 
     def test_right_account_player_existing_one_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['emergencycontact_list']), 1)
 
@@ -130,51 +143,60 @@ class TestEmergencyContactListViewAsStaff(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_contact' in test_name:
-            self.certif = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            self.certif = EmergencyContactHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             self.certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
     def test_wrong_account_player_not_existing_no_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_wrong_account_player_not_existing_one_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_wrong_account_player_existing_no_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['emergencycontact_list']), 0)
 
     def test_wrong_account_player_existing_one_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['emergencycontact_list']), 1)
 
     def test_right_account_player_not_existing_no_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_right_account_player_not_existing_one_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_right_account_player_existing_no_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['emergencycontact_list']), 0)
 
     def test_right_account_player_existing_one_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['emergencycontact_list']), 1)
 
@@ -195,50 +217,59 @@ class TestEmergencyContactListViewAsSuperuser(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_contact' in test_name:
-            self.certif = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            self.certif = EmergencyContactHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             self.certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
     def test_wrong_account_player_not_existing_no_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_wrong_account_player_not_existing_one_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_wrong_account_player_existing_no_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['emergencycontact_list']), 0)
 
     def test_wrong_account_player_existing_one_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['emergencycontact_list']), 1)
 
     def test_right_account_player_not_existing_no_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_right_account_player_not_existing_one_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_right_account_player_existing_no_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['emergencycontact_list']), 0)
 
     def test_right_account_player_existing_one_contact(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-emergency-contact-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-emergency-contact-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['emergencycontact_list']), 1)

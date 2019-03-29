@@ -104,7 +104,6 @@ class OwnerMixinTest(TestCase):
     Tests OwnerMixin like a boss
     '''
 
-
     class OwnerMixinView(OwnerMixin, View):
 
         def get(self, request, *args, **kwargs):
@@ -170,7 +169,6 @@ class OwnerOrStaffMixinTest(TestCase):
     '''
     Tests OwnerOrStaffMixin like a boss
     '''
-
 
     class OwnerOrStaffMixinView(OwnerOrStaffMixin, View):
 

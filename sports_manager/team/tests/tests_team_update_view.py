@@ -35,7 +35,8 @@ class TestTeamUpdateViewAsAnonymous(TestCase):
     def test_post(self):
         """Tests."""
         self.helper.name = self.helper.name + " New"
-        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.helper.get('slug')}), dict(self.helper))
+        r = self.client.post(reverse('sports-manager:team-update',
+                                     kwargs={'team': self.helper.get('slug')}), dict(self.helper))
         self.assertEqual(r.status_code, 403)
 
 
@@ -66,7 +67,8 @@ class TestTeamUpdateViewAsLogged(TestCase):
         """Tests."""
         self.helper.name = self.helper.name + " New"
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.helper.get('slug')}), dict(self.helper))
+        r = self.client.post(reverse('sports-manager:team-update',
+                                     kwargs={'team': self.helper.get('slug')}), dict(self.helper))
 
         self.assertEqual(r.status_code, 403)
 
@@ -99,7 +101,8 @@ class TestTeamUpdateViewAsStaff(TestCase):
         """Tests."""
         self.helper.name = self.helper.name + " New"
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.helper.get('slug')}), dict(self.helper.datas_for_form))
+        r = self.client.post(reverse('sports-manager:team-update',
+                                     kwargs={'team': self.helper.get('slug')}), dict(self.helper.datas_for_form))
         self.assertRedirects(r, '/team/{}-new/'.format(self.helper.get('slug')), fetch_redirect_response=False)
 
 
@@ -131,5 +134,6 @@ class TestTeamUpdateViewAsSuperuser(TestCase):
         """Tests."""
         self.helper.name = self.helper.name + " New"
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:team-update', kwargs={'team': self.helper.get('slug')}), dict(self.helper.datas_for_form))
+        r = self.client.post(reverse('sports-manager:team-update',
+                                     kwargs={'team': self.helper.get('slug')}), dict(self.helper.datas_for_form))
         self.assertRedirects(r, '/team/{}-new/'.format(self.helper.get('slug')), fetch_redirect_response=False)

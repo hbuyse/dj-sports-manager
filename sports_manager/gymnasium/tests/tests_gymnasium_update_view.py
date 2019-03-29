@@ -40,7 +40,8 @@ class TestGymnasiumUpdateViewAsAnonymous(TestCase):
         """Tests."""
         self.gymnasium_data['name'] = 'Watteau2'
 
-        r = self.client.post(reverse('sports-manager:gymnasium-update', kwargs={'slug': self.gymnasium.slug}), self.gymnasium_data)
+        r = self.client.post(reverse('sports-manager:gymnasium-update',
+                                     kwargs={'slug': self.gymnasium.slug}), self.gymnasium_data)
 
         self.assertEqual(r.status_code, 403)
 
@@ -83,7 +84,8 @@ class TestGymnasiumUpdateViewAsLogged(TestCase):
         self.gymnasium_data['name'] = 'Watteau2'
 
         self.assertTrue(self.client.login(username=self.dict['username'], password=self.dict['password']))
-        r = self.client.post(reverse('sports-manager:gymnasium-update', kwargs={'slug': self.gymnasium.slug}), self.gymnasium_data)
+        r = self.client.post(reverse('sports-manager:gymnasium-update',
+                                     kwargs={'slug': self.gymnasium.slug}), self.gymnasium_data)
 
         self.assertEqual(r.status_code, 403)
 
@@ -127,7 +129,8 @@ class TestGymnasiumUpdateViewAsStaff(TestCase):
         self.gymnasium_data['name'] = 'Watteau2'
 
         self.assertTrue(self.client.login(username=self.dict['username'], password=self.dict['password']))
-        r = self.client.post(reverse('sports-manager:gymnasium-update', kwargs={'slug': self.gymnasium.slug}), self.gymnasium_data)
+        r = self.client.post(reverse('sports-manager:gymnasium-update',
+                                     kwargs={'slug': self.gymnasium.slug}), self.gymnasium_data)
 
         self.assertRedirects(r, '/gymnasium/watteau2/', fetch_redirect_response=False)
 
@@ -171,6 +174,7 @@ class TestGymnasiumUpdateViewAsSuperuser(TestCase):
         self.gymnasium_data['name'] = 'Watteau2'
 
         self.assertTrue(self.client.login(username=self.dict['username'], password=self.dict['password']))
-        r = self.client.post(reverse('sports-manager:gymnasium-update', kwargs={'slug': self.gymnasium.slug}), self.gymnasium_data)
+        r = self.client.post(reverse('sports-manager:gymnasium-update',
+                                     kwargs={'slug': self.gymnasium.slug}), self.gymnasium_data)
 
         self.assertRedirects(r, '/gymnasium/watteau2/', fetch_redirect_response=False)

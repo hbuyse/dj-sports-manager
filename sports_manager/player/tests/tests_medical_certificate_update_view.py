@@ -98,7 +98,8 @@ class TestMedicalCertificateUpdateViewAsLogged(TestCase):
 
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        self.certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+        self.certif = MedicalCertificateHelper(
+            player=self.other_player if 'wrong_account' in test_name else self.player)
         self.certif.create()
         self.certif.validation = MedicalCertificate.VALID
         self.certif.generate_new_file(extension='doc')
@@ -207,7 +208,8 @@ class TestMedicalCertificateUpdateViewAsLogged(TestCase):
         r = self.client.post(reverse('sports-manager:player-medical-certificate-update',
                                      kwargs={'username': self.user.get_username(), 'player': self.player.get('slug'), 'pk': self.certif.pk}),
                              dict(self.certif.datas_for_form))
-        self.assertRedirects(r, '/{}/player/{}/medical-certificate/{}/'.format(self.user.get_username(), self.player.get('slug'), self.certif.pk), fetch_redirect_response=False)
+        self.assertRedirects(r, '/{}/player/{}/medical-certificate/{}/'.format(self.user.get_username(),
+                                                                               self.player.get('slug'), self.certif.pk), fetch_redirect_response=False)
         self.certif.refresh_from_db()
         self.assertNotEqual(self.certif.validation, self.certif.get('validation'))
         self.assertIn('medical_certificate.doc', self.certif.get('file').name)
@@ -228,7 +230,8 @@ class TestMedicalCertificateUpdateViewAsStaff(TestCase):
 
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        self.certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+        self.certif = MedicalCertificateHelper(
+            player=self.other_player if 'wrong_account' in test_name else self.player)
         self.certif.create()
         self.certif.validation = MedicalCertificate.VALID
         self.certif.generate_new_file(extension='doc')
@@ -309,7 +312,8 @@ class TestMedicalCertificateUpdateViewAsStaff(TestCase):
         r = self.client.post(reverse('sports-manager:player-medical-certificate-update',
                                      kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug'), 'pk': self.certif.pk}),
                              dict(self.certif.datas_for_form))
-        self.assertRedirects(r, '/{}/player/{}/medical-certificate/{}/'.format(self.other.get_username(), self.other_player.get('slug'), self.certif.pk), fetch_redirect_response=False)
+        self.assertRedirects(r, '/{}/player/{}/medical-certificate/{}/'.format(self.other.get_username(),
+                                                                               self.other_player.get('slug'), self.certif.pk), fetch_redirect_response=False)
 
     def test_post_right_account_player_not_existing_no_certificate(self):
         """Tests."""
@@ -337,7 +341,8 @@ class TestMedicalCertificateUpdateViewAsStaff(TestCase):
         r = self.client.post(reverse('sports-manager:player-medical-certificate-update',
                                      kwargs={'username': self.user.get_username(), 'player': self.player.get('slug'), 'pk': self.certif.pk}),
                              dict(self.certif.datas_for_form))
-        self.assertRedirects(r, '/{}/player/{}/medical-certificate/{}/'.format(self.user.get_username(), self.player.get('slug'), self.certif.pk), fetch_redirect_response=True)
+        self.assertRedirects(r, '/{}/player/{}/medical-certificate/{}/'.format(self.user.get_username(),
+                                                                               self.player.get('slug'), self.certif.pk), fetch_redirect_response=True)
         self.certif.refresh_from_db()
         self.assertEqual(self.certif.validation, self.certif.get('validation'))
         self.assertIn('medical_certificate.doc', self.certif.get('file').name)
@@ -358,7 +363,8 @@ class TestMedicalCertificateUpdateViewAsSuperuser(TestCase):
 
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        self.certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+        self.certif = MedicalCertificateHelper(
+            player=self.other_player if 'wrong_account' in test_name else self.player)
         self.certif.create()
         self.certif.validation = MedicalCertificate.VALID
         self.certif.generate_new_file(extension='doc')
@@ -439,7 +445,8 @@ class TestMedicalCertificateUpdateViewAsSuperuser(TestCase):
         r = self.client.post(reverse('sports-manager:player-medical-certificate-update',
                                      kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug'), 'pk': self.certif.pk}),
                              dict(self.certif.datas_for_form))
-        self.assertRedirects(r, '/{}/player/{}/medical-certificate/{}/'.format(self.other.get_username(), self.other_player.get('slug'), self.certif.pk), fetch_redirect_response=False)
+        self.assertRedirects(r, '/{}/player/{}/medical-certificate/{}/'.format(self.other.get_username(),
+                                                                               self.other_player.get('slug'), self.certif.pk), fetch_redirect_response=False)
 
     def test_post_right_account_player_not_existing_no_certificate(self):
         """Tests."""
@@ -467,7 +474,8 @@ class TestMedicalCertificateUpdateViewAsSuperuser(TestCase):
         r = self.client.post(reverse('sports-manager:player-medical-certificate-update',
                                      kwargs={'username': self.user.get_username(), 'player': self.player.get('slug'), 'pk': self.certif.pk}),
                              dict(self.certif.datas_for_form))
-        self.assertRedirects(r, '/{}/player/{}/medical-certificate/{}/'.format(self.user.get_username(), self.player.get('slug'), self.certif.pk), fetch_redirect_response=False)
+        self.assertRedirects(r, '/{}/player/{}/medical-certificate/{}/'.format(self.user.get_username(),
+                                                                               self.player.get('slug'), self.certif.pk), fetch_redirect_response=False)
         self.certif.refresh_from_db()
         self.assertEqual(self.certif.validation, self.certif.get('validation'))
         self.assertIn('medical_certificate.doc', self.certif.get('file').name)

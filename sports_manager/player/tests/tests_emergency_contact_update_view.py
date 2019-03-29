@@ -97,7 +97,8 @@ class TestEmergencyContactUpdateViewAsLogged(TestCase):
 
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        self.contact = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+        self.contact = EmergencyContactHelper(
+            player=self.other_player if 'wrong_account' in test_name else self.player)
         self.contact.create()
         self.contact.last_name += 'a'
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -204,7 +205,8 @@ class TestEmergencyContactUpdateViewAsLogged(TestCase):
         r = self.client.post(reverse('sports-manager:player-emergency-contact-update',
                                      kwargs={'username': self.user.get_username(), 'player': self.player.get('slug'), 'pk': self.contact.pk}),
                              dict(self.contact.datas_for_form))
-        self.assertRedirects(r, '/{}/player/{}/emergency-contact/{}/'.format(self.user.get_username(), self.player.get('slug'), self.contact.pk), fetch_redirect_response=False)
+        self.assertRedirects(r, '/{}/player/{}/emergency-contact/{}/'.format(self.user.get_username(),
+                                                                             self.player.get('slug'), self.contact.pk), fetch_redirect_response=False)
 
 
 class TestEmergencyContactUpdateViewAsStaff(TestCase):
@@ -222,7 +224,8 @@ class TestEmergencyContactUpdateViewAsStaff(TestCase):
 
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        self.contact = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+        self.contact = EmergencyContactHelper(
+            player=self.other_player if 'wrong_account' in test_name else self.player)
         self.contact.create()
         self.contact.last_name += 'a'
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -301,7 +304,8 @@ class TestEmergencyContactUpdateViewAsStaff(TestCase):
         r = self.client.post(reverse('sports-manager:player-emergency-contact-update',
                                      kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug'), 'pk': self.contact.pk}),
                              dict(self.contact.datas_for_form))
-        self.assertRedirects(r, '/{}/player/{}/emergency-contact/{}/'.format(self.other.get_username(), self.other_player.get('slug'), self.contact.pk), fetch_redirect_response=False)
+        self.assertRedirects(r, '/{}/player/{}/emergency-contact/{}/'.format(self.other.get_username(),
+                                                                             self.other_player.get('slug'), self.contact.pk), fetch_redirect_response=False)
 
     def test_post_right_account_player_not_existing_no_certificate(self):
         """Tests."""
@@ -329,7 +333,8 @@ class TestEmergencyContactUpdateViewAsStaff(TestCase):
         r = self.client.post(reverse('sports-manager:player-emergency-contact-update',
                                      kwargs={'username': self.user.get_username(), 'player': self.player.get('slug'), 'pk': self.contact.pk}),
                              dict(self.contact.datas_for_form))
-        self.assertRedirects(r, '/{}/player/{}/emergency-contact/{}/'.format(self.user.get_username(), self.player.get('slug'), self.contact.pk), fetch_redirect_response=False)
+        self.assertRedirects(r, '/{}/player/{}/emergency-contact/{}/'.format(self.user.get_username(),
+                                                                             self.player.get('slug'), self.contact.pk), fetch_redirect_response=False)
 
 
 class TestEmergencyContactUpdateViewAsSuperuser(TestCase):
@@ -347,7 +352,8 @@ class TestEmergencyContactUpdateViewAsSuperuser(TestCase):
 
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        self.contact = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+        self.contact = EmergencyContactHelper(
+            player=self.other_player if 'wrong_account' in test_name else self.player)
         self.contact.create()
         self.contact.last_name += 'a'
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -426,7 +432,8 @@ class TestEmergencyContactUpdateViewAsSuperuser(TestCase):
         r = self.client.post(reverse('sports-manager:player-emergency-contact-update',
                                      kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug'), 'pk': self.contact.pk}),
                              dict(self.contact.datas_for_form))
-        self.assertRedirects(r, '/{}/player/{}/emergency-contact/{}/'.format(self.other.get_username(), self.other_player.get('slug'), self.contact.pk), fetch_redirect_response=False)
+        self.assertRedirects(r, '/{}/player/{}/emergency-contact/{}/'.format(self.other.get_username(),
+                                                                             self.other_player.get('slug'), self.contact.pk), fetch_redirect_response=False)
 
     def test_post_right_account_player_not_existing_no_certificate(self):
         """Tests."""
@@ -454,4 +461,5 @@ class TestEmergencyContactUpdateViewAsSuperuser(TestCase):
         r = self.client.post(reverse('sports-manager:player-emergency-contact-update',
                                      kwargs={'username': self.user.get_username(), 'player': self.player.get('slug'), 'pk': self.contact.pk}),
                              dict(self.contact.datas_for_form))
-        self.assertRedirects(r, '/{}/player/{}/emergency-contact/{}/'.format(self.user.get_username(), self.player.get('slug'), self.contact.pk), fetch_redirect_response=False)
+        self.assertRedirects(r, '/{}/player/{}/emergency-contact/{}/'.format(self.user.get_username(),
+                                                                             self.player.get('slug'), self.contact.pk), fetch_redirect_response=False)

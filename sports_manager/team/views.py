@@ -135,7 +135,8 @@ class TeamTimeSlotCreateView(StaffMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["team"] = get_object_or_404(Team, slug=self.kwargs['team'])  # Check that the team we want to edit exist
+        # Check that the team we want to edit exist
+        context["team"] = get_object_or_404(Team, slug=self.kwargs['team'])
         return context
 
     def form_valid(self, form):

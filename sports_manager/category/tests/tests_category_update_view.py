@@ -32,7 +32,8 @@ class TestCategoryUpdateViewAsAnonymous(TestCase):
     def test_post(self):
         """Tests."""
         self.helper.name = self.helper.name + " New"
-        r = self.client.post(reverse('sports-manager:category-update', kwargs={'slug': self.helper.get('slug')}), dict(self.helper))
+        r = self.client.post(reverse('sports-manager:category-update',
+                                     kwargs={'slug': self.helper.get('slug')}), dict(self.helper))
         self.assertEqual(r.status_code, 403)
 
 
@@ -60,7 +61,8 @@ class TestCategoryUpdateViewAsLogged(TestCase):
         """Tests."""
         self.helper.name = self.helper.name + " New"
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:category-update', kwargs={'slug': self.helper.get('slug')}), dict(self.helper))
+        r = self.client.post(reverse('sports-manager:category-update',
+                                     kwargs={'slug': self.helper.get('slug')}), dict(self.helper))
         self.assertEqual(r.status_code, 403)
 
 
@@ -89,7 +91,8 @@ class TestCategoryUpdateViewAsStaff(TestCase):
         """Tests."""
         self.helper.name = self.helper.name + " New"
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:category-update', kwargs={'slug': self.helper.get('slug')}), dict(self.helper))
+        r = self.client.post(reverse('sports-manager:category-update',
+                                     kwargs={'slug': self.helper.get('slug')}), dict(self.helper))
         self.assertEqual(r.status_code, 302)
         category = Category.objects.get(pk=self.helper.object.pk)
         self.assertEqual(r.url, reverse('sports-manager:category-detail', kwargs={'slug': category.slug}))
@@ -121,7 +124,8 @@ class TestCategoryUpdateViewAsSuperuser(TestCase):
         """Tests."""
         self.helper.name = self.helper.name + " New"
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:category-update', kwargs={'slug': self.helper.get('slug')}), dict(self.helper))
+        r = self.client.post(reverse('sports-manager:category-update',
+                                     kwargs={'slug': self.helper.get('slug')}), dict(self.helper))
         self.assertEqual(r.status_code, 302)
         category = Category.objects.get(pk=self.helper.object.pk)
         self.assertEqual(r.url, reverse('sports-manager:category-detail', kwargs={'slug': category.slug}))

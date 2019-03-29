@@ -19,7 +19,6 @@ class TestImageUploadTo(TestCase):
         t = 0
         self.assertEqual(image_upload_to(t, 'Toto.img'), None)
 
-
     def test_with_category_object(self):
         c = Category(slug='hello-world')
         self.assertEqual(image_upload_to(c, 'Toto.img'), 'categories/hello-world/img.img')

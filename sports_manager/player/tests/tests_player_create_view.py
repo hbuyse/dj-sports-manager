@@ -47,7 +47,8 @@ class TestPlayerCreateViewAsAnonymous(TestCase):
 
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}))
+        r = self.client.get(reverse('sports-manager:player-create',
+                                    kwargs={'username': self.other_owner.get_username()}))
         self.assertEqual(r.status_code, 403)
 
     def test_post_player_other_owner_not_existing(self):
@@ -63,7 +64,8 @@ class TestPlayerCreateViewAsAnonymous(TestCase):
 
         We should get a 403 error since the 'test_func' kicks in first.
         """
-        r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}), self.datas)
+        r = self.client.post(reverse('sports-manager:player-create',
+                                     kwargs={'username': self.other_owner.get_username()}), self.datas)
         self.assertEqual(r.status_code, 403)
 
 
@@ -102,7 +104,8 @@ class TestPlayerCreateViewAsLogged(TestCase):
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}))
+        r = self.client.get(reverse('sports-manager:player-create',
+                                    kwargs={'username': self.other_owner.get_username()}))
         self.assertEqual(r.status_code, 403)
 
     def test_get_player_user_same_as_owner(self):
@@ -129,7 +132,8 @@ class TestPlayerCreateViewAsLogged(TestCase):
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}), self.datas)
+        r = self.client.post(reverse('sports-manager:player-create',
+                                     kwargs={'username': self.other_owner.get_username()}), self.datas)
         self.assertEqual(r.status_code, 403)
 
     def test_post_player_user_same_as_owner(self):
@@ -138,8 +142,10 @@ class TestPlayerCreateViewAsLogged(TestCase):
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': self.user.get_username()}), self.datas)
-        self.assertRedirects(r, '/{}/player/{}/'.format(self.user.get_username(), self.datas['slug']), fetch_redirect_response=False)
+        r = self.client.post(reverse('sports-manager:player-create',
+                                     kwargs={'username': self.user.get_username()}), self.datas)
+        self.assertRedirects(r, '/{}/player/{}/'.format(self.user.get_username(),
+                                                        self.datas['slug']), fetch_redirect_response=False)
 
 
 class TestPlayerCreateViewAsStaff(TestCase):
@@ -177,7 +183,8 @@ class TestPlayerCreateViewAsStaff(TestCase):
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}))
+        r = self.client.get(reverse('sports-manager:player-create',
+                                    kwargs={'username': self.other_owner.get_username()}))
         self.assertEqual(r.status_code, 200)
 
     def test_get_player_user_same_as_owner(self):
@@ -204,8 +211,10 @@ class TestPlayerCreateViewAsStaff(TestCase):
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}), self.datas)
-        self.assertRedirects(r, '/{}/player/{}/'.format(self.other_owner.get_username(), self.datas['slug']), fetch_redirect_response=False)
+        r = self.client.post(reverse('sports-manager:player-create',
+                                     kwargs={'username': self.other_owner.get_username()}), self.datas)
+        self.assertRedirects(r, '/{}/player/{}/'.format(self.other_owner.get_username(),
+                                                        self.datas['slug']), fetch_redirect_response=False)
 
     def test_post_player_user_same_as_owner(self):
         """Post datas to a player create view with an existing owner.
@@ -213,8 +222,10 @@ class TestPlayerCreateViewAsStaff(TestCase):
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': self.user.get_username()}), self.datas)
-        self.assertRedirects(r, '/{}/player/{}/'.format(self.user.get_username(), self.datas['slug']), fetch_redirect_response=False)
+        r = self.client.post(reverse('sports-manager:player-create',
+                                     kwargs={'username': self.user.get_username()}), self.datas)
+        self.assertRedirects(r, '/{}/player/{}/'.format(self.user.get_username(),
+                                                        self.datas['slug']), fetch_redirect_response=False)
 
 
 class TestPlayerCreateViewAsSuperuser(TestCase):
@@ -252,7 +263,8 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}))
+        r = self.client.get(reverse('sports-manager:player-create',
+                                    kwargs={'username': self.other_owner.get_username()}))
         self.assertEqual(r.status_code, 200)
 
     def test_get_player_user_same_as_owner(self):
@@ -279,8 +291,10 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}), self.datas)
-        self.assertRedirects(r, '/{}/player/{}/'.format(self.other_owner.get_username(), self.datas['slug']), fetch_redirect_response=False)
+        r = self.client.post(reverse('sports-manager:player-create',
+                                     kwargs={'username': self.other_owner.get_username()}), self.datas)
+        self.assertRedirects(r, '/{}/player/{}/'.format(self.other_owner.get_username(),
+                                                        self.datas['slug']), fetch_redirect_response=False)
 
     def test_post_player_user_same_as_owner(self):
         """Post datas to a player create view with an existing owner.
@@ -288,5 +302,7 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
-        r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': self.user.get_username()}), self.datas)
-        self.assertRedirects(r, '/{}/player/{}/'.format(self.user.get_username(), self.datas['slug']), fetch_redirect_response=False)
+        r = self.client.post(reverse('sports-manager:player-create',
+                                     kwargs={'username': self.user.get_username()}), self.datas)
+        self.assertRedirects(r, '/{}/player/{}/'.format(self.user.get_username(),
+                                                        self.datas['slug']), fetch_redirect_response=False)

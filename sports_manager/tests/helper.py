@@ -196,7 +196,7 @@ class PlayerHelper(Helper):
     defaults = {
         'first_name': "Toto",
         'last_name': "Tata",
-        'birthday': date.today() - timedelta(weeks=10*52),
+        'birthday': date.today() - timedelta(weeks=10 * 52),
         'sex': "MA",
         'address': "Toto",
         'city': "Toto",
@@ -263,8 +263,9 @@ class MedicalCertificateHelper(Helper):
         self.generate_new_file()
 
     def generate_new_file(self, extension='.pdf'):
-        self.file = MagicMock(spec=File, size=1<<20)
+        self.file = MagicMock(spec=File, size=1 << 20)
         type(self.file).name = PropertyMock(return_value='file.{}'.format(extension))  # Create the mock for file.name
+
 
 class EmergencyContactHelper(Helper):
     """Create a EmergencyContact object and save it in the DB."""
@@ -280,6 +281,7 @@ class EmergencyContactHelper(Helper):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.player = PlayerHelper() if 'player' not in kwargs else kwargs['player']
+
 
 def reload_urlconf(urlconf=None):
     clear_url_caches()

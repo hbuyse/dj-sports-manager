@@ -20,7 +20,6 @@ class TestImageUploadTo(TestCase):
         obj = 0
         self.assertEqual(image_upload_to(obj, 'Toto.img'), None)
 
-
     def test_with_team_object(self):
         obj = Team(slug='hello-world')
         self.assertEqual(image_upload_to(obj, 'Toto.img'), 'teams/hello-world/team.img')

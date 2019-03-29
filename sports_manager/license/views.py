@@ -73,7 +73,7 @@ class LicenseUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, UpdateView):
     def get_form_class(self):
         """Override the form class to get more fields if the user connected is a staff member."""
         if self.request.user.is_staff:
-            self.form_class =  StaffLicenseForm
+            self.form_class = StaffLicenseForm
         return self.form_class
 
     def get_success_url(self, **kwargs):

@@ -47,7 +47,6 @@ class TestCategoryListViewAsLogged(TestCase):
             self.helper = CategoryHelper()
             self.helper.create()
 
-
     def test_empty(self):
         """Tests."""
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))

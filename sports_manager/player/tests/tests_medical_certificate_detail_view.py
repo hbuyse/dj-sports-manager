@@ -69,7 +69,8 @@ class TestMedicalCertificateDetailViewAsLogged(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_certificate' in test_name:
-            self.certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            self.certif = MedicalCertificateHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             self.certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
@@ -138,7 +139,8 @@ class TestMedicalCertificateDetailViewAsStaff(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_certificate' in test_name:
-            self.certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            self.certif = MedicalCertificateHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             self.certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
@@ -207,7 +209,8 @@ class TestMedicalCertificateDetailViewAsSuperuser(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_certificate' in test_name:
-            self.certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            self.certif = MedicalCertificateHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             self.certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 

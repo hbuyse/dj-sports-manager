@@ -46,7 +46,7 @@ class PlayerCreateForm(ModelForm):
         """Override init in order to get the owner of the page."""
         self.username = kwargs.pop('username', None)
         super().__init__(*args, **kwargs)
-    
+
     def clean(self):
         cleaned_data = self.cleaned_data
 
@@ -65,7 +65,7 @@ class PlayerCreateForm(ModelForm):
                                       'username': datas['owner__username'],
                                       'first_name': datas['first_name'],
                                       'last_name': datas['last_name'],
-                                  })
+            })
 
         # Always return cleaned_data
         return cleaned_data
@@ -118,14 +118,16 @@ class MedicalCertificateForm(ModelForm):
         fields = [
             'file',
         ]
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if hasattr(settings, 'SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST'):
-            self.fields['file'].help_text += 'Extensions: {}. '.format(', '.join(settings.SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST))
+            self.fields['file'].help_text += 'Extensions: {}. '.format(
+                ', '.join(settings.SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST))
 
         if hasattr(settings, 'SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB'):
-            self.fields['file'].help_text += 'Max size: {} MB. '.format(settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB)
+            self.fields['file'].help_text += 'Max size: {} MB. '.format(
+                settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB)
 
 
 class StaffMedicalCertificateForm(ModelForm):
@@ -139,14 +141,16 @@ class StaffMedicalCertificateForm(ModelForm):
             'start',
             'end'
         ]
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if hasattr(settings, 'SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST'):
-            self.fields['file'].help_text += 'Extensions: {}. '.format(', '.join(settings.SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST))
+            self.fields['file'].help_text += 'Extensions: {}. '.format(
+                ', '.join(settings.SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST))
 
         if hasattr(settings, 'SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB'):
-            self.fields['file'].help_text += 'Max size: {} MB. '.format(settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB)
+            self.fields['file'].help_text += 'Max size: {} MB. '.format(
+                settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB)
 
 
 class MedicalCertificateRenewForm(Form):

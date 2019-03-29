@@ -32,22 +32,26 @@ class TestMedicalCertificateListViewAsAnonymous(TestCase):
 
     def test_wrong_account_player_not_existing_no_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 403)
 
     def test_wrong_account_player_not_existing_one_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 403)
 
     def test_wrong_account_player_existing_no_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
     def test_wrong_account_player_existing_one_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
 
@@ -67,49 +71,58 @@ class TestMedicalCertificateListViewAsLogged(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_certificate' in test_name:
-            certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            certif = MedicalCertificateHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
     def test_wrong_account_player_not_existing_no_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 403)
 
     def test_wrong_account_player_not_existing_one_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 403)
 
     def test_wrong_account_player_existing_no_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
     def test_wrong_account_player_existing_one_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 403)
 
     def test_right_account_player_not_existing_no_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_right_account_player_not_existing_one_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_right_account_player_existing_no_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['medicalcertificate_list']), 0)
 
     def test_right_account_player_existing_one_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['medicalcertificate_list']), 1)
 
@@ -130,51 +143,60 @@ class TestMedicalCertificateListViewAsStaff(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_certificate' in test_name:
-            certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            certif = MedicalCertificateHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
     def test_wrong_account_player_not_existing_no_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_wrong_account_player_not_existing_one_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_wrong_account_player_existing_no_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['medicalcertificate_list']), 0)
 
     def test_wrong_account_player_existing_one_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['medicalcertificate_list']), 1)
 
     def test_right_account_player_not_existing_no_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_right_account_player_not_existing_one_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_right_account_player_existing_no_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['medicalcertificate_list']), 0)
 
     def test_right_account_player_existing_one_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['medicalcertificate_list']), 1)
 
@@ -195,50 +217,59 @@ class TestMedicalCertificateListViewAsSuperuser(TestCase):
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_certificate' in test_name:
-            certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
+            certif = MedicalCertificateHelper(
+                player=self.other_player if 'wrong_account' in test_name else self.player)
             certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
 
     def test_wrong_account_player_not_existing_no_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_wrong_account_player_not_existing_one_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_wrong_account_player_existing_no_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['medicalcertificate_list']), 0)
 
     def test_wrong_account_player_existing_one_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.other.get_username(), 'player': self.other_player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['medicalcertificate_list']), 1)
 
     def test_right_account_player_not_existing_no_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_right_account_player_not_existing_one_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug') + 'a'}))
         self.assertEqual(r.status_code, 404)
 
     def test_right_account_player_existing_no_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['medicalcertificate_list']), 0)
 
     def test_right_account_player_existing_one_certificate(self):
         """Tests."""
-        r = self.client.get(reverse('sports-manager:player-medical-certificate-list', kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
+        r = self.client.get(reverse('sports-manager:player-medical-certificate-list',
+                                    kwargs={'username': self.user.get_username(), 'player': self.player.get('slug')}))
         self.assertEqual(r.status_code, 200)
         self.assertEqual(len(r.context['medicalcertificate_list']), 1)
