@@ -207,8 +207,8 @@ class EmergencyContactCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateVi
     def form_valid(self, form):
         """Override to make some changes before saving the object."""
         self.object = form.save(commit=False)
-        self.object.player = Player.objects.get(slug=self.kwargs.get(
-            'player'), player__owner__username=self.kwargs.get('username'))
+        self.object.player = get_object_or_404(
+            Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
         self.object.save()
         return super().form_valid(form)
 
@@ -334,8 +334,8 @@ class MedicalCertificateCreateView(LoginRequiredMixin, OwnerOrStaffMixin, Create
     def form_valid(self, form):
         """Override to make some changes before saving the object."""
         self.object = form.save(commit=False)
-        self.object.player = Player.objects.get(slug=self.kwargs.get(
-            'player'), player__owner__username=self.kwargs.get('username'))
+        self.object.player = get_object_or_404(
+            Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
         self.object.save()
         return super().form_valid(form)
 
