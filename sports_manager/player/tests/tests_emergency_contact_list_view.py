@@ -8,7 +8,6 @@ from django.test import TestCase
 from django.urls import reverse
 
 # Current django project
-from sports_manager.player.models import Player
 from sports_manager.tests.helper import EmergencyContactHelper, PlayerHelper, UserHelper
 
 
