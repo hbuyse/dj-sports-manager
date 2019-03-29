@@ -21,7 +21,7 @@ class TestMedicalCertificateUpdateViewAsAnonymous(TestCase):
         cls.other = UserHelper(username='user')
         cls.other_player = PlayerHelper(owner=cls.other)
         cls.other_player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'wrong_account' in test_name:
@@ -95,7 +95,7 @@ class TestMedicalCertificateUpdateViewAsLogged(TestCase):
         cls.other_player.create()
         cls.player = PlayerHelper(owner=cls.user)
         cls.player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
         self.certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
@@ -225,7 +225,7 @@ class TestMedicalCertificateUpdateViewAsStaff(TestCase):
         cls.other_player.create()
         cls.player = PlayerHelper(owner=cls.user)
         cls.player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
         self.certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
@@ -355,7 +355,7 @@ class TestMedicalCertificateUpdateViewAsSuperuser(TestCase):
         cls.other_player.create()
         cls.player = PlayerHelper(owner=cls.user)
         cls.player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
         self.certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)

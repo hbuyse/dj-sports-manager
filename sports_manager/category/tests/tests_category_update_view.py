@@ -31,7 +31,7 @@ class TestCategoryUpdateViewAsAnonymous(TestCase):
 
     def test_post(self):
         """Tests."""
-        self.helper.name = self.helper.name + " New" 
+        self.helper.name = self.helper.name + " New"
         r = self.client.post(reverse('sports-manager:category-update', kwargs={'slug': self.helper.get('slug')}), dict(self.helper))
         self.assertEqual(r.status_code, 403)
 
@@ -87,7 +87,7 @@ class TestCategoryUpdateViewAsStaff(TestCase):
 
     def test_post(self):
         """Tests."""
-        self.helper.name = self.helper.name + " New" 
+        self.helper.name = self.helper.name + " New"
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:category-update', kwargs={'slug': self.helper.get('slug')}), dict(self.helper))
         self.assertEqual(r.status_code, 302)
@@ -119,7 +119,7 @@ class TestCategoryUpdateViewAsSuperuser(TestCase):
 
     def test_post(self):
         """Tests."""
-        self.helper.name = self.helper.name + " New" 
+        self.helper.name = self.helper.name + " New"
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
         r = self.client.post(reverse('sports-manager:category-update', kwargs={'slug': self.helper.get('slug')}), dict(self.helper))
         self.assertEqual(r.status_code, 302)

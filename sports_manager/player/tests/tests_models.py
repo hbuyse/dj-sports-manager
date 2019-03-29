@@ -50,7 +50,7 @@ class TestPlayerModel(TestCase):
         self.assertEqual(len(p.slug), 0)
         p.save()
         self.assertEqual(p.slug, "toto-tata")
-    
+
     def test_full_name(self):
         user = UserHelper()
         p = Player(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=user.object)
@@ -70,7 +70,7 @@ class TestMedicalCertificate(TestCase):
         super().setUpClass()
         cls.user = UserHelper()
         cls.player = Player.objects.create(first_name="Toto", last_name="Tata", birthday=date.today() - timedelta(weeks=7*52), owner=cls.user.object)
-    
+
     def test_string_representation(self):
         m = MedicalCertificate(player=self.player)
         self.assertEqual(str(m), "Toto Tata (not uploaded - start: {})".format(m.start))
@@ -80,7 +80,7 @@ class TestMedicalCertificate(TestCase):
 
     def test_verbose_name_plural(self):
         self.assertEqual(str(MedicalCertificate._meta.verbose_name_plural), "medical certificates")
-    
+
     def test_is_valid(self):
         tests = (
             (MedicalCertificate.NOT_UPLOADED, False),
@@ -97,7 +97,7 @@ class TestMedicalCertificate(TestCase):
         self.assertIsNone(m.start)
         m.save()
         self.assertEqual(m.start, date.today())
-    
+
     def test_get_absolute_url(self):
         """Test the get_absolute_url from the model MedicalCertificate."""
         m = MedicalCertificate(player=self.player)
@@ -123,7 +123,7 @@ class TestEmergencyContact(TestCase):
 
     def test_verbose_name_plural(self):
         self.assertEqual(str(EmergencyContact._meta.verbose_name_plural), "emergency contacts")
-    
+
     def test_get_absolute_url(self):
         """Test the get_absolute_url from the model MedicalCertificate."""
         m = MedicalCertificate(player=self.player)

@@ -31,14 +31,14 @@ class StaffMixinTest(TestCase):
 
     def test_anonymous(self):
         self.request.user = AnonymousUser()
-        
+
         with self.assertRaises(PermissionDenied):
             self.view.as_view()(self.request)
 
     def test_normal_user(self):
         user = UserHelper()
         self.request.user = user.object
-        
+
         with self.assertRaises(PermissionDenied):
             self.view.as_view()(self.request)
 
@@ -61,7 +61,7 @@ class SuperuserMixinTest(TestCase):
     '''
     Tests SuperuserMixin like a boss
     '''
-    
+
     class SuperuserMixinView(SuperuserMixin, View):
 
         def get(self, request, *args, **kwargs):
@@ -74,21 +74,21 @@ class SuperuserMixinTest(TestCase):
 
     def test_anonymous(self):
         self.request.user = AnonymousUser()
-        
+
         with self.assertRaises(PermissionDenied):
             self.view.as_view()(self.request)
 
     def test_normal_user(self):
         user = UserHelper()
         self.request.user = user.object
-        
+
         with self.assertRaises(PermissionDenied):
             self.view.as_view()(self.request)
 
     def test_staff_user(self):
         user = UserHelper(is_staff=True)
         self.request.user = user.object
-        
+
         with self.assertRaises(PermissionDenied):
             self.view.as_view()(self.request)
 
@@ -127,7 +127,7 @@ class OwnerMixinTest(TestCase):
         user = UserHelper()
         kwargs = {'username': user.object.get_username() + 'a'}
         self.request.user = user.object
-        
+
         with self.assertRaises(Http404):
             self.view.as_view()(self.request, **kwargs)
 
@@ -141,7 +141,7 @@ class OwnerMixinTest(TestCase):
         user = UserHelper(is_staff=True)
         kwargs = {'username': user.object.get_username() + 'a'}
         self.request.user = user.object
-        
+
         with self.assertRaises(Http404):
             self.view.as_view()(self.request, **kwargs)
 
@@ -155,7 +155,7 @@ class OwnerMixinTest(TestCase):
         user = UserHelper(is_superuser=True)
         kwargs = {'username': user.object.get_username() + 'a'}
         self.request.user = user.object
-        
+
         with self.assertRaises(Http404):
             self.view.as_view()(self.request, **kwargs)
 
@@ -221,7 +221,7 @@ class OwnerOrStaffMixinTest(TestCase):
         user = UserHelper(is_superuser=True)
         kwargs = {'username': user.object.get_username() + 'a'}
         self.request.user = user.object
-        
+
         with self.assertRaises(Http404):
             self.view.as_view()(self.request, **kwargs)
 

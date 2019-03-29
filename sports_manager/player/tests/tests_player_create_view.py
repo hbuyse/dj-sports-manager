@@ -36,7 +36,7 @@ class TestPlayerCreateViewAsAnonymous(TestCase):
 
     def test_get_player_other_owner_not_existing(self):
         """Access a player create view with an owner not existing.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': 'helloworld'}))
@@ -44,7 +44,7 @@ class TestPlayerCreateViewAsAnonymous(TestCase):
 
     def test_get_player_other_owner_existing(self):
         """Access a player create view with an existing owner.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         r = self.client.get(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}))
@@ -52,7 +52,7 @@ class TestPlayerCreateViewAsAnonymous(TestCase):
 
     def test_post_player_other_owner_not_existing(self):
         """Post datas to a player create view with an owner not existing.
-       
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': 'helloworld'}), self.datas)
@@ -60,7 +60,7 @@ class TestPlayerCreateViewAsAnonymous(TestCase):
 
     def test_post_player_other_owner_existing(self):
         """Post datas to a player create view with an existing owner.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         r = self.client.post(reverse('sports-manager:player-create', kwargs={'username': self.other_owner.get_username()}), self.datas)
@@ -89,7 +89,7 @@ class TestPlayerCreateViewAsLogged(TestCase):
 
     def test_get_player_other_owner_not_existing(self):
         """Access a player create view with an owner not existing.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -98,7 +98,7 @@ class TestPlayerCreateViewAsLogged(TestCase):
 
     def test_get_player_other_owner_existing(self):
         """Access a player create view with an existing owner.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -107,7 +107,7 @@ class TestPlayerCreateViewAsLogged(TestCase):
 
     def test_get_player_user_same_as_owner(self):
         """Access a player create view with future owner same as the user logged in.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -116,7 +116,7 @@ class TestPlayerCreateViewAsLogged(TestCase):
 
     def test_post_player_other_owner_not_existing(self):
         """Post datas to a player create view with an owner not existing.
-       
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -125,7 +125,7 @@ class TestPlayerCreateViewAsLogged(TestCase):
 
     def test_post_player_other_owner_existing(self):
         """Post datas to a player create view with an existing owner.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -134,7 +134,7 @@ class TestPlayerCreateViewAsLogged(TestCase):
 
     def test_post_player_user_same_as_owner(self):
         """Post datas to a player create view with an existing owner.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -164,7 +164,7 @@ class TestPlayerCreateViewAsStaff(TestCase):
 
     def test_get_player_other_owner_not_existing(self):
         """Access a player create view with an owner not existing.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -173,7 +173,7 @@ class TestPlayerCreateViewAsStaff(TestCase):
 
     def test_get_player_other_owner_existing(self):
         """Access a player create view with an existing owner.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -182,7 +182,7 @@ class TestPlayerCreateViewAsStaff(TestCase):
 
     def test_get_player_user_same_as_owner(self):
         """Access a player create view with future owner same as the user logged in.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -191,7 +191,7 @@ class TestPlayerCreateViewAsStaff(TestCase):
 
     def test_post_player_other_owner_not_existing(self):
         """Post datas to a player create view with an owner not existing.
-       
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -200,7 +200,7 @@ class TestPlayerCreateViewAsStaff(TestCase):
 
     def test_post_player_other_owner_existing(self):
         """Post datas to a player create view with an existing owner.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -209,7 +209,7 @@ class TestPlayerCreateViewAsStaff(TestCase):
 
     def test_post_player_user_same_as_owner(self):
         """Post datas to a player create view with an existing owner.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -239,7 +239,7 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
 
     def test_get_player_other_owner_not_existing(self):
         """Access a player create view with an owner not existing.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -248,7 +248,7 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
 
     def test_get_player_other_owner_existing(self):
         """Access a player create view with an existing owner.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -257,7 +257,7 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
 
     def test_get_player_user_same_as_owner(self):
         """Access a player create view with future owner same as the user logged in.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -266,7 +266,7 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
 
     def test_post_player_other_owner_not_existing(self):
         """Post datas to a player create view with an owner not existing.
-       
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -275,7 +275,7 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
 
     def test_post_player_other_owner_existing(self):
         """Post datas to a player create view with an existing owner.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -284,7 +284,7 @@ class TestPlayerCreateViewAsSuperuser(TestCase):
 
     def test_post_player_user_same_as_owner(self):
         """Post datas to a player create view with an existing owner.
-        
+
         We should get a 403 error since the 'test_func' kicks in first.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))

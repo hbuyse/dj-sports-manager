@@ -20,7 +20,7 @@ class TestEmergencyContactDetailViewAsAnonymous(TestCase):
         cls.other = UserHelper(username='user')
         cls.other_player = PlayerHelper(owner=cls.other)
         cls.other_player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_contact' in test_name:
@@ -65,10 +65,10 @@ class TestEmergencyContactDetailViewAsLogged(TestCase):
         cls.other_player.create()
         cls.player = PlayerHelper(owner=cls.user)
         cls.player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        if 'one_contact' in test_name: 
+        if 'one_contact' in test_name:
             self.contact = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
             self.contact.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -134,10 +134,10 @@ class TestEmergencyContactDetailViewAsStaff(TestCase):
         cls.other_player.create()
         cls.player = PlayerHelper(owner=cls.user)
         cls.player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        if 'one_contact' in test_name: 
+        if 'one_contact' in test_name:
             self.contact = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
             self.contact.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -203,10 +203,10 @@ class TestEmergencyContactDetailViewAsSuperuser(TestCase):
         cls.other_player.create()
         cls.player = PlayerHelper(owner=cls.user)
         cls.player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        if 'one_contact' in test_name: 
+        if 'one_contact' in test_name:
             self.contact = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
             self.contact.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))

@@ -7,7 +7,6 @@ from datetime import date
 
 # Django
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db import models
 from django.urls import reverse
@@ -163,7 +162,7 @@ class MedicalCertificate(models.Model):
     def is_valid(self):
         """Check if the medical certificate is valid."""
         return self.validation == self.VALID
-    
+
     def save(self, *args, **kwargs):
         """On creation, update start field.
 

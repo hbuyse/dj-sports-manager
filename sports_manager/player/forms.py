@@ -8,7 +8,7 @@ import logging
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from django.forms import ChoiceField, DateInput, Form, ModelForm, RadioSelect
+from django.forms import ChoiceField, DateInput, Form, ModelForm
 from django.utils.translation import ugettext_lazy as _  # noqa
 
 # Current django project
@@ -19,8 +19,9 @@ logger = logging.getLogger(__name__)
 
 class PlayerCreateForm(ModelForm):
     """Player form.
-    
-    This first form will check if there is already a Player with the same datas linked to the user."""
+
+    This first form will check if there is already a Player with the same datas linked to the user.
+    """
 
     class Meta:
         model = Player
@@ -72,8 +73,9 @@ class PlayerCreateForm(ModelForm):
 
 class PlayerUpdateForm(ModelForm):
     """Player update form.
-    
-    This first form will not check if there is already a Player with the same datas linked to the user."""
+
+    This first form will not check if there is already a Player with the same datas linked to the user.
+    """
 
     class Meta:
         model = Player

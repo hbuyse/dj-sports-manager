@@ -20,7 +20,7 @@ class TestEmergencyContactDeleteViewAsAnonymous(TestCase):
         cls.other = UserHelper(username='user')
         cls.other_player = PlayerHelper(owner=cls.other)
         cls.other_player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'one_certificate' in test_name:
@@ -89,10 +89,10 @@ class TestEmergencyContactDeleteViewAsLogged(TestCase):
         cls.other_player.create()
         cls.player = PlayerHelper(owner=cls.user)
         cls.player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        if 'one_certificate' in test_name: 
+        if 'one_certificate' in test_name:
             self.certif = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
             self.certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -206,10 +206,10 @@ class TestEmergencyContactDeleteViewAsStaff(TestCase):
         cls.other_player.create()
         cls.player = PlayerHelper(owner=cls.user)
         cls.player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        if 'one_certificate' in test_name: 
+        if 'one_certificate' in test_name:
             self.certif = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
             self.certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -323,10 +323,10 @@ class TestEmergencyContactDeleteViewAsSuperuser(TestCase):
         cls.other_player.create()
         cls.player = PlayerHelper(owner=cls.user)
         cls.player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        if 'one_certificate' in test_name: 
+        if 'one_certificate' in test_name:
             self.certif = EmergencyContactHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
             self.certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))

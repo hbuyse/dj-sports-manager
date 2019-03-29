@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_list_or_404, get_object_or_404, render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _  # noqa
 from django.views.generic import CreateView, DeleteView, DetailView, FormView, ListView, UpdateView, View
@@ -383,8 +383,9 @@ class MedicalCertificateRenewView(LoginRequiredMixin, OwnerOrStaffMixin, SingleO
     template_name = "sports_manager/medical_certificate/renew_form.html"
     model = MedicalCertificate
     form_class = MedicalCertificateRenewForm
-    
+
     def get_queryset(self):
+        """Override get_queryset in order to retrieve a correct list of MedicalCertificate that can be renewed."""
         queryset = super().get_queryset()
         queryset = queryset.filter(player__slug=self.kwargs.get('player'),
                                    player__owner__username=self.kwargs.get('username'),
@@ -392,9 +393,9 @@ class MedicalCertificateRenewView(LoginRequiredMixin, OwnerOrStaffMixin, SingleO
         if hasattr(settings, 'SPORTS_MANAGER_MEDICAL_CERTIFICATE_MAX_RENEW'):
             queryset = queryset.filter(renewals__lte=settings.SPORTS_MANAGER_MEDICAL_CERTIFICATE_MAX_RENEW)
         return queryset
-    
+
     def form_valid(self, form):
-        """Increase the number of renewals of the """
+        """Increase the number of renewals of a MedicalCertificate."""
         self.object = self.get_object(self.get_queryset())
         self.object.renewals += 1
         self.object.save()
@@ -481,17 +482,17 @@ class PlayerAllInOneUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, View):
             'emergency_contact': player.emergencycontact_set.first(),
             'certificate': player.medicalcertificate_set.last()
         }
-    
+
     def get_player_form(self, *args, **kwargs):
         if hasattr(self, 'player_form'):
             return self.player_form
         return PlayerUpdateForm
-    
+
     def get_emergency_form(self, *args, **kwargs):
         if hasattr(self, 'emergency_form'):
             return self.emergency_form
         return EmergencyContactForm
-    
+
     def get_certificate_form(self, user_is_staff=False):
         if hasattr(self, 'certificate_form'):
             return self.certificate_form

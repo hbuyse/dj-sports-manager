@@ -61,8 +61,6 @@ else:
              )
     ]
 
-
-
 player_urlpatterns += [
     path("<str:username>/player/<str:player>/emergency-contact/",
          view=views.EmergencyContactListView.as_view(),

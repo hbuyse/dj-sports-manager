@@ -3,6 +3,7 @@
 
 """Tests the views."""
 
+# Standard library
 from tempfile import NamedTemporaryFile
 
 # Django

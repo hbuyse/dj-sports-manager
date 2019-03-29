@@ -3,24 +3,18 @@
 
 # Standard library
 import logging
-from datetime import date
 
 # Django
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _  # noqa
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
-from django.views.generic.edit import FormView
 
 # Current django project
-from sports_manager.category.models import Category
 from sports_manager.license.forms import LicenseForm, StaffLicenseForm
 from sports_manager.license.models import License
 from sports_manager.mixins import OwnerOrStaffMixin
-from sports_manager.player.models import Player
-from sports_manager.team.models import Team
 
 logger = logging.getLogger(__name__)
 

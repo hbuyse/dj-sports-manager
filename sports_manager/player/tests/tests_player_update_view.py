@@ -29,7 +29,7 @@ class TestPlayerUpdateViewAsAnonymous(TestCase):
 
     def test_get_player_other_owner_not_existing(self):
         """Access a player update view with an non existent user and a existent player.
-        
+
         Get a 403 status code because an anonymous user does not have the right to watch someone's pages.
         """
         r = self.client.get(reverse('sports-manager:player-update', kwargs={'username': self.other.get_username() + 'a', 'slug': self.other_player.get('slug')}))
@@ -37,7 +37,7 @@ class TestPlayerUpdateViewAsAnonymous(TestCase):
 
     def test_get_player_other_player_not_existing(self):
         """Access a player update view with an existing owner and a non existent player.
-        
+
         Get a 403 status code because an anonymous user does not have the right to watch someone's pages.
         """
         r = self.client.get(reverse('sports-manager:player-update', kwargs={'username': self.other.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
@@ -45,7 +45,7 @@ class TestPlayerUpdateViewAsAnonymous(TestCase):
 
     def test_get_player_other_owner_and_player_existing(self):
         """Access a player update view with an existing owner and a existent player.
-        
+
         Get a 403 status code because an anonymous user does not have the right to watch someone's pages.
         """
         r = self.client.get(reverse('sports-manager:player-update', kwargs={'username': self.other.get_username(), 'slug': self.other_player.get('slug')}))
@@ -53,7 +53,7 @@ class TestPlayerUpdateViewAsAnonymous(TestCase):
 
     def test_post_player_other_owner_not_existing(self):
         """Post datas to  a player update view with an non existent user and a existent player.
-        
+
         Get a 403 status code because an anonymous user does not have the right to watch someone's pages.
         """
         r = self.client.post(reverse('sports-manager:player-update', kwargs={'username': self.other.get_username() + 'a', 'slug': self.other_player.get('slug')}), dict(self.other_player))
@@ -61,7 +61,7 @@ class TestPlayerUpdateViewAsAnonymous(TestCase):
 
     def test_post_player_other_player_not_existing(self):
         """Post datas to  a player update view with an existing owner and a non existent player.
-        
+
         Get a 403 status code because an anonymous user does not have the right to watch someone's pages.
         """
         r = self.client.post(reverse('sports-manager:player-update', kwargs={'username': self.other.get_username(), 'slug': self.other_player.get('slug') + 'a'}), dict(self.other_player))
@@ -69,7 +69,7 @@ class TestPlayerUpdateViewAsAnonymous(TestCase):
 
     def test_post_player_other_owner_and_player_existing(self):
         """Post datas to  a player update view with an existing owner and a existent player.
-        
+
         Get a 403 status code because an anonymous user does not have the right to watch someone's pages.
         """
         r = self.client.post(reverse('sports-manager:player-update', kwargs={'username': self.other.get_username(), 'slug': self.other_player.get('slug')}), dict(self.other_player))
@@ -92,7 +92,7 @@ class TestPlayerUpdateViewAsLogged(TestCase):
 
     def test_get_player_other_owner_not_existing(self):
         """Access a player update view with a normal user logged in, a non other existent user and a existent player.
-        
+
         Get a 403 status code because an normal user does not have the right to watch someone's pages.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -101,7 +101,7 @@ class TestPlayerUpdateViewAsLogged(TestCase):
 
     def test_get_player_other_player_not_existing(self):
         """Access a player update view with a normal user logged in, an other existent user and a non existent player.
-        
+
         Get a 403 status code because an normal user does not have the right to watch someone's pages.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -110,7 +110,7 @@ class TestPlayerUpdateViewAsLogged(TestCase):
 
     def test_get_player_other_owner_and_player_existing(self):
         """Access a player update view with a normal user logged in, an other existent user and its existent player.
-        
+
         Get a 403 status code because an normal user does not have the right to watch someone's pages.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -119,7 +119,7 @@ class TestPlayerUpdateViewAsLogged(TestCase):
 
     def test_get_player_user_player_not_existing(self):
         """Access a player update view with a normal user logged in, an other existent user and its existent player.
-        
+
         Get a 404 status code because the player does not exist.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -128,7 +128,7 @@ class TestPlayerUpdateViewAsLogged(TestCase):
 
     def test_get_player_user_owner_and_player_existing(self):
         """Access a player update view with a normal user logged in, the same user and its existent player.
-        
+
         Get a 200 status code because every data is good.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -137,7 +137,7 @@ class TestPlayerUpdateViewAsLogged(TestCase):
 
     def test_post_player_other_owner_not_existing(self):
         """Post datas to a player update view with a normal user logged in, a non other existent user and a existent player.
-        
+
         Get a 403 status code because an normal user does not have the right to watch someone's pages.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -146,7 +146,7 @@ class TestPlayerUpdateViewAsLogged(TestCase):
 
     def test_post_player_other_player_not_existing(self):
         """Post datas to a player update view with a normal user logged in, an other existent user and a non existent player.
-        
+
         Get a 403 status code because an normal user does not have the right to watch someone's pages.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -155,7 +155,7 @@ class TestPlayerUpdateViewAsLogged(TestCase):
 
     def test_post_player_other_owner_and_player_existing(self):
         """Post datas to a player update view with a normal user logged in, an other existent user and its existent player.
-        
+
         Get a 403 status code because an normal user does not have the right to watch someone's pages.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -164,7 +164,7 @@ class TestPlayerUpdateViewAsLogged(TestCase):
 
     def test_post_player_user_player_not_existing(self):
         """Post datas to a player update view with a normal user logged in, an other existent user and its existent player.
-        
+
         Get a 404 status code because the player does not exist.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -173,7 +173,7 @@ class TestPlayerUpdateViewAsLogged(TestCase):
 
     def test_post_player_user_owner_and_player_existing(self):
         """Post datas to a player update view with a normal user logged in, the same user and its existent player.
-        
+
         Get a 302 status code because every data is good. We are redirected to the player detail view.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -198,7 +198,7 @@ class TestPlayerUpdateViewAsStaff(TestCase):
 
     def test_get_player_other_owner_not_existing(self):
         """Access a player update view with a staff user logged in, a non other existent user and a existent player.
-        
+
         Get a 404 status code because an staff user has the right to watch someone's pages but the other user slug does not exist.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -207,7 +207,7 @@ class TestPlayerUpdateViewAsStaff(TestCase):
 
     def test_get_player_other_player_not_existing(self):
         """Access a player update view with a staff user logged in, an other existent user and a non existent player.
-        
+
         Get a 404 status code because an staff user has the right to watch someone's pages but the player does not exist.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -216,7 +216,7 @@ class TestPlayerUpdateViewAsStaff(TestCase):
 
     def test_get_player_other_owner_and_player_existing(self):
         """Access a player update view with a staff user logged in, an other existent user and its existent player.
-        
+
         Get a 200 status code because an staff user has the right to watch someone's pages.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -225,7 +225,7 @@ class TestPlayerUpdateViewAsStaff(TestCase):
 
     def test_get_player_user_player_not_existing(self):
         """Access a player update view with a staff user logged in, an other existent user and its existent player.
-        
+
         Get a 404 status code because an staff user has the right to watch its pages but the player does not exist.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -234,7 +234,7 @@ class TestPlayerUpdateViewAsStaff(TestCase):
 
     def test_get_player_user_owner_and_player_existing(self):
         """Access a player update view with a staff user logged in, the same user and its existent player.
-        
+
         Get a 200 status code because an staff user has the right to watch its pages.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -243,7 +243,7 @@ class TestPlayerUpdateViewAsStaff(TestCase):
 
     def test_post_player_other_owner_not_existing(self):
         """Post datas to a player update view with a staff user logged in, a non other existent user and a existent player.
-        
+
         Get a 404 status code because an staff user has the right to post datas on someone's pages but the other user slug does not exist.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -252,7 +252,7 @@ class TestPlayerUpdateViewAsStaff(TestCase):
 
     def test_post_player_other_player_not_existing(self):
         """Post datas to a player update view with a staff user logged in, an other existent user and a non existent player.
-        
+
         Get a 404 status code because an staff user has the right to post datas on someone's pages but the player does not exist.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -261,7 +261,7 @@ class TestPlayerUpdateViewAsStaff(TestCase):
 
     def test_post_player_other_owner_and_player_existing(self):
         """Post datas to a player update view with a staff user logged in, an other existent user and its existent player.
-        
+
         Get a 200 status code because an staff user has the right to post datas on someone's pages.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -270,7 +270,7 @@ class TestPlayerUpdateViewAsStaff(TestCase):
 
     def test_post_player_user_player_not_existing(self):
         """Post datas to a player update view with a staff user logged in, an other existent user and its existent player.
-        
+
         Get a 404 status code because an staff user has the right to post datas on its pages but the player does not exist.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -279,7 +279,7 @@ class TestPlayerUpdateViewAsStaff(TestCase):
 
     def test_post_player_user_owner_and_player_existing(self):
         """Post datas to a player update view with a staff user logged in, the same user and its existent player.
-        
+
         Get a 404 status code because an staff user has the right to post datas on its pages and every datas is good.
         We are redirected to the player detail view.
         """
@@ -305,7 +305,7 @@ class TestPlayerUpdateViewAsSuperuser(TestCase):
 
     def test_get_player_other_owner_not_existing(self):
         """Access a player update view with a staff user logged in, a non other existent user and a existent player.
-        
+
         Get a 404 status code because an staff user has the right to watch someone's pages but the other user slug does not exist.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -314,7 +314,7 @@ class TestPlayerUpdateViewAsSuperuser(TestCase):
 
     def test_get_player_other_player_not_existing(self):
         """Access a player update view with a staff user logged in, an other existent user and a non existent player.
-        
+
         Get a 404 status code because an staff user has the right to watch someone's pages but the player does not exist.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -323,7 +323,7 @@ class TestPlayerUpdateViewAsSuperuser(TestCase):
 
     def test_get_player_other_owner_and_player_existing(self):
         """Access a player update view with a staff user logged in, an other existent user and its existent player.
-        
+
         Get a 200 status code because an staff user has the right to watch someone's pages.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -332,7 +332,7 @@ class TestPlayerUpdateViewAsSuperuser(TestCase):
 
     def test_get_player_user_player_not_existing(self):
         """Access a player update view with a staff user logged in, an other existent user and its existent player.
-        
+
         Get a 404 status code because an staff user has the right to watch its pages but the player does not exist.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -341,7 +341,7 @@ class TestPlayerUpdateViewAsSuperuser(TestCase):
 
     def test_get_player_user_owner_and_player_existing(self):
         """Access a player update view with a staff user logged in, the same user and its existent player.
-        
+
         Get a 200 status code because an staff user has the right to watch its pages.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -350,7 +350,7 @@ class TestPlayerUpdateViewAsSuperuser(TestCase):
 
     def test_post_player_other_owner_not_existing(self):
         """Post datas to a player update view with a staff user logged in, a non other existent user and a existent player.
-        
+
         Get a 404 status code because an staff user has the right to post datas on someone's pages but the other user slug does not exist.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -359,7 +359,7 @@ class TestPlayerUpdateViewAsSuperuser(TestCase):
 
     def test_post_player_other_player_not_existing(self):
         """Post datas to a player update view with a staff user logged in, an other existent user and a non existent player.
-        
+
         Get a 404 status code because an staff user has the right to post datas on someone's pages but the player does not exist.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -368,7 +368,7 @@ class TestPlayerUpdateViewAsSuperuser(TestCase):
 
     def test_post_player_other_owner_and_player_existing(self):
         """Post datas to a player update view with a staff user logged in, an other existent user and its existent player.
-        
+
         Get a 200 status code because an staff user has the right to post datas on someone's pages.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -377,7 +377,7 @@ class TestPlayerUpdateViewAsSuperuser(TestCase):
 
     def test_post_player_user_player_not_existing(self):
         """Post datas to a player update view with a staff user logged in, an other existent user and its existent player.
-        
+
         Get a 404 status code because an staff user has the right to post datas on its pages but the player does not exist.
         """
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -386,7 +386,7 @@ class TestPlayerUpdateViewAsSuperuser(TestCase):
 
     def test_post_player_user_owner_and_player_existing(self):
         """Post datas to a player update view with a staff user logged in, the same user and its existent player.
-        
+
         Get a 404 status code because an staff user has the right to post datas on its pages and every datas is good.
         We are redirected to the player detail view.
         """

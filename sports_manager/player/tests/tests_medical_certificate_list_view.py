@@ -23,7 +23,7 @@ class TestMedicalCertificateListViewAsAnonymous(TestCase):
         cls.player.create()
         cls.certif = MedicalCertificateHelper(player=cls.player)
         cls.certif.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
         if 'wrong_account' in test_name and 'one_certificate' in test_name:
@@ -63,10 +63,10 @@ class TestMedicalCertificateListViewAsLogged(TestCase):
         cls.other_player.create()
         cls.player = PlayerHelper(owner=cls.user)
         cls.player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        if 'one_certificate' in test_name: 
+        if 'one_certificate' in test_name:
             certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
             certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -126,10 +126,10 @@ class TestMedicalCertificateListViewAsStaff(TestCase):
         cls.other_player.create()
         cls.player = PlayerHelper(owner=cls.user)
         cls.player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        if 'one_certificate' in test_name: 
+        if 'one_certificate' in test_name:
             certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
             certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))
@@ -191,10 +191,10 @@ class TestMedicalCertificateListViewAsSuperuser(TestCase):
         cls.other_player.create()
         cls.player = PlayerHelper(owner=cls.user)
         cls.player.create()
-    
+
     def setUp(self):
         test_name = self.id().split('.')[-1]
-        if 'one_certificate' in test_name: 
+        if 'one_certificate' in test_name:
             certif = MedicalCertificateHelper(player=self.other_player if 'wrong_account' in test_name else self.player)
             certif.create()
         self.assertTrue(self.client.login(**(dict(self.user.get_credentials()))))

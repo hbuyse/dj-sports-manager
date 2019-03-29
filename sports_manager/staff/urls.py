@@ -3,7 +3,6 @@
 
 # Django
 from django.urls import path
-from django.views.generic import TemplateView
 
 # Current django project
 from sports_manager.staff import views

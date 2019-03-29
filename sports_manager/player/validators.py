@@ -13,6 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 
 logger = logging.getLogger(__name__)
 
+
 def is_player_old_enough(birthday):
     """Check if the player that will be created as the minimal age required.
 

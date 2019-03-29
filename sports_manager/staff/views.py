@@ -5,15 +5,12 @@
 import logging
 
 # Django
-from django.contrib import messages
-from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_list_or_404, render
-from django.template import Context, loader
-from django.urls import reverse
+from django.http import HttpResponse
+from django.shortcuts import get_list_or_404
+from django.template import loader
 from django.utils.translation import ugettext_lazy as _  # noqa
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView, View
+from django.views.generic import TemplateView, View
 
 # Current django project
 from sports_manager.license.models import License

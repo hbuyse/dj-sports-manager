@@ -2,7 +2,6 @@
 
 # Standard library
 import logging
-from datetime import date
 
 # Django
 from django.db import models

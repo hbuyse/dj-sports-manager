@@ -29,7 +29,7 @@ class TestPlayerDeleteViewAsAnonymous(TestCase):
 
     def test_get_player_other_owner_owner_not_existing(self):
         """Access a player create view with an owner not existing.
-        
+
         We should get a 403 status code since the 'test_func' kicks in first.
         """
         r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
@@ -37,7 +37,7 @@ class TestPlayerDeleteViewAsAnonymous(TestCase):
 
     def test_get_player_other_owner_player_not_existing(self):
         """Access a player create view with an owner not existing.
-        
+
         We should get a 403 status code since the 'test_func' kicks in first.
         """
         r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
@@ -45,7 +45,7 @@ class TestPlayerDeleteViewAsAnonymous(TestCase):
 
     def test_get_player_other_owner_owner_and_player_existing(self):
         """Access a player create view with an existing owner.
-        
+
         We should get a 403 status code since the 'test_func' kicks in first.
         """
         r = self.client.get(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
@@ -53,7 +53,7 @@ class TestPlayerDeleteViewAsAnonymous(TestCase):
 
     def test_post_player_other_owner_owner_not_existing(self):
         """Access a player create view with an owner not existing.
-        
+
         We should get a 403 status code since the 'test_func' kicks in first.
         """
         r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': 'helloworld', 'slug': self.other_player.get('slug')}))
@@ -61,7 +61,7 @@ class TestPlayerDeleteViewAsAnonymous(TestCase):
 
     def test_post_player_other_owner_player_not_existing(self):
         """Access a player create view with an owner not existing.
-        
+
         We should get a 403 status code since the 'test_func' kicks in first.
         """
         r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug') + 'a'}))
@@ -69,7 +69,7 @@ class TestPlayerDeleteViewAsAnonymous(TestCase):
 
     def test_post_player_other_owner_owner_and_player_existing(self):
         """Access a player create view with an existing owner.
-        
+
         We should get a 403 status code since the 'test_func' kicks in first.
         """
         r = self.client.post(reverse('sports-manager:player-delete', kwargs={'username': self.other_owner.get_username(), 'slug': self.other_player.get('slug')}))
