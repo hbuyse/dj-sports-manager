@@ -195,15 +195,6 @@ class EmergencyContactCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateVi
             Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
         return context
 
-    def get_queryset(self):
-        """Override the getter of the queryset.
-
-        This method will only get the players owned by the <username> user.
-        """
-        queryset = super().get_queryset()
-        return queryset.filter(
-            player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
-
     def form_valid(self, form):
         """Override to make some changes before saving the object."""
         self.object = form.save(commit=False)
@@ -322,20 +313,15 @@ class MedicalCertificateCreateView(LoginRequiredMixin, OwnerOrStaffMixin, Create
             Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
         return context
 
-    def get_queryset(self):
-        """Override the getter of the queryset.
-
-        This method will only get the players owned by the <username> user.
-        """
-        queryset = super().get_queryset()
-        return queryset.filter(
-            player__slug=self.kwargs.get('player'), player__owner__username=self.kwargs.get('username'))
-
     def form_valid(self, form):
         """Override to make some changes before saving the object."""
         self.object = form.save(commit=False)
         self.object.player = get_object_or_404(
             Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
+        if self.object.file:
+            self.object.validation = MedicalCertificate.IN_VALIDATION
+        else:
+            self.object.validation = MedicalCertificate.NOT_UPLOADED
         self.object.save()
         return super().form_valid(form)
 
@@ -407,14 +393,15 @@ class MedicalCertificateRenewView(LoginRequiredMixin, OwnerOrStaffMixin, SingleO
 
     template_name = "sports_manager/medical_certificate/renew_form.html"
     model = MedicalCertificate
+    context_object_name = "medicalcertificate"
     form_class = MedicalCertificateRenewForm
 
     def get(self, request, *args, **kwargs):
-        self.object = None
+        self.object = self.get_object()
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        self.object = None
+        self.object = self.get_object()
         return super().post(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -422,9 +409,8 @@ class MedicalCertificateRenewView(LoginRequiredMixin, OwnerOrStaffMixin, SingleO
         queryset = super().get_queryset()
         queryset = queryset.filter(player__slug=self.kwargs.get('player'),
                                    player__owner__username=self.kwargs.get('username'),
-                                   validation=self.model.VALID)
-        if hasattr(settings, 'SPORTS_MANAGER_MEDICAL_CERTIFICATE_MAX_RENEW'):
-            queryset = queryset.filter(renewals__lte=settings.SPORTS_MANAGER_MEDICAL_CERTIFICATE_MAX_RENEW)
+                                   validation=self.model.VALID,
+                                   renewals__lt=settings.SPORTS_MANAGER_MEDICAL_CERTIFICATE_MAX_RENEW)
         return queryset
     
     def get_object(self, queryset=None):
@@ -448,13 +434,20 @@ class MedicalCertificateRenewView(LoginRequiredMixin, OwnerOrStaffMixin, SingleO
             self.object = self.get_object(self.get_queryset())
             self.object.renewals += 1
             self.object.save()
+            msg = _("Medical certificate of player '%(name)s' renewed successfully") % {
+                'name': self.object.player.full_name}
+            messages.success(self.request, msg)
+            logger.info("User '{}' has renewed the medical certificate of player '{}' for another year.".format(
+                self.request.user.get_username(), self.object.player)
+            )
+        else:
+            msg = _("Medical certificate of player '%(name)s' has not been renewed.") % {
+                'name': self.object.player.full_name}
+            messages.warning(self.request, msg)
         return super().form_valid(form)
 
     def get_success_url(self):
         """Get the URL after the success."""
-        msg = _("Medical certificate of player '%(name)s' renewed successfully") % {
-            'name': self.object.player.full_name}
-        messages.success(self.request, msg)
         return self.object.get_absolute_url()
 
 

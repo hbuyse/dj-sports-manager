@@ -86,7 +86,7 @@ class Migration(migrations.Migration):
             name='MedicalCertificate',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('file', models.FileField(blank=True, upload_to=sports_manager.player.models.file_upload_to, verbose_name='file')),
+                ('file', models.FileField(blank=True, upload_to=sports_manager.player.models.medical_certificate_upload_to, verbose_name='file')),
                 ('validation', models.PositiveSmallIntegerField(choices=[(0, 'not uploaded'), (1, 'in validation'), (2, 'valid'), (3, 'rejected')], default=0, verbose_name='validation step')),
                 ('start', models.DateField(auto_now_add=True, verbose_name='starting date')),
                 ('end', models.DateField(null=True, verbose_name='ending date')),

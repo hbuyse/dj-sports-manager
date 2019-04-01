@@ -35,9 +35,9 @@
       <table class="table table-hover table-nowrap" id="myPlayerTable">
         <thead class="thead-light">
           <tr>
-            <th scope="col">{% trans "Validation" %}</th>
             <th scope="col">{% trans "Start" %}</th>
             <th scope="col">{% trans "End" %}</th>
+            <th scope="col">{% trans "Validation" %}</th>
             {% if user.is_authenticated and user == player.owner %}
               <th scope="col">{% trans "Links" %}</th>
             {% endif %}
@@ -47,9 +47,9 @@
     {% endif %}
 
           <tr class="clickable-row" url="{{ object.get_absolute_url }}">
-            <td>{{ object.get_validation_display|capfirst }}</td>
             <td>{{ object.start }}</td>
             <td>{{ object.end }}</td>
+            <td>{{ object.get_validation_display|capfirst }}</td>
             {% if user.is_authenticated and user == player.owner %}
               <td>
                 <div class="btn-group btn-group-sm float-right" role="group">
@@ -74,6 +74,7 @@
   {% endfor %}
 {% endblock %}
 
+{% comment %}
 {% block javascript %}
   <script>
   $(".clickable-row").click(function() {
@@ -81,3 +82,4 @@
   });
   </script>
 {% endblock javascript %}
+{% endcomment %}

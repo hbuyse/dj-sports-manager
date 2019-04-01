@@ -8,7 +8,7 @@ import logging
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from django.forms import ChoiceField, DateInput, Form, ModelForm
+from django import forms
 from django.utils.translation import ugettext_lazy as _  # noqa
 
 # Current django project
@@ -17,7 +17,7 @@ from sports_manager.player.models import EmergencyContact, MedicalCertificate, P
 logger = logging.getLogger(__name__)
 
 
-class PlayerCreateForm(ModelForm):
+class PlayerCreateForm(forms.ModelForm):
     """Player form.
 
     This first form will check if there is already a Player with the same datas linked to the user.
@@ -26,7 +26,7 @@ class PlayerCreateForm(ModelForm):
     class Meta:
         model = Player
         widgets = {
-            "birthday": DateInput(attrs={'class': 'form-control'})
+            "birthday": forms.DateInput(attrs={'class': 'form-control'})
         }
         fields = [
             'first_name',
@@ -39,6 +39,8 @@ class PlayerCreateForm(ModelForm):
             'city',
             'phone',
             'email',
+            'identity_card',
+            'identity_photo',
         ]
         localized_fields = ('birthday',)
 
@@ -71,7 +73,7 @@ class PlayerCreateForm(ModelForm):
         return cleaned_data
 
 
-class PlayerUpdateForm(ModelForm):
+class PlayerUpdateForm(forms.ModelForm):
     """Player update form.
 
     This first form will not check if there is already a Player with the same datas linked to the user.
@@ -80,7 +82,7 @@ class PlayerUpdateForm(ModelForm):
     class Meta:
         model = Player
         widgets = {
-            "birthday": DateInput(attrs={'class': 'form-control'})
+            "birthday": forms.DateInput(attrs={'class': 'form-control'})
         }
         fields = [
             'first_name',
@@ -93,11 +95,13 @@ class PlayerUpdateForm(ModelForm):
             'city',
             'phone',
             'email',
+            'identity_card',
+            'identity_photo',
         ]
         localized_fields = ('birthday',)
 
 
-class EmergencyContactForm(ModelForm):
+class EmergencyContactForm(forms.ModelForm):
     """Emergency contact form."""
 
     class Meta:
@@ -110,7 +114,7 @@ class EmergencyContactForm(ModelForm):
         ]
 
 
-class MedicalCertificateForm(ModelForm):
+class MedicalCertificateForm(forms.ModelForm):
     """Medical certificate form."""
 
     class Meta:
@@ -118,6 +122,9 @@ class MedicalCertificateForm(ModelForm):
         fields = [
             'file',
         ]
+        widgets = {
+            "file": forms.FileInput()
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -130,7 +137,7 @@ class MedicalCertificateForm(ModelForm):
                 settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB)
 
 
-class StaffMedicalCertificateForm(ModelForm):
+class StaffMedicalCertificateForm(forms.ModelForm):
     """Medical certificate form."""
 
     class Meta:
@@ -141,6 +148,9 @@ class StaffMedicalCertificateForm(ModelForm):
             'start',
             'end'
         ]
+        widgets = {
+            "file": forms.FileInput()
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -153,7 +163,7 @@ class StaffMedicalCertificateForm(ModelForm):
                 settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB)
 
 
-class MedicalCertificateRenewForm(Form):
+class MedicalCertificateRenewForm(forms.Form):
     """Renewable medical certificate form."""
 
     REFUSED = 0
@@ -164,7 +174,7 @@ class MedicalCertificateRenewForm(Form):
         (ACCEPTED, _('yes'))
     )
 
-    answer = ChoiceField(choices=CHOICES, initial=REFUSED)
+    answer = forms.ChoiceField(choices=CHOICES, initial=REFUSED, widget=forms.RadioSelect)
 
     def has_been_renewed(self):
         """User accepted the renewable terms."""

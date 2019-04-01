@@ -11,7 +11,7 @@
       <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-list' object.player.owner.get_username %}">{% trans "My object.players" %}</a></li>
       <li class="breadcrumb-item"><a href="{{ object.player.get_absolute_url }}">{{ object.player }}</a></li>
       <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-medical-certificate-list' object.player.owner.get_username object.player.slug %}">{% trans "Medical certificates" %}</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-medical-certificate-list' object.player.owner.get_username object.player.slug %}">{{ object.start|localize }} - {{ object.end|localize }}</a></li>
+      <li class="breadcrumb-item"><a href="{{ object.get_absolute_url }}">{{ object.start|localize }} - {{ object.end|localize }}</a></li>
       <li class="breadcrumb-item active" aria-current="page">{% trans "Updating" %}</li>
     </ol>
   </nav>
@@ -24,7 +24,7 @@
 {% endblock %}
 
 {% block content %}
-  <form  method="post" enctype="multipart/form-data" id="MedicalCertificateUpdateForm" data-file-form-url="{{ object.file.url }}"">
+  <form  method="post" enctype="multipart/form-data" id="MedicalCertificateUpdateForm" {% if object.file %}data-file-form-url="{{ object.file.url }}"{% endif %}>
     {% csrf_token %}
     {% for msg in form.non_field_errors %}
       <div class="alert alert-danger alert-dismissable">

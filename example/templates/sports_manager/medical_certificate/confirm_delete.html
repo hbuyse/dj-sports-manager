@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load l10n %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item">
+        <a href="{% url 'sports-manager:player-list' object.player.owner.get_username %}">
+          {% if user.get_username != object.player.owner.get_username and user.is_staff %}
+            {% if full_name %}
+              {% blocktrans with name=object.player.owner.get_full_name trimmed %}
+                {{ name }}'s players
+              {% endblocktrans %}
+            {% else %}
+              {% blocktrans with name=object.player.owner.get_username trimmed %}
+                {{ name }}'s players
+              {% endblocktrans %}
+            {% endif %}
+          {% else %}
+            {% trans "My players" %}
+          {% endif %}
+        </a>
+      </li>
+      <li class="breadcrumb-item"><a href="{{ object.player.get_absolute_url }}">{{ object.player }}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:player-medical-certificate-list' object.player.owner.get_username object.player.slug %}">{% trans "Medical certificates" %}</a></li>
+      <li class="breadcrumb-item"><a href="{{ object.get_absolute_url }}">{{ object.start|localize }}{% if object.end %} - {{ object.end|localize }}{% endif %}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Deletion" %}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+  {% blocktrans with start=object.start %}{{ start }} deletion{% endblocktrans %}
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <p>{% blocktrans %}Do you really want to delete this medical certificate?{% endblocktrans %}</p>
+
+    <div class="row">
+      <div class="col-md-2 font-weight-bold">{% trans "Player" %}:</div>
+      <div class="col-md-4">{{ object.player }}</div>
+      <div class="col-md-2 font-weight-bold">{% trans "Validation step" %}:</div>
+      <div class="col-md-4">{{ object.get_validation_display }}</div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2 font-weight-bold">{% trans "Starting date" %}</div>
+      <div class="col-md-4">{{ object.start }}</div>
+      <div class="col-md-2 font-weight-bold">{% trans "Ending date" %}</div>
+      <div class="col-md-4">{{ object.end }}</div>
+    </div>
+    
+    <div class="d-block mb-4"></div>
+
+    <button type="submit" class="btn btn-warning">{% trans "Yes, I want it." %}</button>
+    <button type="button" class="btn btn-primary" onclick="history.back()">{% trans "No, I want to go back" %}</button>
+  </form>
+{% endblock %}

@@ -152,7 +152,6 @@ class TestMedicalCertificateUpdateViewAsLogged(TestCase):
         r = self.client.get(reverse('sports-manager:player-medical-certificate-update',
                                     kwargs={'username': self.user.get_username(), 'player': self.player.get('slug'), 'pk': self.certif.pk}))
         self.assertEqual(r.status_code, 200)
-        self.assertIn('.pdf</a>', str(r.context['form']['file']))
 
     def test_post_wrong_account_player_not_existing_no_certificate(self):
         """Tests."""
@@ -284,7 +283,6 @@ class TestMedicalCertificateUpdateViewAsStaff(TestCase):
         r = self.client.get(reverse('sports-manager:player-medical-certificate-update',
                                     kwargs={'username': self.user.get_username(), 'player': self.player.get('slug'), 'pk': self.certif.pk}))
         self.assertEqual(r.status_code, 200)
-        self.assertIn('.pdf</a>', str(r.context['form']['file']))
 
     def test_post_wrong_account_player_not_existing_no_certificate(self):
         """Tests."""
@@ -417,7 +415,6 @@ class TestMedicalCertificateUpdateViewAsSuperuser(TestCase):
         r = self.client.get(reverse('sports-manager:player-medical-certificate-update',
                                     kwargs={'username': self.user.get_username(), 'player': self.player.get('slug'), 'pk': self.certif.pk}))
         self.assertEqual(r.status_code, 200)
-        self.assertIn('.pdf</a>', str(r.context['form']['file']))
 
     def test_post_wrong_account_player_not_existing_no_certificate(self):
         """Tests."""

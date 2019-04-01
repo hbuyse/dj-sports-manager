@@ -7,7 +7,9 @@
 {% block path %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item">
+        <a href="{% url 'home' %}">{% trans "Home" %}</a>
+      </li>
       <li class="breadcrumb-item">
         <a href="{% url 'sports-manager:player-list' player.owner.get_username %}">
           {% if user.get_username != player.owner.get_username and user.is_staff %}
@@ -55,20 +57,30 @@
 
   <h2>{% trans "Informations" %}</h2>
   <div class="row">
-    <div class="col-md-2 font-weight-bold">{% trans "Sex" %}</div><div class="col-md-4">{{ player.get_sex_display|capfirst }}</div>
-    <div class="col-md-2 font-weight-bold">{% trans "Birthday" %}</div><div class="col-md-4">{{ player.birthday }}</div>
-  </div>
-  <div class="mb-4"></div>
-
-  <h3>{% trans "Address" %}</h3>
-  <div class="row">
-    <div class="col-md-12">{{ player.address }}</div>
-    {% if player.add_address %}<div class="col-md-12">{{ player.add_address }}</div>{% endif %}
-    <div class="col-md-12">{{ player.zip_code }}, {{ player.city }}</div>
-  </div>
-  <div class="row">
-    {% if player.phone %}<div class="col-md-2 font-weight-bold">{% trans "Phone" %}</div><div class="col-md-4">{{ player.phone }}</div>{% endif %}
-    {% if player.email %}<div class="col-md-2 font-weight-bold">{% trans "Email" %}</div><div class="col-md-4">{{ player.email }}</div>{% endif %}
+    <div class="col-md-2">
+        {% if object.identity_photo %}
+          <img class="rounded float-left border" src="{{ object.identity_photo.url }}">
+        {% else %}
+          <img class="rounded float-left border" src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Creative-Tail-People-spy.svg">
+        {% endif %}
+      
+    </div>
+    <div class="col-md-10">
+      <div class="row"><div class="col-md-3 font-weight-bold">{% trans "Sex" %}</div><div class="col-md-9">{{ player.get_sex_display|capfirst }}</div></div>
+      <div class="row"><div class="col-md-3 font-weight-bold">{% trans "Birthday" %}</div><div class="col-md-9">{{ player.birthday }}</div></div>
+      {% if player.phone %}<div class="row"><div class="col-md-3 font-weight-bold">{% trans "Phone" %}</div><div class="col-md-9">{{ player.phone }}</div></div>{% endif %}
+      {% if player.email %}<div class="row"><div class="col-md-3 font-weight-bold">{% trans "Email" %}</div><div class="col-md-9">{{ player.email }}</div></div>{% endif %}
+      <div class="row">
+        <div class="col-md-3 font-weight-bold">{% trans "Address" %}</div>
+          <div class="col-md-9">
+            <div class="row">
+              <div class="col-md-12">{{ player.address }}</div>
+              {% if player.add_address %}<div class="col-md-12">{{ player.add_address }}</div>{% endif %}
+              <div class="col-md-12">{{ player.zip_code }}, {{ player.city }}</div>
+            </div>
+          </div>
+      </div>
+    </div>
   </div>
   <div class="mb-4"></div>
 

@@ -3,10 +3,11 @@
 # Standard library
 import logging
 import os
-from datetime import date
+from datetime import date, timedelta
 
 # Django
 from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.core.validators import RegexValidator
 from django.db import models
 from django.urls import reverse
@@ -20,22 +21,54 @@ from sports_manager.storage import OverwriteStorage
 logger = logging.getLogger(__name__)
 
 
-def file_upload_to(instance, filename):
+def medical_certificate_upload_to(instance, filename):
     """Create the path where to store the files.
 
     result: path to the file
     """
     path = None
-    basename, ext = os.path.splitext(filename)
+    ext = os.path.splitext(filename)[1]
     if isinstance(instance, MedicalCertificate):
         path = os.path.join(instance.player.owner.get_username().lower(),
-                            "{fn}_{ln}".format(fn=instance.player.first_name.lower(),
-                                               ln=instance.player.last_name.lower(),
-                                               ),
+                            instance.player.slug,
                             str(date.today().year),
                             'medical_certificate{ext}'.format(ext=ext)
                             )
         logger.info("Medical certificate {} saved in {}".format(filename, path))
+
+    return path
+
+
+def identity_card_upload_to(instance, filename):
+    """Create the path where to store the files.
+
+    result: path to the file
+    """
+    path = None
+    ext = os.path.splitext(filename)[1]
+    if isinstance(instance, Player):
+        path = os.path.join(instance.owner.get_username().lower(),
+                            instance.slug,
+                            'identity_card{ext}'.format(ext=ext)
+                            )
+        logger.info("Identity card {} saved in {}".format(filename, path))
+
+    return path
+
+
+def identity_photo_upload_to(instance, filename):
+    """Create the path where to store the files.
+
+    result: path to the file
+    """
+    path = None
+    ext = os.path.splitext(filename)[1]
+    if isinstance(instance, Player):
+        path = os.path.join(instance.owner.get_username().lower(),
+                            instance.slug,
+                            'identity_photo{ext}'.format(ext=ext)
+                            )
+    logger.info("Identity photo {} saved in {}".format(filename, path))
 
     return path
 
@@ -78,6 +111,18 @@ class Player(models.Model):
                            message=_("This is not a correct phone number"))
         ]
     )
+    identity_card = models.FileField(_('identity card'),
+                            storage=OverwriteStorage(),
+                            upload_to=identity_card_upload_to,
+                            validators=[validate_file_extension, validate_file_size],
+                            blank=True
+                            )
+    identity_photo = models.ImageField(_('identity photo'),
+                            storage=OverwriteStorage(),
+                            upload_to=identity_photo_upload_to,
+                            validators=[validate_file_extension, validate_file_size],
+                            blank=True
+                            )
     email = models.EmailField(_("email"), blank=True)
     created = models.DateTimeField(_('creation date'), auto_now_add=True)
 
@@ -131,7 +176,7 @@ class MedicalCertificate(models.Model):
     player = models.ForeignKey("Player", on_delete=models.CASCADE, verbose_name=_('player'))
     file = models.FileField(_('file'),
                             storage=OverwriteStorage(),
-                            upload_to=file_upload_to,
+                            upload_to=medical_certificate_upload_to,
                             validators=[validate_file_extension, validate_file_size],
                             blank=True
                             )
@@ -149,7 +194,7 @@ class MedicalCertificate(models.Model):
 
         verbose_name = _("medical certificate")
         verbose_name_plural = _("medical certificates")
-        ordering = ("player", "start", "validation")
+        ordering = ("player", "-start", "validation")
 
     def __str__(self):
         """Representation of a Gymnasium as a string."""
@@ -163,6 +208,10 @@ class MedicalCertificate(models.Model):
         """Check if the medical certificate is valid."""
         return self.validation == self.VALID
 
+    def can_be_renewed(self):
+        """Check if the medical certificate can be renewed for another year."""
+        return self.is_valid() and self.renewals < settings.SPORTS_MANAGER_MEDICAL_CERTIFICATE_MAX_RENEW
+
     def save(self, *args, **kwargs):
         """On creation, update start field.
 
@@ -170,6 +219,7 @@ class MedicalCertificate(models.Model):
         """
         if not self.pk:
             self.start = date.today()
+        self.end = date(year=self.start.year + 1 + self.renewals, month=self.start.month, day=self.start.day)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):

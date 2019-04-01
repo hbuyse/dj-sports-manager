@@ -21,6 +21,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='medicalcertificate',
             name='file',
-            field=models.FileField(blank=True, storage=sports_manager.storage.OverwriteStorage(), upload_to=sports_manager.player.models.file_upload_to, validators=[sports_manager.player.validators.validate_file_extension, sports_manager.player.validators.validate_file_size], verbose_name='file'),
+            field=models.FileField(blank=True, storage=sports_manager.storage.OverwriteStorage(), upload_to=sports_manager.player.models.medical_certificate_upload_to, validators=[sports_manager.player.validators.validate_file_extension, sports_manager.player.validators.validate_file_size], verbose_name='file'),
         ),
     ]

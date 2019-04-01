@@ -14,23 +14,54 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase, override_settings
 
 # Current django project
-from sports_manager.player.models import EmergencyContact, MedicalCertificate, Player, file_upload_to
-from sports_manager.tests.helper import UserHelper
+from sports_manager.player.models import EmergencyContact, MedicalCertificate, Player, medical_certificate_upload_to, identity_card_upload_to, identity_photo_upload_to
+from sports_manager.tests.helper import UserHelper, PlayerHelper
 
 
-class TestFileUploadTo(TestCase):
+class TestMedicalCertificateUploadTo(TestCase):
     """Test the path creation function."""
 
-    def test_with_no_category_object(self):
+    def test_wrong_type_instance(self):
         t = 0
-        self.assertEqual(file_upload_to(t, 'Toto.pdf'), None)
+        self.assertEqual(medical_certificate_upload_to(t, 'Toto.pdf'), None)
 
     def test_with_category_object(self):
         user = UserHelper()
-        player = Player(first_name='Titi', last_name='Tutu', owner=user.object)
-        med_cert = MedicalCertificate(player=player)
-        self.assertEqual(file_upload_to(med_cert, 'Toto.pdf'),
-                         '{}/titi_tutu/{}/medical_certificate.pdf'.format(user.get_username(), date.today().year))
+        player = PlayerHelper(first_name='titi', last_name='tutu', owner=user.object)
+        player.create()
+        med_cert = MedicalCertificate(player=player.object)
+        self.assertEqual(medical_certificate_upload_to(med_cert, 'Toto.pdf'),
+                         '{}/titi-tutu/{}/medical_certificate.pdf'.format(user.get_username(), date.today().year))
+
+
+class TestIdentityPhotoUploadto(TestCase):
+    """Test the path creation function."""
+
+    def test_wrong_type_instance(self):
+        t = 0
+        self.assertEqual(medical_certificate_upload_to(t, 'Toto.pdf'), None)
+
+    def test_with_player_object(self):
+        user = UserHelper()
+        player = PlayerHelper(first_name='titi', last_name='tutu', owner=user.object)
+        player.create()
+        self.assertEqual(identity_photo_upload_to(player.object, 'Toto.pdf'),
+                         '{}/titi-tutu/identity_photo.pdf'.format(user.get_username()))
+
+
+class TestIdentityCardUploadto(TestCase):
+    """Test the path creation function."""
+
+    def test_wrong_type_instance(self):
+        t = 0
+        self.assertEqual(medical_certificate_upload_to(t, 'Toto.pdf'), None)
+
+    def test_with_player_object(self):
+        user = UserHelper()
+        player = PlayerHelper(first_name='titi', last_name='tutu', owner=user.object)
+        player.create()
+        self.assertEqual(identity_card_upload_to(player.object, 'Toto.pdf'),
+                         '{}/titi-tutu/identity_card.pdf'.format(user.get_username()))
 
 
 class TestPlayerModel(TestCase):

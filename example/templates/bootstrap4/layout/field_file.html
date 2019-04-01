@@ -1,8 +1,9 @@
 {% load crispy_forms_field %}
 
+{% comment %}
 <div class="input-group">
     <div class="custom-file {{ field_class }}">
-        <input type="file" class="custom-file-input {% if field.errors %}is-invalid{% endif %}" id="{{ field.id_for_label }}" name="certif-file" class="clearablefileinput" {% if field.url %}value={{ field.url }} {% endif %}>
+        <input type="file" class="custom-file-input {% if field.errors %}is-invalid{% endif %}" id="{{ field.id_for_label }}" name="{{ field.name }}" class="clearablefileinput" {% if field.url %}value="{{ field.url }}"{% endif %}>
         <label class="custom-file-label" for="{{ field.id_for_label }}">Choose file</label>
     </div>
 </div>
@@ -20,3 +21,10 @@
         <p id="error_{{ forloop.counter }}_{{ field.auto_id }}" class="invalid-feedback d-block"><strong>{{ error }}</strong></p>
     {% endfor %}
 {% endif %}
+{% endcomment %}
+
+<div class="custom-file {{ field_class }}">
+    {% crispy_field field 'class' 'custom-file-input' %}
+    <label class="custom-file-label" for="{{ field.id_for_label }}">Choose file</label>
+    {% include 'bootstrap4/layout/help_text_and_errors.html' %}
+</div>
