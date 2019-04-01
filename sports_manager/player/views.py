@@ -9,7 +9,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _  # noqa
@@ -409,6 +409,14 @@ class MedicalCertificateRenewView(LoginRequiredMixin, OwnerOrStaffMixin, SingleO
     model = MedicalCertificate
     form_class = MedicalCertificateRenewForm
 
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        return super().post(request, *args, **kwargs)
+
     def get_queryset(self):
         """Override get_queryset in order to retrieve a correct list of MedicalCertificate that can be renewed."""
         queryset = super().get_queryset()
@@ -418,17 +426,33 @@ class MedicalCertificateRenewView(LoginRequiredMixin, OwnerOrStaffMixin, SingleO
         if hasattr(settings, 'SPORTS_MANAGER_MEDICAL_CERTIFICATE_MAX_RENEW'):
             queryset = queryset.filter(renewals__lte=settings.SPORTS_MANAGER_MEDICAL_CERTIFICATE_MAX_RENEW)
         return queryset
+    
+    def get_object(self, queryset=None):
+        if queryset is None:
+            queryset = self.get_queryset()
+
+        queryset = queryset.filter(pk=self.kwargs.get('pk'))
+        try:
+            # Get the single item from the filtered queryset
+            obj = queryset.get()
+        except queryset.model.DoesNotExist:
+            raise Http404(_("No %(verbose_name)s found matching the query") %
+                        {'verbose_name': queryset.model._meta.verbose_name})
+        
+        self.object = obj
+        return obj
 
     def form_valid(self, form):
         """Increase the number of renewals of a MedicalCertificate."""
-        self.object = self.get_object(self.get_queryset())
-        self.object.renewals += 1
-        self.object.save()
+        if form.has_been_renewed():
+            self.object = self.get_object(self.get_queryset())
+            self.object.renewals += 1
+            self.object.save()
         return super().form_valid(form)
 
     def get_success_url(self):
         """Get the URL after the success."""
-        msg = _("Medical certificate of player '%(name)s' updated successfully") % {
+        msg = _("Medical certificate of player '%(name)s' renewed successfully") % {
             'name': self.object.player.full_name}
         messages.success(self.request, msg)
         return self.object.get_absolute_url()

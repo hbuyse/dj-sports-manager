@@ -90,6 +90,10 @@ class Helper(object):
     def create(self):
         self._object = self.get_model().objects.create(**dict(self))
 
+    def update(self):
+        self.get_model().objects.filter(pk=self._object.pk).update(**dict(self))
+        self._object.refresh_from_db()
+
     def destroy(self):
         self.get_model().objects.get(pk=self._object.pk).delete()
 
