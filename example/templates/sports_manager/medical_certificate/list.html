@@ -24,7 +24,7 @@
 {% block page_title_buttons %}
   {% if user.is_authenticated %}
     <div class="btn-group float-right" role="group">
-      <a class="btn btn-primary" href="{% url 'sports-manager:player-medical-certificate-create' user.get_username player.slug %}">{% trans "New medical certificate" %}</a>
+      <a class="btn btn-primary" href="{% url 'sports-manager:player-medical-certificate-create' owner.get_username player.slug %}">{% trans "New medical certificate" %}</a>
     </div>
   {% endif %}
 {% endblock %}
@@ -54,8 +54,8 @@
               <td>
                 <div class="btn-group btn-group-sm float-right" role="group">
                   <a class="btn btn-sm btn-primary" href="{{ object.get_absolute_url }}">{% trans "Details" %}</a>
-                  <a class="btn btn-sm btn-primary" href="{% url 'sports-manager:player-medical-certificate-update' object.player.owner.get_username object.player.slug object.pk %}">{% trans "Update" %}</a>
-                  <a class="btn btn-sm btn-danger" href="{% url 'sports-manager:player-medical-certificate-delete' object.player.owner.get_username object.player.slug object.pk %}">{% trans "Delete" %}</a>
+                  <a class="btn btn-sm btn-primary" href="{% url 'sports-manager:player-medical-certificate-update' owner.get_username player.slug object.pk %}">{% trans "Update" %}</a>
+                  <a class="btn btn-sm btn-danger" href="{% url 'sports-manager:player-medical-certificate-delete' owner.get_username player.slug object.pk %}">{% trans "Delete" %}</a>
                 </div>
               </td>
             {% endif %}

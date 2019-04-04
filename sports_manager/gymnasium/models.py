@@ -20,7 +20,7 @@ class Gymnasium(models.Model):
         (STADIUM_TYPE , _("stadium"))
     )
 
-    slug = models.SlugField(_('slug'), unique=True, max_length=128)
+    slug = models.SlugField(_('slug'), unique=True, max_length=128, editable=False)
     type = models.PositiveSmallIntegerField(_('type'), blank=False, choices=GYMNASIUM_TYPES, default=GYMNASIUM_TYPE)
     name = models.CharField(_('name'), max_length=128)
     address = models.CharField(_('address'), max_length=255)

@@ -87,7 +87,7 @@ class Player(models.Model):
         (SEX_MALE, _('male')),
     )
 
-    slug = models.SlugField(_("slug"), max_length=128)
+    slug = models.SlugField(_("slug"), max_length=128, editable=False)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     first_name = models.CharField(_("first name"), max_length=30)
     last_name = models.CharField(_("last name"), max_length=150)

@@ -39,7 +39,7 @@ def image_upload_to(instance, filename):
 class Category(models.Model):
     """Sport category model."""
 
-    slug = models.SlugField(_("slug"), unique=True, max_length=128, null=True)
+    slug = models.SlugField(_("slug"), unique=True, max_length=128, null=True, editable=False)
     name = models.CharField(_('name'), unique=True, max_length=128)
     img = models.ImageField(_('image'), storage=OverwriteStorage(), upload_to=image_upload_to, blank=True)
     min_age = models.PositiveSmallIntegerField(_('minimal age'))

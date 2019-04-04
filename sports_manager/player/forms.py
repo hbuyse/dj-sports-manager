@@ -137,10 +137,10 @@ class MedicalCertificateForm(forms.ModelForm):
                 settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB)
 
 
-class StaffMedicalCertificateForm(forms.ModelForm):
+class StaffMedicalCertificateForm(MedicalCertificateForm):
     """Medical certificate form."""
 
-    class Meta:
+    class Meta(MedicalCertificateForm.Meta):
         model = MedicalCertificate
         fields = [
             'file',
@@ -148,20 +148,6 @@ class StaffMedicalCertificateForm(forms.ModelForm):
             'start',
             'end'
         ]
-        widgets = {
-            "file": forms.FileInput()
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if hasattr(settings, 'SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST'):
-            self.fields['file'].help_text += 'Extensions: {}. '.format(
-                ', '.join(settings.SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST))
-
-        if hasattr(settings, 'SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB'):
-            self.fields['file'].help_text += 'Max size: {} MB. '.format(
-                settings.SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB)
-
 
 class MedicalCertificateRenewForm(forms.Form):
     """Renewable medical certificate form."""

@@ -46,6 +46,11 @@ class LicenseCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateView):
     model = License
     form_class = LicenseForm
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def form_valid(self, form):
         """Validate the form."""
         logger.debug("Form valid")

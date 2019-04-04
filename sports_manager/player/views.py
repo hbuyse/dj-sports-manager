@@ -58,6 +58,12 @@ class PlayerDetailView(LoginRequiredMixin, OwnerOrStaffMixin, DetailView):
     template_name = "sports_manager/player/detail.html"
     model = Player
 
+    def get_context_data(self, **kwargs):
+        """Add the player in the context of the ListView."""
+        context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
+        return context
+
     def get_queryset(self):
         """Override the getter of the queryset.
 
@@ -106,6 +112,12 @@ class PlayerUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, UpdateView):
     model = Player
     form_class = PlayerUpdateForm
 
+    def get_context_data(self, **kwargs):
+        """Add the player in the context of the ListView."""
+        context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
+        return context
+
     def get_queryset(self):
         """Override the getter of the queryset.
 
@@ -126,6 +138,12 @@ class PlayerDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, DeleteView):
 
     template_name = "sports_manager/player/confirm_delete.html"
     model = Player
+
+    def get_context_data(self, **kwargs):
+        """Add the player in the context of the ListView."""
+        context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
+        return context
 
     def get_queryset(self):
         """Override the getter of the queryset.
@@ -151,6 +169,7 @@ class EmergencyContactListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView):
     def get_context_data(self, **kwargs):
         """Add the player in the context of the ListView."""
         context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
         context["player"] = get_object_or_404(
             Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
         return context
@@ -170,6 +189,14 @@ class EmergencyContactDetailView(LoginRequiredMixin, OwnerOrStaffMixin, DetailVi
 
     template_name = "sports_manager/emergency_contact/detail.html"
     model = EmergencyContact
+
+    def get_context_data(self, **kwargs):
+        """Add the player in the context of the ListView."""
+        context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
+        context["player"] = get_object_or_404(
+            Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
+        return context
 
     def get_queryset(self):
         """Override the getter of the queryset.
@@ -191,6 +218,7 @@ class EmergencyContactCreateView(LoginRequiredMixin, OwnerOrStaffMixin, CreateVi
     def get_context_data(self, **kwargs):
         """Add the player in the context of the ListView."""
         context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
         context["player"] = get_object_or_404(
             Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
         return context
@@ -218,6 +246,14 @@ class EmergencyContactUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, UpdateVi
     model = EmergencyContact
     form_class = EmergencyContactForm
 
+    def get_context_data(self, **kwargs):
+        """Add the player in the context of the ListView."""
+        context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
+        context["player"] = get_object_or_404(
+            Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
+        return context
+
     def get_queryset(self):
         """Override the getter of the queryset.
 
@@ -240,6 +276,14 @@ class EmergencyContactDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, DeleteVi
 
     template_name = "sports_manager/emergency_contact/confirm_delete.html"
     model = EmergencyContact
+
+    def get_context_data(self, **kwargs):
+        """Add the player in the context of the ListView."""
+        context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
+        context["player"] = get_object_or_404(
+            Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
+        return context
 
     def get_queryset(self):
         """Override the getter of the queryset.
@@ -269,6 +313,7 @@ class MedicalCertificateListView(LoginRequiredMixin, OwnerOrStaffMixin, ListView
     def get_context_data(self, **kwargs):
         """Add the player in the context of the ListView."""
         context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
         context["player"] = get_object_or_404(
             Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
         return context
@@ -288,6 +333,14 @@ class MedicalCertificateDetailView(LoginRequiredMixin, OwnerOrStaffMixin, Detail
 
     template_name = "sports_manager/medical_certificate/detail.html"
     model = MedicalCertificate
+
+    def get_context_data(self, **kwargs):
+        """Add the player in the context of the ListView."""
+        context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
+        context["player"] = get_object_or_404(
+            Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
+        return context
 
     def get_queryset(self):
         """Override the getter of the queryset.
@@ -309,6 +362,7 @@ class MedicalCertificateCreateView(LoginRequiredMixin, OwnerOrStaffMixin, Create
     def get_context_data(self, **kwargs):
         """Add the player in the context of the ListView."""
         context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
         context["player"] = get_object_or_404(
             Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
         return context
@@ -340,6 +394,14 @@ class MedicalCertificateUpdateView(LoginRequiredMixin, OwnerOrStaffMixin, Update
     model = MedicalCertificate
     form_class = MedicalCertificateForm
 
+    def get_context_data(self, **kwargs):
+        """Add the player in the context of the ListView."""
+        context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
+        context["player"] = get_object_or_404(
+            Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
+        return context
+
     def get_form_class(self):
         """Return the form class to use."""
         if self.request.user.is_staff:
@@ -369,6 +431,14 @@ class MedicalCertificateDeleteView(LoginRequiredMixin, OwnerOrStaffMixin, Delete
     template_name = "sports_manager/medical_certificate/confirm_delete.html"
     model = MedicalCertificate
 
+    def get_context_data(self, **kwargs):
+        """Add the player in the context of the ListView."""
+        context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
+        context["player"] = get_object_or_404(
+            Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
+        return context
+
     def get_queryset(self):
         """Override the getter of the queryset.
 
@@ -395,6 +465,14 @@ class MedicalCertificateRenewView(LoginRequiredMixin, OwnerOrStaffMixin, SingleO
     model = MedicalCertificate
     context_object_name = "medicalcertificate"
     form_class = MedicalCertificateRenewForm
+
+    def get_context_data(self, **kwargs):
+        """Add the player in the context of the ListView."""
+        context = super().get_context_data(**kwargs)
+        context["owner"] = get_object_or_404(get_user_model(), username=self.kwargs.get('username'))
+        context["player"] = get_object_or_404(
+            Player, owner__username=self.kwargs.get('username'), slug=self.kwargs.get('player'))
+        return context
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()

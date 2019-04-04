@@ -32,6 +32,10 @@ REQUIRED = [
     "django-markdownx>=2.0.28",
 ]
 
+# What packages are required for this module to be executed but that are not on PyPi?
+DEPENDENCY_LINKS = [
+]
+
 # What packages are optional?
 EXTRAS = {
     'dev': [
@@ -133,6 +137,7 @@ setup(
     #     'console_scripts': ['mycli=mymodule:cli'],
     # },
     install_requires=REQUIRED,
+    dependency_links=DEPENDENCY_LINKS,
     extras_require=EXTRAS,
     tests_require=TESTS_REQUIRE,
     include_package_data=True,

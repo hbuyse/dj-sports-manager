@@ -28,8 +28,16 @@
       </div>
     {% endfor %}
 
-    {{ form.player|as_crispy_field }}
-    {{ form.teams|as_crispy_field }}
+    <div class="form-row">
+    {% for field in form %}
+      <div class="col-md-6">
+        {{ field|as_crispy_field }}
+      </div>
+      {% if forloop.counter|divisibleby:2 %}
+        </div><div class="form-row">
+      {% endif %}
+    {% endfor %}
+    </div>
     <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
   </form>
 {% endblock %}

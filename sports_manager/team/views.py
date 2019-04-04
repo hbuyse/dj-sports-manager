@@ -12,6 +12,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _  # noqa
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+from django.views.generic.detail import SingleObjectMixin
 
 # Current django project
 from sports_manager.mixins import StaffMixin
@@ -102,6 +103,12 @@ class TeamTimeSlotListView(StaffMixin, ListView):
     template_name = "sports_manager/timeslot/list.html"
     model = TimeSlot
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Check that the team we want to edit exist
+        context["team"] = get_object_or_404(Team, slug=self.kwargs['team'])
+        return context
+
     def get_queryset(self):
         """Override get_queryset in order to retrieve time slots of one team only."""
         queryset = super().get_queryset()
@@ -113,6 +120,12 @@ class TeamTimeSlotDetailView(StaffMixin, DetailView):
 
     template_name = "sports_manager/timeslot/detail.html"
     model = TimeSlot
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Check that the team we want to edit exist
+        context["team"] = get_object_or_404(Team, slug=self.kwargs['team'])
+        return context
 
     def get_queryset(self):
         """Override get_queryset in order to retrieve time slots of one team only."""
@@ -169,6 +182,12 @@ class TeamTimeSlotUpdateView(StaffMixin, UpdateView):
         'end'
     ]
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Check that the team we want to edit exist
+        context["team"] = get_object_or_404(Team, slug=self.kwargs['team'])
+        return context
+
     def get_queryset(self):
         """Override get_queryset in order to retrieve time slots of one team only."""
         queryset = super().get_queryset()
@@ -189,6 +208,12 @@ class TeamTimeSlotDeleteView(StaffMixin, DeleteView):
 
     template_name = "sports_manager/timeslot/confirm_delete.html"
     model = TimeSlot
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Check that the team we want to edit exist
+        context["team"] = get_object_or_404(Team, slug=self.kwargs['team'])
+        return context
 
     def get_queryset(self):
         """Override get_queryset in order to retrieve time slots of one team only."""

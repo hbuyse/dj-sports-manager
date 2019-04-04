@@ -67,7 +67,7 @@ class Team(models.Model):
         ('MA', _('male')),
         ('MI', _('mixed')),
     )
-    slug = models.SlugField(_("slug"), unique=True, max_length=128, null=True)
+    slug = models.SlugField(_("slug"), unique=True, max_length=128, null=True, editable=False)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='category', blank=False)
     name = models.CharField(_("name"), unique=True, max_length=128)
     level = models.CharField(_("level"), max_length=4, choices=LEVELS, blank=False)

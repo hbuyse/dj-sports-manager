@@ -54,6 +54,12 @@
       <div class="col-2">{% trans "License number" %}:</div><div class="col-10">{{ license.number }}</div>
     </div>
   {% endif %}
+  <div class="row">
+    <div class="col-2">{% trans "Created" %}:</div><div class="col-10">{{ license.created }}</div>
+  </div>
+  <div class="row">
+    <div class="col-2">{% trans "Modified" %}:</div><div class="col-10">{{ license.modified }}</div>
+  </div>
 {% endblock %}
 
 {% block javascript %}
