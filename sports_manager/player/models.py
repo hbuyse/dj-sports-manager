@@ -111,6 +111,7 @@ class Player(models.Model):
                            message=_("This is not a correct phone number"))
         ]
     )
+    email = models.EmailField(_("email"), blank=True)
     identity_card = models.FileField(_('identity card'),
                             storage=OverwriteStorage(),
                             upload_to=identity_card_upload_to,
@@ -123,7 +124,6 @@ class Player(models.Model):
                             validators=[validate_file_extension, validate_file_size],
                             blank=True
                             )
-    email = models.EmailField(_("email"), blank=True)
     created = models.DateTimeField(_('creation date'), auto_now_add=True)
 
     def __str__(self):
