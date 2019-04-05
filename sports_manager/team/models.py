@@ -60,7 +60,11 @@ class Team(models.Model):
             ("U17", _('under 17')),
             ("U15", _('under 15')),
             ("U13", _('under 13')),
+        )),
+        ('Loisirs', (
+            ("LOI", _('loisirs')),
         ))
+
     )
     SEXES = (
         ('FE', _('female')),

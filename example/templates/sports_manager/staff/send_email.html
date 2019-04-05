@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block path %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'sports-manager:staff-index' %}">{% trans "Staff" %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans "Send email to teams" %}</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block page_title %}
+  {% trans "Send email to teams" %}
+{% endblock %}
+
+{% block content %}
+  <form  method="post" enctype="multipart/form-data" id="medicalCertificateForm">
+    {% csrf_token %}
+    {% for msg in form.non_field_errors %}
+      <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>{% trans "Error!" %}</strong> {{ msg }}
+      </div>
+    {% endfor %}
+
+      {% for field in form %}
+        <div class="form-row">
+          <div class="col-sm-12">
+            {{ field|as_crispy_field }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+    <button type="reset" class="btn btn-warning">{% trans "Reset" %}</button>
+  </form>
+{% endblock %}
+
+{% block javascript %}
+  <script src="{% static 'js/file_input.js' %}"></script>
+{% endblock %}

@@ -10,10 +10,11 @@ from django.http import HttpResponse
 from django.shortcuts import get_list_or_404
 from django.template import loader
 from django.utils.translation import ugettext_lazy as _  # noqa
-from django.views.generic import TemplateView, View
+from django.views.generic import FormView, TemplateView, View
 
 # Current django project
 from sports_manager.license.models import License
+from sports_manager.staff.forms import StaffSendEmailForm
 from sports_manager.mixins import StaffMixin
 
 logger = logging.getLogger(__name__)
@@ -39,3 +40,12 @@ class StaffLicenseListView(LoginRequiredMixin, StaffMixin, View):
         }
         response.write(t.render(datas))
         return response
+
+class StaffSendEmailView(LoginRequiredMixin, StaffMixin, FormView):
+
+    template_name = "sports_manager/staff/send_email.html"
+    form_class = StaffSendEmailForm
+
+    def form_valid(self, form):
+        form.get_list_of_recipients()
+    

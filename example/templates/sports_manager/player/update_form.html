@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load static %}
 
 {% load crispy_forms_tags %}
 
@@ -36,7 +37,7 @@
 {% endblock %}
 
 {% block content %}
-  <form  method="post" enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data" id="PlayerUpdateForm" data-file-form-url="">
     {% csrf_token %}
     {% for msg in form.non_field_errors %}
       <div class="alert alert-danger alert-dismissable">
@@ -61,27 +62,17 @@
 {% endblock %}
 
 {% block javascript %}
+  {% comment %}
   <script>
-  {% comment %} $( document ).ready(function() {
-    var certif_url = $("#MedicalCertificateUpdateForm").attr("data-file-form-url")
+  $( document ).ready(function() {
+    var certif_url = $("#PlayerUpdateForm").attr("data-file-form-url")
     if (certif_url != undefined || certif_url != "") {
       var prepend = `<div class="input-group-prepend"><a target="_blank" href="` + certif_url + `" class="btn btn-outline-secondary" type="button">Download</a></div>`
       $("#id_file").next(".custom-file-label").text(certif_url.replace(/.*\//, ''));
       $('#id_file').closest(".input-group").prepend(prepend);
     }
-  }); {% endcomment %}
-  $(".custom-file-label").change(function () {
-    alert("Change");
-    console.log("Hello");
-    var fieldVal = $(this).val();
-    console.log(fieldVal);
-
-    {# Change the node's value by removing the fake path (Chrome) #}
-    fieldVal = fieldVal.replace("C:\\fakepath\\", "");
-    if (fieldVal != undefined || fieldVal != "") {
-      console.log($(this).next(".custom-file-label").text(fieldVal));
-    }
-
   });
   </script>
+  {% endcomment %}
+  <script src="{% static 'js/file_input.js' %}"></script>
 {% endblock %}

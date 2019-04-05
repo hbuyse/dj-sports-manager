@@ -44,46 +44,39 @@
 {% endblock %}
 
 {% block content %}
-  <div class="list-group">
-  {% for player in player_list %}
-    {% if forloop.first %}
-      <table class="table table-hover" id="myPlayerTable">
-        <thead class="thead-light">
-          <tr>
-            <th scope="col">{% trans "First name" %}</th>
-            <th scope="col">{% trans "Last name" %}</th>
-            <th scope="col">{% trans "Birthday" %}</th>
-            <th scope="col">{% trans "Medical certificate validation" %}</th>
-            {% if user.get_username == player.owner.get_username or user.is_staff %}
-              <th scope="col">{% trans "Links" %}</th>
-            {% endif %}
-          </tr>
-        </thead>
-        <tbody>
-    {% endif %}
 
-          <tr>
-            <td>{{ player.first_name }}</td>
-            <td>{{ player.last_name }}</td>
-            <td>{{ player.birthday|localize }}</td>
-            <td>{{ player.get_last_medical_certificate.get_validation_display|capfirst }}</td>
-            {% if user.get_username == player.owner.get_username or user.is_staff %}
-              <td>
-                <div class="btn-group btn-group-sm float-right" role="group">
-                  <a class="btn btn-primary" href="{{ player.get_absolute_url }}">{% trans "Details" %}</a>
-                  <a class="btn btn-primary" href="{% url 'sports-manager:player-update' player.owner.get_username player.slug %}">{% trans "Update" %}</a>
-                  <a class="btn btn-danger" href="{% url 'sports-manager:player-delete' player.owner.get_username player.slug %}">{% trans "Delete" %}</a>
-                </div>
-              </td>
+  <div class="row">
+    {% for player in player_list %}
+      <div class="col-sm-12 col-md-6 col-xl-4">
+        <div class="card mb-4">
+          {% if player.identity_photo %}
+            <img class="card-img-top img-fluid" src="{{ player.identity_photo.url }}" alt="{{ player.full_name }}'s photo">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ player.full_name }}</h5>
+            <p class="card-text">{{ player.birthday }}</p>
+            {% if player.medicalcertificate_set.last %}
+              <p class="card-text">{% trans "Medical certificate" %}: {{ player.medicalcertificate_set.last.get_validation_display }}</p>
+            {% else %}
+              {% comment %} <p class="card-text">{% trans "Medical certificate" %}: <span class="text-danger">{% trans "no certificate" %}</span></p> {% endcomment %}
+              <a class="card-link" href="{% url 'sports-manager:player-medical-certificate-create' player.owner.get_username player.slug %}">{% trans "Upload medical certificate" %}</a>
             {% endif %}
-          </tr>
-
-    {% if forloop.last %}
-        </tbody>
-      </table>
-    {% endif %}
-  {% empty %}
-    <p>No player listed yet...</p>
-  {% endfor %}
+          </div>
+          <ul class="list-group list-group-flush">
+            {% if player.email %}<li class="list-group-item"><i class="fas fa-envelope"></i> {{ player.email }}</li>{% endif %}
+            {% if player.phone %}<li class="list-group-item"><i class="fas fa-phone"></i> {{ player.phone }}</li>{% endif %}
+          </ul>
+          {% if user.get_username == player.owner.get_username or user.is_staff %}
+            <div class="card-body">
+              <a class="card-link" href="{{ player.get_absolute_url }}">{% trans "Details" %}</a>
+              <a class="card-link" href="{% url 'sports-manager:player-update' player.owner.get_username player.slug %}">{% trans "Update" %}</a>
+              <a class="card-link text-danger" href="{% url 'sports-manager:player-delete' player.owner.get_username player.slug %}">{% trans "Delete" %}</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% empty %}
+      <p>No player listed yet...</p>
+    {% endfor %}
   </div>
 {% endblock %}

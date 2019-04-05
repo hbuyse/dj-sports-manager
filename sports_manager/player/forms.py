@@ -26,7 +26,9 @@ class PlayerCreateForm(forms.ModelForm):
     class Meta:
         model = Player
         widgets = {
-            "birthday": forms.DateInput(attrs={'class': 'form-control'})
+            "birthday": forms.DateInput(attrs={'class': 'form-control'}),
+            "identity_card": forms.FileInput(),
+            "identity_photo": forms.FileInput()
         }
         fields = [
             'first_name',
@@ -82,7 +84,9 @@ class PlayerUpdateForm(forms.ModelForm):
     class Meta:
         model = Player
         widgets = {
-            "birthday": forms.DateInput(attrs={'class': 'form-control'})
+            "birthday": forms.DateInput(attrs={'class': 'form-control'}),
+            "identity_card": forms.FileInput(),
+            "identity_photo": forms.FileInput()
         }
         fields = [
             'first_name',

@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block content %}
-  <form  method="post" enctype="multipart/form-data">
+  <form  method="post" enctype="multipart/form-data" id="medicalCertificateForm">
     {% csrf_token %}
     {% for msg in form.non_field_errors %}
       <div class="alert alert-danger alert-dismissable">
@@ -48,15 +48,7 @@
 
 {% block javascript %}
   <script>
-  $( document ).ready(function() {
-    var certif_url = $("#playerUpdateForm").attr("data-file-form-url")
-    if (certif_url != undefined || certif_url != "") {
-      var prepend = `<div class="input-group-prepend"><a target="_blank" href="` + certif_url + `" class="btn btn-outline-secondary" type="button">Download</a></div>`
-      $("#id_certif-file").next(".custom-file-label").text(certif_url.replace(/.*\//, ''));
-      $('#id_certif-file').closest(".input-group").prepend(prepend);
-    }
-  });
-  $("#id_certif-file").change(function () {
+  $("#id_file").change(function () {
 
     var fieldVal = $(this).val();
     console.log(fieldVal);

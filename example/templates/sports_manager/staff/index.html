@@ -16,5 +16,12 @@
 {% endblock %}
 
 {% block content %}
-  <a href={% url 'sports-manager:staff-licenses-list'%}>Download Licenses CSV</a>
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <a href="{% url 'sports-manager:staff-licenses-list' %}">Download Licenses CSV</a>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <a href="{% url 'sports-manager:staff-send-email' %}">Send email to teams</a>
+    </div>
+  </div>
 {% endblock %}

@@ -16,4 +16,8 @@ staff_urlpatterns = [
          view=views.StaffLicenseListView.as_view(),
          name='staff-licenses-list',
          ),
+    path("staff/email/",
+         view=views.StaffSendEmailView.as_view(),
+         name='staff-send-email',
+         ),
 ]
