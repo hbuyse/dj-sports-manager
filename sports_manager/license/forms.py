@@ -31,7 +31,7 @@ class LicenseForm(forms.ModelForm):
             'teams'
         ]
         widgets = {
-            # 'teams': forms.CheckboxSelectMultiple
+            'teams': forms.CheckboxSelectMultiple
         }
         help_texts = {
             'player': "Select one of your players.",
@@ -112,8 +112,6 @@ class LicenseForm(forms.ModelForm):
 
         # Check relations category - teams
         self.check_teams_are_in_category(teams, category)
-
-
 
 
 class StaffLicenseForm(forms.ModelForm):

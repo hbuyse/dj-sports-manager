@@ -75,11 +75,3 @@
     </p>
   {% endfor %}
 {% endblock %}
-
-{% block javascript %}
-  <script>
-  $(".clickable-row").click(function() {
-    window.location.href = $(this).attr("url")
-  });
-  </script>
-{% endblock javascript %}

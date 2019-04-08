@@ -39,8 +39,8 @@
           <img class="card-img-top" src="{{ team.img.url }}" alt="{{ team.name }}'s logo">
         {% endif %}
         <div class="card-body">
-          <h5 class="card-title">{{ team }}</h5>
-          <p class="card-text">{{ team.category }}</p>
+          <h5 class="card-title">{{ team.name }}</h5>
+          <p class="card-text">{{ team.category }} - {{ team.get_sex_display }}</p>
           <a href="{{ team.get_absolute_url }}" class="card-link">{% trans "Details" %}</a>
         </div>
       </div>

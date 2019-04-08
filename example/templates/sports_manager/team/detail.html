@@ -7,13 +7,13 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
     <li class="breadcrumb-item"><a href="{% url 'sports-manager:team-list' %}">{% trans "Teams" %}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ team }}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ team.name }}</li>
   </ol>
 </nav>
 {% endblock %}
 
 {% block page_title %}
-  {{ team }}
+  {{ team.name }}
 {% endblock %}
 
 {% block page_title_buttons %}

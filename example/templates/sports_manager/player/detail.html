@@ -7,18 +7,16 @@
 {% block path %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
       <li class="breadcrumb-item">
-        <a href="{% url 'home' %}">{% trans "Home" %}</a>
-      </li>
-      <li class="breadcrumb-item">
-        <a href="{% url 'sports-manager:player-list' player.owner.get_username %}">
-          {% if user.get_username != player.owner.get_username and user.is_staff %}
+        <a href="{% url 'sports-manager:player-list' owner.get_username %}">
+          {% if user.get_username != owner.get_username and user.is_staff %}
             {% if full_name %}
-              {% blocktrans with name=player.owner.get_full_name trimmed %}
+              {% blocktrans with name=owner.get_full_name trimmed %}
                 {{ name }}'s players
               {% endblocktrans %}
             {% else %}
-              {% blocktrans with name=player.owner.get_username trimmed %}
+              {% blocktrans with name=owner.get_username trimmed %}
                 {{ name }}'s players
               {% endblocktrans %}
             {% endif %}

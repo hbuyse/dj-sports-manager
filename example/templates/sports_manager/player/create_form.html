@@ -45,12 +45,38 @@
     {% endfor %}
 
     <div class="form-row">
-      {% for field in form %}
-        <div class="col-6">{{ field|as_crispy_field }}</div>
-        {% if forloop.counter|divisibleby:2 %}
-          </div><div class="form-row">
-        {% endif %}
-      {% endfor %}
+      <div class="col-6">{{ form.first_name|as_crispy_field }}</div>
+      <div class="col-6">{{ form.last_name|as_crispy_field }}</div>
+      <div class="col-6">{{ form.birthday|as_crispy_field }}</div>
+      <div class="col-6">{{ form.sex|as_crispy_field }}</div>
+      <div class="col-6">{{ form.address|as_crispy_field }}</div>
+      <div class="col-6">{{ form.add_address|as_crispy_field }}</div>
+      <div class="col-6">{{ form.zip_code|as_crispy_field }}</div>
+      <div class="col-6">{{ form.city|as_crispy_field }}</div>
+      <div class="col-6">{{ form.phone|as_crispy_field }}</div>
+      <div class="col-6">{{ form.email|as_crispy_field }}</div>
+      <div class="col-6">
+        <label class="col-form-label">
+          Identity card
+        </label>
+        <div class="input-group mb-3">
+          <div class="custom-file ">
+            <input name="identity_card" class="fileinput fileUpload form-control custom-file-input" id="id_identity_card" type="file">
+            <label class="custom-file-label" for="id_identity_card">Choose file...</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <label class="col-form-label ">
+          Identity photo
+        </label>
+        <div class="input-group mb-3">
+          <div class="custom-file ">
+            <input name="identity_photo" class="fileinput fileUpload form-control custom-file-input" id="id_identity_photo" type="file">
+            <label class="custom-file-label" for="id_identity_photo">Choose file...</label>
+          </div>
+        </div>
+      </div>
     </div>
 
     <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>

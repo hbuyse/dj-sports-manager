@@ -1,0 +1,867 @@
+[
+    {
+        "model" : "sports_manager.category",
+        "pk"    : 1,
+        "fields": {
+            "slug"       : "ffvb-for-adults",
+            "name"       : "FFVB for adults",
+            "img"        : "",
+            "min_age"    : 18,
+            "max_age"    : null,
+            "summary"    : "TODO",
+            "description": "TODO"
+        }
+    },
+    {
+        "model" : "sports_manager.category",
+        "pk"    : 2,
+        "fields": {
+            "slug"       : "fsgt",
+            "name"       : "FSGT",
+            "img"        : "",
+            "min_age"    : 18,
+            "max_age"    : null,
+            "summary"    : "TODO",
+            "description": "TODO"
+        }
+    },
+    {
+        "model" : "sports_manager.category",
+        "pk"    : 3,
+        "fields": {
+            "slug"       : "jeunes",
+            "name"       : "Jeunes",
+            "img"        : "",
+            "min_age"    : 12,
+            "max_age"    : 18,
+            "summary"    : "TODO",
+            "description": "TODO"
+        }
+    },
+    {
+        "model" : "sports_manager.category",
+        "pk"    : 4,
+        "fields": {
+            "slug"       : "ecole-de-volley",
+            "name"       : "École de volley",
+            "img"        : "",
+            "min_age"    : 7,
+            "max_age"    : 11,
+            "summary"    : "TODO",
+            "description": "TODO HEllo World"
+        }
+    },
+    {
+        "model" : "sports_manager.category",
+        "pk"    : 5,
+        "fields": {
+            "slug"       : "loisirs",
+            "name"       : "Loisirs",
+            "img"        : "",
+            "min_age"    : 18,
+            "max_age"    : null,
+            "summary"    : "TODO",
+            "description": "Du jeu, du jeu et rien que du jeu"
+        }
+    },
+    {
+        "model" : "sports_manager.gymnasium",
+        "pk"    : 1,
+        "fields": {
+            "slug"    : "watteau",
+            "type"    : 0,
+            "name"    : "Watteau",
+            "address" : "37 rue Lequesne",
+            "city"    : "Nogent-Sur-Marne",
+            "zip_code": "94130",
+            "phone"   : "",
+            "area"    : null,
+            "capacity": null
+        }
+    },
+    {
+        "model" : "sports_manager.gymnasium",
+        "pk"    : 3,
+        "fields": {
+            "slug"    : "louis-armand",
+            "type"    : 0,
+            "name"    : "Louis Armand",
+            "address" : "173 Boulevard de Strasbourg",
+            "city"    : "Nogent-Sur-Marne",
+            "zip_code": "94130",
+            "phone"   : "",
+            "area"    : null,
+            "capacity": null
+        }
+    },
+    {
+        "model" : "sports_manager.gymnasium",
+        "pk"    : 4,
+        "fields": {
+            "slug"    : "cheron",
+            "type"    : 0,
+            "name"    : "Chéron",
+            "address" : "62, quai de l'Artois",
+            "city"    : "Le Perreux-Sur-Marne",
+            "zip_code": "94130",
+            "phone"   : "",
+            "area"    : null,
+            "capacity": null
+        }
+    },
+    {
+        "model" : "sports_manager.gymnasium",
+        "pk"    : 5,
+        "fields": {
+            "slug"    : "centre-des-bords-de-marne",
+            "type"    : 0,
+            "name"    : "Centre des Bords de Marne",
+            "address" : "2 Rue de la Prairie",
+            "city"    : "Le Perreux-Sur-Marne",
+            "zip_code": "94170",
+            "phone"   : "",
+            "area"    : null,
+            "capacity": null
+        }
+    },
+    {
+        "model" : "sports_manager.gymnasium",
+        "pk"    : 6,
+        "fields": {
+            "slug"    : "christian-maudry",
+            "type"    : 0,
+            "name"    : "Christian Maudry",
+            "address" : "13 Rue Jean Monnet",
+            "city"    : "Nogent-Sur-Marne",
+            "zip_code": "94130",
+            "phone"   : "",
+            "area"    : null,
+            "capacity": null
+        }
+    },
+    {
+        "model" : "sports_manager.license",
+        "pk"    : 21,
+        "fields": {
+            "player"  : 12,
+            "number"  : "",
+            "is_payed": false,
+            "created" : "2019-04-04T15:14:00.047Z",
+            "modified": "2019-04-04T15:14:00.047Z",
+            "teams"   : [
+                5
+            ]
+        }
+    },
+    {
+        "model" : "sports_manager.license",
+        "pk"    : 22,
+        "fields": {
+            "player"  : 20,
+            "number"  : "",
+            "is_payed": false,
+            "created" : "2019-04-04T15:26:12.080Z",
+            "modified": "2019-04-04T15:26:24.366Z",
+            "teams"   : [
+                3
+            ]
+        }
+    },
+    {
+        "model" : "sports_manager.license",
+        "pk"    : 23,
+        "fields": {
+            "player"  : 20,
+            "number"  : "",
+            "is_payed": false,
+            "created" : "2019-04-04T15:28:11.444Z",
+            "modified": "2019-04-04T15:28:11.444Z",
+            "teams"   : [
+                2
+            ]
+        }
+    },
+    {
+        "model" : "sports_manager.license",
+        "pk"    : 24,
+        "fields": {
+            "player"  : 13,
+            "number"  : "",
+            "is_payed": false,
+            "created" : "2019-04-05T12:54:31.727Z",
+            "modified": "2019-04-05T12:54:31.727Z",
+            "teams"   : [
+                5
+            ]
+        }
+    },
+    {
+        "model" : "sports_manager.license",
+        "pk"    : 25,
+        "fields": {
+            "player"  : 16,
+            "number"  : "",
+            "is_payed": false,
+            "created" : "2019-04-05T12:54:43.271Z",
+            "modified": "2019-04-05T12:54:43.271Z",
+            "teams"   : [
+                4
+            ]
+        }
+    },
+    {
+        "model" : "sports_manager.player",
+        "pk"    : 9,
+        "fields": {
+            "slug"          : "toto-buyse",
+            "owner"         : 1,
+            "first_name"    : "Toto",
+            "last_name"     : "Buyse",
+            "sex"           : "MA",
+            "birthday"      : "1991-09-14",
+            "address"       : "5, rue Jean Guy Labarbe",
+            "add_address"   : "",
+            "zip_code"      : "94130",
+            "city"          : "Nogent-Sur-Marne",
+            "phone"         : "",
+            "email"         : "",
+            "identity_card" : "",
+            "identity_photo": "",
+            "created"       : "2019-03-12T18:32:23.165Z"
+        }
+    },
+    {
+        "model" : "sports_manager.player",
+        "pk"    : 10,
+        "fields": {
+            "slug"          : "luc-buyse",
+            "owner"         : 1,
+            "first_name"    : "Luc",
+            "last_name"     : "Buyse",
+            "sex"           : "MA",
+            "birthday"      : "1954-01-26",
+            "address"       : "5, rue Jean Guy Labarbe",
+            "add_address"   : "",
+            "zip_code"      : "94130",
+            "city"          : "Nogent-Sur-Marne",
+            "phone"         : "",
+            "email"         : "",
+            "identity_card" : "",
+            "identity_photo": "",
+            "created"       : "2019-03-13T14:29:05.737Z"
+        }
+    },
+    {
+        "model" : "sports_manager.player",
+        "pk"    : 11,
+        "fields": {
+            "slug"          : "eva-buyse",
+            "owner"         : 1,
+            "first_name"    : "Eva",
+            "last_name"     : "Buyse",
+            "sex"           : "FE",
+            "birthday"      : "1953-01-26",
+            "address"       : "5, rue Jean Guy Labarbe",
+            "add_address"   : "",
+            "zip_code"      : "94130",
+            "city"          : "Nogent-Sur-Marne",
+            "phone"         : "",
+            "email"         : "",
+            "identity_card" : "",
+            "identity_photo": "",
+            "created"       : "2019-03-13T14:29:59.672Z"
+        }
+    },
+    {
+        "model" : "sports_manager.player",
+        "pk"    : 12,
+        "fields": {
+            "slug"          : "clementine-bonneli",
+            "owner"         : 1,
+            "first_name"    : "Clémentine",
+            "last_name"     : "Bonneli",
+            "sex"           : "FE",
+            "birthday"      : "1995-12-15",
+            "address"       : "5, rue Jean Guy Labarbe",
+            "add_address"   : "",
+            "zip_code"      : "94130",
+            "city"          : "Nogent-Sur-Marne",
+            "phone"         : "0679994286",
+            "email"         : "henri.buyse@gmail.com",
+            "identity_card" : "hbuyse/clementine-bonneli/identity_card.jpg",
+            "identity_photo": "hbuyse/clementine-bonneli/identity_photo.jpg",
+            "created"       : "2019-03-13T14:32:20.230Z"
+        }
+    },
+    {
+        "model" : "sports_manager.player",
+        "pk"    : 13,
+        "fields": {
+            "slug"          : "laetitia-bonneli",
+            "owner"         : 1,
+            "first_name"    : "Laetitia",
+            "last_name"     : "Bonneli",
+            "sex"           : "FE",
+            "birthday"      : "1993-05-23",
+            "address"       : "5, rue Jean Guy Labarbe",
+            "add_address"   : "",
+            "zip_code"      : "94130",
+            "city"          : "Nogent-Sur-Marne",
+            "phone"         : "",
+            "email"         : "",
+            "identity_card" : "",
+            "identity_photo": "",
+            "created"       : "2019-03-13T15:05:10.579Z"
+        }
+    },
+    {
+        "model" : "sports_manager.player",
+        "pk"    : 14,
+        "fields": {
+            "slug"          : "baby-buyse",
+            "owner"         : 1,
+            "first_name"    : "Baby",
+            "last_name"     : "Buyse",
+            "sex"           : "MA",
+            "birthday"      : "2013-12-12",
+            "address"       : "5, rue Jean Guy Labarbe",
+            "add_address"   : "",
+            "zip_code"      : "94130",
+            "city"          : "Nogent-Sur-Marne",
+            "phone"         : "",
+            "email"         : "",
+            "identity_card" : "",
+            "identity_photo": "",
+            "created"       : "2019-03-14T16:19:03.481Z"
+        }
+    },
+    {
+        "model" : "sports_manager.player",
+        "pk"    : 15,
+        "fields": {
+            "slug"          : "kiddo-buyse",
+            "owner"         : 1,
+            "first_name"    : "Kiddo",
+            "last_name"     : "Buyse",
+            "sex"           : "MA",
+            "birthday"      : "2011-03-21",
+            "address"       : "5, rue Jean Guy Labarbe",
+            "add_address"   : "",
+            "zip_code"      : "94130",
+            "city"          : "Nogent-Sur-Marne",
+            "phone"         : "",
+            "email"         : "",
+            "identity_card" : "",
+            "identity_photo": "",
+            "created"       : "2019-03-21T10:55:02.285Z"
+        }
+    },
+    {
+        "model" : "sports_manager.player",
+        "pk"    : 16,
+        "fields": {
+            "slug"          : "teenager-buyse",
+            "owner"         : 1,
+            "first_name"    : "Teenager",
+            "last_name"     : "Buyse",
+            "sex"           : "MA",
+            "birthday"      : "2006-03-21",
+            "address"       : "5, rue Jean Guy Labarbe",
+            "add_address"   : "",
+            "zip_code"      : "94130",
+            "city"          : "Nogent-Sur-Marne",
+            "phone"         : "",
+            "email"         : "",
+            "identity_card" : "",
+            "identity_photo": "",
+            "created"       : "2019-03-21T10:55:33.500Z"
+        }
+    },
+    {
+        "model" : "sports_manager.player",
+        "pk"    : 20,
+        "fields": {
+            "slug"          : "henri-buyse",
+            "owner"         : 1,
+            "first_name"    : "Henri",
+            "last_name"     : "Buyse",
+            "sex"           : "MA",
+            "birthday"      : "1991-09-14",
+            "address"       : "5, rue Jean Guy Labarbe",
+            "add_address"   : "",
+            "zip_code"      : "94130",
+            "city"          : "Nogent-Sur-Marne",
+            "phone"         : "",
+            "email"         : "",
+            "identity_card" : "",
+            "identity_photo": "hbuyse/henri-buyse/identity_photo.jpeg",
+            "created"       : "2019-03-22T09:39:42.434Z"
+        }
+    },
+    {
+        "model" : "sports_manager.player",
+        "pk"    : 21,
+        "fields": {
+            "slug"          : "henri-buyse",
+            "owner"         : 2,
+            "first_name"    : "Henri",
+            "last_name"     : "Buyse",
+            "sex"           : "MA",
+            "birthday"      : "1991-09-14",
+            "address"       : "5, rue Jean Guy Labarbe",
+            "add_address"   : "",
+            "zip_code"      : "94130",
+            "city"          : "Nogent-Sur-Marne",
+            "phone"         : "",
+            "email"         : "",
+            "identity_card" : "",
+            "identity_photo": "",
+            "created"       : "2019-03-27T09:40:02.497Z"
+        }
+    },
+    {
+        "model" : "sports_manager.player",
+        "pk"    : 22,
+        "fields": {
+            "slug"          : "adult-toto",
+            "owner"         : 2,
+            "first_name"    : "Adult",
+            "last_name"     : "Toto",
+            "sex"           : "MA",
+            "birthday"      : "1991-04-04",
+            "address"       : "5, rue Jean Guy Labarbe",
+            "add_address"   : "",
+            "zip_code"      : "94130",
+            "city"          : "Nogent-Sur-Marne",
+            "phone"         : "",
+            "email"         : "",
+            "identity_card" : "",
+            "identity_photo": "",
+            "created"       : "2019-04-04T11:57:42.827Z"
+        }
+    },
+    {
+        "model" : "sports_manager.medicalcertificate",
+        "pk"    : 8,
+        "fields": {
+            "player"    : 9,
+            "file"      : "",
+            "validation": 0,
+            "start"     : "2019-03-12",
+            "end"       : null,
+            "renewals"  : 0,
+            "created"   : "2019-03-12T18:32:23.387Z"
+        }
+    },
+    {
+        "model" : "sports_manager.medicalcertificate",
+        "pk"    : 9,
+        "fields": {
+            "player"    : 10,
+            "file"      : "hbuyse/luc_buyse/2019/medical_certificate.html",
+            "validation": 0,
+            "start"     : "2019-03-13",
+            "end"       : null,
+            "renewals"  : 0,
+            "created"   : "2019-03-13T14:29:06.001Z"
+        }
+    },
+    {
+        "model" : "sports_manager.medicalcertificate",
+        "pk"    : 10,
+        "fields": {
+            "player"    : 11,
+            "file"      : "",
+            "validation": 0,
+            "start"     : "2019-03-13",
+            "end"       : null,
+            "renewals"  : 0,
+            "created"   : "2019-03-13T14:29:59.928Z"
+        }
+    },
+    {
+        "model" : "sports_manager.medicalcertificate",
+        "pk"    : 11,
+        "fields": {
+            "player"    : 12,
+            "file"      : "hbuyse/clementine-bonneli/2019/medical_certificate.jpg",
+            "validation": 2,
+            "start"     : "2019-03-25",
+            "end"       : "2020-03-25",
+            "renewals"  : 0,
+            "created"   : "2019-03-13T14:32:20.498Z"
+        }
+    },
+    {
+        "model" : "sports_manager.medicalcertificate",
+        "pk"    : 12,
+        "fields": {
+            "player"    : 13,
+            "file"      : "hbuyse/laetitia_bonneli/2019/medical_certificate.html",
+            "validation": 0,
+            "start"     : "2019-03-13",
+            "end"       : null,
+            "renewals"  : 0,
+            "created"   : "2019-03-13T15:05:11.098Z"
+        }
+    },
+    {
+        "model" : "sports_manager.medicalcertificate",
+        "pk"    : 13,
+        "fields": {
+            "player"    : 14,
+            "file"      : "",
+            "validation": 0,
+            "start"     : "2019-03-14",
+            "end"       : null,
+            "renewals"  : 0,
+            "created"   : "2019-03-14T16:19:03.727Z"
+        }
+    },
+    {
+        "model" : "sports_manager.medicalcertificate",
+        "pk"    : 17,
+        "fields": {
+            "player"    : 20,
+            "file"      : "hbuyse/henri_buyse/2019/medical_certificate.pdf",
+            "validation": 1,
+            "start"     : "2019-03-25",
+            "end"       : "2020-03-25",
+            "renewals"  : 0,
+            "created"   : "2019-03-22T09:39:42.692Z"
+        }
+    },
+    {
+        "model" : "sports_manager.medicalcertificate",
+        "pk"    : 18,
+        "fields": {
+            "player"    : 20,
+            "file"      : "hbuyse/henri-buyse/2019/medical_certificate.jpg",
+            "validation": 1,
+            "start"     : "2019-03-22",
+            "end"       : "2020-03-22",
+            "renewals"  : 0,
+            "created"   : "2019-03-25T13:54:04.753Z"
+        }
+    },
+    {
+        "model" : "sports_manager.medicalcertificate",
+        "pk"    : 19,
+        "fields": {
+            "player"    : 21,
+            "file"      : "",
+            "validation": 0,
+            "start"     : "2019-03-29",
+            "end"       : null,
+            "renewals"  : 0,
+            "created"   : "2019-03-29T09:32:32.448Z"
+        }
+    },
+    {
+        "model" : "sports_manager.medicalcertificate",
+        "pk"    : 21,
+        "fields": {
+            "player"    : 12,
+            "file"      : "hbuyse/clementine-bonneli/2019/medical_certificate.jpg",
+            "validation": 1,
+            "start"     : "2019-04-01",
+            "end"       : null,
+            "renewals"  : 0,
+            "created"   : "2019-04-01T11:36:10.229Z"
+        }
+    },
+    {
+        "model" : "sports_manager.medicalcertificate",
+        "pk"    : 22,
+        "fields": {
+            "player"    : 22,
+            "file"      : "toto/adult-toto/2019/medical_certificate.pdf",
+            "validation": 1,
+            "start"     : "2019-04-04",
+            "end"       : "2020-04-04",
+            "renewals"  : 0,
+            "created"   : "2019-04-04T13:41:51.804Z"
+        }
+    },
+    {
+        "model" : "sports_manager.emergencycontact",
+        "pk"    : 8,
+        "fields": {
+            "player"    : 9,
+            "first_name": "Henri",
+            "last_name" : "Buyse",
+            "email"     : "",
+            "phone"     : "0100000000"
+        }
+    },
+    {
+        "model" : "sports_manager.emergencycontact",
+        "pk"    : 9,
+        "fields": {
+            "player"    : 10,
+            "first_name": "Hello",
+            "last_name" : "World",
+            "email"     : "",
+            "phone"     : "0100000000"
+        }
+    },
+    {
+        "model" : "sports_manager.emergencycontact",
+        "pk"    : 10,
+        "fields": {
+            "player"    : 11,
+            "first_name": "Hello",
+            "last_name" : "World",
+            "email"     : "",
+            "phone"     : "0100000000"
+        }
+    },
+    {
+        "model" : "sports_manager.emergencycontact",
+        "pk"    : 11,
+        "fields": {
+            "player"    : 12,
+            "first_name": "Hello",
+            "last_name" : "World",
+            "email"     : "",
+            "phone"     : "0100000000"
+        }
+    },
+    {
+        "model" : "sports_manager.emergencycontact",
+        "pk"    : 12,
+        "fields": {
+            "player"    : 13,
+            "first_name": "Hello",
+            "last_name" : "World",
+            "email"     : "",
+            "phone"     : "0100000000"
+        }
+    },
+    {
+        "model" : "sports_manager.emergencycontact",
+        "pk"    : 13,
+        "fields": {
+            "player"    : 14,
+            "first_name": "Hello",
+            "last_name" : "World",
+            "email"     : "",
+            "phone"     : "0100000000"
+        }
+    },
+    {
+        "model" : "sports_manager.emergencycontact",
+        "pk"    : 17,
+        "fields": {
+            "player"    : 20,
+            "first_name": "Eva",
+            "last_name" : "Buyse",
+            "email"     : "",
+            "phone"     : "0679994286"
+        }
+    },
+    {
+        "model" : "sports_manager.team",
+        "pk"    : 2,
+        "fields": {
+            "slug"       : "departemental-1",
+            "category"   : 1,
+            "name"       : "Départemental 1",
+            "level"      : "DEP",
+            "sex"        : "MA",
+            "trainer"    : null,
+            "url"        : "http://www.google.com",
+            "description": "TODO",
+            "img"        : "",
+            "recruitment": false
+        }
+    },
+    {
+        "model" : "sports_manager.team",
+        "pk"    : 3,
+        "fields": {
+            "slug"       : "rhinos-feroces",
+            "category"   : 2,
+            "name"       : "Rhinos Féroces",
+            "level"      : "HAR",
+            "sex"        : "MI",
+            "trainer"    : null,
+            "url"        : "http://www.google.com",
+            "description": "TODO",
+            "img"        : "",
+            "recruitment": true
+        }
+    },
+    {
+        "model" : "sports_manager.team",
+        "pk"    : 4,
+        "fields": {
+            "slug"       : "m15-garcons",
+            "category"   : 3,
+            "name"       : "M15 Garçons",
+            "level"      : "U15",
+            "sex"        : "MA",
+            "trainer"    : null,
+            "url"        : "http://www.google.com",
+            "description": "TODO",
+            "img"        : "",
+            "recruitment": false
+        }
+    },
+    {
+        "model" : "sports_manager.team",
+        "pk"    : 5,
+        "fields": {
+            "slug"       : "departemental",
+            "category"   : 1,
+            "name"       : "Départemental",
+            "level"      : "DEP",
+            "sex"        : "FE",
+            "trainer"    : null,
+            "url"        : "http://www.google.com",
+            "description": "TODO",
+            "img"        : "",
+            "recruitment": false
+        }
+    },
+    {
+        "model" : "sports_manager.team",
+        "pk"    : 6,
+        "fields": {
+            "slug"       : "bouc-teints",
+            "category"   : 2,
+            "name"       : "Bouc Teints",
+            "level"      : "GOL",
+            "sex"        : "MI",
+            "trainer"    : null,
+            "url"        : "http://www.google.com",
+            "description": "TODO",
+            "img"        : "",
+            "recruitment": true
+        }
+    },
+    {
+        "model" : "sports_manager.team",
+        "pk"    : 7,
+        "fields": {
+            "slug"       : "loisirs",
+            "category"   : 5,
+            "name"       : "Loisirs",
+            "level"      : "LOI",
+            "sex"        : "MI",
+            "trainer"    : null,
+            "url"        : "http://www.google.com",
+            "description": "",
+            "img"        : "",
+            "recruitment": true
+        }
+    },
+    {
+        "model" : "sports_manager.timeslot",
+        "pk"    : 2,
+        "fields": {
+            "type"     : 1,
+            "team"     : 2,
+            "gymnasium": 4,
+            "day"      : 5,
+            "start"    : "20:00:00",
+            "end"      : "22:30:00"
+        }
+    },
+    {
+        "model" : "sports_manager.timeslot",
+        "pk"    : 3,
+        "fields": {
+            "type"     : 0,
+            "team"     : 2,
+            "gymnasium": 4,
+            "day"      : 2,
+            "start"    : "20:00:00",
+            "end"      : "22:30:00"
+        }
+    },
+    {
+        "model" : "sports_manager.timeslot",
+        "pk"    : 4,
+        "fields": {
+            "type"     : 0,
+            "team"     : 2,
+            "gymnasium": 5,
+            "day"      : 4,
+            "start"    : "20:00:00",
+            "end"      : "22:30:00"
+        }
+    },
+    {
+        "model" : "sports_manager.timeslot",
+        "pk"    : 7,
+        "fields": {
+            "type"     : 1,
+            "team"     : 3,
+            "gymnasium": 3,
+            "day"      : 0,
+            "start"    : "20:00:00",
+            "end"      : "22:30:00"
+        }
+    },
+    {
+        "model" : "sports_manager.timeslot",
+        "pk"    : 8,
+        "fields": {
+            "type"     : 0,
+            "team"     : 5,
+            "gymnasium": 1,
+            "day"      : 3,
+            "start"    : "20:00:00",
+            "end"      : "22:30:00"
+        }
+    },
+    {
+        "model" : "sports_manager.timeslot",
+        "pk"    : 9,
+        "fields": {
+            "type"     : 0,
+            "team"     : 5,
+            "gymnasium": 1,
+            "day"      : 1,
+            "start"    : "20:00:00",
+            "end"      : "22:30:00"
+        }
+    },
+    {
+        "model" : "sports_manager.timeslot",
+        "pk"    : 10,
+        "fields": {
+            "type"     : 1,
+            "team"     : 5,
+            "gymnasium": 1,
+            "day"      : 6,
+            "start"    : "14:00:00",
+            "end"      : "16:30:00"
+        }
+    },
+    {
+        "model" : "sports_manager.timeslot",
+        "pk"    : 11,
+        "fields": {
+            "type"     : 0,
+            "team"     : 7,
+            "gymnasium": 1,
+            "day"      : 1,
+            "start"    : "20:00:00",
+            "end"      : "22:30:00"
+        }
+    },
+    {
+        "model" : "sports_manager.timeslot",
+        "pk"    : 12,
+        "fields": {
+            "type"     : 0,
+            "team"     : 7,
+            "gymnasium": 3,
+            "day"      : 4,
+            "start"    : "20:15:00",
+            "end"      : "22:30:00"
+        }
+    }
+]
