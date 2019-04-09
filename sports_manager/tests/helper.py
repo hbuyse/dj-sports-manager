@@ -19,10 +19,10 @@ from django.db.models.base import ModelBase
 from django.urls.base import clear_url_caches
 
 # Current django project
-from sports_manager.category.models import Category
-from sports_manager.gymnasium.models import Gymnasium
-from sports_manager.player.models import EmergencyContact, MedicalCertificate, Player
-from sports_manager.team.models import Team, TimeSlot
+from sports_manager.models.category import Category
+from sports_manager.models.gymnasium import Gymnasium
+from sports_manager.models.player import EmergencyContact, MedicalCertificate, Player
+from sports_manager.models.team import Team, TimeSlot
 
 logger = logging.getLogger(__name__)
 

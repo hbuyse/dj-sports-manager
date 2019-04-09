@@ -4,6 +4,7 @@
 {% load static %}
 
 {% load crispy_forms_tags %}
+{% load crispy_forms_field %}
 
 {% block path %}
   <nav aria-label="breadcrumb">
@@ -62,20 +63,10 @@
           Identity card
         </label>
         <div class="input-group mb-3">
-          {% if form.instance.identity_card %}
-            <div class="input-group-prepend">
-              <a target="_blank" href="{{ form.instance.identity_card.url }}" class="btn btn-outline-secondary" type="button">Download</a>
-            </div>
-            <div class="custom-file ">
-              <input name="identity_card" class="fileinput fileUpload form-control custom-file-input" id="id_identity_card" type="file">
-              <label class="custom-file-label" for="id_identity_card">{{ form.instance.identity_card.name }}</label>
-            </div>
-          {% else %}
-            <div class="custom-file ">
-              <input name="identity_card" class="fileinput fileUpload form-control custom-file-input" id="id_identity_card" type="file">
-              <label class="custom-file-label" for="id_identity_card">Choose file...</label>
-            </div>
-          {% endif %}
+          <div class="custom-file ">
+            <input name="identity_card" class="fileinput fileUpload form-control custom-file-input" id="id_identity_card" type="file"{% if form.instance.identity_card and form.instance.identity_card.url %} data-onload="{{ form.instance.identity_card.url }}"{% endif %}>
+            <label class="custom-file-label" for="id_identity_card">Choose file...</label>
+          </div>
         </div>
       </div>
       <div class="col-6">
@@ -83,20 +74,10 @@
           Identity photo
         </label>
         <div class="input-group mb-3">
-          {% if form.instance.identity_photo %}
-            <div class="input-group-prepend">
-              <a target="_blank" href="{{ form.instance.identity_photo.url }}" class="btn btn-outline-secondary" type="button">Download</a>
-            </div>
-            <div class="custom-file ">
-              <input name="identity_photo" class="fileinput fileUpload form-control custom-file-input" id="id_identity_photo" type="file">
-              <label class="custom-file-label" for="id_identity_photo">{{ form.instance.identity_photo.name }}</label>
-            </div>
-          {% else %}
-            <div class="custom-file ">
-              <input name="identity_photo" class="fileinput fileUpload form-control custom-file-input" id="id_identity_photo" type="file">
-              <label class="custom-file-label" for="id_identity_photo">Choose file...</label>
-            </div>
-          {% endif %}
+          <div class="custom-file ">
+            <input name="identity_photo" class="fileinput fileUpload form-control custom-file-input" id="id_identity_photo" type="file"{% if form.instance.identity_photo and form.instance.identity_photo.url %} data-onload="{{ form.instance.identity_photo.url }}"{% endif %}>
+            <label class="custom-file-label" for="id_identity_photo">Choose file...</label>
+          </div>
         </div>
       </div>
     </div>
@@ -109,17 +90,5 @@
 {% endblock %}
 
 {% block javascript %}
-  {% comment %}
-  <script>
-  $( document ).ready(function() {
-    var certif_url = $("#PlayerUpdateForm").attr("data-file-form-url")
-    if (certif_url != undefined || certif_url != "") {
-      var prepend = `<div class="input-group-prepend"><a target="_blank" href="` + certif_url + `" class="btn btn-outline-secondary" type="button">Download</a></div>`
-      $("#id_file").next(".custom-file-label").text(certif_url.replace(/.*\//, ''));
-      $('#id_file').closest(".input-group").prepend(prepend);
-    }
-  });
-  </script>
-  {% endcomment %}
-  <script src="{% static 'js/file_input.js' %}"></script>
+  <script src="{% static 'js/bs4_file_input.js' %}"></script>
 {% endblock %}

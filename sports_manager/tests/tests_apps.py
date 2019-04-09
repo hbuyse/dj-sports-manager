@@ -13,7 +13,7 @@ from django.apps import apps
 from django.test import TestCase
 
 # Current django project
-from sports_manager.apps import SportsManagerConfig
+from sports_manager.s.ap import SportsManagerConfig
 
 
 class TestApps(TestCase):

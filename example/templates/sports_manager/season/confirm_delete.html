@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:season-list' %}">{% trans "Seasons" %}</a></li>
+      <li class="breadcrumb-item"><a href="{{ season.get_absolute_url }}">{{ season }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans "Deletion" %}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+  {% blocktrans %}{{ season }} deletion{% endblocktrans %}
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <p>{% blocktrans %}Do you really want to delete the season "{{ season }}" and everything link to it?{% endblocktrans %}</p>
+
+    <button type="submit" class="btn btn-danger">{% trans "Yes, I am sure" %}</button>
+    <button type="button" class="btn btn-primary" onclick="history.back()">{% trans "No, I want to go back" %}</button>
+  </form>
+{% endblock %}

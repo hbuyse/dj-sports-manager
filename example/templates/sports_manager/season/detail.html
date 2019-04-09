@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block path %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'sports-manager:season-list' %}">{% trans "Seasons" %}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ season }}</a></li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_title %}
+  {{ season }}
+{% endblock %}
+
+{% block page_title_buttons %}
+  {% if user.is_staff or user.is_superuser %}
+    <a href="{% url 'sports-manager:season-update' season.slug %}" class="btn btn-primary btn-sm">{% trans "Update" %}</button>
+    <a href="{% url 'sports-manager:season-delete' season.slug %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">{{ season.start }}</div>
+    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">{{ season.end }}</div>
+  </div>
+{% endblock %}

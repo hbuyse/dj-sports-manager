@@ -3,8 +3,9 @@
 """Admin."""
 
 # Current django project
-from sports_manager.category.admin import CategoryAdmin  # noqa
-from sports_manager.gymnasium.admin import GymnasiumAdmin  # noqa
-from sports_manager.license.admin import LicenseAdmin  # noqa
-from sports_manager.player.admin import EmergencyContactAdmin, MedicalCertificateAdmin, PlayerAdmin  # noqa
-from sports_manager.team.admin import TeamAdmin, TimeSlotAdmin  # noqa
+from sports_manager.admin.category import CategoryAdmin  # noqa
+from sports_manager.admin.gymnasium import GymnasiumAdmin  # noqa
+from sports_manager.admin.license import LicenseAdmin  # noqa
+from sports_manager.admin.player import EmergencyContactAdmin, MedicalCertificateAdmin, PlayerAdmin  # noqa
+from sports_manager.admin.season import SeasonAdmin  # noqa
+from sports_manager.admin.team import TeamAdmin, TimeSlotAdmin  # noqa
