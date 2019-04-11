@@ -34,7 +34,7 @@ class TestTeamModel(TestCase):
     def test_string_representation(self):
         """Test string representation."""
         obj = self.helper.object
-        self.assertEqual(str(self.helper.object), "Régional 1 Mixed")
+        self.assertEqual(str(self.helper.object), "Régional 1")
 
     def test_verbose_name(self):
         """Test the verbose name."""

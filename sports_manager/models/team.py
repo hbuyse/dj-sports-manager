@@ -18,7 +18,6 @@ from django.utils.translation import ugettext_lazy as _
 # Current django project
 from sports_manager.models.category import Category
 from sports_manager.models.gymnasium import Gymnasium
-from sports_manager.models.season import Season
 from sports_manager.storage import OverwriteStorage
 
 logger = logging.getLogger(__name__)
@@ -78,7 +77,6 @@ class Team(models.Model):
         (SEX_MIXED, _('mixed')),
     )
     slug = models.SlugField(_("slug"), unique=True, max_length=128, null=True, editable=False)
-    seasons = models.ManyToManyField(Season, verbose_name=_('season'), blank=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='category', blank=False)
     name = models.CharField(_("name"), unique=True, max_length=128)
     level = models.CharField(_("level"), max_length=4, choices=LEVELS, blank=False)
@@ -95,7 +93,7 @@ class Team(models.Model):
 
     def __str__(self):
         """Representation of a Gymnasium as a string."""
-        return "{} {}".format(self.name.title(), self.get_sex_display()).title()
+        return self.name.title()
 
     class Meta:
         """Meta class."""

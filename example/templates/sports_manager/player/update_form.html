@@ -6,6 +6,8 @@
 {% load crispy_forms_tags %}
 {% load crispy_forms_field %}
 
+{% load bootstrap4 %}
+
 {% block path %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -50,14 +52,24 @@
     <div class="form-row">
       <div class="col-6">{{ form.first_name|as_crispy_field }}</div>
       <div class="col-6">{{ form.last_name|as_crispy_field }}</div>
+    </div>
+    <div class="form-row">
       <div class="col-6">{{ form.birthday|as_crispy_field }}</div>
       <div class="col-6">{{ form.sex|as_crispy_field }}</div>
+    </div>
+    <div class="form-row">
       <div class="col-6">{{ form.address|as_crispy_field }}</div>
       <div class="col-6">{{ form.add_address|as_crispy_field }}</div>
+    </div>
+    <div class="form-row">
       <div class="col-6">{{ form.zip_code|as_crispy_field }}</div>
       <div class="col-6">{{ form.city|as_crispy_field }}</div>
+    </div>
+    <div class="form-row">
       <div class="col-6">{{ form.phone|as_crispy_field }}</div>
       <div class="col-6">{{ form.email|as_crispy_field }}</div>
+    </div>
+    <div class="form-row">
       <div class="col-6">
         <label class="col-form-label">
           Identity card
@@ -70,6 +82,7 @@
         </div>
       </div>
       <div class="col-6">
+        {{ form.identit}}
         <label class="col-form-label ">
           Identity photo
         </label>
@@ -81,8 +94,7 @@
         </div>
       </div>
     </div>
-  
-    
+
     <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
     <button type="reset" class="btn btn-warning">{% trans "Reset" %}</button>
 

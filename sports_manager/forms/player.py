@@ -23,12 +23,14 @@ class PlayerCreateForm(forms.ModelForm):
     This first form will check if there is already a Player with the same datas linked to the user.
     """
 
+    sex = forms.ChoiceField(choices=Player.SEXES, widget=forms.RadioSelect)
+
     class Meta:
         model = Player
         widgets = {
             "birthday": forms.DateInput(attrs={'class': 'form-control'}),
             "identity_card": forms.FileInput(),
-            "identity_photo": forms.FileInput()
+            "identity_photo": forms.FileInput(),
         }
         fields = [
             'first_name',

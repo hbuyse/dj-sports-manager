@@ -55,14 +55,14 @@ class TestLicenseModel(TestCase):
         for year in [2015, 2016, 2017, 2018]:
             with mock.patch('django.utils.timezone.now') as mock_now:
                 # make "now" following the year
-                mock_now.return_value = datetime(year, 7, 14, tzinfo=pytz.UTC)
+                mock_now.return_value = datetime(year, 7, 31, tzinfo=pytz.UTC)
                 l = License(player=self.player, number="123456", is_payed=True)
                 l.save()
                 self.assertEqual(l.season, "{} / {}".format(year - 1, year))
 
             with mock.patch('django.utils.timezone.now') as mock_now:
                 # make "now" following the year
-                mock_now.return_value = datetime(year, 7, 16, tzinfo=pytz.UTC)
+                mock_now.return_value = datetime(year, 8, 1, tzinfo=pytz.UTC)
                 l = License(player=self.player, number="123456", is_payed=True)
                 l.save()
                 self.assertEqual(l.season, "{} / {}".format(year, year + 1))

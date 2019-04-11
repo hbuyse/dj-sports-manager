@@ -43,7 +43,6 @@ class TeamCreateView(LoginRequiredMixin, StaffMixin, CreateView):
     model = Team
     fields = [
         'name',
-        'seasons',
         'category',
         'level',
         'sex',
@@ -68,7 +67,6 @@ class TeamUpdateView(LoginRequiredMixin, StaffMixin, UpdateView):
     slug_url_kwarg = 'team'
     fields = [
         'name',
-        'seasons',
         'category',
         'level',
         'sex',
