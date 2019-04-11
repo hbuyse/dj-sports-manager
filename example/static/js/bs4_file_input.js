@@ -15,7 +15,7 @@ $( document ).ready(function() {
     $("input.custom-file-input").each(function( index ) {
         var url = $(this).attr("data-onload");
         if (url !== undefined && url != "") {
-            var prepend = `<div class="input-group-prepend"><a target="_blank" href="` + url + `" class="btn btn-outline-secondary" type="button">Download</a></div>`
+            var prepend = `<span class="input-group-prepend"><a target="_blank" href="` + url + `" class="btn btn-outline-secondary" type="button">Download</a></span>`
             $(this).closest(".input-group").prepend(prepend);
             $(this).next(".custom-file-label").text(url.replace(/.*\//, ''));
         }
