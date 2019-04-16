@@ -140,10 +140,7 @@ class StaffLicenseForm(LicenseForm):
     category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label=None)
 
     class Meta(LicenseForm.Meta):
-        fields = [
-            'player',
-            'category',
-            'teams',
+        fields = LicenseForm.Meta.fields + [
             'number',
             'is_payed'
         ]

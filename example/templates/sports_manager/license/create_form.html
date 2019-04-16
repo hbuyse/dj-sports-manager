@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% load bootstrap4 %}
 {% load static %}
 
 {% block path %}
@@ -29,14 +30,15 @@
     {% endfor %}
 
     <div class="form-row">
-    {% for field in form %}
       <div class="col-md-6">
-        {{ field|as_crispy_field }}
+        {{ form.player|as_crispy_field }}
       </div>
-      {% if forloop.counter|divisibleby:2 %}
-        </div><div class="form-row">
-      {% endif %}
-    {% endfor %}
+      <div class="col-md-6">
+        {{ form.category|as_crispy_field }}
+      </div>
+      <div class="col-md-12">
+        {{ form.teams|as_crispy_field }}
+      </div>
     </div>
     <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
   </form>

@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'django.forms',
 
     'sports_manager',
+    'bootstrap4',
 
     # if your app has other dependencies that need to be added to the site
     # they should be added here
@@ -232,6 +233,6 @@ SPORTS_MANAGER = {
 }
 
 SPORTS_MANAGER_PLAYER_MIN_AGE = 7
-SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST = ['.pdf', '.doc', '.docx', '.jpg', '.jpeg']
+SPORTS_MANAGER_CERTIFICATE_VALID_EXT_LIST = ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', 'png']
 SPORTS_MANAGER_CERTIFICATE_MAX_SIZE_MB = 2
 SPORTS_MANAGER_MEDICAL_CERTIFICATE_MAX_RENEW = 2

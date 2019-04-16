@@ -24,7 +24,7 @@
 
         {# Personal CSS stylesheet #}
         <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-        <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
+        {% comment %} <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" /> {% endcomment %}
 
 
         <title>{% block title %}{% trans "sports-manager" %}{% endblock %}</title>
