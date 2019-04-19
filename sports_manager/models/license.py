@@ -1,11 +1,13 @@
 """."""
 
 # Standard library
+import json
 import logging
 
 # Django
 from django.db import models
 from django.urls import reverse
+from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import ugettext_lazy as _
 
 from sports_manager.models.player import Player
@@ -23,6 +25,7 @@ class License(models.Model):
     is_payed = models.BooleanField(_('has been payed'))
     created = models.DateTimeField(_('creation date'), auto_now_add=True)
     modified = models.DateTimeField(_('last modification date'), auto_now=True)
+    teams_names = models.CharField(_("team names"), max_length=512, blank=True, editable=False)
 
     def __str__(self):
         """Representation as a string."""
@@ -48,3 +51,16 @@ class License(models.Model):
         else:
             season = "{} / {}".format(self.created.date().year, self.created.date().year + 1)
         return season
+
+    def set_team_names(self):
+        logger.debug(self.teams.all())
+        self.teams_names = json.dumps([team.name for team in self.teams.all()])
+
+    def get_team_names(self):
+        return json.loads(self.teams_names)
+
+    def save(self, *args, **kwargs):
+        self.set_team_names()
+        logger.debug(self.get_team_names())
+        super().save(*args, **kwargs)
+

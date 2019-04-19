@@ -19,6 +19,9 @@ class LicenseAdmin(admin.ModelAdmin):
         'number',
         'is_payed',
     )
+    readonly_fields = (
+        'teams_names',
+    )
 
     def season(self, obj):
         """Return the license season."""
